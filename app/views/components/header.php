@@ -24,7 +24,7 @@
 <nav class="navbar navbar-expand-md fixed-top">
     <div class="container">
         <a class="navbar-brand d-flex align-items-center gap-2" href="index.php">
-            <img src="public/img/logo-iclabs.png" alt="Logo ICLABS" style="height: 40px; width: auto;">
+            <img src="../public/img/logo-iclabs.png" alt="Logo ICLABS" style="height: 40px; width: auto;">
             <span class="font-display">ICLABS</span>
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
