@@ -24,7 +24,7 @@
 <nav class="navbar navbar-expand-md fixed-top">
     <div class="container">
         <a class="navbar-brand d-flex align-items-center gap-2" href="index.php">
-            <img src="public/img/logo-iclabs.png" alt="Logo ICLABS" style="height: 40px; width: auto;">
+            <img src="/public/img/logo-iclabs.png" alt="Logo ICLABS" style="height: 40px; width: auto;">
             <span class="font-display">ICLABS</span>
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -32,9 +32,15 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a class="nav-link px-3" href="index.php">Home</a></li>
-                <li class="nav-item"><a class="nav-link px-3" href="#">Laboratorium</a></li>
-                <li class="nav-item"><a class="nav-link px-3" href="#">Kontak</a></li>
+                <li class="nav-item">
+                    <a class="nav-link px-3" href="/index.php">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link px-3" href="#">Laboratorium</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link px-3" href="/pages/kontak/kontak.php">Kontak</a>
+                </li>
             </ul>
         </div>
     </div>

@@ -3,7 +3,7 @@
         <div class="row gy-4">
             <div class="col-lg-6">
                 <div class="d-flex align-items-center gap-3 mb-3">
-                    <img src="public/img/logo-iclabs.png" alt="Logo ICLABS" style="height: 35px; width: auto; filter: brightness(0) invert(1);">
+                    <img src="/public/img/logo-iclabs.png" alt="Logo ICLABS" style="height: 40px; width: auto;">
                     <span class="font-display fw-bold h3 mb-0 text-white">ICLABS</span>
                 </div>
                 <p class="text-secondary small" style="max-width: 400px;">
