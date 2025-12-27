@@ -170,7 +170,7 @@
             </div>
             <div class="col-lg-6">
                 <div class="position-relative">
-                    <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?w=800&h=600&fit=crop" 
+                    <img src="https://lh3.googleusercontent.com/u/0/d/1cATshoGam42Yp1FyuRHyY_fzOuTy3TMd"
                          alt="Laboratorium ICLABS" 
                          class="img-fluid rounded-4 shadow-lg"
                          style="width: 100%; height: 400px; object-fit: cover;">
