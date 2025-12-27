@@ -33,7 +33,7 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item"><a class="nav-link" href="/index.php">Home</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Laboratorium</a></li>
+                <li class="nav-item"><a class="nav-link" href="/pages/lab/laboratorium.php">Laboratorium</a></li>
                 <li class="nav-item"><a class="nav-link" href="/pages/kontak/kontak.php">Kontak</a></li>
             </ul>
         </div>

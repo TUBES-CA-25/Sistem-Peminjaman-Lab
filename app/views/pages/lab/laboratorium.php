@@ -466,11 +466,7 @@
                         <div class="carousel-item" data-lab-name="Laboratorium Microcontroller" data-lab-description="Laboratorium Microcontroller adalah fasilitas yang menyediakan layanan praktikum bagi mahasiswa untuk mendukung kegiatan pembelajaran. Laboratorium ini dilengkapi dengan 36 set komputer yang dirancang untuk mendukung proses praktikum mahasiswa secara optimal.">
                             <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=1200" alt="Lab Microcontroller" class="d-block w-100">
                         </div>
-                        <!-- Slide 8: Riset 1 -->
-                        <div class="carousel-item" data-lab-name="Riset 1" data-lab-description="Riset 1 adalah fasilitas yang menyediakan layanan praktikum bagi mahasiswa untuk mendukung kegiatan pembelajaran. Laboratorium ini dilengkapi dengan 36 set komputer yang dirancang untuk mendukung proses praktikum mahasiswa secara optimal.">
-                            <img src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=1200" alt="Riset 1" class="d-block w-100">
-                        </div>
-                        <!-- Slide 9: Riset 2 -->
+                        <!-- Slide 8: Riset 2 -->
                         <div class="carousel-item" data-lab-name="Riset 2" data-lab-description="Riset 2 adalah fasilitas yang menyediakan layanan praktikum bagi mahasiswa untuk mendukung kegiatan pembelajaran. Laboratorium ini dilengkapi dengan 36 set komputer yang dirancang untuk mendukung proses praktikum mahasiswa secara optimal.">
                             <img src="https://images.unsplash.com/photo-1462826303086-329426d1aef5?w=1200" alt="Riset 2" class="d-block w-100">
                         </div>
