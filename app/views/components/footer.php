@@ -1,4 +1,4 @@
-<footer class="bg-dark text-light pt-5 pb-4 mt-5" style="background-color: #0F172A !important;">
+<footer class="bg-dark text-light pt-5 pb-4" style="background-color: #0F172A !important; margin-top: auto;">
     <div class="container">
         <div class="row gy-4">
             <div class="col-lg-6">
