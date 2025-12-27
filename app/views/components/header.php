@@ -35,7 +35,6 @@
                 <li class="nav-item"><a class="nav-link" href="/index.php">Home</a></li>
                 <li class="nav-item"><a class="nav-link" href="#">Laboratorium</a></li>
                 <li class="nav-item"><a class="nav-link" href="/pages/kontak/kontak.php">Kontak</a></li>
-                <li class="nav-item"><a class="nav-link" href="/path/ke/login/aan.php">Login</a></li>
             </ul>
         </div>
     </div>

@@ -192,10 +192,10 @@
                     Bergabunglah dengan ribuan mahasiswa lain pemiliki yang telah mempercayai fasilitas kami untuk mengoptimalkan potensi belajar.
                 </p>
                 <div class="d-flex gap-3 justify-content-center flex-wrap">
-                    <a href="#signin" class="btn btn-outline-primary btn-lg px-5 py-2 rounded-pill" style="border-color: #4A90E2; color: #4A90E2;">
+                    <a href="/pages/auth/login.php" class="btn btn-outline-primary btn-lg px-5 py-2 rounded-pill">
                         Sign In
                     </a>
-                    <a href="#signup" class="btn btn-lg px-5 py-2 rounded-pill" style="background-color: #4A90E2; color: white; border: none;">
+                    <a href="/pages/auth/register.php" class="btn btn-outline-primary btn-lg px-5 py-2 rounded-pill">
                         Sign Up
                     </a>
                 </div>
