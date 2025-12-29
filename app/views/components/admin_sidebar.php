@@ -3,8 +3,7 @@
 
 $active_page = $_GET['page'] ?? 'ruangan';
 
-// kalau kamu aksesnya langsung /pages/admin/dashboard.php?page=...
-// maka BASE_URL tidak dipakai untuk menu dashboard.
+
 ?>
 <!DOCTYPE html>
 <html lang="id">

@@ -3,14 +3,14 @@
 
 $page = $_GET['page'] ?? 'ruangan';
 
-// include sidebar (ini sudah buka <main class="main-content">)
+// include sidebar 
 $sidebar_path = __DIR__ . '/../../components/admin_sidebar.php';
 if (!file_exists($sidebar_path)) {
     die('Sidebar tidak ditemukan: ' . htmlspecialchars($sidebar_path));
 }
 require $sidebar_path;
 
-// mapping konten (SEMUA pakai __DIR__ biar konsisten)
+// mapping konten 
 switch ($page) {
     case 'ruangan':
         $content_file = __DIR__ . '/data_ruangan_content.php';

@@ -1,6 +1,5 @@
 <?php
-// app/views/pages/admin/data_ruangan_content.php
-// PURE CONTENT: tidak ada <html>/<body>, tidak include sidebar/footer.
+
 ?>
 
 <!-- Content Header -->
@@ -168,7 +167,7 @@
             </div>
 
             <!-- Action Buttons -->
-            <!-- FIX: tombol Hapus di modal DIHILANGKAN total. -->
+
             <div style="display: flex; gap: 1rem; justify-content: flex-end; padding-top: 1.5rem; border-top: 1px solid #e5e7eb;">
                 <button type="button" onclick="closeModal()"
                         style="padding: 0.75rem 1.5rem; border: 1px solid #d1d5db; background: white; color: #374151; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 0.9rem; display: flex; align-items: center; gap: 0.5rem;">
@@ -191,14 +190,7 @@
 </style>
 
 <script>
-/**
- * Penyebab tombol lain "mati" setelah kamu hapus tombol hapus:
- * - JS kamu masih refer ke element #deleteBtn (null) lalu error,
- *   sehingga script berhenti dan tombol lain tidak jalan.
- *
- * FIX: semua akses elemen dibuat aman (null-check) + hapus semua
- * logic deleteBtn modal (karena memang tidak ada).
- */
+
 function $(id) { return document.getElementById(id); }
 
 /** Labs lengkap 8 item */
