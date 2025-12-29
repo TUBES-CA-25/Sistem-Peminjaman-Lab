@@ -207,36 +207,89 @@
         <div class="lab-carousel">
             <div id="labCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
                 <div class="carousel-inner">
-                    <div class="carousel-item active" data-lab-name="Laboratorium Internet of Things" data-lab-description="Laboratorium Internet of Things adalah fasilitas yang menyediakan layanan praktikum bagi mahasiswa untuk mendukung kegiatan pembelajaran. Laboratorium ini dilengkapi dengan 36 set komputer yang dirancang untuk mendukung proses praktikum mahasiswa secara optimal.">
-                        <img src="https://lh3.googleusercontent.com/u/0/d/1cATshoGam42Yp1FyuRHyY_fzOuTy3TMd" alt="Lab IoT" class="d-block w-100">
-                    </div>
-                    <div class="carousel-item" data-lab-name="Laboratorium Computer Networking" data-lab-description="Laboratorium Computer Networking adalah fasilitas yang menyediakan layanan praktikum bagi mahasiswa untuk mendukung kegiatan pembelajaran jaringan komputer. Laboratorium ini dilengkapi dengan 36 set komputer dan peralatan jaringan yang dirancang untuk mendukung proses praktikum mahasiswa secara optimal.">
-                        <img src="https://lh3.googleusercontent.com/u/0/d/1fcZHlP9VELnz02B_RgaSOLCU9TBJrU3i" alt="Lab Networking" class="d-block w-100">
-                    </div>
-                    <div class="carousel-item" data-lab-name="Laboratorium Computer Vision" data-lab-description="Laboratorium Computer Vision adalah fasilitas yang menyediakan layanan praktikum bagi mahasiswa untuk mendukung kegiatan pembelajaran pengolahan citra dan visi komputer.">
-                        <img src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=1200" alt="Lab Computer Vision" class="d-block w-100">
-                    </div>
-                    <div class="carousel-item" data-lab-name="Laboratorium Multimedia" data-lab-description="Laboratorium Multimedia adalah fasilitas yang menyediakan layanan praktikum bagi mahasiswa untuk mendukung kegiatan pembelajaran multimedia.">
-                        <img src="https://images.unsplash.com/photo-1593062096033-9a26b09da705?w=1200" alt="Lab Multimedia" class="d-block w-100">
-                    </div>
-                    <div class="carousel-item" data-lab-name="Laboratorium StartUp" data-lab-description="Laboratorium StartUp mendukung kegiatan pembelajaran kewirausahaan teknologi.">
-                        <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=1200" alt="Lab StartUp" class="d-block w-100">
-                    </div>
-                    <div class="carousel-item" data-lab-name="Laboratorium Data Science" data-lab-description="Laboratorium Data Science mendukung kegiatan pembelajaran pengolahan data.">
-                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200" alt="Lab Data Science" class="d-block w-100">
-                    </div>
-                    <div class="carousel-item" data-lab-name="Laboratorium Microcontroller" data-lab-description="Laboratorium Microcontroller mendukung kegiatan pembelajaran mikrokontroler.">
-                        <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=1200" alt="Lab Micro" class="d-block w-100">
-                    </div>
-                    <div class="carousel-item" data-lab-name="Riset 2" data-lab-description="Fasilitas riset pendukung pembelajaran.">
-                        <img src="https://images.unsplash.com/photo-1462826303086-329426d1aef5?w=1200" alt="Riset 2" class="d-block w-100">
-                    </div>
+
+                <div class="carousel-item active"
+                    data-lab-name="Laboratorium Internet of Things"
+                    data-lab-description="Laboratorium Internet of Things adalah fasilitas yang menyediakan layanan praktikum bagi mahasiswa untuk mendukung kegiatan pembelajaran. Laboratorium ini dilengkapi dengan 36 set komputer yang dirancang untuk mendukung proses praktikum mahasiswa secara optimal.">
+                    <img src="../../public/img/IoT.jpg"
+                        alt="Lab IoT"
+                        class="d-block w-100"
+                        style="height: 700px; object-fit: cover;">
                 </div>
+
+                <div class="carousel-item"
+                    data-lab-name="Laboratorium Computer Networking"
+                    data-lab-description="Laboratorium Computer Networking adalah fasilitas yang menyediakan layanan praktikum bagi mahasiswa untuk mendukung kegiatan pembelajaran jaringan komputer. Laboratorium ini dilengkapi dengan 36 set komputer dan peralatan jaringan yang dirancang untuk mendukung proses praktikum mahasiswa secara optimal.">
+                    <img src="../../public/img/comnet.png"
+                        alt="Lab Networking"
+                        class="d-block w-100"
+                        style="height: 700px; object-fit: cover;">
+                </div>
+
+                <div class="carousel-item"
+                    data-lab-name="Laboratorium Computer Vision"
+                    data-lab-description="Laboratorium Computer Vision adalah fasilitas yang menyediakan layanan praktikum bagi mahasiswa untuk mendukung kegiatan pembelajaran pengolahan citra dan visi komputer.">
+                    <img src="../../public/img/CV.jpg"
+                        alt="Lab Computer Vision"
+                        class="d-block w-100"
+                        style="height: 700px; object-fit: cover;">
+                </div>
+
+                <div class="carousel-item"
+                    data-lab-name="Laboratorium Multimedia"
+                    data-lab-description="Laboratorium Multimedia adalah fasilitas yang menyediakan layanan praktikum bagi mahasiswa untuk mendukung kegiatan pembelajaran multimedia.">
+                    <img src="../../public/img/Mulmed.jpg"
+                        alt="Lab Multimedia"
+                        class="d-block w-100"
+                        style="height: 700px; object-fit: cover;">
+                </div>
+
+                <div class="carousel-item"
+                    data-lab-name="Laboratorium StartUp"
+                    data-lab-description="Laboratorium StartUp mendukung kegiatan pembelajaran kewirausahaan teknologi.">
+                    <img src="../../public/img/StartUp.jpg"
+                        alt="Lab StartUp"
+                        class="d-block w-100"
+                        style="height: 700px; object-fit: cover;">
+                </div>
+
+                <div class="carousel-item"
+                    data-lab-name="Laboratorium Data Science"
+                    data-lab-description="Laboratorium Data Science mendukung kegiatan pembelajaran pengolahan data.">
+                    <img src="../../public/img/DS.jpg"
+                        alt="Lab Data Science"
+                        class="d-block w-100"
+                        style="height: 700px; object-fit: cover;">
+                </div>
+
+                <div class="carousel-item"
+                    data-lab-name="Laboratorium Microcontroller"
+                    data-lab-description="Laboratorium Microcontroller mendukung kegiatan pembelajaran mikrokontroler.">
+                    <img src="../../public/img/Micro.jpg"
+                        alt="Lab Microcontroller"
+                        class="d-block w-100"
+                        style="height: 700px; object-fit: cover;">
+                </div>
+
+                <div class="carousel-item"
+                    data-lab-name="Riset 2"
+                    data-lab-description="Fasilitas riset pendukung pembelajaran.">
+                    <img src="../../public/img/Riset.jpg"
+                        alt="Riset 2"
+                        class="d-block w-100"
+                        style="height: 700px; object-fit: cover;">
+                </div>
+
+                </div>
+
                 <button class="carousel-control-prev" type="button" data-bs-target="#labCarousel" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
                 </button>
+
                 <button class="carousel-control-next" type="button" data-bs-target="#labCarousel" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
                 </button>
             </div>
         </div>
