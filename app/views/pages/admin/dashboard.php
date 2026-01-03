@@ -2,17 +2,19 @@
 // app/views/pages/admin/dashboard.php
 
 $page = $_GET['page'] ?? 'ruangan';
+$active_page = $page; // For sidebar highlighting
 
-// include sidebar 
-$sidebar_path = __DIR__ . '/../../components/admin_sidebar.php';
-if (!file_exists($sidebar_path)) {
-    die('Sidebar tidak ditemukan: ' . htmlspecialchars($sidebar_path));
-}
-require $sidebar_path;
+// 0. HANDLE LOGIC BEFORE OUTPUT
+$data = []; // Data container passed to views
+$content_file = null;
 
-// mapping konten 
 switch ($page) {
     case 'ruangan':
+        require_once __DIR__ . '/../../../controllers/RuanganController.php';
+        $controller = new RuanganController();
+        $controller->handleRequest(); // Handle POST requests (redirects happen here)
+        $data['ruangan'] = $controller->index(); // Fetch data
+
         $content_file = __DIR__ . '/data_ruangan_content.php';
         break;
     case 'pengguna':
@@ -26,17 +28,40 @@ switch ($page) {
         break;
 }
 
-// render konten
-if ($content_file && file_exists($content_file)) {
-    require $content_file;
-} else {
-    echo '<div style="padding:1rem;background:#fee2e2;color:#991b1b;border-radius:12px;">
-            Halaman tidak ditemukan
-          </div>';
-}
+// --------------------------------------------------------------------------
+// START OUTPUT
+// --------------------------------------------------------------------------
+
+// 1. Include Head
+require_once __DIR__ . '/../../components/admin_head.php';
+
+// 2. Include Navbar
+require_once __DIR__ . '/../../components/admin_navbar.php';
 ?>
 
-        </main>
-    </div>
-</body>
-</html>
+<!-- 3. Open Layout Container -->
+<div class="admin-container">
+
+    <?php
+    // 4. Include Sidebar
+    require_once __DIR__ . '/../../components/admin_sidebar.php';
+    ?>
+
+    <!-- 5. Open Main Content -->
+    <main class="main-content">
+
+        <?php
+        // 7. Render Content
+        if ($content_file && file_exists($content_file)) {
+            require $content_file;
+        } else {
+            echo '<div style="padding:1rem;background:#fee2e2;color:#991b1b;border-radius:12px;">
+                    Halaman tidak ditemukan
+                  </div>';
+        }
+        ?>
+
+        <?php
+        // 8. Include Footer (Closes main, div, body, html)
+        require_once __DIR__ . '/../../components/admin_footer.php';
+        ?>
