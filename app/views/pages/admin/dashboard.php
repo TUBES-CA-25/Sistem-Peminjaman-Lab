@@ -18,6 +18,11 @@ switch ($page) {
         $content_file = __DIR__ . '/data_ruangan_content.php';
         break;
     case 'pengguna':
+        require_once __DIR__ . '/../../../controllers/PenggunaController.php';
+        $controller = new PenggunaController();
+        $controller->handleRequest();
+        $data['pengguna'] = $controller->index();
+
         $content_file = __DIR__ . '/data_pengguna_content.php';
         break;
     case 'peminjaman':
