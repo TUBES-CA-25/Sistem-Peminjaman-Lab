@@ -1,6 +1,5 @@
 <?php
-// app/views/pages/admin/data_pengguna_content.php
-// PURE CONTENT: tidak ada <html>/<body>, tidak include sidebar/footer.
+
 ?>
 
 <!-- HERO / HEADER -->

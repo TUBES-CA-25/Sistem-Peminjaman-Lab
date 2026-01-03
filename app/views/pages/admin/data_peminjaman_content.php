@@ -1,7 +1,8 @@
 <?php
-// app/views/pages/admin/data_peminjaman_content.php
-// PURE CONTENT ONLY (tanpa <html>, <head>, <body>, tanpa sidebar/navbar)
+
 ?>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 
 <!-- HERO -->
 <div style="background: linear-gradient(135deg, #122E4F 0%, #1F45AC 100%); padding: 2.5rem; border-radius: 12px; margin-bottom: 2rem; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1); gap: 1rem;">
@@ -72,10 +73,22 @@
       <div class="p-labs-grid" id="pLabsGrid"></div>
 
       <div class="p-legend">
-        <div class="p-legend-item"><span class="p-legend-color p-lg-praktikum"></span> Praktikum Tetap</div>
-        <div class="p-legend-item"><span class="p-legend-color p-lg-internal"></span> Peminjaman Internal</div>
-        <div class="p-legend-item"><span class="p-legend-color p-lg-eksternal"></span> Peminjaman Eksternal</div>
-        <div class="p-legend-item"><span class="p-legend-color p-lg-expired"></span> Jadwal Terpakai</div>
+        <div class="p-legend-item praktikum-tetap">
+          <span class="p-legend-color p-lg-praktikum"></span>
+          Praktikum Tetap
+        </div>
+        <div class="p-legend-item peminjaman-internal">
+          <span class="p-legend-color p-lg-internal"></span>
+          Peminjaman Internal
+        </div>
+        <div class="p-legend-item peminjaman-eksternal">
+          <span class="p-legend-color p-lg-eksternal"></span>
+          Peminjaman Eksternal
+        </div>
+        <div class="p-legend-item jadwal-tergeser">
+          <span class="p-legend-color p-lg-expired"></span>
+          Jadwal Tergeser
+        </div>
       </div>
     </div>
   </div>
@@ -308,23 +321,81 @@
     padding-bottom:10px; border-bottom:2px solid #e2e8f0;
   }
   .p-slot-list{ display:flex; flex-direction:column; gap:10px; }
-  .p-slot{
-    padding:12px 14px; border-radius:10px; font-size:13px; border:1px solid; line-height:1.5;
+  /* ===== SLOT CARD STYLING ===== */
+  .p-slot {
+    padding: 12px 14px;
+    border-radius: 10px;
+    font-size: 13px;
+    line-height: 1.5;
+    border: 2px solid;
   }
-  .p-slot.praktikum{ background:#fff; border-color:#cbd5e1; color:#1e40af; }
-  /* Ganti warna garis putus-putus di sini */
-  .p-slot.available{
-    background:#fff; border:2px dashed #1B3555; color:#1B3555;
-    cursor:pointer; font-weight:900;
+
+  /* Praktikum Tetap - Blue border */
+  .p-slot.praktikum {
+    background: #fff;
+    border-color: #1B3555;
+    color: #1B3555;
+  }
+
+  /* Peminjaman Internal - Cyan/Teal */
+  .p-slot.internal {
+    background: #CCFBF1;
+    border-color: #0D9488;
+    color: #0D9488;
+  }
+
+  /* Peminjaman Eksternal - Yellow/Gold */
+  .p-slot.eksternal {
+    background: #FEF3C7;
+    border-color: #D97706;
+    color: #D97706;
+  }
+
+  /* Jadwal Tergeser - Pink/Red */
+  .p-slot.tergeser {
+    background: #FCE7F3;
+    border-color: #DB2777;
+    color: #DB2777;
+    position: relative;
+  }
+
+  .p-slot.tergeser::before {
+    content: '⚠';
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    font-size: 16px;
+    color: #DB2777;
+  }
+
+  /* Available slot - dashed border */
+  .p-slot.available {
+    background: #fff;
+    border: 2px dashed #1B3555;
+    color: #1B3555;
+    cursor: pointer;
+    font-weight: 900;
     transition: all 0.3s ease;
   }
-  .p-slot.available:hover{
-    background:#1B3555; color:#fff; border-style:solid;
-    transform:translateY(-2px); box-shadow:0 6px 14px rgba(27,53,85,.25);
-  }
-  .p-slot-label{ display:block; font-weight:900; margin-bottom:4px; }
-  .p-slot-sub{ font-size:12px; opacity:.85; }
 
+  .p-slot.available:hover {
+    background: #1B3555;
+    color: #fff;
+    border-style: solid;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(27, 53, 85, 0.25);
+  }
+
+  .p-slot-label {
+    display: block;
+    font-weight: 900;
+    margin-bottom: 4px;
+  }
+
+  .p-slot-sub {
+    font-size: 12px;
+    opacity: 0.85;
+  }
   /* Style input labs di external modal */
   #externalLabTimes input[type="time"]{
     width: 100%;
@@ -338,12 +409,94 @@
     padding:4px 12px;
     vertical-align:middle;
   }
+
+    /* ===== LEGEND STYLING ===== */
+  .p-legend {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    padding: 16px;
+    background: #f8fafc;
+    border-radius: 12px;
+  }
+
+  .p-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border-radius: 24px;
+    font-size: 13px;
+    font-weight: 700;
+    border: 2px solid;
+    transition: all 0.3s ease;
+  }
+
+  .p-legend-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Praktikum Tetap - Blue */
+  .p-legend-item.praktikum-tetap {
+    background: #fff;
+    border-color: #1B3555;
+    color: #1B3555;
+  }
+
+  /* Peminjaman Internal - Cyan/Teal */
+  .p-legend-item.peminjaman-internal {
+    background: #CCFBF1;
+    border-color: #0D9488;
+    color: #0D9488;
+  }
+
+  /* Peminjaman Eksternal - Yellow/Gold */
+  .p-legend-item.peminjaman-eksternal {
+    background: #FEF3C7;
+    border-color: #D97706;
+    color: #D97706;
+  }
+
+  /* Jadwal Tergeser - Pink/Red */
+  .p-legend-item.jadwal-tergeser {
+    background: #FCE7F3;
+    border-color: #DB2777;
+    color: #DB2777;
+  }
+
+  .p-legend-color {
+    display: inline-block;
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    border: 2px solid currentColor;
+  }
+
+  /* Color boxes */
+  .p-lg-praktikum {
+    background: #1B3555;
+  }
+
+  .p-lg-internal {
+    background: #0D9488;
+  }
+
+  .p-lg-eksternal {
+    background: #D97706;
+  }
+
+  .p-lg-expired {
+    background: #DB2777;
+  }
 </style>
 
 <script>
 (function(){
-  // ===== DATA PEMINJAMAN (contoh) =====
-  // Menggunakan data peminjam contoh untuk tabel.
+  // ===== DATA PEMINJAMAN =====
   const peminjamanData = [
     {
       name:'AKP Ahmad Kurniawan', email:'ahmad.kurniawan@polri.go.id', instansi:'Polda Metro Jaya',
@@ -377,11 +530,73 @@
     }
   ];
 
+  // Fungsi edit peminjaman eksternal
+  window.editPeminjamanEksternal = function(index){
+    const item = peminjamanData[index];
+    
+    // Buka modal eksternal
+    pExternalForm.reset();
+    
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('externalTanggalMulai').value = today;
+    document.getElementById('externalTanggalSelesai').value = today;
+    
+    // Set instansi dari data
+    document.getElementById('instansiKegiatan').value = item.instansi || '';
+    document.getElementById('catatanOpsional').value = '';
+
+    // Render daftar lab
+    externalLabTimesBody.innerHTML = '';
+    LABS.forEach(lab => {
+      // Tandai lab yang sedang dipinjam
+      const isActive = lab.name === item.lab;
+      const checkedAttr = isActive ? 'checked' : '';
+      const jamMulai = isActive ? item.waktuMulai : '07:00';
+      const jamSelesai = isActive ? item.waktuSelesai : '12:00';
+      
+      const html = `
+        <tr>
+          <td>${lab.name}</td>
+          <td style="text-align:center;"><input type="checkbox" name="aktif_${lab.key}" ${checkedAttr} /></td>
+          <td><input type="time" name="mulai_${lab.key}" value="${jamMulai}" /></td>
+          <td><input type="time" name="selesai_${lab.key}" value="${jamSelesai}" /></td>
+        </tr>
+      `;
+      externalLabTimesBody.insertAdjacentHTML('beforeend', html);
+    });
+
+    // Simpan index untuk update data nanti (optional)
+    pExternalForm.dataset.editIndex = index;
+    
+    pExternalModal.classList.add('active');
+  };
+
+  // Fungsi approve peminjaman
+  window.approvePeminjaman = function(index){
+    const item = peminjamanData[index];
+    if(confirm(`Approve peminjaman ${item.name} di ${item.lab}?`)){
+      // Update status
+      peminjamanData[index].statusPeminjaman = 'Disetujui';
+      renderTable();
+      alert('Peminjaman disetujui! Email notifikasi akan dikirim ke koordinator lab.');
+    }
+  };
+
+  // Fungsi hapus peminjaman
+  window.hapusPeminjaman = function(index){
+    const item = peminjamanData[index];
+    if(confirm(`Hapus peminjaman ${item.name} di ${item.lab}?`)){
+      peminjamanData.splice(index, 1);
+      renderTable();
+      alert('Peminjaman berhasil dihapus.');
+    }
+  };
+
   // Render tabel berdasarkan data di atas
   function renderTable(){
     const tbody = document.getElementById('pTableBody');
     tbody.innerHTML = '';
-    peminjamanData.forEach(item => {
+    peminjamanData.forEach((item, index) => {
       const tr = document.createElement('tr');
 
       const peminjamHTML = `
@@ -394,8 +609,47 @@
           'p-role-admin'}">${item.role}</div>
       `;
 
-      const statusClass = item.statusPeminjaman.toLowerCase().includes('menunggu') ? 'p-status-nonaktif' : 'p-status-aktif';
+      // Auto-approve internal: status langsung "Disetujui"
+      const statusPeminjaman = item.role === 'internal' ? 'Disetujui' : item.statusPeminjaman;
+      const statusClass = statusPeminjaman.toLowerCase().includes('menunggu') ? 'p-status-nonaktif' : 'p-status-aktif';
       const tipeClass = item.tipe.toLowerCase() === 'eksternal' ? 'p-eksternal' : (item.tipe.toLowerCase()==='internal' ? 'p-internal' : 'p-admin');
+
+      // Tentukan tombol aksi berdasarkan role
+      let actionButtons = '';
+      if (item.role === 'internal') {
+        // Internal: 
+        actionButtons = `
+          <button type="button" class="p-act p-del" title="Hapus" onclick="hapusPeminjaman(${index})">
+            <i class="fas fa-times"></i>
+          </button>
+        `;
+      } else if (item.role === 'eksternal') {
+        // Eksternal: 
+        actionButtons = `
+          <button type="button" class="p-act p-edit" title="Edit" onclick="editPeminjamanEksternal(${index})">
+            <i class="fas fa-edit"></i>
+          </button>
+          <button type="button" class="p-act p-check" title="Approve" onclick="approvePeminjaman(${index})">
+            <i class="fas fa-check"></i>
+          </button>
+          <button type="button" class="p-act p-del" title="Hapus" onclick="hapusPeminjaman(${index})">
+            <i class="fas fa-times"></i>
+          </button>
+        `;
+      } else {
+        // Admin atau role lain: semua tombol
+        actionButtons = `
+          <button type="button" class="p-act p-edit" title="Edit" onclick="alert('Edit admin: demo')">
+            <i class="fas fa-edit"></i>
+          </button>
+          <button type="button" class="p-act p-check" title="Approve" onclick="approvePeminjaman(${index})">
+            <i class="fas fa-check"></i>
+          </button>
+          <button type="button" class="p-act p-del" title="Hapus" onclick="hapusPeminjaman(${index})">
+            <i class="fas fa-times"></i>
+          </button>
+        `;
+      }
 
       tr.innerHTML = `
         <td>${peminjamHTML}</td>
@@ -406,13 +660,11 @@
             <div class="p-time"><i class="far fa-clock"></i> ${item.waktuMulai} - ${item.waktuSelesai}</div>
           </div>
         </td>
-        <td><span class="p-badge ${statusClass}">${item.statusPeminjaman}</span></td>
+        <td><span class="p-badge ${statusClass}">${statusPeminjaman}</span></td>
         <td><span class="p-badge-tipe ${tipeClass}">${item.tipe}</span></td>
         <td style="text-align:right;">
           <div class="p-actions">
-            <button type="button" class="p-act p-edit" title="Edit" onclick="alert('Edit: demo')"><i class="fas fa-edit"></i></button>
-            <button type="button" class="p-act p-check" title="Approve" onclick="alert('Approve: demo')"><i class="fas fa-check"></i></button>
-            <button type="button" class="p-act p-del" title="Hapus" onclick="alert('Hapus: demo')"><i class="fas fa-times"></i></button>
+            ${actionButtons}
           </div>
         </td>
       `;
@@ -433,7 +685,7 @@
     { key: "riset", name: "Riset 2" }
   ];
 
-  // FIXED SCHEDULE (PRAKTIKUM) - sesuaikan bila perlu sama seperti sebelumnya
+  // FIXED SCHEDULE (PRAKTIKUM)
   const fixedSchedule = {
     senin: {
       startup: [
@@ -459,11 +711,52 @@
       mm: [],
       riset: []
     },
-    //... (jadwal sesuai sebelumnya, bisa diperpanjang)
+
   };
 
   const dayNames = ['minggu', 'senin', 'selasa', 'rabu', 'kamis', 'jumat', 'sabtu'];
   const DAY_RANGE = { start: "07:00", end: "18:20" };
+
+  // ===== FUNGSI HELPER UNTUK CEK BENTROK =====
+  function cekBentrokEksternal(tanggal, labName, jamMulai, jamSelesai) {
+    // Filter peminjaman eksternal di tanggal dan lab yang sama
+    const eksternalBookings = peminjamanData.filter(item => 
+      item.tipe === 'Eksternal' && 
+      item.tanggal === tanggal && 
+      item.lab === labName
+    );
+    
+    // Cek overlap waktu
+    for (const booking of eksternalBookings) {
+      const bookStart = toMin(booking.waktuMulai);
+      const bookEnd = toMin(booking.waktuSelesai);
+      const slotStart = toMin(jamMulai);
+      const slotEnd = toMin(jamSelesai);
+      
+      // Ada overlap jika:
+      // booking mulai sebelum slot selesai DAN booking selesai setelah slot mulai
+      if (bookStart < slotEnd && bookEnd > slotStart) {
+        return true; // Ada bentrok
+      }
+    }
+    
+    return false; // Tidak ada bentrok
+  }
+
+  // Fungsi untuk get peminjaman internal di tanggal dan lab tertentu
+  function getInternalBookings(tanggal, labName) {
+    return peminjamanData
+      .filter(item => 
+        item.tipe === 'Internal' && 
+        item.tanggal === tanggal && 
+        item.lab === labName
+      )
+      .map(item => ({
+        start: item.waktuMulai,
+        end: item.waktuSelesai,
+        title: item.namaKegiatan || item.name
+      }));
+}
 
   // Fungsi utilitas konversi waktu
   function toMin(hhmm){ const [h,m]=hhmm.split(":").map(Number); return h*60+m; }
@@ -533,8 +826,82 @@
     }
   };
 
-  window.exportReport = function(){
-    alert('Export: demo');
+  // Export ke Excel dengan header dan styling lebih bagus
+  window.exportReport = function() {
+    // Header info
+    const headerInfo = [
+      ['LAPORAN DATA PEMINJAMAN LABORATORIUM'],
+      ['IC-LABS - Innovation Center Laboratories'],
+      [`Tanggal Export: ${new Date().toLocaleDateString('id-ID', { 
+        day: 'numeric', 
+        month: 'long', 
+        year: 'numeric' 
+      })}`],
+      [], // Empty row
+      ['No', 'Nama Peminjam', 'Email', 'Instansi', 'Role', 'Laboratorium', 'Tanggal', 'Waktu Mulai', 'Waktu Selesai', 'Status', 'Tipe']
+    ];
+    
+    // Data rows
+    const dataRows = peminjamanData.map((item, index) => {
+      const statusPeminjaman = item.role === 'internal' ? 'Disetujui' : item.statusPeminjaman;
+      return [
+        index + 1,
+        item.name,
+        item.email,
+        item.instansi,
+        item.role.toUpperCase(),
+        item.lab,
+        item.tanggal,
+        item.waktuMulai,
+        item.waktuSelesai,
+        statusPeminjaman,
+        item.tipe
+      ];
+    });
+    
+    // Combine header + data
+    const fullData = [...headerInfo, ...dataRows];
+    
+    // Summary row
+    const summaryRow = [
+      '',
+      `Total Peminjaman: ${peminjamanData.length}`,
+      `Internal: ${peminjamanData.filter(x => x.tipe === 'Internal').length}`,
+      `Eksternal: ${peminjamanData.filter(x => x.tipe === 'Eksternal').length}`,
+      `Menunggu: ${peminjamanData.filter(x => x.statusPeminjaman === 'Menunggu Konfirmasi').length}`,
+      `Disetujui: ${peminjamanData.filter(x => x.statusPeminjaman === 'Disetujui' || x.role === 'internal').length}`
+    ];
+    fullData.push([], summaryRow);
+    
+    // Create workbook
+    const wb = XLSX.utils.book_new();
+    const ws = XLSX.utils.aoa_to_sheet(fullData);
+    
+    // Set column widths
+    ws['!cols'] = [
+      { wch: 5 },  { wch: 25 }, { wch: 30 }, { wch: 25 }, { wch: 12 },
+      { wch: 20 }, { wch: 15 }, { wch: 12 }, { wch: 12 }, { wch: 20 }, { wch: 12 }
+    ];
+    
+    // Merge cells untuk header
+    ws['!merges'] = [
+      { s: { r: 0, c: 0 }, e: { r: 0, c: 10 } }, // Title
+      { s: { r: 1, c: 0 }, e: { r: 1, c: 10 } }, // Subtitle
+      { s: { r: 2, c: 0 }, e: { r: 2, c: 10 } }  // Date
+    ];
+    
+    // Append worksheet
+    XLSX.utils.book_append_sheet(wb, ws, 'Data Peminjaman');
+    
+    // Generate filename
+    const filename = `Laporan_Peminjaman_${new Date().toISOString().split('T')[0]}.xlsx`;
+    
+    // Download
+    XLSX.writeFile(wb, filename);
+    
+    alert('✅ Laporan berhasil diexport ke Excel!\n\n' +
+          `Total: ${peminjamanData.length} peminjaman\n` +
+          `File: ${filename}`);
   };
 
   // Render grid schedule di modal utama
@@ -555,15 +922,37 @@
 
       let slots = '';
 
+      // Render praktikum tetap atau tergeser
       praktikum.forEach(slot => {
+        // Cek apakah ada booking eksternal yang bentrok di tanggal ini
+        const adaBentrok = cekBentrokEksternal(dateInput.value, lab.name, slot.start, slot.end);
+        const slotClass = adaBentrok ? 'tergeser' : 'praktikum';
+        const slotLabel = adaBentrok ? 'Jadwal Tergeser' : 'Praktikum Tetap';
+        
         slots += `
-          <div class="p-slot praktikum">
-            <span class="p-slot-label">Praktikum Tetap ${slot.start}–${slot.end}</span>
+          <div class="p-slot ${slotClass}">
+            <span class="p-slot-label">${slotLabel} ${slot.start}–${slot.end}</span>
             <div class="p-slot-sub">${slot.title}</div>
           </div>
         `;
       });
 
+      // Render peminjaman internal yang sudah ada
+      const internalBookings = getInternalBookings(dateInput.value, lab.name);
+      internalBookings.forEach(booking => {
+        const adaBentrok = cekBentrokEksternal(dateInput.value, lab.name, booking.start, booking.end);
+        const slotClass = adaBentrok ? 'tergeser' : 'internal';
+        const slotLabel = adaBentrok ? 'Jadwal Tergeser' : 'Peminjaman Internal';
+        
+        slots += `
+          <div class="p-slot ${slotClass}">
+            <span class="p-slot-label">${slotLabel} ${booking.start}–${booking.end}</span>
+            <div class="p-slot-sub">${booking.title}</div>
+          </div>
+        `;
+      });
+
+      // Render slot kosong (available)
       freeIntervals.forEach(interval => {
         slots += `
           <div class="p-slot available" onclick="handleSlotClick('${dateInput.value}', '${dayName}', '${lab.name}', '${toHHMM(interval.start)}', '${toHHMM(interval.end)}')">
@@ -735,14 +1124,31 @@
       }
     }
 
-    // Simulasi simpan - tampilkan data ringkas termasuk labs
-    alert(`Peminjaman Eksternal disimpan:
-Tanggal Mulai: ${tanggalMulai}
-Tanggal Selesai: ${tanggalSelesai}
-Instansi/Kegiatan: ${instansiKegiatan}
-Catatan: ${catatan || '-'}
-Laboratorium Aktif:
-${labData.filter(d => d.aktif).map(d => `${d.lab}: ${d.mulai} - ${d.selesai}`).join('\n')}`);
+    // Cek apakah mode edit
+    const editIndex = form.dataset.editIndex;
+    if(editIndex !== undefined && editIndex !== ''){
+      // Mode edit: update data yang ada
+      const idx = parseInt(editIndex);
+      const firstActiveLab = labData.find(d => d.aktif);
+      peminjamanData[idx].instansi = instansiKegiatan;
+      peminjamanData[idx].lab = firstActiveLab.lab;
+      peminjamanData[idx].waktuMulai = firstActiveLab.mulai;
+      peminjamanData[idx].waktuSelesai = firstActiveLab.selesai;
+      peminjamanData[idx].tanggal = tanggalMulai; // Anda bisa format ulang
+      
+      alert('Peminjaman Eksternal berhasil diupdate!');
+      delete form.dataset.editIndex; // Hapus flag edit
+      renderTable();
+    } else {
+      // Mode tambah baru
+      alert(`Peminjaman Eksternal disimpan:
+  Tanggal Mulai: ${tanggalMulai}
+  Tanggal Selesai: ${tanggalSelesai}
+  Instansi/Kegiatan: ${instansiKegiatan}
+  Catatan: ${catatan || '-'}
+  Laboratorium Aktif:
+  ${labData.filter(d => d.aktif).map(d => `${d.lab}: ${d.mulai} - ${d.selesai}`).join('\n')}`);
+    }
 
     closeExternalBookingModal();
     closeBookingModal();
@@ -767,4 +1173,5 @@ ${labData.filter(d => d.aktif).map(d => `${d.lab}: ${d.mulai} - ${d.selesai}`).j
   renderTable();
 
 })();
+
 </script>
