@@ -14,7 +14,10 @@ class RuanganController
 
     public function index()
     {
-        return $this->model->getAll();
+        return [
+            'ruangan' => $this->model->getAll(),
+            'asisten' => $this->model->getAssistants()
+        ];
     }
 
     public function handleRequest()

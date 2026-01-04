@@ -29,7 +29,7 @@ class PenggunaController
                 $data = [
                     'nama' => $_POST['nama'] ?? '',
                     'email' => $_POST['email'] ?? '',
-                    'instansi' => $_POST['instansi'] ?? '', // Jabatan/Unit
+                    'posisi' => $_POST['posisi'] ?? '', // Refactored from instansi
                     'role' => $_POST['role'] ?? 'eksternal',
                     'username' => $_POST['username'] ?? '',
                     'password' => $_POST['password'] ?? '', // Will be hashed in Model

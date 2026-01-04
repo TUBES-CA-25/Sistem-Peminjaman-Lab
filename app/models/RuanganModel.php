@@ -116,4 +116,14 @@ class RuanganModel
         }
         return false;
     }
+
+    // Get Assistants (User Internal & Posisi Asisten)
+    public function getAssistants()
+    {
+        // Requires pengguna table to exist
+        $query = "SELECT nama, email FROM pengguna WHERE role = 'internal' AND posisi = 'Asisten' AND status = 'aktif' ORDER BY nama ASC";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

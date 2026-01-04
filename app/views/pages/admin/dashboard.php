@@ -13,9 +13,15 @@ switch ($page) {
         require_once __DIR__ . '/../../../controllers/RuanganController.php';
         $controller = new RuanganController();
         $controller->handleRequest(); // Handle POST requests (redirects happen here)
-        $data['ruangan'] = $controller->index(); // Fetch data
+        $result = $controller->index();
+        if (isset($result['ruangan']) && isset($result['asisten'])) {
+            $data['ruangan'] = $result['ruangan'];
+            $data['asisten'] = $result['asisten'];
+        } else {
+            $data['ruangan'] = $result;
+        }
 
-        $content_file = __DIR__ . '/data_ruangan_content.php';
+        $content_file = __DIR__ . '/ruangan/index.php';
         break;
     case 'pengguna':
         require_once __DIR__ . '/../../../controllers/PenggunaController.php';
@@ -23,7 +29,7 @@ switch ($page) {
         $controller->handleRequest();
         $data['pengguna'] = $controller->index();
 
-        $content_file = __DIR__ . '/data_pengguna_content.php';
+        $content_file = __DIR__ . '/pengguna/index.php';
         break;
     case 'peminjaman':
         $content_file = __DIR__ . '/data_peminjaman_content.php';

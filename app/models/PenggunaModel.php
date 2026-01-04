@@ -28,7 +28,7 @@ class PenggunaModel
                 SET
                     nama=:nama,
                     email=:email,
-                    instansi=:instansi,
+                    posisi=:posisi,
                     role=:role,
                     username=:username,
                     password=:password,
@@ -37,11 +37,11 @@ class PenggunaModel
         $stmt = $this->conn->prepare($query);
 
         // Sanitize & Bind
-        $stmt->bindParam(":nama", htmlspecialchars(strip_tags($data['nama'])));
-        $stmt->bindParam(":email", htmlspecialchars(strip_tags($data['email'])));
-        $stmt->bindParam(":instansi", htmlspecialchars(strip_tags($data['instansi'])));
+        $stmt->bindValue(":nama", htmlspecialchars(strip_tags($data['nama'])));
+        $stmt->bindValue(":email", htmlspecialchars(strip_tags($data['email'])));
+        $stmt->bindValue(":posisi", htmlspecialchars(strip_tags($data['posisi'])));
         $stmt->bindParam(":role", $data['role']);
-        $stmt->bindParam(":username", htmlspecialchars(strip_tags($data['username'])));
+        $stmt->bindValue(":username", htmlspecialchars(strip_tags($data['username'])));
 
         // Hash password
         $password_hash = password_hash($data['password'], PASSWORD_BCRYPT);
@@ -63,7 +63,7 @@ class PenggunaModel
                     SET
                         nama=:nama,
                         email=:email,
-                        instansi=:instansi,
+                        posisi=:posisi,
                         role=:role,
                         username=:username,
                         password=:password,
@@ -74,7 +74,7 @@ class PenggunaModel
                     SET
                         nama=:nama,
                         email=:email,
-                        instansi=:instansi,
+                        posisi=:posisi,
                         role=:role,
                         username=:username,
                         status=:status
@@ -84,11 +84,11 @@ class PenggunaModel
         $stmt = $this->conn->prepare($query);
 
         $stmt->bindParam(":id", $id);
-        $stmt->bindParam(":nama", htmlspecialchars(strip_tags($data['nama'])));
-        $stmt->bindParam(":email", htmlspecialchars(strip_tags($data['email'])));
-        $stmt->bindParam(":instansi", htmlspecialchars(strip_tags($data['instansi'])));
+        $stmt->bindValue(":nama", htmlspecialchars(strip_tags($data['nama'])));
+        $stmt->bindValue(":email", htmlspecialchars(strip_tags($data['email'])));
+        $stmt->bindValue(":posisi", htmlspecialchars(strip_tags($data['posisi'])));
         $stmt->bindParam(":role", $data['role']);
-        $stmt->bindParam(":username", htmlspecialchars(strip_tags($data['username'])));
+        $stmt->bindValue(":username", htmlspecialchars(strip_tags($data['username'])));
         $stmt->bindParam(":status", $data['status']);
 
         if (!empty($data['password'])) {

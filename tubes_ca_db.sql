@@ -18,4 +18,19 @@ CREATE TABLE IF NOT EXISTS ruangan (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Example Data
+-- Table Pengguna
+CREATE TABLE IF NOT EXISTS pengguna (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nama VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    posisi ENUM('Dosen', 'Asisten') NULL, -- Replaces instansi
+    role ENUM('internal', 'eksternal') NOT NULL, -- Simplified options
+    username VARCHAR(50) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    status ENUM('aktif', 'nonaktif') DEFAULT 'aktif',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Example Admin/User
+-- Password default: '12345678' -> Needs hash in real usage, but for manual insert:
+-- INSERT INTO pengguna (...) VALUES (...);
