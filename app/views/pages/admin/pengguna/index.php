@@ -4,15 +4,7 @@ $users = $data['pengguna'] ?? [];
 ?>
 
 <!-- Custom CSS -->
-<style>
-    .bg-gradient-primary-custom {
-        background: linear-gradient(135deg, #122E4F 0%, #1F45AC 100%);
-    }
 
-    .table-hover tbody tr:hover {
-        background-color: #f8fafc;
-    }
-</style>
 
 <!-- HEADER SECTION -->
 <div class="card border-0 shadow-sm mb-4 bg-gradient-primary-custom text-white overflow-hidden">

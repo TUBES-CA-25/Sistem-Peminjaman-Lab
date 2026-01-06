@@ -4,31 +4,7 @@ $labs = $data['ruangan'] ?? [];
 $assistants = $data['asisten'] ?? [];
 ?>
 
-<style>
-    .bg-gradient-primary-custom {
-        background: linear-gradient(135deg, #122E4F 0%, #1F45AC 100%);
-    }
 
-    .lab-card {
-        transition: transform 0.3s, box-shadow 0.3s;
-    }
-
-    .lab-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
-    }
-
-    .upload-area {
-        border: 2px dashed #dee2e6;
-        transition: all 0.3s;
-    }
-
-    .upload-area:hover,
-    .upload-area.dragover {
-        border-color: #0d6efd;
-        background-color: #f8f9fa;
-    }
-</style>
 
 <!-- HEADER SECTION -->
 <div class="card border-0 shadow-sm mb-4 bg-gradient-primary-custom text-white">
