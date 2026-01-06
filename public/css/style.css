@@ -1,0 +1,203 @@
+/* =========================================
+   GLOBAL STYLES
+   ========================================= */
+body {
+    font-family: 'Inter', sans-serif;
+    padding-top: 80px;
+    background-color: #F8FAFC;
+}
+
+/* =========================================
+   HEADER / NAVBAR STYLES
+   ========================================= */
+.navbar {
+    background-color: rgba(255, 255, 255, 0.9) !important;
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    color: #0F172A !important;
+}
+
+.navbar-brand img {
+    height: 40px;
+    width: auto;
+    border-radius: 4px;
+}
+
+.nav-link {
+    font-weight: 500;
+    color: #475569 !important;
+}
+
+.nav-link:hover {
+    color: #2563EB !important;
+}
+
+/* =========================================
+   FOOTER STYLES
+   ========================================= */
+.footer-custom {
+    background-color: #0F172A !important;
+    margin-top: auto;
+    padding-top: 3rem;
+    padding-bottom: 1.5rem;
+}
+
+.footer-logo {
+    height: 40px;
+    width: auto;
+}
+
+.footer-social-btn {
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    line-height: 30px;
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* =========================================
+   HOME PAGE STYLES
+   ========================================= */
+
+/* Hero Section */
+.hero-section {
+    background: linear-gradient(180deg, #E8F4FA 0%, #D4E9F7 100%);
+    padding: 100px 0;
+}
+
+.hero-badge {
+    background-color: #4A90E2;
+    color: white;
+}
+
+.hero-title {
+    color: #1a1a1a;
+}
+
+.hero-subtitle {
+    color: #2C5F8D;
+    font-style: italic;
+}
+
+.hero-btn {
+    background-color: #4A90E2;
+    border: none;
+}
+
+/* Section Common */
+.section-bg-light {
+    background-color: #F8FBFD;
+}
+
+.section-title {
+    color: #1a1a1a;
+}
+
+/* Alur Peminjaman */
+.step-circle {
+    width: 80px;
+    height: 80px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.bg-step-1 {
+    background: linear-gradient(135deg, #4A90E2 0%, #357ABD 100%);
+    box-shadow: 0 4px 15px rgba(74, 144, 226, 0.3);
+}
+
+.text-step-1 {
+    color: #4A90E2;
+}
+
+.bg-step-2 {
+    background: linear-gradient(135deg, #9B59B6 0%, #8E44AD 100%);
+    box-shadow: 0 4px 15px rgba(155, 89, 182, 0.3);
+}
+
+.text-step-2 {
+    color: #9B59B6;
+}
+
+.bg-step-3 {
+    background: linear-gradient(135deg, #4A90E2 0%, #357ABD 100%);
+    box-shadow: 0 4px 15px rgba(74, 144, 226, 0.3);
+}
+
+.text-step-3 {
+    color: #4A90E2;
+}
+
+.bg-step-4 {
+    background: linear-gradient(135deg, #17A2B8 0%, #138496 100%);
+    box-shadow: 0 4px 15px rgba(23, 162, 184, 0.3);
+}
+
+.text-step-4 {
+    color: #17A2B8;
+}
+
+.bg-step-5 {
+    background: linear-gradient(135deg, #28A745 0%, #218838 100%);
+    box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+}
+
+.text-step-5 {
+    color: #28A745;
+}
+
+.step-icon {
+    font-size: 2rem;
+}
+
+/* Sarana Section */
+.icon-check {
+    color: #4A90E2;
+    font-size: 1.2rem;
+}
+
+.btn-outline-custom {
+    border-color: #4A90E2;
+    color: #4A90E2;
+}
+
+.btn-outline-custom:hover {
+    background-color: #4A90E2;
+    color: white;
+}
+
+.img-sarana {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+}
+
+/* Call to Action */
+.cta-section {
+    background: linear-gradient(180deg, #F8FBFD 0%, #E8F4FA 100%);
+}
+
+/* Animations & Utils */
+.btn-hover-effect:hover {
+    transform: translateY(-2px);
+    transition: all 0.3s ease;
+}
+
+.card-hover-effect {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-hover-effect:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1) !important;
+}
