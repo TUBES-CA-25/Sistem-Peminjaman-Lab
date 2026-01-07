@@ -11,12 +11,11 @@
                     mengoptimalkan potensi belajar.
                 </p>
                 <div class="d-flex gap-3 justify-content-center flex-wrap">
-                    <!-- Fixed Links: Removed leading slash for relative linking -->
-                    <a href="pages/auth/login.php"
+                    <a href="<?= BASE_URL ?>auth/login"
                         class="btn btn-outline-primary btn-lg px-5 py-2 rounded-pill btn-hover-effect">
                         Sign In
                     </a>
-                    <a href="pages/auth/register.php"
+                    <a href="<?= BASE_URL ?>auth/register"
                         class="btn btn-outline-primary btn-lg px-5 py-2 rounded-pill btn-hover-effect">
                         Sign Up
                     </a>

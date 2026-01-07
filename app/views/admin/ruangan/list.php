@@ -45,8 +45,8 @@
                             class="btn btn-primary flex-grow-1 fw-bold">
                             <i class="fas fa-edit me-1"></i> Edit
                         </button>
-                        <form action="dashboard.php?page=ruangan" method="POST"
-                            onsubmit="return confirm('Hapus ruangan ini?');" class="flex-grow-1 d-flex">
+                        <form action="<?= BASE_URL ?>ruangan" method="POST" onsubmit="return confirm('Hapus ruangan ini?');"
+                            class="flex-grow-1 d-flex">
                             <input type="hidden" name="action" value="delete">
                             <input type="hidden" name="id" value="<?= $lab['id'] ?>">
                             <button type="submit" class="btn btn-danger w-100 fw-bold">

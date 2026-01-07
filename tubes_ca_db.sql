@@ -23,8 +23,8 @@ CREATE TABLE IF NOT EXISTS pengguna (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nama VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL UNIQUE,
-    posisi ENUM('Dosen', 'Asisten') NULL, -- Replaces instansi
-    role ENUM('internal', 'eksternal') NOT NULL, -- Simplified options
+    posisi ENUM('Dosen', 'Asisten') NULL,
+    role ENUM('internal', 'eksternal') NOT NULL,
     username VARCHAR(50) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
     status ENUM('aktif', 'nonaktif') DEFAULT 'aktif',
