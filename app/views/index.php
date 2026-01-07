@@ -1,7 +1,7 @@
 <?php include 'components/header.php'; ?>
 
-<main style="margin-top: 100px;">
+<main style="">
     <?php include 'pages/home/home.php'; ?>
 </main>
-
+    
 <?php include 'components/footer.php'; ?>
