@@ -23,7 +23,7 @@
 
 <body>
 
-    <nav class="navbar navbar-expand-md fixed-top">
+    <nav class="navbar navbar-expand fixed-top">
         <div class="container">
             <!-- Fixed Path: Relative to app/views/index.php -->
             <a class="navbar-brand d-flex align-items-center gap-2" href="../../index.php">
