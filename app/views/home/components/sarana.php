@@ -51,10 +51,11 @@
                          The original code had ../../public/img/Mulmed.jpg SAME as I saw in view_file.
                          So I will keep it as is.
                      -->
-                    <img src="../../public/img/Mulmed.jpg" alt="Laboratorium Multimedia ICLABS"
-                        class="img-fluid rounded-4 shadow-lg img-sarana">
+                    <div class="position-relative">
+                        <img src="<?= BASE_URL ?>public/img/Mulmed.jpg" alt="Laboratorium Multimedia ICLABS"
+                            class="img-fluid rounded-4 shadow-lg img-sarana">
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 </section>

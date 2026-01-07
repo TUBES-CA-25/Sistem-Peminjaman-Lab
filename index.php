@@ -1,5 +1,8 @@
 <?php
-// index.php in Project Root
-// Redirect to the main landing page in app/views/
-header("Location: app/views/index.php");
-exit;
+
+if (!session_id())
+    session_start();
+
+require_once 'app/init.php';
+
+$app = new App();

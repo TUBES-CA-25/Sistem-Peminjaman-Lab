@@ -1,26 +1,21 @@
-<?php 
-    // Jalur mundur dua kali karena sekarang file berada di /pages/auth/
-    include '../../components/header.php'; 
-?>
-
 <div class="auth-page-container">
     <div class="auth-card text-center">
         <h2 class="fw-bold mb-1 text-white">Masuk ke Akun</h2>
         <p class="mb-1 text-white-50">Peminjaman Lab</p>
         <p class="small mb-4 text-white-50 opacity-75">Silakan masuk untuk melanjutkan akses laboratorium</p>
 
-        <form method="post" action="#">
+        <form method="post" action="<?= BASE_URL ?>/auth/login">
             <div class="mb-3 text-start">
                 <label class="form-label small fw-semibold text-white-50">Email</label>
                 <div class="input-group-custom">
-                    <input type="email" class="form-control" placeholder="nama@email.com">
+                    <input type="email" class="form-control" name="email" placeholder="nama@email.com">
                 </div>
             </div>
 
             <div class="mb-2 text-start">
                 <label class="form-label small fw-semibold text-white-50">Password</label>
                 <div class="input-group-custom">
-                    <input type="password" class="form-control" placeholder="Masukkan password Anda">
+                    <input type="password" class="form-control" name="password" placeholder="Masukkan password Anda">
                 </div>
             </div>
 
@@ -33,12 +28,14 @@
 
         <div class="position-relative my-4">
             <hr class="border-white opacity-25">
-            <span class="position-absolute top-50 start-50 translate-middle bg-transparent px-2 small text-white-50">ATAU</span>
+            <span
+                class="position-absolute top-50 start-50 translate-middle bg-transparent px-2 small text-white-50">ATAU</span>
         </div>
 
         <p class="small mb-0 text-white-50">
-            Belum punya akun? 
-            <a href="register.php" class="text-white fw-bold text-decoration-none border-bottom border-white">Daftar di sini</a>
+            Belum punya akun?
+            <a href="<?= BASE_URL ?>/auth/register"
+                class="text-white fw-bold text-decoration-none border-bottom border-white">Daftar di sini</a>
         </p>
     </div>
 </div>
@@ -52,7 +49,8 @@
         align-items: center;
         justify-content: center;
         padding: 100px 20px;
-        margin-top: -80px; /* Menarik konten ke atas agar sejajar dengan header transparan */
+        margin-top: -80px;
+        /* Menarik konten ke atas agar sejajar dengan header transparan */
     }
 
     .auth-card {
@@ -89,7 +87,3 @@
         color: white !important;
     }
 </style>
-
-<?php 
-    include '../../components/footer.php'; 
-?>

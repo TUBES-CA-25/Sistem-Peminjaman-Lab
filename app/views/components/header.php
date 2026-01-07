@@ -17,19 +17,20 @@
         rel="stylesheet" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet" />
 
-    <!-- Global Custom CSS (Relative to app/views/components/header.php -> public/css/style.css) -->
-    <link rel="stylesheet" href="../../../../public/css/style.css">
+    <!-- Global Custom CSS -->
+    <link rel="stylesheet" href="<?= BASE_URL ?>public/css/style.css">
 </head>
 
 <body>
 
     <nav class="navbar navbar-expand fixed-top">
         <div class="container">
-            <!-- Fixed Path: Relative to app/views/index.php -->
-            <a class="navbar-brand d-flex align-items-center gap-2" href="../../index.php">
-                <img src="../../../../public/img/logo-iclabs.png" alt="Logo ICLABS">
+            <!-- Navbar Brand -->
+            <a class="navbar-brand d-flex align-items-center gap-2" href="<?= BASE_URL ?>">
+                <img src="<?= BASE_URL ?>public/img/logo-iclabs.png" alt="Logo ICLABS">
                 <span class="font-display">ICLABS</span>
             </a>
+            <!-- <span class="font-display">ICLABS</span> -->
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
