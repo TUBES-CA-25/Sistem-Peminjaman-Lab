@@ -10,7 +10,13 @@ class App
     {
         $url = $this->parseURL();
 
-        // 1. Check Controller
+        // --- PERBAIKAN LOGIC (FIX) ---
+        // Jika URL pertama terbaca sebagai 'public', kita buang karena itu nama folder
+        if (isset($url[0]) && $url[0] == 'public') {
+            array_shift($url);
+        }
+        // -----------------------------
+
         // 1. Check Controller
         if (isset($url[0])) {
             if (file_exists(__DIR__ . '/../controllers/' . ucfirst($url[0]) . '.php')) {
@@ -48,26 +54,22 @@ class App
             return $url;
         }
 
-        // Fallback for PHP Native Server (php -S) which doesn't use .htaccess
+        // Fallback untuk Windows/XAMPP jika .htaccess bermasalah
         $request_uri = $_SERVER['REQUEST_URI'];
-        $script_name = dirname($_SERVER['SCRIPT_NAME']);
+        $script_name = $_SERVER['SCRIPT_NAME'];
+        $dirname = dirname($script_name);
 
-        // Remove script path from URI if it exists (for subdirectory installation)
-        if ($script_name !== '/' && $script_name !== '\\') {
-            $request_uri = str_replace($script_name, '', $request_uri);
+        // Normalisasi slash (Windows pakai Backslash, URL pakai Forward slash)
+        $dirname = str_replace('\\', '/', $dirname);
+
+        if (strpos($request_uri, $dirname) === 0) {
+            $request_uri = substr($request_uri, strlen($dirname));
         }
 
         $url = trim($request_uri, '/');
         if (!empty($url)) {
             $url = filter_var($url, FILTER_SANITIZE_URL);
             $url = explode('/', $url);
-
-            // Remove query string from the last element if present
-            if (isset($url[count($url) - 1])) {
-                $parts = explode('?', $url[count($url) - 1]);
-                $url[count($url) - 1] = $parts[0];
-            }
-
             return $url;
         }
 
