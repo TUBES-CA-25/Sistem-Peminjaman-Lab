@@ -1,0 +1,438 @@
+/* ==========================================
+   INTERNAL BOOKING PAGE - REDESIGNED
+   ========================================== */
+
+/* Hero Section */
+.hero-section-internal {
+    background: linear-gradient(135deg, #2C5282 0%, #1E3A5F 100%);
+    padding: 50px 0 40px 0;
+    margin-top: -80px;
+    padding-top: 120px;
+}
+
+.hero-section-internal h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+.hero-section-internal p {
+    font-size: 0.95rem;
+    opacity: 0.9;
+}
+
+/* Labs Section */
+.labs-section {
+    background-color: #FFFFFF;
+}
+
+/* Lab Card */
+.lab-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    height: 100%;
+    border: 1px solid #E2E8F0;
+}
+
+.lab-card:hover {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    transform: translateY(-4px);
+}
+
+.lab-image {
+    position: relative;
+    width: 100%;
+    height: 180px;
+    overflow: hidden;
+    background: #E2E8F0;
+}
+
+.lab-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.badge-available {
+    position: absolute !important;
+    top: 12px !important;
+    right: 12px !important;
+    background-color: #3182CE !important;
+    color: white !important;
+    padding: 6px 16px !important;
+    border-radius: 20px !important;
+    font-size: 0.75rem !important;
+    font-weight: 600 !important;
+    z-index: 10 !important;
+}
+
+.badge-tersedia {
+    background-color: #3182CE !important;
+}
+
+.badge-terpakai {
+    background-color: #ED8936 !important;
+}
+
+.lab-card-body {
+    padding: 18px;
+}
+
+.lab-name {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #2D3748;
+    margin-bottom: 12px;
+    line-height: 1.3;
+}
+
+.lab-info {
+    font-size: 0.85rem;
+    color: #718096;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.lab-info i {
+    font-size: 0.9rem;
+    color: #A0AEC0;
+}
+
+.lab-card-body .btn-primary {
+    background-color: #3182CE;
+    border: none;
+    padding: 10px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-top: 8px;
+}
+
+.lab-card-body .btn-primary:hover {
+    background-color: #2C5282;
+}
+
+/* ==========================================
+   SCHEDULE MODAL
+   ========================================== */
+
+#scheduleModal .modal-dialog {
+    max-width: 85%;
+    margin: 1.75rem auto;
+}
+
+#scheduleModal .modal-content {
+    border-radius: 8px;
+    border: none;
+}
+
+#scheduleModal .modal-header {
+    background-color: #F7FAFC;
+    border-bottom: 1px solid #E2E8F0;
+    padding: 18px 24px;
+}
+
+#scheduleModal .modal-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #2D3748;
+}
+
+#scheduleModal .modal-body {
+    padding: 24px;
+    max-height: 75vh;
+    overflow-y: auto;
+}
+
+/* Date Input */
+.date-input {
+    max-width: 200px;
+    border: 1px solid #CBD5E0;
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 0.9rem;
+}
+
+.date-input:focus {
+    border-color: #3182CE;
+    box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1);
+}
+
+/* Schedule Grid */
+.schedule-grid {
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 16px !important;
+    margin-top: 20px;
+}
+
+@media (max-width: 1200px) {
+    .schedule-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .schedule-grid {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+#scheduleModal .schedule-column {
+    background: white !important;
+    border: 1px solid #E2E8F0 !important;
+    border-radius: 6px;
+    padding: 12px;
+    min-width: 0;
+}
+
+#scheduleModal .schedule-lab-title {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #2D3748;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #E2E8F0;
+}
+
+#scheduleModal .schedule-slot {
+    background: #F7FAFC;
+    border: 1px solid #CBD5E0;
+    border-radius: 4px;
+    padding: 8px;
+    margin-bottom: 8px;
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+#scheduleModal .schedule-slot.available {
+    background: #EBF8FF !important;
+    border-color: #3182CE !important;
+}
+
+#scheduleModal .schedule-slot.available:hover {
+    background: #BEE3F8 !important;
+    transform: translateX(2px);
+}
+
+#scheduleModal .schedule-slot.dashed {
+    border: 1px dashed #CBD5E0 !important;
+    background: white !important;
+}
+
+#scheduleModal .schedule-slot.dashed:hover {
+    border-color: #3182CE !important;
+    background: #F7FAFC !important;
+}
+
+#scheduleModal .slot-time {
+    color: #3182CE;
+    font-weight: 600;
+    margin-bottom: 3px;
+    font-size: 0.7rem;
+}
+
+#scheduleModal .slot-class {
+    color: #4A5568;
+    font-size: 0.7rem;
+}
+
+#scheduleModal .slot-add {
+    color: #718096;
+    font-size: 0.7rem;
+    text-align: center;
+}
+
+/* Legend */
+.schedule-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px !important;
+    padding: 16px;
+    background: #F7FAFC;
+    border-radius: 6px;
+    border: 1px solid #E2E8F0;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.85rem;
+    color: #4A5568;
+}
+
+.legend-box {
+    width: 40px;
+    height: 20px;
+    border-radius: 3px;
+    border: 1px solid #CBD5E0;
+}
+
+.legend-praktikum {
+    background-color: #EBF8FF;
+    border-color: #3182CE;
+}
+
+.legend-internal {
+    background-color: #C6F6D5;
+    border-color: #38A169;
+}
+
+.legend-eksternal {
+    background-color: #FED7D7;
+    border-color: #E53E3E;
+}
+
+.legend-urgent {
+    background-color: #FEF5E7;
+    border-color: #F6AD55;
+}
+
+/* ==========================================
+   BOOKING FORM MODAL
+   ========================================== */
+
+#bookingModal .modal-content {
+    border-radius: 8px;
+    border: none;
+}
+
+#bookingModal .modal-header {
+    background-color: #F7FAFC;
+    border-bottom: 1px solid #E2E8F0;
+    padding: 18px 24px;
+}
+
+#bookingModal .modal-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #2D3748;
+}
+
+#bookingModal .modal-body {
+    padding: 24px;
+}
+
+#bookingModal .form-label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #2D3748;
+    margin-bottom: 6px;
+}
+
+#bookingModal .form-control {
+    border: 1px solid #CBD5E0;
+    border-radius: 6px;
+    padding: 10px 12px;
+    font-size: 0.9rem;
+}
+
+#bookingModal .form-control:focus {
+    border-color: #3182CE;
+    box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1);
+}
+
+#bookingModal .form-control:read-only {
+    background-color: #EDF2F7;
+    color: #4A5568;
+}
+
+.slot-info {
+    background: #EBF8FF;
+    border: 1px solid #BEE3F8;
+    border-radius: 6px;
+    padding: 12px;
+    font-size: 0.85rem;
+    color: #2C5282;
+    line-height: 1.6;
+}
+
+#bookingModal .modal-footer {
+    border-top: 1px solid #E2E8F0;
+    padding: 16px 24px;
+}
+
+#bookingModal .btn-secondary {
+    background-color: #718096;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-weight: 600;
+}
+
+#bookingModal .btn-secondary:hover {
+    background-color: #4A5568;
+}
+
+#bookingModal .btn-primary {
+    background-color: #2C5282;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-weight: 600;
+}
+
+#bookingModal .btn-primary:hover {
+    background-color: #1E3A5F;
+}
+
+/* ==========================================
+   RESPONSIVE
+   ========================================== */
+
+@media (max-width: 991px) {
+    .hero-section-internal h1 {
+        font-size: 1.75rem;
+    }
+
+    .schedule-grid {
+        gap: 12px;
+    }
+}
+
+@media (max-width: 767px) {
+    .hero-section-internal {
+        padding: 40px 0;
+        padding-top: 120px;
+    }
+
+    .hero-section-internal h1 {
+        font-size: 1.5rem;
+    }
+
+    #scheduleModal .modal-dialog {
+        max-width: 95%;
+        margin: 0.5rem auto;
+    }
+
+    .schedule-legend {
+        gap: 12px;
+    }
+
+    .legend-item {
+        font-size: 0.8rem;
+    }
+}
+
+/* ==========================================
+   UTILITIES
+   ========================================== */
+
+.modal-backdrop.show {
+    opacity: 0.65;
+}
+
+.modal.fade .modal-dialog {
+    transition: transform 0.2s ease-out;
+}
+
+#bookingModal .modal-dialog {
+    max-width: 500px;
+}
