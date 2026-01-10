@@ -155,7 +155,7 @@ body {
             <div class="col-md-6 col-lg-4">
                 <div class="lab-card">
                     <div class="lab-image">
-                        <img src="<?= BASE_URL ?>public/img/lab-1.jpg" alt="Laboratorium Startup" onerror="this.src='https://images.unsplash.com/photo-1531482615713-2afd69097998?w=400&h=250&fit=crop'">
+                        <img src="<?= BASE_URL ?>public/img/StartUp.jpg" alt="Laboratorium Startup">
                         <span class="badge-status badge-tersedia">Tersedia</span>
                     </div>
                     <div class="lab-card-body">
@@ -172,7 +172,7 @@ body {
             <div class="col-md-6 col-lg-4">
                 <div class="lab-card">
                     <div class="lab-image">
-                        <img src="<?= BASE_URL ?>public/img/lab-2.jpg" alt="Laboratorium Internet of Things" onerror="this.src='https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=400&h=250&fit=crop'">
+                        <img src="<?= BASE_URL ?>public/img/IoT.jpg" alt="Laboratorium Internet of Things">
                         <span class="badge-status badge-terpakai">Terpakai</span>
                     </div>
                     <div class="lab-card-body">
@@ -189,7 +189,7 @@ body {
             <div class="col-md-6 col-lg-4">
                 <div class="lab-card">
                     <div class="lab-image">
-                        <img src="<?= BASE_URL ?>public/img/lab-3.jpg" alt="Laboratorium Multimedia" onerror="this.src='https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=400&h=250&fit=crop'">
+                        <img src="<?= BASE_URL ?>public/img/Mulmed.jpg" alt="Laboratorium Multimedia">
                         <span class="badge-status badge-tersedia">Tersedia</span>
                     </div>
                     <div class="lab-card-body">
@@ -206,7 +206,7 @@ body {
             <div class="col-md-6 col-lg-4">
                 <div class="lab-card">
                     <div class="lab-image">
-                        <img src="<?= BASE_URL ?>public/img/lab-4.jpg" alt="Laboratorium Computer Networking" onerror="this.src='https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=250&fit=crop'">
+                        <img src="<?= BASE_URL ?>public/img/comnet.png" alt="Laboratorium Computer Networking">
                         <span class="badge-status badge-tersedia">Tersedia</span>
                     </div>
                     <div class="lab-card-body">
@@ -223,7 +223,7 @@ body {
             <div class="col-md-6 col-lg-4">
                 <div class="lab-card">
                     <div class="lab-image">
-                        <img src="<?= BASE_URL ?>public/img/lab-5.jpg" alt="Laboratorium Data Science" onerror="this.src='https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=400&h=250&fit=crop'">
+                        <img src="<?= BASE_URL ?>public/img/DS.jpg" alt="Laboratorium Data Science">
                         <span class="badge-status badge-tersedia">Tersedia</span>
                     </div>
                     <div class="lab-card-body">
@@ -240,7 +240,7 @@ body {
             <div class="col-md-6 col-lg-4">
                 <div class="lab-card">
                     <div class="lab-image">
-                        <img src="<?= BASE_URL ?>public/img/lab-6.jpg" alt="Laboratorium Computer Vision" onerror="this.src='https://images.unsplash.com/photo-1573164713988-8665fc963095?w=400&h=250&fit=crop'">
+                        <img src="<?= BASE_URL ?>public/img/CV.jpg" alt="Laboratorium Computer Vision">
                         <span class="badge-status badge-tersedia">Tersedia</span>
                     </div>
                     <div class="lab-card-body">
@@ -257,7 +257,7 @@ body {
             <div class="col-md-6 col-lg-4">
                 <div class="lab-card">
                     <div class="lab-image">
-                        <img src="<?= BASE_URL ?>public/img/lab-7.jpg" alt="Laboratorium Microcontroller" onerror="this.src='https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=400&h=250&fit=crop'">
+                        <img src="<?= BASE_URL ?>public/img/Micro.jpg" alt="Laboratorium Microcontroller" onerror="this.src='https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=400&h=250&fit=crop'">
                         <span class="badge-status badge-tersedia">Tersedia</span>
                     </div>
                     <div class="lab-card-body">
@@ -274,7 +274,7 @@ body {
             <div class="col-md-6 col-lg-4">
                 <div class="lab-card">
                     <div class="lab-image">
-                        <img src="<?= BASE_URL ?>public/img/lab-8.jpg" alt="Riset 2" onerror="this.src='https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=400&h=250&fit=crop'">
+                        <img src="<?= BASE_URL ?>public/img/Riset.jpg" alt="Riset 2" onerror="this.src='https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=400&h=250&fit=crop'">
                         <span class="badge-status badge-tersedia">Tersedia</span>
                     </div>
                     <div class="lab-card-body">
@@ -292,66 +292,98 @@ body {
 
 <!-- Embedded Critical Styles for Schedule Modal -->
 <style>
-    /* Schedule Grid */
+    /* Nested Modal - bookingModal appears above scheduleModal */
+    #bookingModal {
+        z-index: 1065 !important;
+    }
+    
+    #scheduleModal {
+        z-index: 1055 !important;
+    }
+    
+    /* Make sure bookingModal backdrop is above scheduleModal */
+    .modal-backdrop + .modal-backdrop {
+        z-index: 1060 !important;
+    }
+    
+    /* Schedule Grid - 4 columns */
     .schedule-grid-container {
         display: grid !important;
         grid-template-columns: repeat(4, 1fr) !important;
-        gap: 16px !important;
-        margin-top: 20px !important;
+        gap: 10px !important;
+        margin-top: 12px !important;
     }
     
-    @media (max-width: 992px) {
+    @media (max-width: 768px) {
         .schedule-grid-container {
             grid-template-columns: repeat(2, 1fr) !important;
         }
     }
     
-    @media (max-width: 576px) {
-        .schedule-grid-container {
-            grid-template-columns: 1fr !important;
-        }
-    }
-    
-    /* Column Box */
+    /* Column Box - Proper size */
     .schedule-col {
         background: #fff !important;
         border: 1px solid #E2E8F0 !important;
         border-radius: 8px !important;
-        padding: 16px !important;
-        min-height: 200px !important;
+        padding: 14px !important;
+        min-height: 280px !important;
     }
     
     .schedule-col-title {
-        font-size: 0.9rem !important;
+        font-size: 0.85rem !important;
         font-weight: 700 !important;
         color: #2D3748 !important;
-        margin-bottom: 16px !important;
+        margin-bottom: 12px !important;
     }
     
-    /* Praktikum Slot - White background with thin blue border */
+    /* Base Slot Item - Proper size */
     .slot-item {
-        background: #fff !important;
+        background: #EBF8FF !important;
         border: 1px solid #3182CE !important;
         border-radius: 6px !important;
         padding: 10px 12px !important;
-        margin-bottom: 10px !important;
+        margin-bottom: 8px !important;
         cursor: pointer !important;
     }
     
     .slot-item:hover {
+        opacity: 0.85 !important;
+    }
+    
+    /* Praktikum Tetap - Blue */
+    .slot-praktikum {
         background: #EBF8FF !important;
+        border: 1px solid #3182CE !important;
+    }
+    
+    /* Peminjaman Internal - Green */
+    .slot-internal {
+        background: #C6F6D5 !important;
+        border: 1px solid #38A169 !important;
+    }
+    
+    /* Peminjaman External - Red */
+    .slot-external {
+        background: #FED7D7 !important;
+        border: 1px solid #E53E3E !important;
+    }
+    
+    /* Jadwal Tergeser - Orange */
+    .slot-tergeser {
+        background: #FEEBC8 !important;
+        border: 1px solid #DD6B20 !important;
     }
     
     /* Empty Slot - Dashed border */
     .slot-item-empty {
         background: #fff !important;
         border: 1px dashed #A0AEC0 !important;
-        border-radius: 6px !important;
-        padding: 10px 12px !important;
-        margin-bottom: 10px !important;
+        border-radius: 4px !important;
+        padding: 6px 8px !important;
+        margin-bottom: 6px !important;
         cursor: pointer !important;
         color: #3182CE !important;
-        font-size: 0.85rem !important;
+        font-size: 0.65rem !important;
     }
     
     .slot-item-empty:hover {
@@ -359,36 +391,37 @@ body {
         background: #F7FAFC !important;
     }
     
-    /* Slot Labels */
+    /* Slot Labels - Very Small */
     .slot-time-label {
         color: #3182CE !important;
-        font-weight: 500 !important;
-        font-size: 0.85rem !important;
-        white-space: nowrap !important;
+        font-weight: 600 !important;
+        font-size: 0.65rem !important;
+        white-space: normal !important;
+        word-break: break-word !important;
     }
     
     .slot-class-label {
         color: #4A5568 !important;
-        font-size: 0.85rem !important;
+        font-size: 0.65rem !important;
     }
     
     /* Legend Container */
     .legend-container {
         display: flex !important;
         flex-wrap: wrap !important;
-        gap: 12px !important;
-        margin-top: 24px !important;
-        padding-top: 16px !important;
+        gap: 8px !important;
+        margin-top: 16px !important;
+        padding-top: 12px !important;
         border-top: 1px solid #E2E8F0 !important;
     }
     
-    /* Legend Items - Pill shaped buttons with border */
+    /* Legend Items - Small Pills */
     .legend-item {
         display: inline-flex !important;
         align-items: center !important;
-        padding: 6px 16px !important;
-        border-radius: 20px !important;
-        font-size: 0.8rem !important;
+        padding: 4px 10px !important;
+        border-radius: 12px !important;
+        font-size: 0.65rem !important;
         font-weight: 500 !important;
     }
     
@@ -418,13 +451,50 @@ body {
     
     /* Date Input Styling */
     #scheduleDate {
-        max-width: 160px !important;
+        max-width: 140px !important;
         border: 1px solid #E2E8F0 !important;
-        border-radius: 6px !important;
-        padding: 8px 12px !important;
-        font-size: 0.9rem !important;
+        border-radius: 4px !important;
+        padding: 5px 8px !important;
+        font-size: 0.8rem !important;
+    }
+    
+    /* Modal - Centered and properly sized */
+    #scheduleModal .modal-dialog {
+        max-width: 950px !important;
+        margin: 15px auto !important;
+    }
+    
+    #scheduleModal .modal-content {
+        border-radius: 8px !important;
+    }
+    
+    #scheduleModal .modal-header {
+        padding: 12px 16px !important;
+        border-bottom: 1px solid #E2E8F0 !important;
+    }
+    
+    #scheduleModal .modal-body {
+        padding: 20px 24px !important;
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+    }
+    
+    #scheduleModal .modal-title {
+        font-size: 1rem !important;
+        font-weight: 700 !important;
+    }
+    
+    /* Form label */
+    #scheduleModal .form-label {
+        font-size: 0.8rem !important;
+        margin-bottom: 4px !important;
+    }
+    
+    #scheduleModal .mb-4 {
+        margin-bottom: 10px !important;
     }
 </style>
+
 
 <!-- Modal: Tambah Peminjaman (Schedule View) -->
 <div class="modal fade" id="scheduleModal" tabindex="-1" aria-hidden="true">
@@ -446,45 +516,49 @@ body {
                     <!-- Lab Start Up Column -->
                     <div class="schedule-col">
                         <div class="schedule-col-title">Lab Start Up</div>
-                        <div class="slot-item" onclick="openBookingModal('Lab Start Up', '10:30-14:30', 'P. Pemrograman (A1)')">
+                        <div class="slot-item slot-praktikum" onclick="openBookingModal('Lab Start Up', '10:30-14:30', 'P. Pemrograman (A1)')">
                             <div class="slot-time-label">Praktikum Tetap : 10:30-14:30</div>
                             <div class="slot-class-label">P. Pemrograman (A1)</div>
                         </div>
-                        <div class="slot-item" onclick="openBookingModal('Lab Start Up', '14:30-18:30', 'P. Pemrograman (A2)')">
+                        <div class="slot-item slot-praktikum" onclick="openBookingModal('Lab Start Up', '14:30-18:30', 'P. Pemrograman (A2)')">
                             <div class="slot-time-label">Praktikum Tetap : 14:30-18:30</div>
                             <div class="slot-class-label">P. Pemrograman (A2)</div>
                         </div>
                         <div class="slot-item-empty" onclick="openBookingModal('Lab Start Up', '07:00-10:30', 'Kosong')">
-                            + Pinjam (Kosong 07:00-10:30))
+                            + Pinjam (Kosong 07:00-10:30)
                         </div>
                     </div>
 
                     <!-- Lab Internet of Things Column -->
                     <div class="schedule-col">
                         <div class="schedule-col-title">Lab Internet of Things</div>
-                        <div class="slot-item" onclick="openBookingModal('Lab Internet of Things', '14:30-18:29', 'P. Pemrograman (A4)')">
+                        <div class="slot-item slot-praktikum" onclick="openBookingModal('Lab Internet of Things', '14:30-18:29', 'P. Pemrograman (A4)')">
                             <div class="slot-time-label">Praktikum Tetap : 14:30-18:29</div>
                             <div class="slot-class-label">P. Pemrograman (A4)</div>
                         </div>
-                        <div class="slot-item-empty" onclick="openBookingModal('Lab Internet of Things', '07:00-14:30', 'Kosong')">
-                            + Pinjam (Kosong 07:00-14:30)
+                        <div class="slot-item slot-internal">
+                            <div class="slot-time-label">Peminjaman Internal : 09:00-11:00</div>
+                            <div class="slot-class-label">Rapat Jurusan TI</div>
+                        </div>
+                        <div class="slot-item-empty" onclick="openBookingModal('Lab Internet of Things', '07:00-09:00', 'Kosong')">
+                            + Pinjam (Kosong 07:00-09:00)
                         </div>
                     </div>
 
                     <!-- Lab Microcontroller Column -->
                     <div class="schedule-col">
                         <div class="schedule-col-title">Lab Microcontroller</div>
-                        <div class="slot-item" onclick="openBookingModal('Lab Microcontroller', '07:00-09:30', 'Microcontroller (B1)')">
+                        <div class="slot-item slot-praktikum" onclick="openBookingModal('Lab Microcontroller', '07:00-09:30', 'Microcontroller (B1)')">
                             <div class="slot-time-label">Praktikum Tetap : 07:00-09:30</div>
                             <div class="slot-class-label">Microcontroller (B1)</div>
                         </div>
-                        <div class="slot-item" onclick="openBookingModal('Lab Microcontroller', '09:40-12:10', 'Microcontroller (A7)')">
+                        <div class="slot-item slot-praktikum" onclick="openBookingModal('Lab Microcontroller', '09:40-12:10', 'Microcontroller (A7)')">
                             <div class="slot-time-label">Praktikum Tetap : 09:40-12:10</div>
                             <div class="slot-class-label">Microcontroller (A7)</div>
                         </div>
-                        <div class="slot-item" onclick="openBookingModal('Lab Microcontroller', '13:00-15:30', 'Microcontroller (A4)')">
-                            <div class="slot-time-label">Praktikum Tetap : 13:00-15:30</div>
-                            <div class="slot-class-label">Microcontroller (A4)</div>
+                        <div class="slot-item slot-external">
+                            <div class="slot-time-label">Peminjaman Eksternal : 13:00-15:30</div>
+                            <div class="slot-class-label">Pelatihan Polri Makassar</div>
                         </div>
                         <div class="slot-item-empty" onclick="openBookingModal('Lab Microcontroller', '12:10-13:00', 'Kosong')">
                             + Pinjam (Kosong 12:10-13:00)
@@ -497,19 +571,17 @@ body {
                     <!-- Lab Computer Vision Column -->
                     <div class="schedule-col">
                         <div class="schedule-col-title">Lab Computer Vision</div>
-                        <div class="slot-item" onclick="openBookingModal('Lab Computer Vision', '09:40-12:10', 'Struktur Data (A7)')">
+                        <div class="slot-item slot-praktikum" onclick="openBookingModal('Lab Computer Vision', '09:40-12:10', 'Struktur Data (A7)')">
                             <div class="slot-time-label">Praktikum Tetap : 09:40-12:10</div>
                             <div class="slot-class-label">Struktur Data (A7)</div>
                         </div>
-                        <div class="slot-item" onclick="openBookingModal('Lab Computer Vision', '13:00-15:30', 'Struktur Data (A5)')">
+                        <div class="slot-item slot-praktikum" onclick="openBookingModal('Lab Computer Vision', '13:00-15:30', 'Struktur Data (A5)')">
                             <div class="slot-time-label">Praktikum Tetap : 13:00-15:30</div>
                             <div class="slot-class-label">Struktur Data (A5)</div>
                         </div>
-                        <div class="slot-item-empty" onclick="openBookingModal('Lab Computer Vision', '07:00-09:40', 'Kosong')">
-                            + Pinjam (Kosong 07:00-09:40)
-                        </div>
-                        <div class="slot-item-empty" onclick="openBookingModal('Lab Computer Vision', '12:10-13:00', 'Kosong')">
-                            + Pinjam (Kosong 12:10-13:00)
+                        <div class="slot-item slot-tergeser">
+                            <div class="slot-time-label">Jadwal Tergeser : 07:00-09:40</div>
+                            <div class="slot-class-label">Pindah dari Lab DS</div>
                         </div>
                         <div class="slot-item-empty" onclick="openBookingModal('Lab Computer Vision', '15:30-18:25', 'Kosong')">
                             + Pinjam (Kosong 15:30-18:25)
@@ -522,15 +594,15 @@ body {
                     <!-- Lab Data Science Column -->
                     <div class="schedule-col">
                         <div class="schedule-col-title">Lab Data Science</div>
-                        <div class="slot-item" onclick="openBookingModal('Lab Data Science', '07:00-09:30', 'Basis Data II (B4)')">
+                        <div class="slot-item slot-praktikum" onclick="openBookingModal('Lab Data Science', '07:00-09:30', 'Basis Data II (B4)')">
                             <div class="slot-time-label">Praktikum Tetap : 07:00-09:30</div>
                             <div class="slot-class-label">Basis Data II (B4)</div>
                         </div>
-                        <div class="slot-item" onclick="openBookingModal('Lab Data Science', '09:40-12:15', 'Struktur Data (A8)')">
+                        <div class="slot-item slot-praktikum" onclick="openBookingModal('Lab Data Science', '09:40-12:15', 'Struktur Data (A8)')">
                             <div class="slot-time-label">Praktikum Tetap : 09:40-12:15</div>
                             <div class="slot-class-label">Struktur Data (A8)</div>
                         </div>
-                        <div class="slot-item" onclick="openBookingModal('Lab Data Science', '13:00-15:30', 'Struktur Data (A6)')">
+                        <div class="slot-item slot-praktikum" onclick="openBookingModal('Lab Data Science', '13:00-15:30', 'Struktur Data (A6)')">
                             <div class="slot-time-label">Praktikum Tetap : 13:00-15:30</div>
                             <div class="slot-class-label">Struktur Data (A6)</div>
                         </div>
@@ -581,55 +653,67 @@ body {
 
 <!-- Modal: Tambah Peminjaman (Internal) -->
 <div class="modal fade" id="bookingModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" style="max-width: 420px;">
-        <div class="modal-content" style="border-radius: 8px; border: none;">
-            <div class="modal-header" style="border-bottom: 1px solid #E2E8F0; padding: 16px 20px;">
-                <h5 class="modal-title" style="font-size: 1.1rem; font-weight: 700;">Tambah Peminjaman (Internal)</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body" style="padding: 20px;">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 450px;">
+        <div class="modal-content" style="border-radius: 12px; border: none; box-shadow: 0 10px 40px rgba(0,0,0,0.15);">
+            <div class="modal-body" style="padding: 20px 18px;">
+                <!-- Title -->
+                <h5 style="font-size: 1rem; font-weight: 700; color: #1A202C; margin-bottom: 14px;">Tambah Peminjaman (Internal)</h5>
+                
                 <form id="bookingForm">
-                    <div class="row g-3">
-                        <div class="col-6">
-                            <label class="form-label" style="font-size: 0.85rem; color: #4A5568; margin-bottom: 6px;">Tanggal</label>
-                            <input type="date" class="form-control" id="bookingDate" value="2025-12-24" style="border: 1px solid #E2E8F0; border-radius: 6px; font-size: 0.9rem; padding: 8px 12px;">
+                    <!-- Tanggal & Hari -->
+                    <div class="row" style="margin-bottom: 10px;">
+                        <div class="col-6" style="padding-right: 6px;">
+                            <label style="font-size: 0.7rem; color: #4A5568; margin-bottom: 4px; display: block;">Tanggal</label>
+                            <input type="text" class="form-control" id="bookingDate" value="2025-12-24" readonly style="border: 1px solid #E2E8F0; border-radius: 6px; font-size: 0.8rem; padding: 8px 10px; background: #fff;">
                         </div>
-                        <div class="col-6">
-                            <label class="form-label" style="font-size: 0.85rem; color: #4A5568; margin-bottom: 6px;">Hari</label>
-                            <input type="text" class="form-control" id="bookingDay" value="RABU" readonly style="border: 1px solid #E2E8F0; border-radius: 6px; font-size: 0.9rem; padding: 8px 12px; background: #fff;">
-                        </div>
-                        <div class="col-12">
-                            <label class="form-label" style="font-size: 0.85rem; color: #4A5568; margin-bottom: 6px;">Laboratorium</label>
-                            <input type="text" class="form-control" id="bookingLab" value="Lab IoT" readonly style="border: 1px solid #E2E8F0; border-radius: 6px; font-size: 0.9rem; padding: 8px 12px; background: #fff;">
-                        </div>
-                        <div class="col-6">
-                            <label class="form-label" style="font-size: 0.85rem; color: #4A5568; margin-bottom: 6px;">Jam Mulai</label>
-                            <input type="time" class="form-control" id="jamMulai" value="07:00" style="border: 1px solid #E2E8F0; border-radius: 6px; font-size: 0.9rem; padding: 8px 12px;">
-                        </div>
-                        <div class="col-6">
-                            <label class="form-label" style="font-size: 0.85rem; color: #4A5568; margin-bottom: 6px;">Jam Selesai</label>
-                            <input type="time" class="form-control" id="jamSelesai" value="08:00" style="border: 1px solid #E2E8F0; border-radius: 6px; font-size: 0.9rem; padding: 8px 12px;">
-                        </div>
-                        <div class="col-12">
-                            <div style="background: #F7FAFC; border-radius: 6px; padding: 12px; border: 1px solid #E2E8F0;">
-                                <div style="font-weight: 600; font-size: 0.85rem; color: #2D3748; margin-bottom: 4px;">Slot kosong: 09:40-10:30</div>
-                                <div style="font-size: 0.8rem; color: #718096;">Pilih jam mulai/selesai di dalam slot kosong.</div>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <label class="form-label" style="font-size: 0.85rem; color: #4A5568; margin-bottom: 6px;">Nama Peminjam</label>
-                            <input type="text" class="form-control" value="Admin" id="namaPeminjam" style="border: 1px solid #E2E8F0; border-radius: 6px; font-size: 0.9rem; padding: 8px 12px;">
-                        </div>
-                        <div class="col-12">
-                            <label class="form-label" style="font-size: 0.85rem; color: #4A5568; margin-bottom: 6px;">Nama Kegiatan</label>
-                            <input type="text" class="form-control" value="Ujian Sertifikasi" id="namaKegiatan" style="border: 1px solid #E2E8F0; border-radius: 6px; font-size: 0.9rem; padding: 8px 12px;">
+                        <div class="col-6" style="padding-left: 6px;">
+                            <label style="font-size: 0.7rem; color: #4A5568; margin-bottom: 4px; display: block;">Hari</label>
+                            <input type="text" class="form-control" id="bookingDay" value="RABU" readonly style="border: 1px solid #E2E8F0; border-radius: 6px; font-size: 0.8rem; padding: 8px 10px; background: #fff;">
                         </div>
                     </div>
+                    
+                    <!-- Laboratorium -->
+                    <div style="margin-bottom: 10px;">
+                        <label style="font-size: 0.7rem; color: #4A5568; margin-bottom: 4px; display: block;">Laboratorium</label>
+                        <input type="text" class="form-control" id="bookingLab" value="Lab IoT" readonly style="border: 1px solid #E2E8F0; border-radius: 6px; font-size: 0.8rem; padding: 8px 10px; background: #fff;">
+                    </div>
+                    
+                    <!-- Jam Mulai & Jam Selesai -->
+                    <div class="row" style="margin-bottom: 10px;">
+                        <div class="col-6" style="padding-right: 6px;">
+                            <label style="font-size: 0.7rem; color: #4A5568; margin-bottom: 4px; display: block;">Jam Mulai</label>
+                            <input type="text" class="form-control" id="jamMulai" value="07.00" style="border: 1px solid #E2E8F0; border-radius: 6px; font-size: 0.8rem; padding: 8px 10px;">
+                        </div>
+                        <div class="col-6" style="padding-left: 6px;">
+                            <label style="font-size: 0.7rem; color: #4A5568; margin-bottom: 4px; display: block;">Jam Selesai</label>
+                            <input type="text" class="form-control" id="jamSelesai" value="08.00" style="border: 1px solid #E2E8F0; border-radius: 6px; font-size: 0.8rem; padding: 8px 10px;">
+                        </div>
+                    </div>
+                    
+                    <!-- Slot Info Box -->
+                    <div style="background: #F7FAFC; border-radius: 6px; padding: 10px 12px; border: 1px solid #E2E8F0; margin-bottom: 10px;">
+                        <div style="font-weight: 600; font-size: 0.75rem; color: #2D3748;">Slot kosong: 09:40-10:30</div>
+                        <div style="font-size: 0.65rem; color: #718096;">Pilih jam mulai/selesai di dalam slot kosong.</div>
+                    </div>
+                    
+                    <!-- Nama Peminjam -->
+                    <div style="margin-bottom: 10px;">
+                        <label style="font-size: 0.7rem; color: #4A5568; margin-bottom: 4px; display: block;">Nama Peminjam</label>
+                        <input type="text" class="form-control" id="namaPeminjam" value="Admin" style="border: 1px solid #E2E8F0; border-radius: 6px; font-size: 0.8rem; padding: 8px 10px;">
+                    </div>
+                    
+                    <!-- Nama Kegiatan -->
+                    <div style="margin-bottom: 16px;">
+                        <label style="font-size: 0.7rem; color: #4A5568; margin-bottom: 4px; display: block;">Nama Kegiatan</label>
+                        <input type="text" class="form-control" id="namaKegiatan" value="Ujian Sertifikasi" style="border: 1px solid #E2E8F0; border-radius: 6px; font-size: 0.8rem; padding: 8px 10px;">
+                    </div>
+                    
+                    <!-- Buttons -->
+                    <div style="display: flex; justify-content: flex-end; gap: 10px;">
+                        <button type="button" class="btn" data-bs-dismiss="modal" style="background: #fff; border: 1px solid #E2E8F0; color: #4A5568; padding: 8px 20px; border-radius: 6px; font-size: 0.75rem;">Batal</button>
+                        <button type="button" class="btn" onclick="submitBooking()" style="background: #1E3A5F; color: #fff; border: none; padding: 8px 16px; border-radius: 6px; font-size: 0.75rem;">Simpan Peminjaman</button>
+                    </div>
                 </form>
-            </div>
-            <div class="modal-footer" style="border-top: none; padding: 12px 20px 20px 20px; justify-content: center; gap: 12px;">
-                <button type="button" class="btn" data-bs-dismiss="modal" style="background: #fff; border: 1px solid #E2E8F0; color: #4A5568; padding: 8px 24px; border-radius: 6px; font-size: 0.9rem;">Batal</button>
-                <button type="button" class="btn btn-primary" onclick="submitBooking()" style="background: #3182CE; border: none; padding: 8px 20px; border-radius: 6px; font-size: 0.9rem;">Simpan Peminjaman</button>
             </div>
         </div>
     </div>
@@ -642,18 +726,21 @@ function openScheduleModal() {
 }
 
 function openBookingModal(labName, timeSlot, className) {
-    // Close schedule modal first
-    const scheduleModal = bootstrap.Modal.getInstance(document.getElementById('scheduleModal'));
-    if (scheduleModal) {
-        scheduleModal.hide();
+    // Set the lab name in booking modal
+    document.getElementById('bookingLab').value = labName;
+    
+    // Get or create booking modal instance
+    let bookingModalEl = document.getElementById('bookingModal');
+    let bookingModal = bootstrap.Modal.getInstance(bookingModalEl);
+    
+    if (!bookingModal) {
+        bookingModal = new bootstrap.Modal(bookingModalEl, {
+            backdrop: 'static',
+            keyboard: false
+        });
     }
     
-    // Open booking modal
-    setTimeout(() => {
-        document.getElementById('bookingLab').value = labName;
-        const modal = new bootstrap.Modal(document.getElementById('bookingModal'));
-        modal.show();
-    }, 300);
+    bookingModal.show();
 }
 
 function submitBooking() {
