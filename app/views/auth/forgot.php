@@ -1,47 +1,35 @@
 <div class="auth-page-container">
     <div class="auth-card text-center">
-        <h2 class="fw-bold mb-1 text-white">Masuk ke Akun</h2>
+        <h2 class="fw-bold mb-1 text-white">Lupa Password</h2>
         <p class="mb-1 text-white-50">Peminjaman Lab</p>
-        <p class="small mb-4 text-white-50 opacity-75">Silakan masuk untuk melanjutkan akses laboratorium</p>
+        <p class="small mb-4 text-white-50 opacity-75">Masukkan email Anda dan kami akan mengirimkan link untuk reset password</p>
 
-        <form method="post" action="<?= BASE_URL ?>/auth/login">
-            <div class="mb-3 text-start">
+        <form method="post" action="<?= BASE_URL ?>/auth/sendResetLink">
+            <div class="mb-4 text-start">
                 <label class="form-label small fw-semibold text-white-50">Email</label>
                 <div class="input-group-custom">
-                    <input type="email" class="form-control" name="email" placeholder="nama@email.com">
+                    <input type="email" class="form-control" name="email" placeholder="nama@email.com" required>
                 </div>
+                <small class="text-white-50 opacity-50 d-block mt-2">Kami akan mengirimkan link reset password ke email ini</small>
             </div>
 
-            <div class="mb-2 text-start">
-                <label class="form-label small fw-semibold text-white-50">Password</label>
-                <div class="input-group-custom">
-                    <input type="password" class="form-control" name="password" placeholder="Masukkan password Anda">
-                </div>
-            </div>
-
-            <div class="text-end mb-4">
-                <a href="<?= BASE_URL ?>/auth/forgot" class="auth-link-alt small text-white-50 text-decoration-none">Lupa Password?</a>
-            </div>
-
-            <button type="submit" class="btn btn-light w-100 fw-bold py-2 mb-3 rounded-3">Masuk</button>
+            <button type="submit" class="btn btn-light w-100 fw-bold py-2 mb-3 rounded-3">Kirim Link Reset</button>
         </form>
 
         <div class="position-relative my-4">
             <hr class="border-white opacity-25">
-            <span
-                class="position-absolute top-50 start-50 translate-middle bg-transparent px-2 small text-white-50">ATAU</span>
+            <span class="position-absolute top-50 start-50 translate-middle bg-transparent px-2 small text-white-50">ATAU</span>
         </div>
 
         <p class="small mb-0 text-white-50">
-            Belum punya akun?
-            <a href="<?= BASE_URL ?>/auth/register"
-                class="text-white fw-bold text-decoration-none border-bottom border-white">Daftar di sini</a>
+            Ingat password Anda?
+            <a href="<?= BASE_URL ?>/auth/login" class="text-white fw-bold text-decoration-none border-bottom border-white">Masuk di sini</a>
         </p>
     </div>
 </div>
 
 <style>
-
+    /* Menghindari tabrakan dengan header */
     .auth-page-container {
         min-height: 100vh;
         background: radial-gradient(circle at top right, #1e3a8a, #0f172a);
@@ -50,7 +38,6 @@
         justify-content: center;
         padding: 100px 20px;
         margin-top: -80px;
-        
     }
 
     .auth-card {
@@ -83,7 +70,7 @@
         border-color: rgba(255, 255, 255, 0.3) !important;
     }
 
-    .auth-link-alt:hover {
-        color: white !important;
+    small {
+        font-size: 0.75rem;
     }
 </style>
