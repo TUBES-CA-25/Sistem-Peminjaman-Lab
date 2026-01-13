@@ -59,7 +59,6 @@
             pass.required = true;
             passReq.style.display = 'inline';
             passHelp.textContent = 'Min. 8 karakter (Wajib)';
-            document.getElementById('status').checked = true;
         } else {
             title.textContent = 'Edit Pengguna';
             btn.textContent = 'Update Pengguna';
@@ -68,10 +67,7 @@
 
             document.getElementById('nama').value = data.nama;
             document.getElementById('email').value = data.email;
-            document.getElementById('posisi').value = data.posisi;
-            document.getElementById('role').value = data.role;
-            document.getElementById('username').value = data.username;
-            document.getElementById('status').checked = (data.status === 'aktif');
+            document.getElementById('posisi').value = data.status; // DB 'status' maps to ID 'posisi' select
 
             pass.required = false;
             passReq.style.display = 'none';

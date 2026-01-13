@@ -26,45 +26,21 @@
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label fw-bold">Posisi <span class="text-danger">*</span></label>
+                        <label class="form-label fw-bold">Status (Posisi) <span class="text-danger">*</span></label>
                         <select name="posisi" id="posisi" class="form-select" required>
-                            <option value="">Pilih Posisi</option>
+                            <option value="">Pilih Status</option>
                             <option value="Dosen">Dosen</option>
                             <option value="Asisten">Asisten</option>
                         </select>
-                        <div class="form-text">Hanya tersedia dua pilihan: Dosen atau Asisten</div>
+                        <div class="form-text">Role otomatis diset sebagai Internal</div>
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label fw-bold">Role <span class="text-danger">*</span></label>
-                        <select name="role" id="role" class="form-select" required>
-                            <option value="">Pilih Role</option>
-                            <option value="internal">Internal</option>
-                            <option value="eksternal">Eksternal</option>
-                        </select>
-                    </div>
-
-                    <div class="row g-3 mb-3">
-                        <div class="col-md-6">
-                            <label class="form-label fw-bold">Username <span class="text-danger">*</span></label>
-                            <input type="text" name="username" id="username" class="form-control" placeholder="username"
-                                required>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label fw-bold">Password <span class="text-danger"
-                                    id="passReq">*</span></label>
-                            <input type="password" name="password" id="password" class="form-control"
-                                placeholder="••••••••">
-                            <div class="form-text" id="passHelp">Min. 8 karakter (Wajib saat tambah)</div>
-                        </div>
-                    </div>
-
-                    <div class="mb-4">
-                        <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" name="status" id="status" value="aktif"
-                                checked>
-                            <label class="form-check-label fw-semibold" for="status">Status Aktif</label>
-                        </div>
+                        <label class="form-label fw-bold">Password <span class="text-danger"
+                                id="passReq">*</span></label>
+                        <input type="password" name="password" id="password" class="form-control"
+                            placeholder="••••••••">
+                        <div class="form-text" id="passHelp">Min. 8 karakter (Wajib saat tambah)</div>
                     </div>
 
                     <div class="d-flex justify-content-end gap-2">

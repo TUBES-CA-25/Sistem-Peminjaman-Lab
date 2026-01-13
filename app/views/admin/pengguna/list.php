@@ -15,9 +15,9 @@
                     <th class="px-4 py-3 border-0 rounded-start">No</th>
                     <th class="py-3 border-0">Nama</th>
                     <th class="py-3 border-0">Email</th>
-                    <th class="py-3 border-0">Posisi</th>
-                    <th class="py-3 border-0">Role</th>
                     <th class="py-3 border-0">Status</th>
+                    <th class="py-3 border-0">Role</th>
+                    <th class="py-3 border-0">Nomor HP</th>
                     <th class="px-4 py-3 border-0 text-end rounded-end">Aksi</th>
                 </tr>
             </thead>
@@ -34,7 +34,7 @@
                             <?= htmlspecialchars($u['email']) ?>
                         </td>
                         <td class="text-secondary u-posisi">
-                            <?= htmlspecialchars($u['posisi'] ?? '-') ?>
+                            <?= htmlspecialchars($u['status'] ?? '-') ?>
                         </td>
                         <td>
                             <?php
@@ -49,12 +49,8 @@
                                 <?= ucfirst($u['role']) ?>
                             </span>
                         </td>
-                        <td>
-                            <?php if ($u['status'] == 'aktif'): ?>
-                                <span class="badge rounded-pill bg-success-subtle text-success">Aktif</span>
-                            <?php else: ?>
-                                <span class="badge rounded-pill bg-danger-subtle text-danger">Nonaktif</span>
-                            <?php endif; ?>
+                        <td class="text-secondary u-hp">
+                            <?= htmlspecialchars($u['nomor_hp'] ?? '-') ?>
                         </td>
                         <td class="text-end px-4">
                             <div class="d-flex justify-content-end gap-2">

@@ -31,16 +31,20 @@ class Pengguna extends Controller
         $action = $_POST['action'] ?? '';
 
         if ($action === 'create' || $action === 'update') {
-            $status = isset($_POST['status']) ? 'aktif' : 'nonaktif';
+            // "Posisi" form input maps to "Status" DB column (Dosen/Asisten)
+            $statusPosisi = $_POST['posisi'] ?? '';
+
+            // Auto-assign role 'internal' if status is Dosen/Asisten
+            // If we allow other logic later, we can adjust. For now, strictly internal.
+            $role = 'internal';
 
             $data = [
                 'nama' => $_POST['nama'] ?? '',
                 'email' => $_POST['email'] ?? '',
-                'posisi' => $_POST['posisi'] ?? '',
-                'role' => $_POST['role'] ?? 'eksternal',
-                'username' => $_POST['username'] ?? '',
-                'password' => $_POST['password'] ?? '',
-                'status' => $status
+                'status' => $statusPosisi,
+                'role' => $role,
+                'nomor_hp' => $_POST['nomor_hp'] ?? '',
+                'password' => $_POST['password'] ?? ''
             ];
 
             if ($action === 'create') {
