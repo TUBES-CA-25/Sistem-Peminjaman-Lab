@@ -2,24 +2,18 @@
     <div class="auth-card text-center">
         <h2 class="fw-bold mb-1 text-white">Lupa Password</h2>
         <p class="mb-1 text-white-50">Peminjaman Lab</p>
-        <p class="small mb-4 text-white-50 opacity-75">Masukkan email dan nomor telepon Anda untuk verifikasi</p>
+        <p class="small mb-4 text-white-50 opacity-75">Masukkan email Anda dan kami akan mengirimkan link untuk reset password</p>
 
-        <form method="post" action="<?= BASE_URL ?>/auth/verifyForgot">
-            <div class="mb-3 text-start">
+        <form method="post" action="<?= BASE_URL ?>/auth/sendResetLink">
+            <div class="mb-4 text-start">
                 <label class="form-label small fw-semibold text-white-50">Email</label>
                 <div class="input-group-custom">
                     <input type="email" class="form-control" name="email" placeholder="nama@email.com" required>
                 </div>
+                <small class="text-white-50 opacity-50 d-block mt-2">Kami akan mengirimkan link reset password ke email ini</small>
             </div>
 
-            <div class="mb-4 text-start">
-                <label class="form-label small fw-semibold text-white-50">Nomor Telepon</label>
-                <div class="input-group-custom">
-                    <input type="tel" class="form-control" name="phone" placeholder="08xxxxxxxxxx" required>
-                </div>
-            </div>
-
-            <button type="submit" class="btn btn-light w-100 fw-bold py-2 mb-3 rounded-3">Verifikasi</button>
+            <button type="submit" class="btn btn-light w-100 fw-bold py-2 mb-3 rounded-3">Kirim Link Reset</button>
         </form>
 
         <div class="position-relative my-4">
@@ -35,7 +29,7 @@
 </div>
 
 <style>
-    
+    /* Menghindari tabrakan dengan header */
     .auth-page-container {
         min-height: 100vh;
         background: radial-gradient(circle at top right, #1e3a8a, #0f172a);
@@ -74,5 +68,9 @@
         background: rgba(255, 255, 255, 0.15) !important;
         box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.05) !important;
         border-color: rgba(255, 255, 255, 0.3) !important;
+    }
+
+    small {
+        font-size: 0.75rem;
     }
 </style>
