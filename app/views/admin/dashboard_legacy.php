@@ -32,7 +32,8 @@ switch ($page) {
         $content_file = __DIR__ . '/pengguna/index.php';
         break;
     case 'peminjaman':
-        $content_file = __DIR__ . '/data_peminjaman_content.php';
+        // UPDATED: Mengarah ke struktur modular peminjaman
+        $content_file = __DIR__ . '/peminjaman/index.php';
         break;
     default:
         $content_file = null;
