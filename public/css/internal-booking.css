@@ -1,44 +1,65 @@
 /* ==========================================
-   INTERNAL BOOKING PAGE - REDESIGNED
+   INTERNAL BOOKING PAGE - CONSOLIDATED CSS
+   All styles for internal/booking
    ========================================== */
 
-/* Hero Section */
+/* ==========================================
+   PAGE LAYOUT OVERRIDES
+   ========================================== */
+
+/* Hide default navbar from header.php */
+nav.navbar.navbar-expand.fixed-top {
+    display: none;
+}
+
+/* Reset body padding */
+body {
+    padding-top: 0;
+    margin-top: 0;
+}
+
+/* ==========================================
+   HERO SECTION
+   ========================================== */
+
 .hero-section-internal {
-    background: linear-gradient(135deg, #2C5282 0%, #1E3A5F 100%);
-    padding: 50px 0 40px 0;
-    margin-top: -80px;
-    padding-top: 120px;
+    background: linear-gradient(135deg, #2C5282 0%, #1A365D 100%);
+    padding: 60px 0;
+    margin-top: 56px;
 }
 
 .hero-section-internal h1 {
     font-size: 2rem;
     font-weight: 700;
-    letter-spacing: -0.5px;
+    color: white;
 }
 
 .hero-section-internal p {
     font-size: 0.95rem;
-    opacity: 0.9;
+    color: rgba(255, 255, 255, 0.9);
 }
 
-/* Labs Section */
+/* ==========================================
+   LAB CARDS
+   ========================================== */
+
 .labs-section {
-    background-color: #FFFFFF;
+    background-color: #F7FAFC;
+    padding: 40px 0;
 }
 
-/* Lab Card */
 .lab-card {
     background: white;
     border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
     transition: all 0.3s ease;
     height: 100%;
     border: 1px solid #E2E8F0;
 }
 
 .lab-card:hover {
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
     transform: translateY(-4px);
 }
 
@@ -56,50 +77,48 @@
     object-fit: cover;
 }
 
-.badge-available {
-    position: absolute !important;
-    top: 12px !important;
-    right: 12px !important;
-    background-color: #3182CE !important;
-    color: white !important;
-    padding: 6px 16px !important;
-    border-radius: 20px !important;
-    font-size: 0.75rem !important;
-    font-weight: 600 !important;
-    z-index: 10 !important;
+.badge-status {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: white;
+    z-index: 10;
 }
 
 .badge-tersedia {
-    background-color: #3182CE !important;
+    background-color: #48BB78;
 }
 
 .badge-terpakai {
-    background-color: #ED8936 !important;
+    background-color: #ED8936;
 }
 
 .lab-card-body {
-    padding: 18px;
+    padding: 16px;
 }
 
 .lab-name {
-    font-size: 1rem;
+    font-size: 0.95rem;
     font-weight: 700;
-    color: #2D3748;
-    margin-bottom: 12px;
-    line-height: 1.3;
+    color: #1A202C;
+    margin-bottom: 10px;
 }
 
 .lab-info {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     color: #718096;
-    margin-bottom: 6px;
+    margin-bottom: 4px;
     display: flex;
     align-items: center;
     gap: 6px;
 }
 
 .lab-info i {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     color: #A0AEC0;
 }
 
@@ -118,269 +137,309 @@
 }
 
 /* ==========================================
-   SCHEDULE MODAL
+   SCHEDULE MODAL (Custom - Admin Style)
    ========================================== */
 
-#scheduleModal .modal-dialog {
-    max-width: 85%;
-    margin: 1.75rem auto;
+.p-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 1050;
+    background: rgba(0, 0, 0, .5);
+    padding: 22px;
+    align-items: center;
+    justify-content: center;
 }
 
-#scheduleModal .modal-content {
-    border-radius: 8px;
-    border: none;
-}
 
-#scheduleModal .modal-header {
-    background-color: #F7FAFC;
-    border-bottom: 1px solid #E2E8F0;
-    padding: 18px 24px;
-}
-
-#scheduleModal .modal-title {
-    font-size: 1.15rem;
-    font-weight: 700;
-    color: #2D3748;
-}
-
-#scheduleModal .modal-body {
-    padding: 24px;
-    max-height: 75vh;
-    overflow-y: auto;
-}
-
-/* Date Input */
-.date-input {
-    max-width: 200px;
-    border: 1px solid #CBD5E0;
-    border-radius: 6px;
-    padding: 8px 12px;
-    font-size: 0.9rem;
-}
-
-.date-input:focus {
-    border-color: #3182CE;
-    box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1);
-}
-
-/* Schedule Grid */
-.schedule-grid {
-    display: grid !important;
-    grid-template-columns: repeat(4, 1fr) !important;
-    gap: 16px !important;
-    margin-top: 20px;
-}
-
-@media (max-width: 1200px) {
-    .schedule-grid {
-        grid-template-columns: repeat(2, 1fr) !important;
-    }
-}
-
-@media (max-width: 768px) {
-    .schedule-grid {
-        grid-template-columns: 1fr !important;
-    }
-}
-
-#scheduleModal .schedule-column {
-    background: white !important;
-    border: 1px solid #E2E8F0 !important;
-    border-radius: 6px;
-    padding: 12px;
-    min-width: 0;
-}
-
-#scheduleModal .schedule-lab-title {
-    font-size: 0.9rem;
-    font-weight: 700;
-    color: #2D3748;
-    margin-bottom: 12px;
-    padding-bottom: 8px;
-    border-bottom: 2px solid #E2E8F0;
-}
-
-#scheduleModal .schedule-slot {
-    background: #F7FAFC;
-    border: 1px solid #CBD5E0;
-    border-radius: 4px;
-    padding: 8px;
-    margin-bottom: 8px;
-    font-size: 0.75rem;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-#scheduleModal .schedule-slot.available {
-    background: #EBF8FF !important;
-    border-color: #3182CE !important;
-}
-
-#scheduleModal .schedule-slot.available:hover {
-    background: #BEE3F8 !important;
-    transform: translateX(2px);
-}
-
-#scheduleModal .schedule-slot.dashed {
-    border: 1px dashed #CBD5E0 !important;
-    background: white !important;
-}
-
-#scheduleModal .schedule-slot.dashed:hover {
-    border-color: #3182CE !important;
-    background: #F7FAFC !important;
-}
-
-#scheduleModal .slot-time {
-    color: #3182CE;
-    font-weight: 600;
-    margin-bottom: 3px;
-    font-size: 0.7rem;
-}
-
-#scheduleModal .slot-class {
-    color: #4A5568;
-    font-size: 0.7rem;
-}
-
-#scheduleModal .slot-add {
-    color: #718096;
-    font-size: 0.7rem;
-    text-align: center;
-}
-
-/* Legend */
-.schedule-legend {
+.p-modal.active {
     display: flex;
-    flex-wrap: wrap;
-    gap: 20px !important;
-    padding: 16px;
-    background: #F7FAFC;
-    border-radius: 6px;
-    border: 1px solid #E2E8F0;
 }
 
-.legend-item {
+.p-modal-card {
+    width: 95%;
+    max-width: 1100px;
+    max-height: 90vh;
+    overflow: auto;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, .3);
+    animation: pSlide .18s ease-out;
+}
+
+@keyframes pSlide {
+    from {
+        transform: translateY(-12px);
+        opacity: .7
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1
+    }
+}
+
+.p-modal-head {
+    padding: 18px 22px;
+    border-bottom: 1px solid #e5e7eb;
     display: flex;
     align-items: center;
-    gap: 8px;
-    font-size: 0.85rem;
-    color: #4A5568;
+    justify-content: space-between;
 }
 
-.legend-box {
+.p-x {
     width: 40px;
-    height: 20px;
-    border-radius: 3px;
-    border: 1px solid #CBD5E0;
+    height: 40px;
+    border: none;
+    border-radius: 10px;
+    background: transparent;
+    font-size: 28px;
+    line-height: 1;
+    color: #94a3b8;
+    cursor: pointer;
 }
 
-.legend-praktikum {
-    background-color: #EBF8FF;
-    border-color: #3182CE;
+.p-x:hover {
+    background: #f1f5f9;
+    color: #475569;
 }
 
-.legend-internal {
-    background-color: #C6F6D5;
-    border-color: #38A169;
+.p-modal-body {
+    padding: 22px;
 }
 
-.legend-eksternal {
-    background-color: #FED7D7;
-    border-color: #E53E3E;
+.p-form-head {
+    display: flex;
+    gap: 12px;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    margin-bottom: 18px;
 }
 
-.legend-urgent {
-    background-color: #FEF5E7;
-    border-color: #F6AD55;
+.p-date-picker label {
+    display: block;
+    font-size: 14px;
+    font-weight: 900;
+    color: #334155;
+    margin-bottom: 8px;
+}
+
+.p-date-picker input {
+    padding: 10px 14px;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: 14px;
+    min-width: 180px;
+    outline: none;
+}
+
+.p-date-picker input:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, .12);
+}
+
+/* Labs Grid */
+.p-labs-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+    margin-bottom: 18px;
+}
+
+@media (max-width: 992px) {
+    .p-labs-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 576px) {
+    .p-labs-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.p-lab-card {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 16px;
+}
+
+.p-lab-card h3 {
+    margin: 0 0 12px 0;
+    font-size: 15px;
+    font-weight: 900;
+    color: #0f172a;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #e2e8f0;
+}
+
+.p-slot-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 /* ==========================================
-   BOOKING FORM MODAL
+   SLOT STYLING
    ========================================== */
 
-#bookingModal .modal-content {
-    border-radius: 8px;
-    border: none;
+.p-slot {
+    padding: 12px 14px;
+    border-radius: 10px;
+    font-size: 13px;
+    line-height: 1.5;
+    border: 2px solid;
 }
 
-#bookingModal .modal-header {
-    background-color: #F7FAFC;
-    border-bottom: 1px solid #E2E8F0;
-    padding: 18px 24px;
+.p-slot.praktikum {
+    background: #fff;
+    border-color: #1B3555;
+    color: #1B3555;
 }
 
-#bookingModal .modal-title {
-    font-size: 1.15rem;
+.p-slot.internal {
+    background: #CCFBF1;
+    border-color: #0D9488;
+    color: #0D9488;
+}
+
+.p-slot.eksternal {
+    background: #FEF3C7;
+    border-color: #D97706;
+    color: #D97706;
+}
+
+.p-slot.tergeser {
+    background: #FCE7F3;
+    border-color: #DB2777;
+    color: #DB2777;
+}
+
+.p-slot.available {
+    background: #fff;
+    border: 2px dashed #1B3555;
+    color: #1B3555;
+    cursor: pointer;
+    font-weight: 900;
+    transition: all 0.3s ease;
+}
+
+.p-slot.available:hover {
+    background: #1B3555;
+    color: #fff;
+    border-style: solid;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(27, 53, 85, 0.25);
+}
+
+.p-slot-label {
+    display: block;
+    font-weight: 900;
+    margin-bottom: 4px;
+}
+
+.p-slot-sub {
+    font-size: 12px;
+    opacity: 0.85;
+}
+
+/* ==========================================
+   LEGEND STYLING
+   ========================================== */
+
+.p-legend {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    padding: 16px;
+    background: #f8fafc;
+    border-radius: 12px;
+}
+
+.p-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border-radius: 24px;
+    font-size: 13px;
     font-weight: 700;
-    color: #2D3748;
+    border: 2px solid;
+    transition: all 0.3s ease;
+}
+
+.p-legend-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.p-legend-item.praktikum-tetap {
+    background: #fff;
+    border-color: #1B3555;
+    color: #1B3555;
+}
+
+.p-legend-item.peminjaman-internal {
+    background: #CCFBF1;
+    border-color: #0D9488;
+    color: #0D9488;
+}
+
+.p-legend-item.peminjaman-eksternal {
+    background: #FEF3C7;
+    border-color: #D97706;
+    color: #D97706;
+}
+
+.p-legend-item.jadwal-tergeser {
+    background: #FCE7F3;
+    border-color: #DB2777;
+    color: #DB2777;
+}
+
+.p-legend-color {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+}
+
+.p-lg-praktikum {
+    background: #1B3555;
+}
+
+.p-lg-internal {
+    background: #0D9488;
+}
+
+.p-lg-eksternal {
+    background: #D97706;
+}
+
+.p-lg-expired {
+    background: #DB2777;
+}
+
+/* ==========================================
+   BOOKING MODAL (Bootstrap)
+   ========================================== */
+
+#bookingModal .modal-dialog {
+    max-width: 450px;
+}
+
+#bookingModal .modal-content {
+    border-radius: 12px;
+    border: none;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
 }
 
 #bookingModal .modal-body {
-    padding: 24px;
-}
-
-#bookingModal .form-label {
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: #2D3748;
-    margin-bottom: 6px;
-}
-
-#bookingModal .form-control {
-    border: 1px solid #CBD5E0;
-    border-radius: 6px;
-    padding: 10px 12px;
-    font-size: 0.9rem;
-}
-
-#bookingModal .form-control:focus {
-    border-color: #3182CE;
-    box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1);
-}
-
-#bookingModal .form-control:read-only {
-    background-color: #EDF2F7;
-    color: #4A5568;
-}
-
-.slot-info {
-    background: #EBF8FF;
-    border: 1px solid #BEE3F8;
-    border-radius: 6px;
-    padding: 12px;
-    font-size: 0.85rem;
-    color: #2C5282;
-    line-height: 1.6;
-}
-
-#bookingModal .modal-footer {
-    border-top: 1px solid #E2E8F0;
-    padding: 16px 24px;
-}
-
-#bookingModal .btn-secondary {
-    background-color: #718096;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 6px;
-    font-weight: 600;
-}
-
-#bookingModal .btn-secondary:hover {
-    background-color: #4A5568;
-}
-
-#bookingModal .btn-primary {
-    background-color: #2C5282;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 6px;
-    font-weight: 600;
-}
-
-#bookingModal .btn-primary:hover {
-    background-color: #1E3A5F;
+    padding: 20px 18px;
 }
 
 /* ==========================================
@@ -391,48 +450,30 @@
     .hero-section-internal h1 {
         font-size: 1.75rem;
     }
-
-    .schedule-grid {
-        gap: 12px;
-    }
 }
 
 @media (max-width: 767px) {
     .hero-section-internal {
         padding: 40px 0;
-        padding-top: 120px;
+        margin-top: 56px;
     }
 
     .hero-section-internal h1 {
         font-size: 1.5rem;
     }
 
-    #scheduleModal .modal-dialog {
+    .p-modal-card {
         max-width: 95%;
         margin: 0.5rem auto;
     }
 
-    .schedule-legend {
-        gap: 12px;
+    .p-legend {
+        gap: 8px;
+        padding: 12px;
     }
 
-    .legend-item {
-        font-size: 0.8rem;
+    .p-legend-item {
+        font-size: 11px;
+        padding: 6px 12px;
     }
-}
-
-/* ==========================================
-   UTILITIES
-   ========================================== */
-
-.modal-backdrop.show {
-    opacity: 0.65;
-}
-
-.modal.fade .modal-dialog {
-    transition: transform 0.2s ease-out;
-}
-
-#bookingModal .modal-dialog {
-    max-width: 500px;
 }
