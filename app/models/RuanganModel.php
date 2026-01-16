@@ -17,7 +17,8 @@ class RuanganModel
     // Get All Data
     public function getAll()
     {
-        $query = "SELECT * FROM " . $this->table_name . " ORDER BY id DESC";
+        $query = "SELECT id, nama_ruangan, kapasitas, lokasi, pic, email_pic, fasilitas, deskripsi, gambar, status 
+                  FROM " . $this->table_name . " ORDER BY id DESC";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -26,7 +27,8 @@ class RuanganModel
     // Get Single Data
     public function getById($id)
     {
-        $query = "SELECT * FROM " . $this->table_name . " WHERE id = ? LIMIT 0,1";
+        $query = "SELECT id, nama_ruangan, kapasitas, lokasi, pic, email_pic, fasilitas, deskripsi, gambar, status 
+                  FROM " . $this->table_name . " WHERE id = ? LIMIT 0,1";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(1, $id);
         $stmt->execute();
@@ -121,7 +123,8 @@ class RuanganModel
     public function getAssistants()
     {
         // Requires pengguna table to exist
-        $query = "SELECT nama, email FROM pengguna WHERE role = 'internal' AND posisi = 'Asisten' AND status = 'aktif' ORDER BY nama ASC";
+        // Updated to reflect schema change: 'posisi' renamed to 'status', and old 'status' (active/inactive) removed.
+        $query = "SELECT nama, email FROM pengguna WHERE role = 'internal' AND status = 'Asisten' ORDER BY nama ASC";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);

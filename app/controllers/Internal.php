@@ -14,7 +14,7 @@ class Internal extends Controller
     public function index()
     {
         // Redirect ke booking
-        header('Location: ' . BASE_URL . '/internal/booking');
+        header('Location: ' . BASE_URL . 'internal/booking');
         exit;
     }
 

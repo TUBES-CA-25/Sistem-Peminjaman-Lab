@@ -16,7 +16,7 @@ class PenggunaModel
 
     public function getAll()
     {
-        $query = "SELECT * FROM " . $this->table_name . " ORDER BY id DESC";
+        $query = "SELECT id, nama, email, status, role, nomor_hp FROM " . $this->table_name . " ORDER BY id DESC";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -28,26 +28,23 @@ class PenggunaModel
                 SET
                     nama=:nama,
                     email=:email,
-                    posisi=:posisi,
+                    status=:status,
                     role=:role,
-                    username=:username,
-                    password=:password,
-                    status=:status";
+                    nomor_hp=:nomor_hp,
+                    password=:password";
 
         $stmt = $this->conn->prepare($query);
 
         // Sanitize & Bind
         $stmt->bindValue(":nama", htmlspecialchars(strip_tags($data['nama'])));
         $stmt->bindValue(":email", htmlspecialchars(strip_tags($data['email'])));
-        $stmt->bindValue(":posisi", htmlspecialchars(strip_tags($data['posisi'])));
+        $stmt->bindValue(":status", htmlspecialchars(strip_tags($data['status'])));
         $stmt->bindParam(":role", $data['role']);
-        $stmt->bindValue(":username", htmlspecialchars(strip_tags($data['username'])));
+        $stmt->bindValue(":nomor_hp", htmlspecialchars(strip_tags($data['nomor_hp'])));
 
         // Hash password
         $password_hash = password_hash($data['password'], PASSWORD_BCRYPT);
         $stmt->bindParam(":password", $password_hash);
-
-        $stmt->bindParam(":status", $data['status']);
 
         if ($stmt->execute()) {
             return true;
@@ -63,21 +60,19 @@ class PenggunaModel
                     SET
                         nama=:nama,
                         email=:email,
-                        posisi=:posisi,
+                        status=:status,
                         role=:role,
-                        username=:username,
-                        password=:password,
-                        status=:status
+                        nomor_hp=:nomor_hp,
+                        password=:password
                     WHERE id = :id";
         } else {
             $query = "UPDATE " . $this->table_name . "
                     SET
                         nama=:nama,
                         email=:email,
-                        posisi=:posisi,
+                        status=:status,
                         role=:role,
-                        username=:username,
-                        status=:status
+                        nomor_hp=:nomor_hp
                     WHERE id = :id";
         }
 
@@ -86,10 +81,9 @@ class PenggunaModel
         $stmt->bindParam(":id", $id);
         $stmt->bindValue(":nama", htmlspecialchars(strip_tags($data['nama'])));
         $stmt->bindValue(":email", htmlspecialchars(strip_tags($data['email'])));
-        $stmt->bindValue(":posisi", htmlspecialchars(strip_tags($data['posisi'])));
+        $stmt->bindValue(":status", htmlspecialchars(strip_tags($data['status'])));
         $stmt->bindParam(":role", $data['role']);
-        $stmt->bindValue(":username", htmlspecialchars(strip_tags($data['username'])));
-        $stmt->bindParam(":status", $data['status']);
+        $stmt->bindValue(":nomor_hp", htmlspecialchars(strip_tags($data['nomor_hp'])));
 
         if (!empty($data['password'])) {
             $password_hash = password_hash($data['password'], PASSWORD_BCRYPT);
