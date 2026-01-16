@@ -17,7 +17,9 @@ class PeminjamanModel
     // Get All Bookings
     public function getAll()
     {
-        $query = "SELECT p.*, r.nama_ruangan as lab_nama, u.nama as user_nama, u.email as user_email
+        $query = "SELECT p.id, p.user_id, p.lab_id, p.tanggal_peminjaman, p.jam_mulai, p.jam_selesai, 
+                         p.nama_peminjam, p.kegiatan, p.tipe, p.status, p.catatan,
+                         r.nama_ruangan as lab_nama, u.nama as user_nama, u.email as user_email
                   FROM " . $this->table_name . " p
                   LEFT JOIN ruangan r ON p.lab_id = r.id
                   LEFT JOIN pengguna u ON p.user_id = u.id
@@ -30,7 +32,9 @@ class PeminjamanModel
     // Get Single Booking by ID
     public function getById($id)
     {
-        $query = "SELECT p.*, r.nama_ruangan as lab_nama, u.nama as user_nama, u.email as user_email
+        $query = "SELECT p.id, p.user_id, p.lab_id, p.tanggal_peminjaman, p.jam_mulai, p.jam_selesai, 
+                         p.nama_peminjam, p.kegiatan, p.tipe, p.status, p.catatan,
+                         r.nama_ruangan as lab_nama, u.nama as user_nama, u.email as user_email
                   FROM " . $this->table_name . " p
                   LEFT JOIN ruangan r ON p.lab_id = r.id
                   LEFT JOIN pengguna u ON p.user_id = u.id

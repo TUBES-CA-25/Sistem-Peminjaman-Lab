@@ -12,18 +12,25 @@ class Jadwal extends Controller
 
         $jadwalModel = $this->model('JadwalModel');
         $ruanganModel = $this->model('RuanganModel');
+        $kelasModel = $this->model('KelasModel');
+        $matakuliahModel = $this->model('MatakuliahModel');
 
         // Fetch data for View
         $scheduleData = $jadwalModel->getAll();
         $labsData = $ruanganModel->getAll();
+        $kelasData = $kelasModel->getAll();
+        $matakuliahData = $matakuliahModel->getAll();
 
         $data = [
             'active_page' => 'jadwal',
             'title' => 'Jadwal Praktikum - Admin',
             'schedules' => $scheduleData,
-            'labs' => $labsData
+            'labs' => $labsData,
+            'kelas' => $kelasData,
+            'matakuliah' => $matakuliahData
         ];
 
+        // ... view calls ...
         $this->view('components/admin_head', $data);
         $this->view('components/admin_navbar', $data);
         $this->view('components/admin_sidebar', $data);
@@ -39,12 +46,12 @@ class Jadwal extends Controller
         if ($action === 'create' || $action === 'update') {
 
             $data = [
-                'lab_id' => $_POST['lab'] ?? '', // ID Ruangan
+                'lab_id' => $_POST['lab'] ?? '',
                 'hari' => $_POST['hari'] ?? '',
                 'jam_mulai' => $_POST['jamMulai'] ?? '',
                 'jam_selesai' => $_POST['jamSelesai'] ?? '',
-                'mata_kuliah' => $_POST['mataKuliah'] ?? '',
-                'kelas' => $_POST['kelas'] ?? ''
+                'matakuliah_id' => $_POST['mataKuliah'] ?? '', // This will now typically be an ID from select
+                'kelas_id' => $_POST['kelas'] ?? '' // This will now typically be an ID from select
             ];
 
             // Check Conflict

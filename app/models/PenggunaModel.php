@@ -16,7 +16,7 @@ class PenggunaModel
 
     public function getAll()
     {
-        $query = "SELECT * FROM " . $this->table_name . " ORDER BY id DESC";
+        $query = "SELECT id, nama, email, status, role, nomor_hp FROM " . $this->table_name . " ORDER BY id DESC";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);

@@ -32,6 +32,19 @@
 
         <ul class="sidebar-menu">
             <li class="sidebar-item">
+                <a href="<?= BASE_URL ?>kelas" class="sidebar-link <?= ($active_page === 'kelas') ? 'active' : ''; ?>">
+                    <i class="fas fa-layer-group sidebar-icon"></i>
+                    <span>Data Kelas</span>
+                </a>
+            </li>
+            <li class="sidebar-item">
+                <a href="<?= BASE_URL ?>matakuliah"
+                    class="sidebar-link <?= ($active_page === 'matakuliah') ? 'active' : ''; ?>">
+                    <i class="fas fa-book sidebar-icon"></i>
+                    <span>Data Mata Kuliah</span>
+                </a>
+            </li>
+            <li class="sidebar-item">
                 <a href="<?= BASE_URL ?>jadwal"
                     class="sidebar-link <?= ($active_page === 'jadwal') ? 'active' : ''; ?>">
                     <i class="fas fa-calendar-plus sidebar-icon"></i>

@@ -52,10 +52,10 @@
           </div>
         </td>
         <td>
-          <span style="font-weight:700; color:#334155;">${item.mata_kuliah}</span>
+          <span style="font-weight:700; color:#334155;">${item.nama_matakuliah}</span>
         </td>
         <td>
-          <span class="p-badge p-internal">${item.kelas}</span>
+          <span class="p-badge p-internal">${item.nama_kelas}</span>
         </td>
         <td style="text-align:center;">
           <div class="p-actions" style="justify-content:center;">
@@ -134,8 +134,8 @@
       document.getElementById('scheduleLab').value = item.lab_id; // Make sure Select value matches ID
       document.getElementById('scheduleJamMulai').value = item.jam_mulai;
       document.getElementById('scheduleJamSelesai').value = item.jam_selesai;
-      document.getElementById('scheduleMataKuliah').value = item.mata_kuliah;
-      document.getElementById('scheduleKelas').value = item.kelas;
+      document.getElementById('scheduleMataKuliah').value = item.matakuliah_id;
+      document.getElementById('scheduleKelas').value = item.kelas_id;
 
       title.textContent = 'Edit Jadwal Praktikum';
       modal.classList.add('active');

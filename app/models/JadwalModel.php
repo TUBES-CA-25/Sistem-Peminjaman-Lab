@@ -14,12 +14,18 @@ class JadwalModel
         $this->conn = $database->getConnection();
     }
 
-    // Get All Schedules with Lab Name
+    // Get All Schedules with Lab, Class, and Subject Names
     public function getAll()
     {
-        $query = "SELECT j.*, r.nama_ruangan as lab_nama 
+        $query = "SELECT j.id, j.lab_id, j.hari, j.jam_mulai, j.jam_selesai, 
+                         j.matakuliah_id, j.kelas_id,
+                         r.nama_ruangan as lab_nama,
+                         m.nama_matakuliah, m.kode_matakuliah,
+                         k.nama_kelas
                   FROM " . $this->table_name . " j
                   LEFT JOIN ruangan r ON j.lab_id = r.id
+                  LEFT JOIN matakuliah m ON j.matakuliah_id = m.id
+                  LEFT JOIN kelas k ON j.kelas_id = k.id
                   ORDER BY FIELD(j.hari, 'senin','selasa','rabu','kamis','jumat','sabtu','minggu'), j.jam_mulai ASC";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
@@ -29,9 +35,14 @@ class JadwalModel
     // Get Schedule by Lab and Day
     public function getByLabAndDay($labId, $hari)
     {
-        $query = "SELECT * FROM " . $this->table_name . " 
-                  WHERE lab_id = :lab_id AND hari = :hari 
-                  ORDER BY jam_mulai ASC";
+        $query = "SELECT j.id, j.lab_id, j.hari, j.jam_mulai, j.jam_selesai, 
+                         j.matakuliah_id, j.kelas_id,
+                         m.nama_matakuliah, k.nama_kelas
+                  FROM " . $this->table_name . " j
+                  LEFT JOIN matakuliah m ON j.matakuliah_id = m.id
+                  LEFT JOIN kelas k ON j.kelas_id = k.id
+                  WHERE j.lab_id = :lab_id AND j.hari = :hari 
+                  ORDER BY j.jam_mulai ASC";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':lab_id', $labId);
         $stmt->bindParam(':hari', $hari);
@@ -44,20 +55,16 @@ class JadwalModel
     {
         $query = "INSERT INTO " . $this->table_name . "
                   SET lab_id=:lab_id, hari=:hari, jam_mulai=:jam_mulai, jam_selesai=:jam_selesai,
-                      mata_kuliah=:mata_kuliah, kelas=:kelas";
+                      matakuliah_id=:matakuliah_id, kelas_id=:kelas_id";
 
         $stmt = $this->conn->prepare($query);
-
-        // Sanitize
-        $data['mata_kuliah'] = htmlspecialchars(strip_tags($data['mata_kuliah']));
-        $data['kelas'] = htmlspecialchars(strip_tags($data['kelas']));
 
         $stmt->bindParam(":lab_id", $data['lab_id']);
         $stmt->bindParam(":hari", $data['hari']);
         $stmt->bindParam(":jam_mulai", $data['jam_mulai']);
         $stmt->bindParam(":jam_selesai", $data['jam_selesai']);
-        $stmt->bindParam(":mata_kuliah", $data['mata_kuliah']);
-        $stmt->bindParam(":kelas", $data['kelas']);
+        $stmt->bindParam(":matakuliah_id", $data['matakuliah_id']);
+        $stmt->bindParam(":kelas_id", $data['kelas_id']);
 
         if ($stmt->execute()) {
             return true;
@@ -70,21 +77,18 @@ class JadwalModel
     {
         $query = "UPDATE " . $this->table_name . "
                   SET lab_id=:lab_id, hari=:hari, jam_mulai=:jam_mulai, jam_selesai=:jam_selesai,
-                      mata_kuliah=:mata_kuliah, kelas=:kelas
+                      matakuliah_id=:matakuliah_id, kelas_id=:kelas_id
                   WHERE id=:id";
 
         $stmt = $this->conn->prepare($query);
-
-        $data['mata_kuliah'] = htmlspecialchars(strip_tags($data['mata_kuliah']));
-        $data['kelas'] = htmlspecialchars(strip_tags($data['kelas']));
 
         $stmt->bindParam(":id", $id);
         $stmt->bindParam(":lab_id", $data['lab_id']);
         $stmt->bindParam(":hari", $data['hari']);
         $stmt->bindParam(":jam_mulai", $data['jam_mulai']);
         $stmt->bindParam(":jam_selesai", $data['jam_selesai']);
-        $stmt->bindParam(":mata_kuliah", $data['mata_kuliah']);
-        $stmt->bindParam(":kelas", $data['kelas']);
+        $stmt->bindParam(":matakuliah_id", $data['matakuliah_id']);
+        $stmt->bindParam(":kelas_id", $data['kelas_id']);
 
         if ($stmt->execute()) {
             return true;

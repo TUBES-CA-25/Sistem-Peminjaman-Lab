@@ -65,15 +65,29 @@
       <!-- Mata Kuliah -->
       <div style="margin-bottom:12px;">
         <label for="scheduleMataKuliah" style="font-weight:900; font-size:13px; color:#334155;">Mata Kuliah</label>
-        <input id="scheduleMataKuliah" name="mataKuliah" type="text" required placeholder="e.g., Basis Data II"
-          style="width:100%; padding:10px; border-radius:10px; border:1px solid #e2e8f0; margin-top:4px;" />
+        <select id="scheduleMataKuliah" name="mataKuliah" required
+          style="width:100%; padding:10px; border-radius:10px; border:1px solid #e2e8f0; margin-top:4px;">
+          <option value="">Pilih Mata Kuliah</option>
+          <?php if (!empty($data['matakuliah'])): ?>
+            <?php foreach ($data['matakuliah'] as $mk): ?>
+              <option value="<?= $mk['id'] ?>"><?= $mk['nama_matakuliah'] ?> (<?= $mk['kode_matakuliah'] ?>)</option>
+            <?php endforeach; ?>
+          <?php endif; ?>
+        </select>
       </div>
 
       <!-- Kelas -->
       <div style="margin-bottom:18px;">
         <label for="scheduleKelas" style="font-weight:900; font-size:13px; color:#334155;">Kelas</label>
-        <input id="scheduleKelas" name="kelas" type="text" required placeholder="e.g., B4, A1, A2"
-          style="width:100%; padding:10px; border-radius:10px; border:1px solid #e2e8f0; margin-top:4px;" />
+        <select id="scheduleKelas" name="kelas" required
+          style="width:100%; padding:10px; border-radius:10px; border:1px solid #e2e8f0; margin-top:4px;">
+          <option value="">Pilih Kelas</option>
+          <?php if (!empty($data['kelas'])): ?>
+            <?php foreach ($data['kelas'] as $kls): ?>
+              <option value="<?= $kls['id'] ?>"><?= $kls['nama_kelas'] ?></option>
+            <?php endforeach; ?>
+          <?php endif; ?>
+        </select>
       </div>
 
       <!-- Action Buttons -->
