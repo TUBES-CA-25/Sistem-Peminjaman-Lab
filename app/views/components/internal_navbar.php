@@ -1,3 +1,6 @@
+<!-- Internal Pages CSS -->
+<link rel="stylesheet" href="<?= BASE_URL ?>public/css/internal-booking.css">
+
 <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top">
   <div class="container">
 
