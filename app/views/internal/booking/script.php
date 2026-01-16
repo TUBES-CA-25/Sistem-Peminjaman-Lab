@@ -5,12 +5,44 @@
 
 <script>
 // ===== MODAL 1: Schedule Modal (Custom) =====
-function openScheduleModal() {
-    document.getElementById('scheduleModal').classList.add('active');
+function openScheduleModal(labId, labName) {
+    const scheduleModal = document.getElementById('scheduleModal');
+    const modalCard = scheduleModal.querySelector('.p-modal-card');
+    const allLabsData = document.getElementById('allLabsData');
+    const singleLabGrid = document.getElementById('singleLabGrid');
+    
+    // Clear existing content
+    singleLabGrid.innerHTML = '';
+    
+    // Find the lab data
+    const labDataElements = allLabsData.querySelectorAll('.lab-data');
+    labDataElements.forEach(function(labData) {
+        if (parseInt(labData.getAttribute('data-lab-id')) === labId) {
+            // Clone and append the lab card
+            const labCard = labData.querySelector('.p-lab-card').cloneNode(true);
+            singleLabGrid.appendChild(labCard);
+        }
+    });
+    
+    // Update grid and modal styling for single lab
+    singleLabGrid.style.gridTemplateColumns = '1fr';
+    singleLabGrid.style.maxWidth = 'none';
+    singleLabGrid.style.margin = '0';
+    
+    // Make modal narrower for single lab
+    modalCard.style.maxWidth = '480px';
+    
+    scheduleModal.classList.add('active');
 }
 
 function closeScheduleModal() {
-    document.getElementById('scheduleModal').classList.remove('active');
+    const scheduleModal = document.getElementById('scheduleModal');
+    const modalCard = scheduleModal.querySelector('.p-modal-card');
+    
+    // Reset modal width to default
+    modalCard.style.maxWidth = '';
+    
+    scheduleModal.classList.remove('active');
 }
 
 // ===== MODAL 2: Booking Form Modal (Bootstrap) =====
@@ -82,10 +114,37 @@ document.getElementById('scheduleModal').addEventListener('click', function(e) {
 document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') {
         const bookingModal = document.getElementById('bookingModal');
+        const viewModal = document.getElementById('viewScheduleModal');
+        
         // Only close schedule modal if booking modal is not visible
         if (!bookingModal.classList.contains('show')) {
             closeScheduleModal();
         }
+        
+        // Close view modal if it's open
+        if (viewModal && viewModal.classList.contains('active')) {
+            closeViewScheduleModal();
+        }
+    }
+});
+
+// ===== MODAL 3: View Schedule Modal (Read-Only) =====
+function openViewScheduleModal() {
+    document.getElementById('viewScheduleModal').classList.add('active');
+}
+
+function closeViewScheduleModal() {
+    document.getElementById('viewScheduleModal').classList.remove('active');
+}
+
+function changeViewDate(newDate) {
+    window.location.href = '<?= BASE_URL ?>internal/booking?date=' + newDate;
+}
+
+// Close view schedule modal on backdrop click
+document.getElementById('viewScheduleModal').addEventListener('click', function(e) {
+    if (e.target === this) {
+        closeViewScheduleModal();
     }
 });
 </script>

@@ -20,43 +20,50 @@
             </div>
 
 
-            <div class="p-labs-grid">
+            <div class="p-labs-grid" id="singleLabGrid">
+                <!-- Content will be populated by JavaScript -->
+            </div>
+
+            <!-- Hidden template for all labs data -->
+            <div style="display: none;" id="allLabsData">
                 <?php foreach ($data['labs'] as $lab): 
                     $jadwalLab = getJadwalLab($data['jadwal_tetap'], $lab['id'], $data['selected_day']);
                     $peminjamanLab = getPeminjamanLab($data['peminjaman'], $lab['id'], $data['selected_date']);
                     $slotKosong = getSlotKosong($jadwalLab, $peminjamanLab);
                 ?>
-                <div class="p-lab-card">
-                    <h3><?= htmlspecialchars($lab['short_name']) ?></h3>
-                    <div class="p-slot-list">
-                        <?php // Praktikum Tetap ?>
-                        <?php foreach ($jadwalLab as $j): ?>
-                        <div class="p-slot praktikum" onclick="openBookingModal('<?= htmlspecialchars($lab['short_name']) ?>', '<?= $j['jam_mulai'] ?>', '<?= $j['jam_selesai'] ?>')">
-                            <span class="p-slot-label">Praktikum: <?= $j['jam_mulai'] ?>-<?= $j['jam_selesai'] ?></span>
-                            <span class="p-slot-sub"><?= htmlspecialchars($j['matkul']) ?> (<?= $j['kelas'] ?>)</span>
+                <div class="lab-data" data-lab-id="<?= $lab['id'] ?>" data-lab-name="<?= htmlspecialchars($lab['short_name']) ?>">
+                    <div class="p-lab-card">
+                        <h3><?= htmlspecialchars($lab['short_name']) ?></h3>
+                        <div class="p-slot-list">
+                            <?php // Praktikum Tetap ?>
+                            <?php foreach ($jadwalLab as $j): ?>
+                            <div class="p-slot praktikum" onclick="openBookingModal('<?= htmlspecialchars($lab['short_name']) ?>', '<?= $j['jam_mulai'] ?>', '<?= $j['jam_selesai'] ?>')">
+                                <span class="p-slot-label">Praktikum: <?= $j['jam_mulai'] ?>-<?= $j['jam_selesai'] ?></span>
+                                <span class="p-slot-sub"><?= htmlspecialchars($j['matkul']) ?> (<?= $j['kelas'] ?>)</span>
+                            </div>
+                            <?php endforeach; ?>
+                            
+                            <?php // Peminjaman ?>
+                            <?php foreach ($peminjamanLab as $p): ?>
+                            <?php 
+                                $slotClass = 'internal';
+                                $slotLabel = 'Internal';
+                                if ($p['type'] == 'external') { $slotClass = 'eksternal'; $slotLabel = 'Eksternal'; }
+                                elseif ($p['type'] == 'tergeser') { $slotClass = 'tergeser'; $slotLabel = 'Tergeser'; }
+                            ?>
+                            <div class="p-slot <?= $slotClass ?>">
+                                <span class="p-slot-label"><?= $slotLabel ?>: <?= $p['jam_mulai'] ?>-<?= $p['jam_selesai'] ?></span>
+                                <span class="p-slot-sub"><?= htmlspecialchars($p['keterangan']) ?></span>
+                            </div>
+                            <?php endforeach; ?>
+                            
+                            <?php // Slot Kosong ?>
+                            <?php foreach ($slotKosong as $k): ?>
+                            <div class="p-slot available" onclick="openBookingModal('<?= htmlspecialchars($lab['short_name']) ?>', '<?= $k['mulai'] ?>', '<?= $k['selesai'] ?>')">
+                                + Pinjam (Kosong <?= $k['mulai'] ?>-<?= $k['selesai'] ?>)
+                            </div>
+                            <?php endforeach; ?>
                         </div>
-                        <?php endforeach; ?>
-                        
-                        <?php // Peminjaman ?>
-                        <?php foreach ($peminjamanLab as $p): ?>
-                        <?php 
-                            $slotClass = 'internal';
-                            $slotLabel = 'Internal';
-                            if ($p['type'] == 'external') { $slotClass = 'eksternal'; $slotLabel = 'Eksternal'; }
-                            elseif ($p['type'] == 'tergeser') { $slotClass = 'tergeser'; $slotLabel = 'Tergeser'; }
-                        ?>
-                        <div class="p-slot <?= $slotClass ?>">
-                            <span class="p-slot-label"><?= $slotLabel ?>: <?= $p['jam_mulai'] ?>-<?= $p['jam_selesai'] ?></span>
-                            <span class="p-slot-sub"><?= htmlspecialchars($p['keterangan']) ?></span>
-                        </div>
-                        <?php endforeach; ?>
-                        
-                        <?php // Slot Kosong ?>
-                        <?php foreach ($slotKosong as $k): ?>
-                        <div class="p-slot available" onclick="openBookingModal('<?= htmlspecialchars($lab['short_name']) ?>', '<?= $k['mulai'] ?>', '<?= $k['selesai'] ?>')">
-                            + Pinjam (Kosong <?= $k['mulai'] ?>-<?= $k['selesai'] ?>)
-                        </div>
-                        <?php endforeach; ?>
                     </div>
                 </div>
                 <?php endforeach; ?>
@@ -139,6 +146,79 @@
                         <button type="button" class="btn" onclick="submitBooking()" style="background: #1E3A5F; color: #fff; border: none; padding: 8px 16px; border-radius: 6px; font-size: 0.75rem;">Simpan Peminjaman</button>
                     </div>
                 </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: View Schedule (Read-Only) -->
+<div id="viewScheduleModal" class="p-modal">
+    <div class="p-modal-card">
+        <div class="p-modal-head">
+            <h2 style="margin:0; font-size:20px; font-weight:900; color:#0f172a;">Lihat Jadwal Laboratorium</h2>
+            <button type="button" class="p-x" onclick="closeViewScheduleModal()">&times;</button>
+        </div>
+
+        <div class="p-modal-body">
+            <div class="p-form-head" style="align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;">
+                <div class="p-date-picker" style="flex-grow:1;">
+                    <label for="viewScheduleDate">Tanggal</label>
+                    <input type="date" id="viewScheduleDate" value="<?= htmlspecialchars($data['selected_date']) ?>" onchange="changeViewDate(this.value)" />
+                </div>
+            </div>
+
+            <div class="p-labs-grid">
+                <?php foreach ($data['labs'] as $lab): 
+                    $jadwalLab = getJadwalLab($data['jadwal_tetap'], $lab['id'], $data['selected_day']);
+                    $peminjamanLab = getPeminjamanLab($data['peminjaman'], $lab['id'], $data['selected_date']);
+                    $slotKosong = getSlotKosong($jadwalLab, $peminjamanLab);
+                ?>
+                <div class="p-lab-card">
+                    <h3><?= htmlspecialchars($lab['short_name']) ?></h3>
+                    <div class="p-slot-list">
+                        <?php // Praktikum Tetap ?>
+                        <?php foreach ($jadwalLab as $j): ?>
+                        <div class="p-slot praktikum" style="cursor: default;">
+                            <span class="p-slot-label">Praktikum: <?= $j['jam_mulai'] ?>-<?= $j['jam_selesai'] ?></span>
+                            <span class="p-slot-sub"><?= htmlspecialchars($j['matkul']) ?> (<?= $j['kelas'] ?>)</span>
+                        </div>
+                        <?php endforeach; ?>
+                        
+                        <?php // Peminjaman ?>
+                        <?php foreach ($peminjamanLab as $p): ?>
+                        <?php 
+                            $slotClass = 'internal';
+                            $slotLabel = 'Internal';
+                            if ($p['type'] == 'external') { $slotClass = 'eksternal'; $slotLabel = 'Eksternal'; }
+                            elseif ($p['type'] == 'tergeser') { $slotClass = 'tergeser'; $slotLabel = 'Tergeser'; }
+                        ?>
+                        <div class="p-slot <?= $slotClass ?>" style="cursor: default;">
+                            <span class="p-slot-label"><?= $slotLabel ?>: <?= $p['jam_mulai'] ?>-<?= $p['jam_selesai'] ?></span>
+                            <span class="p-slot-sub"><?= htmlspecialchars($p['keterangan']) ?></span>
+                        </div>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+                <?php endforeach; ?>
+            </div>
+
+            <div class="p-legend">
+                <div class="p-legend-item praktikum-tetap">
+                    <span class="p-legend-color p-lg-praktikum"></span>
+                    Praktikum Tetap
+                </div>
+                <div class="p-legend-item peminjaman-internal">
+                    <span class="p-legend-color p-lg-internal"></span>
+                    Peminjaman Internal
+                </div>
+                <div class="p-legend-item peminjaman-eksternal">
+                    <span class="p-legend-color p-lg-eksternal"></span>
+                    Peminjaman Eksternal
+                </div>
+                <div class="p-legend-item jadwal-tergeser">
+                    <span class="p-legend-color p-lg-expired"></span>
+                    Jadwal Tergeser
+                </div>
             </div>
         </div>
     </div>

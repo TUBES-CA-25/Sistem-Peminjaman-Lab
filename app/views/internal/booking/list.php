@@ -22,7 +22,7 @@
                         <p class="lab-info"><i class="bi bi-people-fill"></i> Kapasitas: <?= $lab['capacity'] ?> orang</p>
                         <p class="lab-info"><i class="bi bi-building"></i> <?= htmlspecialchars($lab['building']) ?></p>
                         <p class="lab-info"><i class="bi bi-person-badge"></i> <?= htmlspecialchars($lab['pic']) ?></p>
-                        <button class="btn btn-primary w-100" onclick="openScheduleModal()">Booking</button>
+                        <button class="btn btn-primary w-100" onclick="openScheduleModal(<?= $lab['id'] ?>, '<?= htmlspecialchars($lab['short_name']) ?>')">Booking</button>
                     </div>
                 </div>
             </div>
