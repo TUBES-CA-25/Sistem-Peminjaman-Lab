@@ -13,9 +13,6 @@
                         <img src="<?= BASE_URL ?>public/img/<?= htmlspecialchars($lab['image']) ?>" 
                              alt="<?= htmlspecialchars($lab['name']) ?>"
                              onerror="this.src='https://images.unsplash.com/photo-1497366216548-37526070297c?w=400&h=250&fit=crop'">
-                        <span class="badge-status badge-<?= $lab['status'] ?>">
-                            <?= ucfirst($lab['status']) ?>
-                        </span>
                     </div>
                     <div class="lab-card-body">
                         <h5 class="lab-name"><?= htmlspecialchars($lab['name']) ?></h5>

@@ -51,8 +51,8 @@ let bookingModalInstance = null;
 function openBookingModal(labName, jamMulai, jamSelesai) {
     // Set form values
     document.getElementById('bookingLab').value = labName;
-    document.getElementById('jamMulai').value = jamMulai.replace(':', '.');
-    document.getElementById('jamSelesai').value = jamSelesai.replace(':', '.');
+    document.getElementById('jamMulai').value = jamMulai;
+    document.getElementById('jamSelesai').value = jamSelesai;
     document.getElementById('slotInfoText').textContent = 'Slot kosong: ' + jamMulai + '-' + jamSelesai;
     
     // Get or create Bootstrap modal instance
@@ -89,15 +89,42 @@ function submitBooking() {
         return;
     }
     
-    console.log('Booking Data:', formData);
-    alert('Peminjaman berhasil disimpan!\n\nLab: ' + formData.lab + '\nTanggal: ' + formData.tanggal + '\nWaktu: ' + formData.jamMulai + ' - ' + formData.jamSelesai);
+    // Send AJAX request to backend
+    const submitBtn = event.target;
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Menyimpan...';
     
-    // Close Bootstrap modal
-    if (bookingModalInstance) {
-        bookingModalInstance.hide();
-    }
-    
-    document.getElementById('bookingForm').reset();
+    fetch('<?= BASE_URL ?>internal/submitBooking', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({
+            tanggal: formData.tanggal,
+            lab: formData.lab,
+            jamMulai: formData.jamMulai,
+            jamSelesai: formData.jamSelesai,
+            namaPeminjam: formData.peminjam,
+            namaKegiatan: formData.kegiatan
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('✅ ' + data.message);
+            if (bookingModalInstance) bookingModalInstance.hide();
+            document.getElementById('bookingForm').reset();
+            setTimeout(() => window.location.reload(), 500);
+        } else {
+            alert('❌ ' + data.message);
+        }
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Simpan Peminjaman';
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('❌ Terjadi kesalahan. Silakan coba lagi.');
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Simpan Peminjaman';
+    });
 }
 
 // IMPORTANT: Only close schedule modal when clicking exactly on the modal backdrop (the semi-transparent area)
