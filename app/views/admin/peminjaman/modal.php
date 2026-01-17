@@ -80,6 +80,7 @@
         <label for="labDetail" style="font-weight:900; font-size:13px; color:#334155;">Laboratorium</label>
         <input id="labDetail" name="laboratorium_display" type="text" readonly
           style="width:100%; padding:10px; border-radius:10px; border:1px solid #e2e8f0; background:#f9fafb; margin-top:4px;" />
+        <input type="hidden" id="labIdDetail" name="lab" />
       </div>
 
       <!-- Jam Mulai & Selesai -->
