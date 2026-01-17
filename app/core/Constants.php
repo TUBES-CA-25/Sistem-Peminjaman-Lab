@@ -1,18 +1,27 @@
 <?php
 
-// Base URL Configuration
+// 1. Detect Protocol & Host
 $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https://' : 'http://';
 $host = $_SERVER['HTTP_HOST'];
-$script_name = dirname($_SERVER['SCRIPT_NAME']);
-$script_name = str_replace('\\', '/', $script_name); // Normalisasi slash untuk Windows form
 
-// Jika jalankan php -S localhost:8000, script_name biasanya root '/' atau kosong
-if ($script_name === '/' || $script_name === '\\') {
-    $base_url = $protocol . $host . '/';
-} else {
-    $base_url = $protocol . $host . $script_name . '/';
+// 2. Detect Script Name (Folder Path)
+$script_name = dirname($_SERVER['SCRIPT_NAME']);
+$script_name = str_replace('\\', '/', $script_name); // Normalisasi Windows
+
+// 3. Bersihkan Slash di Akhir (PENTING)
+// Agar tidak terjadi double slash //
+$script_name = rtrim($script_name, '/');
+
+// 4. Susun Base URL
+$base_url = $protocol . $host . $script_name;
+
+// 5. Pastikan Mengarah ke 'public' (SOLUSI PDF NOT FOUND)
+// Jika URL belum mengandung kata '/public', kita tambahkan manual.
+if (strpos($base_url, '/public') === false) {
+    $base_url .= '/public';
 }
 
+// 6. Definisikan Constant
 define('BASE_URL', $base_url);
 
 // Database Configuration

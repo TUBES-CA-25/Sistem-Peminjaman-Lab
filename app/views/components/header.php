@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="id">
 
-<head>
+<body class="d-flex flex-column min-vh-100">
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>ICLABS - Sistem Peminjaman Lab</title>
@@ -18,7 +18,7 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet" />
 
     <!-- Global Custom CSS -->
-    <link rel="stylesheet" href="<?= BASE_URL ?>public/css/style.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/css/style.css">
 </head>
 
 <body>
@@ -27,7 +27,7 @@
         <div class="container">
             <!-- Navbar Brand -->
             <a class="navbar-brand d-flex align-items-center gap-2" href="<?= BASE_URL ?>">
-                <img src="<?= BASE_URL ?>public/img/logo-iclabs.png" alt="Logo ICLABS">
+                <img src="<?= BASE_URL ?>/img/logo-iclabs.png" alt="Logo ICLABS">
                 <span class="font-display">ICLABS</span>
             </a>
             <!-- <span class="font-display">ICLABS</span> -->

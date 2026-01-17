@@ -1,12 +1,18 @@
 <?php
 
+// 1. Muat Konfigurasi / Konstanta DULUAN
+// Pastikan DB_HOST, DB_USER, DB_PASS, DB_NAME ada di salah satu file ini.
+// Jika Anda menyimpannya di config/config.php, aktifkan baris ini:
+//require_once 'config/config.php'; 
+
+// Jika Anda menyimpannya di core/Constants.php (seperti kode lama Anda), biarkan ini:
 require_once 'core/Constants.php';
+
+
+// 2. Muat Inti Aplikasi (Core)
 require_once 'core/App.php';
 require_once 'core/Controller.php';
-require_once 'config/Database.php';
 
-// Check if we need to load legacy Base URL config (optional, but good for transition)
-if (file_exists('config/App.php')) {
-    // We already defined BASE_URL in Constants.php, so we might skip this or ensure no conflict.
-    // For now, let's just ignore the old file to avoid re-definition errors.
-}
+// --- PERBAIKAN UTAMA ADA DISINI ---
+// Ubah dari 'config/Database.php' menjadi 'core/Database.php'
+require_once 'core/Database.php';

@@ -14,7 +14,7 @@ class Internal extends Controller
     public function index()
     {
         // Redirect ke booking
-        header('Location: ' . BASE_URL . 'internal/booking');
+        header('Location: ' . BASE_URL . '/internal/booking');
         exit;
     }
 
@@ -171,7 +171,7 @@ class Internal extends Controller
         
         $this->view('components/header', $data);
         $this->view('components/internal_navbar', $data);
-        $this->view('internal/booking/index', $data);
+        $this->view('/internal/booking/index', $data);
         $this->view('components/footer');
     }
     
