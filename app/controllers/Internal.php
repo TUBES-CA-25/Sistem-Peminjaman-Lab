@@ -107,6 +107,11 @@ class Internal extends Controller
             return 'StartUp.jpg';
         }
 
+        // If it contains 'public/storage', return as is (it's a path)
+        if (strpos($gambar, 'public/') === 0 || strpos($gambar, 'storage/') === 0) {
+            return $gambar;
+        }
+
         // If it's just a filename (from seeder), return as is
         if (strpos($gambar, '/') === false && strpos($gambar, '\\') === false) {
             return $gambar;

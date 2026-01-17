@@ -6,17 +6,11 @@
         <div class="col-md-6 col-xl-4">
             <div class="card border-0 shadow-sm h-100 lab-card">
                 <div class="position-relative">
-                    <?php 
-                    // Handle both base64 and filename
-                    if (empty($lab['gambar'])) {
-                        $imgSrc = BASE_URL . 'public/img/StartUp.jpg';
-                    } elseif (strpos($lab['gambar'], 'data:image') === 0) {
-                        // It's base64
-                        $imgSrc = $lab['gambar'];
-                    } else {
-                        // It's a filename
-                        $imgSrc = BASE_URL . 'public/img/' . $lab['gambar'];
-                    }
+                    <?php
+                    $img = $lab['gambar'];
+                    // Use stored path if it contains '/', otherwise assume it's in storage/images
+                    $path = (strpos($img, '/') !== false) ? $img : 'public/storage/images/' . $img;
+                    $imgSrc = BASE_URL . '/' . $path;
                     ?>
                     <img src="<?= htmlspecialchars($imgSrc) ?>" class="card-img-top"
                         alt="<?= htmlspecialchars($lab['nama_ruangan']) ?>" style="height: 220px; object-fit: cover;">
@@ -56,8 +50,8 @@
                             class="btn btn-primary flex-grow-1 fw-bold">
                             <i class="fas fa-edit me-1"></i> Edit
                         </button>
-                        <form action="<?= BASE_URL ?>/ruangan" method="POST" onsubmit="return confirm('Hapus ruangan ini?');"
-                            class="flex-grow-1 d-flex">
+                        <form action="<?= BASE_URL ?>/ruangan" method="POST"
+                            onsubmit="return confirm('Hapus ruangan ini?');" class="flex-grow-1 d-flex">
                             <input type="hidden" name="action" value="delete">
                             <input type="hidden" name="id" value="<?= $lab['id'] ?>">
                             <button type="submit" class="btn btn-danger w-100 fw-bold">

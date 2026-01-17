@@ -25,7 +25,7 @@
                 $('imagePreview').style.display = 'block';
                 $('uploadPlaceholder').style.display = 'none';
                 $('changePhotoBtn').style.display = 'block';
-                $('labImage').value = e.target.result;
+                // $('labImage').value = e.target.result; // No longer needed for file upload
             };
             reader.readAsDataURL(file);
         }
