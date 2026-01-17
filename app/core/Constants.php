@@ -25,7 +25,7 @@ if (strpos($base_url, '/public') === false) {
 define('BASE_URL', $base_url);
 
 // Database Configuration
-define('DB_HOST', 'localhost');
+define('DB_HOST', '127.0.0.1');
 define('DB_USER', 'root');
 define('DB_PASS', '');
 define('DB_NAME', 'tubes_ca_db');

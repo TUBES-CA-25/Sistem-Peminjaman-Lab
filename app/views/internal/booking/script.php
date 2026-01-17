@@ -94,7 +94,7 @@ function submitBooking() {
     submitBtn.disabled = true;
     submitBtn.textContent = 'Menyimpan...';
     
-    fetch('<?= BASE_URL ?>internal/submitBooking', {
+    fetch('<?= BASE_URL ?>/internal/submitBooking', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: new URLSearchParams({

@@ -11,7 +11,8 @@ class Database {
 
     public function __construct()
     {
-        $dsn = 'mysql:host=' . $this->host . ';dbname=' . $this->db_name;
+        // XAMPP Mac uses socket file
+        $dsn = 'mysql:host=' . $this->host . ';dbname=' . $this->db_name . ';unix_socket=/Applications/XAMPP/xamppfiles/var/mysql/mysql.sock';
         $option = [
             PDO::ATTR_PERSISTENT => true,
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
