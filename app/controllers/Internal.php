@@ -2,9 +2,18 @@
 
 class Internal extends Controller
 {
+    private $ruanganModel;
+    private $jadwalModel;
+    private $peminjamanModel;
+
     public function __construct()
     {
-        // Cek login & role (sesuaikan dengan logic auth Anda)
+        // Load models
+        $this->ruanganModel = $this->model('RuanganModel');
+        $this->jadwalModel = $this->model('JadwalModel');
+        $this->peminjamanModel = $this->model('PeminjamanModel');
+
+        // Cek login & role (uncomment when auth is ready)
         // if (!isset($_SESSION['user_id']) || $_SESSION['role'] != 'internal') {
         //     header('Location: ' . BASE_URL . '/auth/login');
         //     exit;
@@ -21,160 +30,212 @@ class Internal extends Controller
     public function booking()
     {
         $data['judul'] = 'Booking Laboratorium';
-        
-        // ============================================
-        // DATA SEMENTARA - Nanti diganti dari database
-        // ============================================
-        
-        // Data Laboratorium
-        $data['labs'] = [
-            [
-                'id' => 1,
-                'name' => 'Lab Start Up',
-                'short_name' => 'Lab Start Up',
-                'capacity' => 30,
-                'building' => 'Gedung F, Lantai 3',
-                'pic' => 'Dr. Budi Santoso',
-                'image' => 'StartUp.jpg',
-                'status' => 'tersedia'
-            ],
-            [
-                'id' => 2,
-                'name' => 'Lab Internet of Things',
-                'short_name' => 'Lab IoT',
-                'capacity' => 25,
-                'building' => 'Gedung E, Lantai 1',
-                'pic' => 'Dr. Budi Santoso',
-                'image' => 'IoT.jpg',
-                'status' => 'terpakai'
-            ],
-            [
-                'id' => 3,
-                'name' => 'Lab Multimedia',
-                'short_name' => 'Lab Multimedia',
-                'capacity' => 28,
-                'building' => 'Gedung F, Lantai 2',
-                'pic' => 'Dr. Budi Santoso',
-                'image' => 'Mulmed.jpg',
-                'status' => 'tersedia'
-            ],
-            [
-                'id' => 4,
-                'name' => 'Lab Computer Networking',
-                'short_name' => 'Lab Networking',
-                'capacity' => 30,
-                'building' => 'Gedung F, Lantai 3',
-                'pic' => 'Dr. Budi Santoso',
-                'image' => 'comnet.png',
-                'status' => 'tersedia'
-            ],
-            [
-                'id' => 5,
-                'name' => 'Lab Data Science',
-                'short_name' => 'Lab Data Science',
-                'capacity' => 32,
-                'building' => 'Gedung F, Lantai 1',
-                'pic' => 'Dr. Budi Santoso',
-                'image' => 'DS.jpg',
-                'status' => 'tersedia'
-            ],
-            [
-                'id' => 6,
-                'name' => 'Lab Computer Vision',
-                'short_name' => 'Lab Computer Vision',
-                'capacity' => 20,
-                'building' => 'Gedung F, Lantai 2',
-                'pic' => 'Dr. Budi Santoso',
-                'image' => 'CV.jpg',
-                'status' => 'tersedia'
-            ],
-            [
-                'id' => 7,
-                'name' => 'Lab Microcontroller',
-                'short_name' => 'Lab Microcontroller',
-                'capacity' => 25,
-                'building' => 'Gedung E, Lantai 2',
-                'pic' => 'Dr. Budi Santoso',
-                'image' => 'Micro.jpg',
-                'status' => 'tersedia'
-            ],
-            [
-                'id' => 8,
-                'name' => 'Riset 2',
-                'short_name' => 'Riset 2',
-                'capacity' => 28,
-                'building' => 'Gedung F, Lantai 3',
-                'pic' => 'Dr. Budi Santoso',
-                'image' => 'Riset.jpg',
-                'status' => 'tersedia'
-            ]
-        ];
-        
-        // Jadwal Praktikum Tetap (Pola Mingguan)
-        // Ini akan di-generate berdasarkan hari yang dipilih user
-        $data['jadwal_tetap'] = [
-            // Lab Start Up - Rabu
-            ['lab_id' => 1, 'hari' => 'Rabu', 'jam_mulai' => '10:30', 'jam_selesai' => '14:20', 'kelas' => 'A1', 'matkul' => 'P. Pemrograman'],
-            ['lab_id' => 1, 'hari' => 'Rabu', 'jam_mulai' => '14:30', 'jam_selesai' => '18:20', 'kelas' => 'A2', 'matkul' => 'P. Pemrograman'],
-            // Lab Start Up - Senin
-            ['lab_id' => 1, 'hari' => 'Senin', 'jam_mulai' => '07:00', 'jam_selesai' => '09:30', 'kelas' => 'B1', 'matkul' => 'Algoritma'],
-            ['lab_id' => 1, 'hari' => 'Senin', 'jam_mulai' => '10:00', 'jam_selesai' => '12:30', 'kelas' => 'B2', 'matkul' => 'Algoritma'],
-            
-            // Lab IoT - Rabu
-            ['lab_id' => 2, 'hari' => 'Rabu', 'jam_mulai' => '14:30', 'jam_selesai' => '18:29', 'kelas' => 'A4', 'matkul' => 'P. Pemrograman'],
-            // Lab IoT - Senin
-            ['lab_id' => 2, 'hari' => 'Senin', 'jam_mulai' => '13:00', 'jam_selesai' => '15:30', 'kelas' => 'C1', 'matkul' => 'IoT Dasar'],
-            
-            // Lab Microcontroller - Rabu
-            ['lab_id' => 7, 'hari' => 'Rabu', 'jam_mulai' => '07:00', 'jam_selesai' => '09:30', 'kelas' => 'B1', 'matkul' => 'Microcontroller'],
-            ['lab_id' => 7, 'hari' => 'Rabu', 'jam_mulai' => '09:40', 'jam_selesai' => '12:10', 'kelas' => 'A7', 'matkul' => 'Microcontroller'],
-            ['lab_id' => 7, 'hari' => 'Rabu', 'jam_mulai' => '13:00', 'jam_selesai' => '15:30', 'kelas' => 'A8', 'matkul' => 'Microcontroller'],
-            // Lab Microcontroller - Selasa
-            ['lab_id' => 7, 'hari' => 'Selasa', 'jam_mulai' => '07:00', 'jam_selesai' => '09:30', 'kelas' => 'D1', 'matkul' => 'Embedded System'],
-            
-            // Lab Computer Vision - Rabu
-            ['lab_id' => 6, 'hari' => 'Rabu', 'jam_mulai' => '09:40', 'jam_selesai' => '12:10', 'kelas' => 'A7', 'matkul' => 'Struktur Data'],
-            ['lab_id' => 6, 'hari' => 'Rabu', 'jam_mulai' => '13:00', 'jam_selesai' => '15:30', 'kelas' => 'A5', 'matkul' => 'Struktur Data'],
-            
-            // Lab Data Science - Rabu
-            ['lab_id' => 5, 'hari' => 'Rabu', 'jam_mulai' => '07:00', 'jam_selesai' => '09:30', 'kelas' => 'B4', 'matkul' => 'Basis Data II'],
-            ['lab_id' => 5, 'hari' => 'Rabu', 'jam_mulai' => '09:40', 'jam_selesai' => '12:15', 'kelas' => 'A8', 'matkul' => 'Struktur Data'],
-            ['lab_id' => 5, 'hari' => 'Rabu', 'jam_mulai' => '13:00', 'jam_selesai' => '15:30', 'kelas' => 'A6', 'matkul' => 'Struktur Data'],
-            // Lab Data Science - Senin
-            ['lab_id' => 5, 'hari' => 'Senin', 'jam_mulai' => '07:00', 'jam_selesai' => '09:30', 'kelas' => 'E1', 'matkul' => 'Data Mining'],
-        ];
-        
-        // Peminjaman (Internal, External, Tergeser)
-        // Menggunakan tanggal dinamis untuk testing
-        $today = date('Y-m-d');
-        $data['peminjaman'] = [
-            // Peminjaman Internal - hari ini
-            ['lab_id' => 2, 'tanggal' => $today, 'jam_mulai' => '09:00', 'jam_selesai' => '11:00', 'type' => 'internal', 'keterangan' => 'Rapat Jurusan TI', 'peminjam' => 'Admin'],
-            
-            // Peminjaman External - hari ini
-            ['lab_id' => 7, 'tanggal' => $today, 'jam_mulai' => '16:00', 'jam_selesai' => '18:00', 'type' => 'external', 'keterangan' => 'Pelatihan Polri Makassar', 'peminjam' => 'Polri Makassar'],
-            
-            // Jadwal Tergeser - hari ini
-            ['lab_id' => 6, 'tanggal' => $today, 'jam_mulai' => '07:00', 'jam_selesai' => '09:30', 'type' => 'tergeser', 'keterangan' => 'Pindah dari Lab DS', 'peminjam' => 'Dosen A'],
-            
-            // Contoh untuk tanggal Rabu
-            ['lab_id' => 2, 'tanggal' => '2026-01-15', 'jam_mulai' => '09:00', 'jam_selesai' => '11:00', 'type' => 'internal', 'keterangan' => 'Workshop Internal', 'peminjam' => 'Tim IT'],
-        ];
-        
-        // Tanggal yang dipilih (default hari ini atau dari parameter)
+
+        // Get all labs from database
+        $ruanganData = $this->ruanganModel->getAll();
+
+        // Transform ruangan data to match internal booking format
+        $data['labs'] = [];
+        foreach ($ruanganData as $ruangan) {
+            $data['labs'][] = [
+                'id' => $ruangan['id'],
+                'name' => $ruangan['nama_ruangan'],
+                'short_name' => $ruangan['nama_ruangan'],
+                'capacity' => $ruangan['kapasitas'],
+                'building' => $ruangan['lokasi'],
+                'pic' => $ruangan['pic'],
+                'image' => $this->extractImageFilename($ruangan['gambar']),
+                'status' => $ruangan['status'] == 1 ? 'tersedia' : 'terpakai'
+            ];
+        }
+
+        // Get selected date (default today)
         $data['selected_date'] = isset($_GET['date']) ? $_GET['date'] : date('Y-m-d');
         $data['selected_day'] = $this->getDayName($data['selected_date']);
-        
-        // ============================================
-        // END DATA SEMENTARA
-        // ============================================
-        
+
+        // Get jadwal tetap from database
+        $jadwalData = $this->jadwalModel->getAll();
+        $data['jadwal_tetap'] = [];
+
+        foreach ($jadwalData as $jadwal) {
+            $data['jadwal_tetap'][] = [
+                'lab_id' => $jadwal['lab_id'],
+                'hari' => ucfirst(strtolower($jadwal['hari'])),
+                'jam_mulai' => substr($jadwal['jam_mulai'], 0, 5),
+                'jam_selesai' => substr($jadwal['jam_selesai'], 0, 5),
+                'kelas' => $jadwal['nama_kelas'],
+                'matkul' => $jadwal['nama_matakuliah']
+            ];
+        }
+
+        // Get approved peminjaman from database
+        $peminjamanData = $this->peminjamanModel->getAll();
+        $data['peminjaman'] = [];
+
+        foreach ($peminjamanData as $peminjaman) {
+            if ($peminjaman['status'] == 'disetujui') {
+                $data['peminjaman'][] = [
+                    'lab_id' => $peminjaman['lab_id'],
+                    'tanggal' => $peminjaman['tanggal_peminjaman'],
+                    'jam_mulai' => substr($peminjaman['jam_mulai'], 0, 5),
+                    'jam_selesai' => substr($peminjaman['jam_selesai'], 0, 5),
+                    'type' => $peminjaman['tipe'],
+                    'keterangan' => $peminjaman['kegiatan'],
+                    'peminjam' => $peminjaman['nama_peminjam']
+                ];
+            }
+        }
+
         $this->view('components/header', $data);
         $this->view('components/internal_navbar', $data);
         $this->view('/internal/booking/index', $data);
         $this->view('components/footer');
     }
-    
+
+    /**
+     * Extract image filename from base64 or path
+     */
+    private function extractImageFilename($gambar)
+    {
+        // If empty, return default
+        if (empty($gambar)) {
+            return 'StartUp.jpg';
+        }
+
+        // If it's base64, return default (admin uses base64)
+        if (strpos($gambar, 'data:image') === 0) {
+            return 'StartUp.jpg';
+        }
+
+        // If it's just a filename (from seeder), return as is
+        if (strpos($gambar, '/') === false && strpos($gambar, '\\') === false) {
+            return $gambar;
+        }
+
+        // If it's a path, extract filename
+        return basename($gambar);
+    }
+
+    /**
+     * Handle booking submission from internal users
+     */
+    public function submitBooking()
+    {
+        // Only accept POST requests
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            http_response_code(405);
+            echo json_encode(['success' => false, 'message' => 'Method not allowed']);
+            return;
+        }
+
+
+        // Get POST data
+        // DEBUGGING: Log raw input
+        $debugData = print_r($_POST, true);
+        file_put_contents(__DIR__ . '/../../debug_booking.log', "POST Data:\n" . $debugData . "\n", FILE_APPEND);
+
+        $tanggal = $_POST['tanggal'] ?? '';
+        $labName = $_POST['lab'] ?? '';
+        $jamMulai = $_POST['jamMulai'] ?? '';
+        $jamSelesai = $_POST['jamSelesai'] ?? '';
+        $namaPeminjam = $_POST['namaPeminjam'] ?? '';
+        $namaKegiatan = $_POST['namaKegiatan'] ?? '';
+
+        // Validate required fields
+        if (empty($tanggal) || empty($labName) || empty($jamMulai) || empty($jamSelesai) || empty($namaPeminjam) || empty($namaKegiatan)) {
+            echo json_encode(['success' => false, 'message' => 'Semua field harus diisi']);
+            return;
+        }
+
+        // Convert time format from 07.00 to 07:00
+        $jamMulai = str_replace('.', ':', $jamMulai);
+        $jamSelesai = str_replace('.', ':', $jamSelesai);
+
+        // Validate time format
+        if (!preg_match('/^\d{2}:\d{2}$/', $jamMulai) || !preg_match('/^\d{2}:\d{2}$/', $jamSelesai)) {
+            echo json_encode(['success' => false, 'message' => 'Format waktu tidak valid']);
+            return;
+        }
+
+        // Get lab ID from lab name
+        $ruanganData = $this->ruanganModel->getAll();
+        $labId = null;
+        foreach ($ruanganData as $ruangan) {
+            if (trim($ruangan['nama_ruangan']) == trim($labName)) {
+                $labId = $ruangan['id'];
+                break;
+            }
+        }
+
+        if (!$labId) {
+            echo json_encode(['success' => false, 'message' => 'Lab tidak ditemukan']);
+            return;
+        }
+
+        // Check for conflicts with jadwal tetap
+        $hari = $this->getDayName($tanggal);
+        $jadwalData = $this->jadwalModel->getByLabAndDay($labId, strtolower($hari));
+
+        foreach ($jadwalData as $jadwal) {
+            $jadwalStart = substr($jadwal['jam_mulai'], 0, 5);
+            $jadwalEnd = substr($jadwal['jam_selesai'], 0, 5);
+
+            // Check overlap: (start < jadwal_end AND end > jadwal_start)
+            if ($jamMulai < $jadwalEnd && $jamSelesai > $jadwalStart) {
+                $matkul = $jadwal['nama_matakuliah'] ?? 'Praktikum';
+                echo json_encode([
+                    'success' => false,
+                    'message' => "Bentrok dengan jadwal praktikum: {$matkul} ({$jadwalStart}-{$jadwalEnd})"
+                ]);
+                return;
+            }
+        }
+
+        // Check for conflicts with existing peminjaman
+        try {
+            if ($this->peminjamanModel->checkConflict($labId, $tanggal, $jamMulai, $jamSelesai)) {
+                echo json_encode([
+                    'success' => false,
+                    'message' => 'Waktu yang dipilih sudah dibooking oleh user lain'
+                ]);
+                return;
+            }
+
+            // Prepare data for insertion
+            $bookingData = [
+                'user_id' => $_SESSION['user_id'] ?? null,
+                'lab_id' => $labId,
+                'tanggal_peminjaman' => $tanggal,
+                'jam_mulai' => $jamMulai,
+                'jam_selesai' => $jamSelesai,
+                'nama_peminjam' => $namaPeminjam,
+                'kegiatan' => $namaKegiatan,
+                'tipe' => 'internal',
+                'status' => 'disetujui', // Auto-approve for internal users
+                'catatan' => ''
+            ];
+
+            // Save to database
+            if ($this->peminjamanModel->create($bookingData)) {
+                echo json_encode([
+                    'success' => true,
+                    'message' => 'Booking berhasil! Status: Disetujui'
+                ]);
+            } else {
+                echo json_encode([
+                    'success' => false,
+                    'message' => 'Gagal menyimpan booking. Silakan coba lagi.'
+                ]);
+            }
+        } catch (Exception $e) {
+            // Return actual error for debugging
+            echo json_encode([
+                'success' => false,
+                'message' => 'System Error: ' . $e->getMessage()
+            ]);
+        }
+    }
+
     /**
      * Helper: Get Indonesian day name from date
      */
@@ -191,25 +252,5 @@ class Internal extends Controller
         ];
         $dayEnglish = date('l', strtotime($date));
         return $days[$dayEnglish] ?? $dayEnglish;
-    }
-    
-    /**
-     * Helper: Get jadwal for specific lab and day
-     */
-    public function getJadwalByLabAndDay($jadwalTetap, $labId, $hari)
-    {
-        return array_filter($jadwalTetap, function($j) use ($labId, $hari) {
-            return $j['lab_id'] == $labId && $j['hari'] == $hari;
-        });
-    }
-    
-    /**
-     * Helper: Get peminjaman for specific lab and date
-     */
-    public function getPeminjamanByLabAndDate($peminjaman, $labId, $tanggal)
-    {
-        return array_filter($peminjaman, function($p) use ($labId, $tanggal) {
-            return $p['lab_id'] == $labId && $p['tanggal'] == $tanggal;
-        });
     }
 }

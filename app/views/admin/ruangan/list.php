@@ -6,7 +6,18 @@
         <div class="col-md-6 col-xl-4">
             <div class="card border-0 shadow-sm h-100 lab-card">
                 <div class="position-relative">
-                    <?php $imgSrc = $lab['gambar'] ? $lab['gambar'] : '../../public/img/default-lab.jpg'; ?>
+                    <?php 
+                    // Handle both base64 and filename
+                    if (empty($lab['gambar'])) {
+                        $imgSrc = BASE_URL . 'public/img/StartUp.jpg';
+                    } elseif (strpos($lab['gambar'], 'data:image') === 0) {
+                        // It's base64
+                        $imgSrc = $lab['gambar'];
+                    } else {
+                        // It's a filename
+                        $imgSrc = BASE_URL . 'public/img/' . $lab['gambar'];
+                    }
+                    ?>
                     <img src="<?= htmlspecialchars($imgSrc) ?>" class="card-img-top"
                         alt="<?= htmlspecialchars($lab['nama_ruangan']) ?>" style="height: 220px; object-fit: cover;">
                     <span

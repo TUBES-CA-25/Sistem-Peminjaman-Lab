@@ -118,11 +118,11 @@
                     <div class="row" style="margin-bottom: 10px;">
                         <div class="col-6" style="padding-right: 6px;">
                             <label style="font-size: 0.7rem; color: #4A5568; margin-bottom: 4px; display: block;">Jam Mulai</label>
-                            <input type="text" class="form-control" id="jamMulai" value="07.00" style="border: 1px solid #E2E8F0; border-radius: 6px; font-size: 0.8rem; padding: 8px 10px;">
+                            <input type="time" class="form-control" id="jamMulai" value="07:00" step="60" style="border: 1px solid #E2E8F0; border-radius: 6px; font-size: 0.8rem; padding: 8px 10px;">
                         </div>
                         <div class="col-6" style="padding-left: 6px;">
                             <label style="font-size: 0.7rem; color: #4A5568; margin-bottom: 4px; display: block;">Jam Selesai</label>
-                            <input type="text" class="form-control" id="jamSelesai" value="08.00" style="border: 1px solid #E2E8F0; border-radius: 6px; font-size: 0.8rem; padding: 8px 10px;">
+                            <input type="time" class="form-control" id="jamSelesai" value="08:00" step="60" style="border: 1px solid #E2E8F0; border-radius: 6px; font-size: 0.8rem; padding: 8px 10px;">
                         </div>
                     </div>
                     

@@ -6,7 +6,7 @@
 //require_once 'config/config.php'; 
 
 // Jika Anda menyimpannya di core/Constants.php (seperti kode lama Anda), biarkan ini:
-require_once 'core/Constants.php';
+require_once 'config/Config.php';
 
 
 // 2. Muat Inti Aplikasi (Core)
