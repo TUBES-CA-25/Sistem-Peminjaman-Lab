@@ -20,7 +20,7 @@
             </div>
 
             <div class="text-end mb-4">
-                <a href="#" class="auth-link-alt small text-white-50 text-decoration-none">Lupa Password?</a>
+                <a href="<?= BASE_URL ?>/auth/forgot" class="auth-link-alt small text-white-50 text-decoration-none">Lupa Password?</a>
             </div>
 
             <button type="submit" class="btn btn-light w-100 fw-bold py-2 mb-3 rounded-3">Masuk</button>
@@ -41,7 +41,7 @@
 </div>
 
 <style>
-    /* Menghindari tabrakan dengan header */
+
     .auth-page-container {
         min-height: 100vh;
         background: radial-gradient(circle at top right, #1e3a8a, #0f172a);
@@ -50,7 +50,7 @@
         justify-content: center;
         padding: 100px 20px;
         margin-top: -80px;
-        /* Menarik konten ke atas agar sejajar dengan header transparan */
+        
     }
 
     .auth-card {

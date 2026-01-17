@@ -181,3 +181,622 @@ body {
     border-color: #0d6efd;
     background-color: #f8f9fa;
 }
+
+/* ===================================== */
+/* PEMINJAMAN MODULE STYLES */
+/* ===================================== */
+
+/* Action Buttons */
+.p-add-btn {
+    background: #fff;
+    color: #1F45AC;
+    border: none;
+    border-radius: 10px;
+    padding: .75rem 1.1rem;
+    font-weight: 900;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .12);
+    transition: transform 0.2s;
+    white-space: nowrap;
+}
+
+.p-add-btn:hover {
+    transform: translateY(-1px);
+}
+
+.p-export-btn {
+    background: #0f172a;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: .75rem 1.1rem;
+    font-weight: 900;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .12);
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.p-export-btn:hover {
+    background: #1f2937;
+    transform: translateY(-1px);
+}
+
+/* Table Container */
+.p-table-wrap {
+    background: #fff;
+    border-radius: 12px;
+    padding: 22px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .08);
+    overflow-x: auto;
+}
+
+/* Table Styling - CRITICAL FIX */
+.p-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed; /* IMPORTANT: Fixed layout untuk column width */
+    min-width: 1000px; /* Minimum width untuk prevent squash */
+}
+
+.p-table thead {
+    background: #f8fafc;
+}
+
+.p-table th {
+    text-align: left;
+    padding: 12px;
+    font-size: 12px;
+    font-weight: 900;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    white-space: nowrap;
+}
+
+.p-table td {
+    padding: 16px 12px;
+    border-top: 1px solid #f1f5f9;
+    font-size: 14px;
+    vertical-align: top;
+    word-wrap: break-word;
+}
+
+.p-table tr:hover {
+    background: #fafafa;
+}
+
+/* Table Column Widths - CRITICAL */
+.p-table th:nth-child(1),
+.p-table td:nth-child(1) {
+    width: 22%;
+}
+
+.p-table th:nth-child(2),
+.p-table td:nth-child(2) {
+    width: 13%;
+}
+
+.p-table th:nth-child(3),
+.p-table td:nth-child(3) {
+    width: 18%;
+}
+
+.p-table th:nth-child(4),
+.p-table td:nth-child(4) {
+    width: 15%;
+}
+
+.p-table th:nth-child(5),
+.p-table td:nth-child(5) {
+    width: 12%;
+}
+
+.p-table th:nth-child(6),
+.p-table td:nth-child(6) {
+    width: 12%;
+    text-align: right;
+}
+
+/* User Info in Table */
+.p-user-name {
+    font-weight: 900;
+    color: #0f172a;
+    word-break: break-word;
+}
+
+.p-user-email {
+    font-size: 12px;
+    color: #94a3b8;
+    margin-top: 2px;
+    display: block;
+    word-break: break-all;
+}
+
+.p-user-instansi {
+    font-size: 12px;
+    color: #64748b;
+    margin-top: 2px;
+    font-style: italic;
+    word-break: break-word;
+}
+
+.p-user-role {
+    font-size: 11px;
+    color: #fff;
+    background: #64748b;
+    padding: 2px 8px;
+    border-radius: 999px;
+    display: inline-block;
+    margin-top: 4px;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.p-role-eksternal {
+    background: #2563eb;
+}
+
+.p-role-internal {
+    background: #059669;
+}
+
+.p-role-admin {
+    background: #b45309;
+}
+
+/* Date & Time Display */
+.p-dt {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.p-date {
+    font-weight: 800;
+    color: #0f172a;
+    white-space: nowrap;
+}
+
+.p-time {
+    font-size: 12px;
+    color: #94a3b8;
+    white-space: nowrap;
+}
+
+/* Status Badges */
+.p-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 900;
+    white-space: nowrap;
+}
+
+.p-status-aktif {
+    background: #dcfce7;
+    color: #059669;
+}
+
+.p-status-nonaktif {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+/* Tipe Badges */
+.p-badge-tipe {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 900;
+    white-space: nowrap;
+}
+
+.p-eksternal {
+    background: #dbeafe;
+    color: #2563eb;
+}
+
+.p-internal {
+    background: #dcfce7;
+    color: #059669;
+}
+
+.p-admin {
+    background: #fef3c7;
+    color: #b45309;
+}
+
+/* Action Buttons in Table */
+.p-actions {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+    flex-wrap: nowrap;
+}
+
+.p-act {
+    width: 34px;
+    height: 34px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform .12s;
+    flex-shrink: 0;
+}
+
+.p-act:hover {
+    transform: scale(1.06);
+}
+
+.p-edit {
+    background: #dbeafe;
+    color: #2563eb;
+}
+
+.p-check {
+    background: #dcfce7;
+    color: #059669;
+}
+
+.p-del {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+/* Info Box */
+.p-info {
+    margin-top: 18px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    background: #dbeafe;
+    border-left: 4px solid #3b82f6;
+    padding: 14px 16px;
+    border-radius: 12px;
+}
+
+.p-info i {
+    color: #2563eb;
+    margin-top: 2px;
+    flex-shrink: 0;
+}
+
+.p-info-title {
+    font-weight: 900;
+    color: #1e40af;
+    margin-bottom: 2px;
+}
+
+.p-info-text {
+    color: #1e40af;
+    font-size: 13px;
+}
+
+/* Modal Styles */
+.p-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: rgba(0, 0, 0, .5);
+    padding: 22px;
+    align-items: center;
+    justify-content: center;
+}
+
+.p-modal.active {
+    display: flex;
+}
+
+.p-modal-card {
+    width: 95%;
+    max-width: 1400px;
+    max-height: 90vh;
+    overflow: auto;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, .3);
+    animation: pSlide .18s ease-out;
+}
+
+@keyframes pSlide {
+    from {
+        transform: translateY(-12px);
+        opacity: .7;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.p-modal-head {
+    padding: 18px 22px;
+    border-bottom: 1px solid #e5e7eb;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.p-x {
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 10px;
+    background: transparent;
+    font-size: 28px;
+    line-height: 1;
+    color: #94a3b8;
+    cursor: pointer;
+}
+
+.p-x:hover {
+    background: #f1f5f9;
+    color: #475569;
+}
+
+.p-modal-body {
+    padding: 22px;
+}
+
+/* Form Elements in Modal */
+.p-form-head {
+    display: flex;
+    gap: 12px;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    margin-bottom: 18px;
+}
+
+.p-date-picker label {
+    display: block;
+    font-size: 14px;
+    font-weight: 900;
+    color: #334155;
+    margin-bottom: 8px;
+}
+
+.p-date-picker input {
+    padding: 10px 14px;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: 14px;
+    min-width: 180px;
+    outline: none;
+}
+
+.p-date-picker input:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, .12);
+}
+
+.p-type-btn {
+    padding: 10px 16px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    background: #1e3a5f;
+    color: #fff;
+    font-weight: 900;
+    user-select: none;
+}
+
+.p-type-btn:hover {
+    background: #2c5282;
+}
+
+/* Labs Grid */
+.p-labs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 18px;
+    margin-bottom: 18px;
+}
+
+.p-lab-card {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 16px;
+}
+
+.p-lab-card h3 {
+    margin: 0 0 12px 0;
+    font-size: 15px;
+    font-weight: 900;
+    color: #0f172a;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #e2e8f0;
+}
+
+.p-slot-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Slot Card Styling */
+.p-slot {
+    padding: 12px 14px;
+    border-radius: 10px;
+    font-size: 13px;
+    line-height: 1.5;
+    border: 2px solid;
+}
+
+/* Praktikum Tetap - Blue border */
+.p-slot.praktikum {
+    background: #fff;
+    border-color: #1B3555;
+    color: #1B3555;
+}
+
+/* Peminjaman Internal - Cyan/Teal */
+.p-slot.internal {
+    background: #CCFBF1;
+    border-color: #0D9488;
+    color: #0D9488;
+}
+
+/* Peminjaman Eksternal - Yellow/Gold */
+.p-slot.eksternal {
+    background: #FEF3C7;
+    border-color: #D97706;
+    color: #D97706;
+}
+
+/* Jadwal Tergeser - Pink/Red */
+.p-slot.tergeser {
+    background: #FCE7F3;
+    border-color: #DB2777;
+    color: #DB2777;
+    position: relative;
+}
+
+.p-slot.tergeser::before {
+    content: '⚠';
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    font-size: 16px;
+    color: #DB2777;
+}
+
+/* Available slot - dashed border */
+.p-slot.available {
+    background: #fff;
+    border: 2px dashed #1B3555;
+    color: #1B3555;
+    cursor: pointer;
+    font-weight: 900;
+    transition: all 0.3s ease;
+}
+
+.p-slot.available:hover {
+    background: #1B3555;
+    color: #fff;
+    border-style: solid;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(27, 53, 85, 0.25);
+}
+
+.p-slot-label {
+    display: block;
+    font-weight: 900;
+    margin-bottom: 4px;
+}
+
+.p-slot-sub {
+    font-size: 12px;
+    opacity: 0.85;
+}
+
+/* Legend Styling */
+.p-legend {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    padding: 16px;
+    background: #f8fafc;
+    border-radius: 12px;
+}
+
+.p-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border-radius: 24px;
+    font-size: 13px;
+    font-weight: 700;
+    border: 2px solid;
+    transition: all 0.3s ease;
+}
+
+.p-legend-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Praktikum Tetap - Blue */
+.p-legend-item.praktikum-tetap {
+    background: #fff;
+    border-color: #1B3555;
+    color: #1B3555;
+}
+
+/* Peminjaman Internal - Cyan/Teal */
+.p-legend-item.peminjaman-internal {
+    background: #CCFBF1;
+    border-color: #0D9488;
+    color: #0D9488;
+}
+
+/* Peminjaman Eksternal - Yellow/Gold */
+.p-legend-item.peminjaman-eksternal {
+    background: #FEF3C7;
+    border-color: #D97706;
+    color: #D97706;
+}
+
+/* Jadwal Tergeser - Pink/Red */
+.p-legend-item.jadwal-tergeser {
+    background: #FCE7F3;
+    border-color: #DB2777;
+    color: #DB2777;
+}
+
+.p-legend-color {
+    display: inline-block;
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    border: 2px solid currentColor;
+}
+
+/* Color boxes */
+.p-lg-praktikum {
+    background: #1B3555;
+}
+
+.p-lg-internal {
+    background: #0D9488;
+}
+
+.p-lg-eksternal {
+    background: #D97706;
+}
+
+.p-lg-expired {
+    background: #DB2777;
+}
+
+/* External Modal Table Styling */
+#externalLabTimes input[type="time"] {
+    width: 100%;
+    padding: 6px 8px;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+#externalLabTimes td {
+    padding: 4px 12px;
+    vertical-align: middle;
+}

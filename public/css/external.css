@@ -1,0 +1,57 @@
+/* --- public/css/style.css --- */
+
+/* 1. RESET PADDING BODY & NAVBAR */
+body {
+    padding-top: 0 !important;
+}
+
+nav, .navbar {
+    margin-bottom: 0 !important;
+}
+
+nav.navbar.navbar-expand.fixed-top {
+    display: none;
+}
+
+/* 2. HERO SECTION */
+.hero-bg { 
+    background: linear-gradient(135deg, #0d3b66 0%, #1a5f99 100%); 
+    color: white; 
+    padding-top: 50px; 
+    padding-bottom: 50px;
+    margin-top: 55px !important; /* Penarik ke atas */
+    width: 100%;
+}
+
+/* 3. DASHBOARD CARD */
+.dashboard-card { 
+    margin-top: 50px; 
+    background: white; 
+    border-radius: 12px; 
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08); 
+    padding: 30px; 
+    border: none; 
+    margin-bottom: -24px; 
+}
+
+/* 4. BADGES STATUS */
+.badge-status-ok { background: #d1e7dd; color: #0f5132; padding: 6px 12px; border-radius: 50px; font-weight: 700; font-size: 0.75rem; text-transform: uppercase; }
+.badge-status-interview { background: #cff4fc; color: #055160; padding: 6px 12px; border-radius: 50px; font-weight: 700; font-size: 0.75rem; text-transform: uppercase; }
+.badge-status-wait { background: #fff3cd; color: #856404; padding: 6px 12px; border-radius: 50px; font-weight: 700; font-size: 0.75rem; text-transform: uppercase; }
+.badge-status-reject { background: #f8d7da; color: #842029; padding: 6px 12px; border-radius: 50px; font-weight: 700; font-size: 0.75rem; text-transform: uppercase; }
+
+/* 5. ACTION BUTTONS */
+.btn-action { width: 32px; height: 32px; display: inline-flex; align-items: center; justify-content: center; border-radius: 6px; border: none; transition: 0.2s; margin-left: 3px; cursor: pointer; }
+.btn-view { background: #e7f1ff; color: #0d6efd; } .btn-view:hover { background: #0d6efd; color: white; }
+.btn-edit { background: #fff3cd; color: #856404; } .btn-edit:hover { background: #ffc107; color: black; }
+.btn-delete { background: #f8d7da; color: #842029; } .btn-delete:hover { background: #dc3545; color: white; }
+
+/* 6. MODAL DETAIL STYLES */
+.detail-section { display: none; }
+.alert-box-success { background-color: #d1e7dd; border: 1px solid #badbcc; color: #0f5132; padding: 15px; border-radius: 8px; display: flex; align-items: start; gap: 10px; margin-bottom: 20px; }
+.alert-box-wait { background-color: #fff3cd; border: 1px solid #ffecb5; color: #664d03; padding: 15px; border-radius: 8px; display: flex; align-items: start; gap: 10px; margin-bottom: 20px; }
+.alert-box-reject { background-color: #f8d7da; border: 1px solid #f5c2c7; color: #842029; padding: 15px; border-radius: 8px; display: flex; align-items: start; gap: 10px; margin-bottom: 20px; }
+.detail-list .row { padding: 12px 0; border-bottom: 1px solid #f0f0f0; }
+.detail-list .label { font-weight: 700; color: #666; font-size: 0.9rem; }
+.detail-list .value { font-weight: 500; color: #333; font-size: 0.9rem; }
+.warning-footer { background-color: #fff3cd; border: 2px solid #ffecb5; padding: 15px; border-radius: 8px; margin-top: 20px; color: #664d03; font-size: 0.85rem; display: flex; gap: 10px; align-items: center; }
