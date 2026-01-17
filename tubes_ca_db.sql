@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS ruangan (
     email_pic VARCHAR(100) NOT NULL,
     fasilitas TEXT,
     deskripsi TEXT,
-    gambar LONGTEXT,
+    gambar VARCHAR(255),
     status VARCHAR(50) DEFAULT 'Tersedia',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -109,7 +109,12 @@ CREATE TABLE pengajuan_external (
     tgl_mulai DATE NOT NULL,
     tgl_selesai DATE NOT NULL,
     file_proposal VARCHAR(255) NOT NULL,
-    status ENUM('Menunggu Konfirmasi', 'Menunggu Interview', 'Disetujui', 'Ditolak') DEFAULT 'Menunggu Konfirmasi',
+    status ENUM(
+        'Menunggu Konfirmasi',
+        'Menunggu Interview',
+        'Disetujui',
+        'Ditolak'
+    ) DEFAULT 'Menunggu Konfirmasi',
     alasan_penolakan TEXT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

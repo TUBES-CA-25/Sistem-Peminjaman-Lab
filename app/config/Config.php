@@ -10,5 +10,5 @@ define('DB_NAME', 'tubes_ca_db');
 
 // BASE URL Configuration
 // Hardcoded for stability in XAMPP environment
-define('BASE_URL', 'http://localhost/TUBES_CA');
+define('BASE_URL', 'http://localhost/Sistem-Peminjaman-Lab');
 

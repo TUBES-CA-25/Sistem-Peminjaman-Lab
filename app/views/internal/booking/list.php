@@ -10,8 +10,13 @@
                 <div class="col-md-6 col-lg-4">
                     <div class="lab-card">
                         <div class="lab-image">
-                            <img src="<?= BASE_URL ?>/public/img/<?= htmlspecialchars($lab['image']) ?>"
-                                alt="<?= htmlspecialchars($lab['name']) ?>"
+                            <?php
+                            $img = $lab['image'];
+                            // Use stored path if it contains '/', otherwise assume it's in storage/images
+                            $path = (strpos($img, '/') !== false) ? $img : 'public/storage/images/' . $img;
+                            $imgSrc = BASE_URL . '/' . $path;
+                            ?>
+                            <img src="<?= $imgSrc ?>" alt="<?= htmlspecialchars($lab['name']) ?>"
                                 onerror="this.src='https://images.unsplash.com/photo-1497366216548-37526070297c?w=400&h=250&fit=crop'">
                         </div>
                         <div class="lab-card-body">
