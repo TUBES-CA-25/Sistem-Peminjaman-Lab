@@ -1,11 +1,6 @@
-/* ==========================================
-   INTERNAL BOOKING PAGE - CONSOLIDATED CSS
-   All styles for internal/booking
-   ========================================== */
+/* Internal Booking Page - Consolidated CSS */
 
-/* ==========================================
-   PAGE LAYOUT OVERRIDES
-   ========================================== */
+/* Page Layout Overrides */
 
 /* Hide default navbar from header.php */
 nav.navbar.navbar-expand.fixed-top {
@@ -18,10 +13,7 @@ body {
     margin-top: 0;
 }
 
-/* ==========================================
-   HERO SECTION
-   ========================================== */
-
+/* Hero Section */
 .hero-section-internal {
     background: linear-gradient(135deg, #2C5282 0%, #1A365D 100%);
     padding: 60px 0;
@@ -39,9 +31,9 @@ body {
     color: rgba(255, 255, 255, 0.9);
 }
 
-/* ==========================================
+/*
    LAB CARDS
-   ========================================== */
+ */
 
 .labs-section {
     background-color: #F7FAFC;
@@ -136,9 +128,9 @@ body {
     background-color: #2C5282;
 }
 
-/* ==========================================
+/*
    SCHEDULE MODAL (Custom - Admin Style)
-   ========================================== */
+ */
 
 .p-modal {
     display: none;
@@ -280,9 +272,9 @@ body {
     gap: 10px;
 }
 
-/* ==========================================
+/*
    SLOT STYLING
-   ========================================== */
+ */
 
 .p-slot {
     padding: 12px 14px;
@@ -333,17 +325,6 @@ body {
     box-shadow: 0 6px 14px rgba(27, 53, 85, 0.25);
 }
 
-.p-slot-view-only {
-    padding: 12px 14px;
-    border-radius: 10px;
-    font-size: 13px;
-    line-height: 1.5;
-    background: #F7FAFC;
-    border: 2px dashed #CBD5E0;
-    color: #718096;
-    font-weight: 600;
-}
-
 .p-slot-label {
     display: block;
     font-weight: 900;
@@ -355,9 +336,9 @@ body {
     opacity: 0.85;
 }
 
-/* ==========================================
+/*
    LEGEND STYLING
-   ========================================== */
+ */
 
 .p-legend {
     display: flex;
@@ -435,9 +416,9 @@ body {
     background: #DB2777;
 }
 
-/* ==========================================
+/*
    BOOKING MODAL (Bootstrap)
-   ========================================== */
+ */
 
 #bookingModal .modal-dialog {
     max-width: 450px;
@@ -453,9 +434,9 @@ body {
     padding: 20px 18px;
 }
 
-/* ==========================================
+/*
    RESPONSIVE
-   ========================================== */
+ */
 
 @media (max-width: 991px) {
     .hero-section-internal h1 {
