@@ -70,7 +70,7 @@ function openBookingModal(labName, jamMulai, jamSelesai) {
 }
 
 function changeDate(newDate) {
-    window.location.href = '<?= BASE_URL ?>internal/booking?date=' + newDate;
+    window.location.href = '<?= BASE_URL ?>/internal/booking?date=' + newDate;
 }
 
 function submitBooking() {
@@ -138,7 +138,7 @@ function closeViewScheduleModal() {
 }
 
 function changeViewDate(newDate) {
-    window.location.href = '<?= BASE_URL ?>internal/booking?date=' + newDate;
+    window.location.href = '<?= BASE_URL ?>/internal/booking?date=' + newDate;
 }
 
 // Close view schedule modal on backdrop click

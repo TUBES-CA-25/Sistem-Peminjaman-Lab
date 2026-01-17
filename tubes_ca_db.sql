@@ -97,3 +97,19 @@ CREATE TABLE IF NOT EXISTS peminjaman (
     FOREIGN KEY (user_id) REFERENCES pengguna (id) ON DELETE SET NULL,
     FOREIGN KEY (lab_id) REFERENCES ruangan (id) ON DELETE CASCADE
 );
+
+CREATE TABLE pengajuan_external (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NULL,
+    nama_lengkap VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    telepon VARCHAR(20) NOT NULL,
+    jumlah_peserta INT NOT NULL,
+    nama_kegiatan VARCHAR(255) NOT NULL,
+    tgl_mulai DATE NOT NULL,
+    tgl_selesai DATE NOT NULL,
+    file_proposal VARCHAR(255) NOT NULL,
+    status ENUM('Menunggu Konfirmasi', 'Menunggu Interview', 'Disetujui', 'Ditolak') DEFAULT 'Menunggu Konfirmasi',
+    alasan_penolakan TEXT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

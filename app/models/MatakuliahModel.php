@@ -1,80 +1,80 @@
 <?php
 // app/models/MatakuliahModel.php
 
-require_once __DIR__ . '/../config/Database.php';
-
 class MatakuliahModel
 {
-    private $conn;
     private $table_name = "matakuliah";
+    private $db;
 
     public function __construct()
     {
-        $database = new Database();
-        $this->conn = $database->getConnection();
+        // Panggil Class Database dari Core
+        $this->db = new Database;
     }
 
     public function getAll()
     {
-        $query = "SELECT * FROM " . $this->table_name . " ORDER BY nama_matakuliah ASC";
-        $stmt = $this->conn->prepare($query);
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $this->db->query("SELECT * FROM " . $this->table_name . " ORDER BY nama_matakuliah ASC");
+        return $this->db->resultSet();
     }
 
     public function getById($id)
     {
-        $query = "SELECT * FROM " . $this->table_name . " WHERE id = :id";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':id', $id);
-        $stmt->execute();
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        $this->db->query("SELECT * FROM " . $this->table_name . " WHERE id = :id");
+        $this->db->bind('id', $id);
+        return $this->db->single();
     }
 
     public function create($data)
     {
-        $query = "INSERT INTO " . $this->table_name . " SET nama_matakuliah = :nama, kode_matakuliah = :kode";
-        $stmt = $this->conn->prepare($query);
+        $query = "INSERT INTO " . $this->table_name . " 
+                  (nama_matakuliah, kode_matakuliah) 
+                  VALUES (:nama, :kode)";
+        
+        $this->db->query($query);
 
-        $data['nama'] = htmlspecialchars(strip_tags($data['nama']));
-        $data['kode'] = htmlspecialchars(strip_tags($data['kode']));
+        // Sanitize & Bind
+        $nama = htmlspecialchars(strip_tags($data['nama']));
+        $kode = htmlspecialchars(strip_tags($data['kode']));
 
-        $stmt->bindParam(':nama', $data['nama']);
-        $stmt->bindParam(':kode', $data['kode']);
+        $this->db->bind('nama', $nama);
+        $this->db->bind('kode', $kode);
 
-        if ($stmt->execute()) {
-            return true;
-        }
-        return false;
+        $this->db->execute();
+
+        return $this->db->rowCount();
     }
 
     public function update($id, $data)
     {
-        $query = "UPDATE " . $this->table_name . " SET nama_matakuliah = :nama, kode_matakuliah = :kode WHERE id = :id";
-        $stmt = $this->conn->prepare($query);
+        $query = "UPDATE " . $this->table_name . " 
+                  SET nama_matakuliah = :nama, kode_matakuliah = :kode 
+                  WHERE id = :id";
+        
+        $this->db->query($query);
 
-        $data['nama'] = htmlspecialchars(strip_tags($data['nama']));
-        $data['kode'] = htmlspecialchars(strip_tags($data['kode']));
+        // Sanitize & Bind
+        $nama = htmlspecialchars(strip_tags($data['nama']));
+        $kode = htmlspecialchars(strip_tags($data['kode']));
 
-        $stmt->bindParam(':id', $id);
-        $stmt->bindParam(':nama', $data['nama']);
-        $stmt->bindParam(':kode', $data['kode']);
+        $this->db->bind('id', $id);
+        $this->db->bind('nama', $nama);
+        $this->db->bind('kode', $kode);
 
-        if ($stmt->execute()) {
-            return true;
-        }
-        return false;
+        $this->db->execute();
+
+        return $this->db->rowCount();
     }
 
     public function delete($id)
     {
         $query = "DELETE FROM " . $this->table_name . " WHERE id = :id";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':id', $id);
+        
+        $this->db->query($query);
+        $this->db->bind('id', $id);
 
-        if ($stmt->execute()) {
-            return true;
-        }
-        return false;
+        $this->db->execute();
+
+        return $this->db->rowCount();
     }
 }

@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <!-- Global Admin CSS with Cache Busting -->
-    <link rel="stylesheet" href="<?= BASE_URL ?>public/css/admin-style.css?v=<?= time() ?>">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/css/admin-style.css?v=<?= time() ?>">
 </head>
 
 <body>

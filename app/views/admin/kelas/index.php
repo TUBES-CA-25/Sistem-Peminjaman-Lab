@@ -44,7 +44,7 @@
                                             data-bs-target="#editModal">
                                             <i class="fas fa-edit"></i>
                                         </button>
-                                        <form action="<?= BASE_URL ?>kelas/delete/<?= $row['id'] ?>" method="POST"
+                                        <form action="<?= BASE_URL ?>/kelas/delete/<?= $row['id'] ?>" method="POST"
                                             class="d-inline" onsubmit="return confirm('Yakin ingin menghapus?');">
                                             <button type="submit" class="btn btn-danger btn-sm">
                                                 <i class="fas fa-trash"></i>
@@ -64,7 +64,7 @@
 <!-- Add Modal -->
 <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-        <form action="<?= BASE_URL ?>kelas/store" method="POST">
+        <form action="<?= BASE_URL ?>/kelas/store" method="POST">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="addModalLabel">Tambah Kelas</h5>
@@ -88,7 +88,7 @@
 <!-- Edit Modal -->
 <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-        <form action="<?= BASE_URL ?>kelas/update" method="POST">
+        <form action="<?= BASE_URL ?>/kelas/update" method="POST">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="editModalLabel">Edit Kelas</h5>
