@@ -312,7 +312,7 @@
           const adaBentrok = cekBentrokAny(dateInput.value, lab.key, slot.start, slot.end);
           const slotClass = adaBentrok ? 'tergeser' : 'praktikum';
           const slotLabel = adaBentrok ? 'Jadwal Tergeser' : 'Praktikum Tetap';
-          
+
           // Make fixed schedule clickable too!
           slots += `
           <div class="p-slot ${slotClass}" style="cursor:pointer;" onclick="handleSlotClick('${dateInput.value}', '${dayName}', '${lab.key}', '${lab.name}', '${slot.start}', '${slot.end}')">
@@ -331,13 +331,13 @@
           let slotLabel = 'Peminjaman Internal';
 
           if (booking.role === 'eksternal') {
-             slotClass = 'eksternal'; 
-             slotLabel = 'Peminjaman Eksternal';
+            slotClass = 'eksternal';
+            slotLabel = 'Peminjaman Eksternal';
           } else if (booking.role === 'admin') {
-             slotClass = 'admin'; // Need CSS for this? Or reuse internal? Admin usually distinct.
-             slotLabel = 'Maintenance / Admin';
+            slotClass = 'admin'; // Need CSS for this? Or reuse internal? Admin usually distinct.
+            slotLabel = 'Maintenance / Admin';
           }
-          
+
           slots += `
           <div class="p-slot ${slotClass}">
             <span class="p-slot-label">${slotLabel} ${booking.start}–${booking.end}</span>
@@ -376,7 +376,7 @@
       // If tanggal provided (e.g. valid date string), use it. Else today.
       const today = new Date().toISOString().split('T')[0];
       const t = (typeof tanggal === 'string' && tanggal) ? tanggal : today;
-      
+
       document.getElementById('externalTanggalMulai').value = t;
       document.getElementById('externalTanggalSelesai').value = t;
       document.getElementById('instansiKegiatan').value = '';
@@ -443,7 +443,7 @@
 
       // Generate dates
       let dates = [];
-      let curr = new Date(tanggalMulai + 'T00:00:00'); 
+      let curr = new Date(tanggalMulai + 'T00:00:00');
       let end = new Date(tanggalSelesai + 'T00:00:00');
       while (curr <= end) {
         dates.push(new Date(curr).toISOString().split('T')[0]);
@@ -663,6 +663,67 @@
     document.getElementById('pDetailedBookingModal')?.addEventListener('click', e => {
       if (e.target === e.currentTarget) closeDetailedBookingModal();
     });
+    // OPEN DETAIL BOOKING (SINGLE SLOT)
+    window.handleSlotClick = function (date, day, labId, labName, start, end) {
+      const modal = document.getElementById('pDetailedBookingModal');
+      const form = document.getElementById('pBookingForm');
+
+      // Prevent clicking if modal is already open
+      if (modal.classList.contains('active')) return;
+
+      // Set values
+      document.getElementById('bookingDateDetail').value = date;
+      document.getElementById('hariDetail').value = day.toUpperCase();
+      document.getElementById('labDetail').value = labName;
+      document.getElementById('labIdDetail').value = labId; // Hidden ID
+      document.getElementById('jamMulaiDetail').value = start;
+      document.getElementById('jamSelesaiDetail').value = end;
+
+      // Default info
+      document.getElementById('slotKosongInfo').innerHTML = `<strong>Slot kosong: ${start}-${end}</strong><br><small>Pilih jam mulai/selesai di dalam slot kosong.</small>`;
+
+      // Open modal
+      modal.classList.add('active');
+    };
+
+    window.closeDetailedBookingModal = function () {
+      document.getElementById('pDetailedBookingModal').classList.remove('active');
+    };
+
+    // SAVE PEMINJAMAN (SINGLE)
+    window.savePeminjaman = function (event) {
+      event.preventDefault();
+      const form = event.target;
+
+      // Prepare Form Data
+      const formData = new FormData(form);
+      formData.append('action', 'create');
+      formData.append('ajax', '1');
+
+      // Helper to check valid time range
+      // (Client-side validation can be expanded here)
+
+      fetch('<?= BASE_URL ?>peminjaman', {
+        method: 'POST',
+        body: formData
+      })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            alert('✅ Peminjaman berhasil disimpan!');
+            window.location.reload();
+          } else {
+            alert('❌ Gagal: ' + (data.message || 'Error saving booking'));
+          }
+        })
+        .catch(err => {
+          console.error(err);
+          alert('❌ Terjadi kesalahan koneksi.');
+        });
+
+      return false;
+    };
+
     document.getElementById('pExternalBookingModal')?.addEventListener('click', e => {
       if (e.target === e.currentTarget) closeExternalBookingModal();
     });

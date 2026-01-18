@@ -12,7 +12,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body p-4 p-lg-5">
-                <form id="labForm" action="<?= BASE_URL ?>/ruangan" method="POST">
+                <form id="labForm" action="<?= BASE_URL ?>/ruangan" method="POST" enctype="multipart/form-data">
                     <input type="hidden" name="action" id="formAction" value="create">
                     <input type="hidden" name="id" id="editIndex" value="">
 
@@ -36,9 +36,9 @@
                                 <p class="small text-muted mb-0">PNG, JPG, JPEG (Max. 5MB)</p>
                             </div>
 
-                            <input type="file" id="labImageFile" accept="image/*" class="d-none"
+                            <input type="file" id="labImageFile" name="gambar" accept="image/*" class="d-none"
                                 onchange="handleFileSelect(event)">
-                            <input type="hidden" name="gambar_base64" id="labImage">
+                            <input type="hidden" name="existing_gambar" id="labImage">
 
                             <button type="button" id="changePhotoBtn"
                                 class="btn btn-sm btn-dark position-absolute top-0 end-0 m-3" style="display:none;"

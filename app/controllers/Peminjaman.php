@@ -78,7 +78,7 @@ class Peminjaman extends Controller
                     echo json_encode(['success' => false, 'message' => 'Jadwal bentrok dengan peminjaman lain!']);
                     exit;
                 }
-                header("Location: " . BASE_URL . "peminjaman?status=error&msg=Jadwal bentrok dengan peminjaman lain!");
+                header("Location: " . BASE_URL . "/peminjaman?status=error&msg=Jadwal bentrok dengan peminjaman lain!");
                 exit;
             }
 
@@ -104,7 +104,7 @@ class Peminjaman extends Controller
                         echo json_encode(['success' => true]);
                         exit;
                     }
-                    header("Location: " . BASE_URL . "peminjaman?status=success&msg=Peminjaman berhasil ditambahkan");
+                    header("Location: " . BASE_URL . "/peminjaman?status=success&msg=Peminjaman berhasil ditambahkan");
                     exit;
                 }
             } elseif ($action === 'update' && $id) {
@@ -130,7 +130,7 @@ class Peminjaman extends Controller
                     echo json_encode(['success' => true]);
                     exit;
                 }
-                header("Location: " . BASE_URL . "peminjaman?status=success&msg=Peminjaman dihapus");
+                header("Location: " . BASE_URL . "/peminjaman?status=success&msg=Peminjaman dihapus");
                 exit;
             } else {
                 if ($isAjax) {
@@ -146,7 +146,7 @@ class Peminjaman extends Controller
                     echo json_encode(['success' => true]);
                     exit;
                 }
-                header("Location: " . BASE_URL . "peminjaman?status=success&msg=Peminjaman disetujui");
+                header("Location: " . BASE_URL . "/peminjaman?status=success&msg=Peminjaman disetujui");
                 exit;
             }
         }

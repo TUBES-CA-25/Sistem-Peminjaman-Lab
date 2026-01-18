@@ -54,23 +54,28 @@ class App
             return $url;
         }
 
-        // Fallback untuk Windows/XAMPP jika .htaccess bermasalah
-        $request_uri = $_SERVER['REQUEST_URI'];
-        $script_name = $_SERVER['SCRIPT_NAME'];
-        $dirname = dirname($script_name);
+        // Fallback for XAMPP/Windows if .htaccess is ignored or not working
+        $request_uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+        $script_name = $_SERVER['SCRIPT_NAME']; // /TUBES_CA/public/index.php or /TUBES_CA/index.php
 
-        // Normalisasi slash (Windows pakai Backslash, URL pakai Forward slash)
-        $dirname = str_replace('\\', '/', $dirname);
+        // dirname might include backslashes on Windows
+        $dirname = str_replace('\\', '/', dirname($script_name));
 
+        // Remove trailing slash
+        $dirname = rtrim($dirname, '/');
+
+        // Check if request_uri starts with dirname
         if (strpos($request_uri, $dirname) === 0) {
-            $request_uri = substr($request_uri, strlen($dirname));
+            $url_path = substr($request_uri, strlen($dirname));
+        } else {
+            $url_path = $request_uri;
         }
 
-        $url = trim($request_uri, '/');
+        $url = trim($url_path, '/');
+
         if (!empty($url)) {
             $url = filter_var($url, FILTER_SANITIZE_URL);
-            $url = explode('/', $url);
-            return $url;
+            return explode('/', $url);
         }
 
         return [];
