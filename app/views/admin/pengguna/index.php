@@ -22,10 +22,15 @@ $users = $data['pengguna'] ?? [];
 </div>
 
 <!-- NOTIFICATION -->
+<!-- NOTIFICATION -->
 <?php if (isset($_GET['status']) && isset($_GET['msg'])): ?>
-    <div class="alert alert-success alert-dismissible fade show shadow-sm border-0 mb-4" role="alert">
-        <i class="fas fa-check-circle me-2"></i> <strong>
-            <?= htmlspecialchars($_GET['msg']) ?>!
+    <?php 
+    $alertClass = $_GET['status'] == 'success' ? 'alert-success' : 'alert-danger';
+    $icon = $_GET['status'] == 'success' ? 'fa-check-circle' : 'fa-exclamation-circle';
+    ?>
+    <div class="alert <?= $alertClass ?> alert-dismissible fade show shadow-sm border-0 mb-4" role="alert">
+        <i class="fas <?= $icon ?> me-2"></i> <strong>
+            <?= htmlspecialchars($_GET['msg']) ?>
         </strong>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>

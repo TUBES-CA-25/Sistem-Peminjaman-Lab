@@ -49,7 +49,7 @@
                                             data-bs-toggle="modal" data-bs-target="#editModal">
                                             <i class="fas fa-edit"></i>
                                         </button>
-                                        <form action="<?= BASE_URL ?>matakuliah/delete/<?= $row['id'] ?>" method="POST"
+                                        <form action="<?= BASE_URL ?>/matakuliah/delete/<?= $row['id'] ?>" method="POST"
                                             class="d-inline" onsubmit="return confirm('Yakin ingin menghapus?');">
                                             <button type="submit" class="btn btn-danger btn-sm">
                                                 <i class="fas fa-trash"></i>
