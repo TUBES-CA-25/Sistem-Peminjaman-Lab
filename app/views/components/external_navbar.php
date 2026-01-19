@@ -7,6 +7,9 @@
 
     <!-- Menu di sebelah kanan -->
     <div class="ms-auto">
+      <a href="<?= BASE_URL; ?>/external/profile" class="btn btn-sm btn-outline-primary me-2">
+          <i class="bi bi-person-circle me-1"></i> Profil Saya
+      </a>
       <a href="<?= BASE_URL; ?>auth/logout" class="btn btn-danger rounded-pill px-4 fw-bold" style="font-size: 0.9rem;">
         Sign Out
       </a>

@@ -164,4 +164,52 @@ class External extends Controller
             return false;
         }
     }
+
+
+    public function profile()
+    {
+        // 1. Cek apakah user sudah login (Wajib)
+        // if (!isset($_SESSION['user_id'])) { header('Location: ' . BASE_URL . '/login'); exit; }
+
+        $data['judul'] = 'Profil Saya';
+        
+        // 2. Ambil ID dari Session
+        $userId = $_SESSION['user_id']; // Pastikan session user_id sudah diset saat login
+        
+        // 3. Ambil data user terbaru dari database
+        $data['user'] = $this->model('User_model')->getUserById($userId);
+
+        $this->view('components/header', $data);
+        $this->view('components/external_navbar', $data);
+        $this->view('external/profile', $data); // Kita akan buat file ini
+        $this->view('components/footer');
+    }
+
+    public function prosesUpdateProfile()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            // Ambil ID dari input hidden atau session (lebih aman session)
+            $data = [
+                'id' => $_SESSION['user_id'],
+                'nama' => $_POST['nama'],
+                'email' => $_POST['email'],
+                'telepon' => $_POST['telepon']
+            ];
+
+            // 1. Update Data Diri
+            if ($this->model('User_model')->updateProfile($data) > 0) {
+                // Berhasil Update Data
+                // (Anda bisa set Flash Message disini jika punya fitur Flasher)
+            }
+
+            // 2. Cek apakah user ingin ganti password
+            if (!empty($_POST['password_baru'])) {
+                $this->model('User_model')->updatePassword($data['id'], $_POST['password_baru']);
+            }
+
+            // Redirect kembali ke halaman profile
+            header('Location: ' . BASE_URL . '/external/profile');
+            exit;
+        }
+    }
 }
