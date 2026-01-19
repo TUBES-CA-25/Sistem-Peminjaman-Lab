@@ -5,7 +5,7 @@
  * Access: http://localhost:8000/seeder.php
  */
 
-require_once 'app/config/Config.php';
+require_once 'app/core/Constants.php';
 require_once 'app/core/Database.php';
 
 $db = new Database();
@@ -26,11 +26,11 @@ echo "<!DOCTYPE html>
     <h1>🌱 Database Seeder - Ruangan</h1>";
 
 try {
-    // Check if table exists
+    // Check if table exists using new wrapper
     $db->query("SHOW TABLES LIKE 'ruangan'");
     $db->execute();
     if ($db->rowCount() == 0) {
-        throw new Exception("Table 'ruangan' does not exist!");
+        throw new Exception("Table 'ruangan' does not exist! Please run setup.php first.");
     }
 
     // Lab data - 8 labs
@@ -131,7 +131,7 @@ try {
     $skipped = 0;
     
     foreach ($labs as $lab) {
-        // Check if exists
+        // Check if lab already exists using wrapper
         $db->query("SELECT id FROM ruangan WHERE nama_ruangan = :nama");
         $db->bind('nama', $lab['nama_ruangan']);
         $db->execute();
@@ -142,7 +142,7 @@ try {
             continue;
         }
         
-        // Insert lab
+        // Insert lab using wrapper
         $sql = "INSERT INTO ruangan (nama_ruangan, kapasitas, lokasi, pic, email_pic, fasilitas, deskripsi, gambar, status) 
                 VALUES (:nama, :kapasitas, :lokasi, :pic, :email, :fasilitas, :deskripsi, :gambar, :status)";
         

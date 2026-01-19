@@ -52,7 +52,7 @@
                          So I will keep it as is.
                      -->
                     <div class="position-relative">
-                        <img src="<?= BASE_URL ?>public/img/Mulmed.jpg" alt="Laboratorium Multimedia ICLABS"
+                        <img src="<?= BASE_URL ?>/public/img/Mulmed.jpg" alt="Laboratorium Multimedia ICLABS"
                             class="img-fluid rounded-4 shadow-lg img-sarana">
                     </div>
                 </div>
