@@ -226,6 +226,10 @@ body{
                     <input type="password" name="password" class="form-control" placeholder="Masukkan password">
                 </div>
 
+            <div class="text-end mb-4">
+                <a href="<?= BASE_URL ?>/auth/forgot"
+                    class="auth-link-alt small text-white-50 text-decoration-none">Lupa Password?</a>
+            </div>
                 <div class="text-end mb-4">
                     <a href="<?= BASE_URL ?>/auth/forgot" class="small text-white-50">Lupa Password?</a>
                 </div>
@@ -244,3 +248,50 @@ body{
 
 </body>
 </html>
+
+<style>
+    .auth-page-container {
+        min-height: 100vh;
+        background: radial-gradient(circle at top right, #1e3a8a, #0f172a);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 100px 20px;
+        margin-top: -80px;
+
+    }
+
+    .auth-card {
+        width: 100%;
+        max-width: 450px;
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 24px;
+        padding: 50px 40px;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    }
+
+    .form-control {
+        background: rgba(255, 255, 255, 0.1) !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        color: white !important;
+        padding: 12px 15px !important;
+        border-radius: 12px !important;
+    }
+
+    .form-control::placeholder {
+        color: rgba(255, 255, 255, 0.3) !important;
+    }
+
+    .form-control:focus {
+        background: rgba(255, 255, 255, 0.15) !important;
+        box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.05) !important;
+        border-color: rgba(255, 255, 255, 0.3) !important;
+    }
+
+    .auth-link-alt:hover {
+        color: white !important;
+    }
+</style>
