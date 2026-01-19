@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="<?= BASE_URL; ?>/css/external.css">
+<link rel="stylesheet" href="<?= BASE_URL; ?>/public/css/external.css">
 
 <div class="container-fluid hero-bg">
     <div class="container d-flex justify-content-between align-items-center">
