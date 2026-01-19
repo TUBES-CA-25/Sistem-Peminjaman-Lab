@@ -196,10 +196,10 @@ body{
 
         <!-- IMAGE SIDE -->
         <div class="auth-image">
-            <img src="<?= BASE_URL ?>/img/cv.jpg" class="bg" alt="Laboratorium">
+            <img src="<?= BASE_URL ?>/public/img/cv.jpg" class="bg" alt="Laboratorium">
 
             <div class="logo-3d">
-                <img src="<?= BASE_URL ?>/img/logo-iclabs.png" alt="Logo">
+                <img src="<?= BASE_URL ?>/public/img/logo-iclabs.png" alt="Logo">
             </div>
             
             <div class="image-caption">
@@ -230,10 +230,6 @@ body{
                 <a href="<?= BASE_URL ?>/auth/forgot"
                     class="auth-link-alt small text-white-50 text-decoration-none">Lupa Password?</a>
             </div>
-                <div class="text-end mb-4">
-                    <a href="<?= BASE_URL ?>/auth/forgot" class="small text-white-50">Lupa Password?</a>
-                </div>
-
                 <button type="submit" class="btn btn-login w-100">Masuk</button>
             </form>
 
