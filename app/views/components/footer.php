@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="<?= BASE_URL; ?>/css/style.css">
+<link rel="stylesheet" href="<?= BASE_URL; ?>/public/css/style.css">
 <footer class="bg-dark text-light footer-custom">
     <div class="container">
         <div class="row gy-4">
