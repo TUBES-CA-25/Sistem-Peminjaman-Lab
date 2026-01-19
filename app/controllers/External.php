@@ -23,7 +23,7 @@ class External extends Controller
 
     public function detail($id = null)
     {
-        if (is_null($id)) {
+        if(is_null($id)) {
             header('Location: ' . BASE_URL . '/external');
             exit;
         }
@@ -40,10 +40,10 @@ class External extends Controller
     public function ajukan()
     {
         $data['judul'] = 'Form Pengajuan Baru';
-
+        
         $this->view('components/header', $data);
         $this->view('components/external_navbar', $data);
-        $this->view('external/form_pengajuan', $data);
+        $this->view('external/form_pengajuan', $data); 
         $this->view('components/footer');
     }
 
@@ -51,11 +51,11 @@ class External extends Controller
     public function prosesPinjam()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-
+            
             // 1. Handle File Upload
             // Fungsi ini akan mengembalikan NAMA FILE jika sukses, atau FALSE jika gagal
             $file_proposal = $this->uploadFile($_FILES['proposal']);
-
+            
             if (!$file_proposal) {
                 // Pesan error sudah dihandle di dalam function uploadFile (alert js)
                 echo "<script>window.history.back();</script>";
@@ -64,14 +64,14 @@ class External extends Controller
 
             // 2. Susun Data
             $data = [
-                'nama_lengkap' => $_POST['nama'],
-                'email' => $_POST['email'],
-                'telepon' => $_POST['telepon'],
+                'nama_lengkap'   => $_POST['nama'],
+                'email'          => $_POST['email'],
+                'telepon'        => $_POST['telepon'],
                 'jumlah_peserta' => $_POST['jumlah_peserta'],
-                'nama_kegiatan' => $_POST['nama_kegiatan'],
-                'tgl_mulai' => $_POST['tgl_mulai'],
-                'tgl_selesai' => $_POST['tgl_selesai'],
-                'file_proposal' => $file_proposal // Yang disimpan di DB hanya string nama file (contoh: 65a8b.pdf)
+                'nama_kegiatan'  => $_POST['nama_kegiatan'],
+                'tgl_mulai'      => $_POST['tgl_mulai'],
+                'tgl_selesai'    => $_POST['tgl_selesai'],
+                'file_proposal'  => $file_proposal // Yang disimpan di DB hanya string nama file (contoh: 65a8b.pdf)
             ];
 
             // 3. Kirim ke Model
@@ -88,11 +88,11 @@ class External extends Controller
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $data = [
-                'id' => $_POST['id'],
-                'nama_kegiatan' => $_POST['nama_kegiatan'],
+                'id'             => $_POST['id'],
+                'nama_kegiatan'  => $_POST['nama_kegiatan'],
                 'jumlah_peserta' => $_POST['jumlah_peserta'],
-                'tgl_mulai' => $_POST['tgl_mulai'],
-                'tgl_selesai' => $_POST['tgl_selesai']
+                'tgl_mulai'      => $_POST['tgl_mulai'],
+                'tgl_selesai'    => $_POST['tgl_selesai']
             ];
 
             if ($this->model('Pengajuan_model')->updatePengajuan($data) > 0) {
@@ -116,10 +116,10 @@ class External extends Controller
     // --- HELPER UPLOAD (INTI PERBAIKAN) ---
     private function uploadFile($file)
     {
-        $namaFile = $file['name'];
+        $namaFile   = $file['name'];
         $ukuranFile = $file['size'];
-        $error = $file['error'];
-        $tmpName = $file['tmp_name'];
+        $error      = $file['error'];
+        $tmpName    = $file['tmp_name'];
 
         // Cek error upload
         if ($error === 4) {
@@ -128,8 +128,8 @@ class External extends Controller
         }
 
         $ekstensiValid = ['pdf'];
-        $ekstensiFile = explode('.', $namaFile);
-        $ekstensiFile = strtolower(end($ekstensiFile));
+        $ekstensiFile  = explode('.', $namaFile);
+        $ekstensiFile  = strtolower(end($ekstensiFile));
 
         if (!in_array($ekstensiFile, $ekstensiValid)) {
             echo "<script>alert('Format file tidak valid! Gunakan PDF');</script>";
@@ -144,9 +144,9 @@ class External extends Controller
         // Generate nama file baru (agar tidak duplikat)
         $namaFileBaru = uniqid() . '.' . $ekstensiFile;
 
-        // Tentukan folder tujuan (public/storage/proposals/)
-        $targetDir = 'public/storage/proposals/';
-
+        // Tentukan folder tujuan (public/uploads/)
+        $targetDir = 'public/uploads/';
+        
         // PENTING: Cek apakah folder ada, jika tidak, buat foldernya!
         if (!file_exists($targetDir)) {
             mkdir($targetDir, 0777, true);
@@ -156,25 +156,60 @@ class External extends Controller
         $tujuan = $targetDir . $namaFileBaru;
 
         // Pindahkan file dari folder sementara (tmp) ke folder tujuan
-        if (move_uploaded_file($tmpName, $tujuan)) {
+        if(move_uploaded_file($tmpName, $tujuan)) {
             // Kembalikan nama file baru untuk disimpan di database
-            // Store relative path or just filename?
-            // Existing logic stores filename. Let's stick to filename if the view knows where to look,
-            // OR store full path. 
-            // The prompt said "proposal dari external juga masuk ke storage".
-            // Typically cleaner to store relative path if we refactored everything, but to match basic request
-            // just moving the file is key.
-            // Let's store "public/storage/proposals/filename.pdf" or "storage/proposals/filename.pdf" 
-            // The existing code returned $namaFileBaru. 
-            // I should verify how it's used. 
-            // In index/detail view it likely links to "public/uploads/".$file.
-            // I should update the return to be the path if I can't check the view easily, OR return filename and update view.
-            // Let's return the full path relative to root so it's unambiguous.
-
-            return "public/storage/proposals/" . $namaFileBaru;
+            return $namaFileBaru;
         } else {
             echo "<script>alert('Gagal mengupload file ke server.');</script>";
             return false;
+        }
+    }
+
+
+    public function profile()
+    {
+        // 1. Cek apakah user sudah login (Wajib)
+        // if (!isset($_SESSION['user_id'])) { header('Location: ' . BASE_URL . '/login'); exit; }
+
+        $data['judul'] = 'Profil Saya';
+        
+        // 2. Ambil ID dari Session
+        $userId = $_SESSION['user_id']; // Pastikan session user_id sudah diset saat login
+        
+        // 3. Ambil data user terbaru dari database
+        $data['user'] = $this->model('User_model')->getUserById($userId);
+
+        $this->view('components/header', $data);
+        $this->view('components/external_navbar', $data);
+        $this->view('external/profile', $data); // Kita akan buat file ini
+        $this->view('components/footer');
+    }
+
+    public function prosesUpdateProfile()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            // Ambil ID dari input hidden atau session (lebih aman session)
+            $data = [
+                'id' => $_SESSION['user_id'],
+                'nama' => $_POST['nama'],
+                'email' => $_POST['email'],
+                'telepon' => $_POST['telepon']
+            ];
+
+            // 1. Update Data Diri
+            if ($this->model('User_model')->updateProfile($data) > 0) {
+                // Berhasil Update Data
+                // (Anda bisa set Flash Message disini jika punya fitur Flasher)
+            }
+
+            // 2. Cek apakah user ingin ganti password
+            if (!empty($_POST['password_baru'])) {
+                $this->model('User_model')->updatePassword($data['id'], $_POST['password_baru']);
+            }
+
+            // Redirect kembali ke halaman profile
+            header('Location: ' . BASE_URL . '/external/profile');
+            exit;
         }
     }
 }
