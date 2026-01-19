@@ -201,7 +201,8 @@ body{
         <!-- IMAGE SIDE -->
         <div class="auth-image">
             <img src="<?= BASE_URL ?>/img/cv.jpg" class="bg" alt="Laboratorium">
-    
+
+            <!-- LOGO 3D SUPER CENTER -->
             <div class="logo-3d">
                 <img src="<?= BASE_URL ?>/img/logo-iclabs.png" alt="Logo">
             </div>
