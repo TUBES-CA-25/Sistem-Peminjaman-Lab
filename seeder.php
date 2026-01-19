@@ -5,10 +5,10 @@
  * Access: http://localhost:8000/seeder.php
  */
 
-require_once 'app/config/Database.php';
+require_once 'app/core/Constants.php';
+require_once 'app/core/Database.php';
 
 $db = new Database();
-$conn = $db->getConnection();
 
 echo "<!DOCTYPE html>
 <html>
@@ -26,9 +26,10 @@ echo "<!DOCTYPE html>
     <h1>🌱 Database Seeder - Ruangan (Labs)</h1>";
 
 try {
-    // Check if table exists
-    $check = $conn->query("SHOW TABLES LIKE 'ruangan'");
-    if ($check->rowCount() == 0) {
+    // Check if table exists using new wrapper
+    $db->query("SHOW TABLES LIKE 'ruangan'");
+    $db->execute();
+    if ($db->rowCount() == 0) {
         throw new Exception("Table 'ruangan' does not exist! Please run setup.php first.");
     }
 
@@ -130,34 +131,34 @@ try {
     $skipped = 0;
     
     foreach ($labs as $lab) {
-        // Check if lab already exists
-        $stmt = $conn->prepare("SELECT id FROM ruangan WHERE nama_ruangan = ?");
-        $stmt->execute([$lab['nama_ruangan']]);
+        // Check if lab already exists using wrapper
+        $db->query("SELECT id FROM ruangan WHERE nama_ruangan = :nama");
+        $db->bind('nama', $lab['nama_ruangan']);
+        $db->execute();
         
-        if ($stmt->rowCount() > 0) {
+        if ($db->rowCount() > 0) {
             echo "<div class='lab-item'>⚠️ Skipped: {$lab['nama_ruangan']} (already exists)</div>";
             $skipped++;
             continue;
         }
         
-        // Insert lab
+        // Insert lab using wrapper
         $sql = "INSERT INTO ruangan (nama_ruangan, kapasitas, lokasi, pic, email_pic, fasilitas, deskripsi, gambar, status) 
                 VALUES (:nama, :kapasitas, :lokasi, :pic, :email, :fasilitas, :deskripsi, :gambar, :status)";
         
-        $stmt = $conn->prepare($sql);
-        $result = $stmt->execute([
-            ':nama' => $lab['nama_ruangan'],
-            ':kapasitas' => $lab['kapasitas'],
-            ':lokasi' => $lab['lokasi'],
-            ':pic' => $lab['pic'],
-            ':email' => $lab['email_pic'],
-            ':fasilitas' => $lab['fasilitas'],
-            ':deskripsi' => $lab['deskripsi'],
-            ':gambar' => $lab['gambar'],
-            ':status' => $lab['status']
-        ]);
+        $db->query($sql);
+        $db->bind('nama', $lab['nama_ruangan']);
+        $db->bind('kapasitas', $lab['kapasitas']);
+        $db->bind('lokasi', $lab['lokasi']);
+        $db->bind('pic', $lab['pic']);
+        $db->bind('email', $lab['email_pic']);
+        $db->bind('fasilitas', $lab['fasilitas']);
+        $db->bind('deskripsi', $lab['deskripsi']);
+        $db->bind('gambar', $lab['gambar']);
+        $db->bind('status', $lab['status']);
+        $db->execute();
         
-        if ($result) {
+        if ($db->rowCount() > 0) {
             echo "<div class='lab-item'>✓ Inserted: {$lab['nama_ruangan']}</div>";
             $inserted++;
         }
