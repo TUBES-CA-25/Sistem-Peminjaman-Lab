@@ -1,62 +1,48 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profil Saya | Sistem Lab</title>
-    
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
-    
-    <link rel="stylesheet" href="<?= BASE_URL; ?>/public/css/external.css">
+<link rel="stylesheet" href="<?= BASE_URL; ?>/public/css/external.css">
 
-    <style>
-        .avatar-profile {
-            width: 100px;
-            height: 100px;
-            background: linear-gradient(135deg, #0d6efd, #0a58ca);
-            color: white;
-            font-size: 2.5rem;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            margin: 0 auto 15px auto;
-            box-shadow: 0 4px 10px rgba(13, 110, 253, 0.3);
-        }
-        /* Style input saat mode baca (readonly) */
-        .form-control:read-only {
-            background-color: #f8f9fa;
-            border: 1px solid #dee2e6;
-            color: #6c757d;
-        }
-        /* Style input saat mode edit */
-        .form-control:not(:read-only) {
-            background-color: #fff;
-            border-color: #0d6efd;
-            box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.15);
-        }
-    </style>
-</head>
-<body>
+<style>
+    .avatar-profile {
+        width: 100px;
+        height: 100px;
+        background: linear-gradient(135deg, #0d6efd, #0a58ca);
+        color: white;
+        font-size: 2.5rem;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        margin: 0 auto 15px auto;
+        box-shadow: 0 4px 10px rgba(13, 110, 253, 0.3);
+    }
+    /* Style input saat mode baca (readonly) */
+    .form-control:read-only {
+        background-color: #f8f9fa;
+        border: 1px solid #dee2e6;
+        color: #6c757d;
+    }
+    /* Style input saat mode edit */
+    .form-control:not(:read-only) {
+        background-color: #fff;
+        border-color: #0d6efd;
+        box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.15);
+    }
+</style>
 
-<div class="d-flex">
+<?php include __DIR__ . '/../components/sidebar_user.php'; ?>
+
+<div class="main-content-user">
     
-    <?php include __DIR__ . '/../components/sidebar_user.php'; ?>
-
-    <div class="main-content-user w-100">
-        
-        <div class="container-fluid px-4">
-            <div class="hero-bg rounded-3 mt-3 p-4 text-white" style="background: linear-gradient(135deg, #1e3a8a, #3b82f6);">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <h2 class="fw-bold mb-1">Profil Saya</h2>
-                        <p class="opacity-75 mb-0">Kelola informasi akun dan keamanan Anda di sini.</p>
-                    </div>
+    <div class="container-fluid px-4">
+        <div class="hero-bg rounded-3" style="margin-top: -50px;">
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+                <div class="text-white">
+                    <h2 class="fw-bold mb-1">Profil Saya</h2>
+                    <p class="opacity-75 mb-0">Kelola informasi akun dan keamanan Anda di sini.</p>
                 </div>
             </div>
         </div>
+    </div>
 
         <div class="container-fluid px-4">
             
@@ -194,5 +180,5 @@
     });
 </script>
 
-</body>
-</html>
+<!-- Bootstrap JS Bundle -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

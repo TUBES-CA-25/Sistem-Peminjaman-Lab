@@ -1,3 +1,4 @@
+<?php $active_page = $data['active_page'] ?? ''; ?>
 <div class="admin-container">
     <aside class="sidebar">
         <div class="sidebar-header">DATA</div>
