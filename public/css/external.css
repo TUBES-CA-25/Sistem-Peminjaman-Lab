@@ -17,21 +17,18 @@ nav.navbar.navbar-expand.fixed-top {
 .hero-bg { 
     background: linear-gradient(135deg, #0d3b66 0%, #1a5f99 100%); 
     color: white; 
-    padding-top: 50px; 
-    padding-bottom: 50px;
-    margin-top: 55px !important; /* Penarik ke atas */
+    padding: 30px; 
     width: 100%;
 }
 
 /* 3. DASHBOARD CARD */
 .dashboard-card { 
-    margin-top: 50px; 
+    margin-top: 20px; 
     background: white; 
     border-radius: 12px; 
     box-shadow: 0 8px 20px rgba(0,0,0,0.08); 
     padding: 30px; 
     border: none; 
-    margin-bottom: -24px; 
 }
 
 /* 4. BADGES STATUS */
@@ -55,3 +52,44 @@ nav.navbar.navbar-expand.fixed-top {
 .detail-list .label { font-weight: 700; color: #666; font-size: 0.9rem; }
 .detail-list .value { font-weight: 500; color: #333; font-size: 0.9rem; }
 .warning-footer { background-color: #fff3cd; border: 2px solid #ffecb5; padding: 15px; border-radius: 8px; margin-top: 20px; color: #664d03; font-size: 0.85rem; display: flex; gap: 10px; align-items: center; }
+
+
+
+/*untuk sidebar_user*/
+/* --- LAYOUT SIDEBAR USER --- */
+.sidebar-user {
+    width: 250px;
+    height: 100vh; /* Full tinggi layar */
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    padding-top: 80px !important; /* Jarak agar tidak tertutup navbar jika navbar fixed */
+    border-right: 1px solid #eee;
+}
+
+/* KONTEN UTAMA (Disebelah Kanan Sidebar) */
+.main-content-user {
+    margin-left: 250px; /* Geser konten ke kanan sebesar lebar sidebar */
+    padding-top: 0px; /* Space for fixed navbar */
+    min-height: 100vh;
+    background-color: #f8f9fa; /* Warna background abu muda agar card terlihat menonjol */
+}
+
+/* Penyesuaian Navbar agar menutupi Sidebar bagian atas (Opsional) */
+/* Atau Navbar hanya disebelah kanan. Kita buat Navbar Full Width di atas Sidebar */
+nav.navbar {
+    z-index: 1050; /* Lebih tinggi dari sidebar */
+    background: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+/* Responsif untuk Layar HP (Sidebar Hilang/Kecil) */
+@media (max-width: 768px) {
+    .sidebar-user {
+        display: none; /* Sembunyikan sidebar di HP (Nanti butuh tombol toggle) */
+    }
+    .main-content-user {
+        margin-left: 0; /* Konten full width di HP */
+    }
+}
