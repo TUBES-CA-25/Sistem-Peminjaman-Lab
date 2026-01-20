@@ -10,27 +10,35 @@ $content_file = null;
 
 switch ($page) {
     case 'ruangan':
-        require_once __DIR__ . '/../../../controllers/RuanganController.php';
-        $controller = new RuanganController();
-        $controller->handleRequest(); // Handle POST requests (redirects happen here)
-        $result = $controller->index();
-        if (isset($result['ruangan']) && isset($result['asisten'])) {
-            $data['ruangan'] = $result['ruangan'];
-            $data['asisten'] = $result['asisten'];
-        } else {
-            $data['ruangan'] = $result;
-        }
-
-        $content_file = __DIR__ . '/ruangan/index.php';
-        break;
+        require_once __DIR__ . '/../../../controllers/Ruangan.php';
+        $controller = new Ruangan();
+        $controller->index();
+        exit;
     case 'pengguna':
-        require_once __DIR__ . '/../../../controllers/PenggunaController.php';
-        $controller = new PenggunaController();
-        $controller->handleRequest();
-        $data['pengguna'] = $controller->index();
-
-        $content_file = __DIR__ . '/pengguna/index.php';
-        break;
+        require_once __DIR__ . '/../../../controllers/Pengguna.php';
+        $controller = new Pengguna();
+        $controller->index();
+        exit;
+    case 'tahun_ajaran':
+        require_once __DIR__ . '/../../../controllers/TahunAjaran.php';
+        $controller = new TahunAjaran();
+        $controller->index();
+        exit;
+    case 'jurusan':
+        require_once __DIR__ . '/../../../controllers/Jurusan.php';
+        $controller = new Jurusan();
+        $controller->index();
+        exit;
+    case 'kelas':
+        require_once __DIR__ . '/../../../controllers/Kelas.php';
+        $controller = new Kelas();
+        $controller->index();
+        exit;
+    case 'matakuliah':
+        require_once __DIR__ . '/../../../controllers/Matakuliah.php';
+        $controller = new Matakuliah();
+        $controller->index();
+        exit;
     case 'peminjaman':
         // UPDATED: Mengarah ke struktur modular peminjaman
         $content_file = __DIR__ . '/peminjaman/index.php';

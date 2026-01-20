@@ -11,7 +11,7 @@
       <button type="button" class="p-x" onclick="closeScheduleModal()">&times;</button>
     </div>
 
-    <form id="pScheduleForm" class="p-modal-body" method="POST" action="<?= BASE_URL ?>jadwal"
+    <form id="pScheduleForm" class="p-modal-body" method="POST" action="<?= BASE_URL ?>/jadwal"
       onsubmit="return saveJadwalPraktikum(event)">
       <!-- Hidden Field for Action (Create/Update) -->
       <input type="hidden" name="action" value="create" />

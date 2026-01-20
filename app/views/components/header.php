@@ -4,6 +4,7 @@
 <body class="d-flex flex-column min-vh-100">
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <link rel="icon" type="image/png" href="<?= BASE_URL ?>/public/img/logo-iclabs.png">
     <title>ICLABS - Sistem Peminjaman Lab</title>
 
     <!-- Bootstrap 5 -->

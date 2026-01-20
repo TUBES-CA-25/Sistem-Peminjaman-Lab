@@ -15,10 +15,20 @@ class Matakuliah extends Controller
     public function index()
     {
         $matakuliah = $this->matakuliahModel->getAll();
+
+        // Load Jurusan Model
+        if (!method_exists($this, 'model')) {
+            require_once __DIR__ . '/../models/JurusanModel.php';
+            $jurusanModel = new JurusanModel();
+        } else {
+            $jurusanModel = $this->model('JurusanModel');
+        }
+
         $data = [
             'title' => 'Data Mata Kuliah',
             'active_page' => 'matakuliah',
-            'matakuliah' => $matakuliah
+            'matakuliah' => $matakuliah,
+            'jurusan_list' => $jurusanModel->getAll()
         ];
 
         $this->view('components/admin_head', $data);
@@ -33,13 +43,17 @@ class Matakuliah extends Controller
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $data = [
                 'nama' => $_POST['nama_matakuliah'],
-                'kode' => $_POST['kode_matakuliah']
+                'kode' => $_POST['kode_matakuliah'],
+                'singkatan' => $_POST['singkatan'],
+                'semester' => $_POST['semester'],
+                'sks' => $_POST['sks'],
+                'jurusan_id' => $_POST['jurusan_id']
             ];
 
             if ($this->matakuliahModel->create($data)) {
-                header("Location: " . BASE_URL . "matakuliah?status=success&msg=Mata Kuliah berhasil ditambahkan");
+                header("Location: " . BASE_URL . "/matakuliah?status=success&msg=Mata Kuliah berhasil ditambahkan");
             } else {
-                header("Location: " . BASE_URL . "matakuliah?status=error&msg=Gagal menambahkan mata kuliah");
+                header("Location: " . BASE_URL . "/matakuliah?status=error&msg=Gagal menambahkan mata kuliah");
             }
         }
     }
@@ -50,13 +64,17 @@ class Matakuliah extends Controller
             $id = $_POST['id'];
             $data = [
                 'nama' => $_POST['nama_matakuliah'],
-                'kode' => $_POST['kode_matakuliah']
+                'kode' => $_POST['kode_matakuliah'],
+                'singkatan' => $_POST['singkatan'],
+                'semester' => $_POST['semester'],
+                'sks' => $_POST['sks'],
+                'jurusan_id' => $_POST['jurusan_id']
             ];
 
             if ($this->matakuliahModel->update($id, $data)) {
-                header("Location: " . BASE_URL . "matakuliah?status=success&msg=Mata Kuliah berhasil diupdate");
+                header("Location: " . BASE_URL . "/matakuliah?status=success&msg=Mata Kuliah berhasil diupdate");
             } else {
-                header("Location: " . BASE_URL . "matakuliah?status=error&msg=Gagal update mata kuliah");
+                header("Location: " . BASE_URL . "/matakuliah?status=error&msg=Gagal update mata kuliah");
             }
         }
     }

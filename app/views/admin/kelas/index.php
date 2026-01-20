@@ -1,62 +1,85 @@
-<!-- app/views/admin/kelas/index.php -->
-<div class="row">
-    <div class="col-12">
-        <h2 class="mb-4">Data Kelas</h2>
+<?php
+$kelas = $data['kelas'] ?? [];
+?>
 
-        <?php if (isset($_GET['status']) && isset($_GET['msg'])): ?>
-            <div class="alert alert-<?= ($_GET['status'] == 'success') ? 'success' : 'danger' ?> alert-dismissible fade show"
-                role="alert">
-                <?= htmlspecialchars($_GET['msg']) ?>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        <?php endif; ?>
+<!-- HEADER SECTION -->
+<div class="card border-0 shadow-sm mb-4 bg-gradient-primary-custom text-white overflow-hidden">
+    <div class="card-body p-4 d-flex align-items-center justify-content-between flex-wrap gap-3">
+        <div>
+            <h1 class="h2 fw-bold mb-1 text-white">Data Kelas</h1>
+            <p class="mb-0 opacity-75">Kelola data kelas, jurusan, dan angkatan.</p>
+        </div>
+        <button type="button" class="btn btn-light fw-bold d-flex align-items-center gap-2 shadow-sm"
+            data-bs-toggle="modal" data-bs-target="#addModal">
+            <i class="fas fa-plus text-primary"></i>
+            Tambah Kelas
+        </button>
+    </div>
+</div>
 
-        <div class="card shadow mb-4">
-            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                <h6 class="m-0 font-weight-bold text-primary">Daftar Kelas</h6>
-                <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addModal">
-                    <i class="fas fa-plus fa-sm"></i> Tambah Kelas
-                </button>
-            </div>
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                        <thead>
-                            <tr>
-                                <th>No</th>
-                                <th>Nama Kelas</th>
-                                <th>Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php $no = 1;
-                            foreach ($data['kelas'] as $row): ?>
-                                <tr>
-                                    <td>
-                                        <?= $no++ ?>
-                                    </td>
-                                    <td>
-                                        <?= htmlspecialchars($row['nama_kelas']) ?>
-                                    </td>
-                                    <td>
-                                        <button class="btn btn-warning btn-sm btn-edit" data-id="<?= $row['id'] ?>"
-                                            data-nama="<?= htmlspecialchars($row['nama_kelas']) ?>" data-bs-toggle="modal"
-                                            data-bs-target="#editModal">
-                                            <i class="fas fa-edit"></i>
-                                        </button>
-                                        <form action="<?= BASE_URL ?>/kelas/delete/<?= $row['id'] ?>" method="POST"
-                                            class="d-inline" onsubmit="return confirm('Yakin ingin menghapus?');">
-                                            <button type="submit" class="btn btn-danger btn-sm">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </form>
-                                    </td>
-                                </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+<!-- NOTIFICATION -->
+<?php if (isset($_GET['status']) && isset($_GET['msg'])): ?>
+    <?php
+    $alertClass = $_GET['status'] == 'success' ? 'alert-success' : 'alert-danger';
+    $icon = $_GET['status'] == 'success' ? 'fa-check-circle' : 'fa-exclamation-circle';
+    ?>
+    <div class="alert <?= $alertClass ?> alert-dismissible fade show shadow-sm border-0 mb-4" role="alert">
+        <i class="fas <?= $icon ?> me-2"></i> <strong>
+            <?= htmlspecialchars($_GET['msg']) ?>
+        </strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+<?php endif; ?>
+
+<!-- TABLE SECTION -->
+<div class="card border-0 shadow-sm mb-4">
+    <div class="card-body p-4">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Nama Kelas</th>
+                        <th>Jurusan</th>
+                        <th>Angkatan</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php $no = 1;
+                    foreach ($data['kelas'] as $row): ?>
+                        <tr>
+                            <td>
+                                <?= $no++ ?>
+                            </td>
+                            <td>
+                                <?= htmlspecialchars($row['nama_kelas']) ?>
+                            </td>
+                            <td>
+                                <?= htmlspecialchars($row['nama_jurusan'] ?? '-') ?>
+                            </td>
+                            <td>
+                                <?= htmlspecialchars($row['angkatan'] ?? '-') ?>
+                            </td>
+                            <td>
+                                <button class="btn btn-warning btn-sm btn-edit" data-id="<?= $row['id'] ?>"
+                                    data-nama="<?= htmlspecialchars($row['nama_kelas']) ?>"
+                                    data-jurusan="<?= $row['jurusan_id'] ?>"
+                                    data-angkatan="<?= htmlspecialchars($row['angkatan']) ?>" data-bs-toggle="modal"
+                                    data-bs-target="#editModal">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <form action="<?= BASE_URL ?>/kelas/delete/<?= $row['id'] ?>" method="POST" class="d-inline"
+                                    onsubmit="return confirm('Yakin ingin menghapus?');">
+                                    <button type="submit" class="btn btn-danger btn-sm">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
@@ -74,6 +97,20 @@
                     <div class="mb-3">
                         <label for="nama_kelas" class="form-label">Nama Kelas</label>
                         <input type="text" class="form-control" id="nama_kelas" name="nama_kelas" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="jurusan_id" class="form-label">Jurusan</label>
+                        <select class="form-select" id="jurusan_id" name="jurusan_id" required>
+                            <option value="">Pilih Jurusan</option>
+                            <?php foreach ($data['jurusan_list'] as $j): ?>
+                                <option value="<?= $j['id'] ?>"><?= $j['nama_jurusan'] ?> (<?= $j['singkatan'] ?>)</option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="angkatan" class="form-label">Angkatan</label>
+                        <input type="number" class="form-control" id="angkatan" name="angkatan"
+                            placeholder="Contoh: 2023" required>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -100,6 +137,19 @@
                         <label for="edit_nama_kelas" class="form-label">Nama Kelas</label>
                         <input type="text" class="form-control" id="edit_nama_kelas" name="nama_kelas" required>
                     </div>
+                    <div class="mb-3">
+                        <label for="edit_jurusan_id" class="form-label">Jurusan</label>
+                        <select class="form-select" id="edit_jurusan_id" name="jurusan_id" required>
+                            <option value="">Pilih Jurusan</option>
+                            <?php foreach ($data['jurusan_list'] as $j): ?>
+                                <option value="<?= $j['id'] ?>"><?= $j['nama_jurusan'] ?> (<?= $j['singkatan'] ?>)</option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit_angkatan" class="form-label">Angkatan</label>
+                        <input type="number" class="form-control" id="edit_angkatan" name="angkatan" required>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
@@ -116,6 +166,8 @@
         button.addEventListener('click', function () {
             document.getElementById('edit_id').value = this.dataset.id;
             document.getElementById('edit_nama_kelas').value = this.dataset.nama;
+            document.getElementById('edit_jurusan_id').value = this.dataset.jurusan;
+            document.getElementById('edit_angkatan').value = this.dataset.angkatan;
         });
     });
 </script>

@@ -3,21 +3,26 @@
 ?>
 
 <!-- HERO SECTION -->
-<div style="background: linear-gradient(135deg, #122E4F 0%, #1F45AC 100%); padding: 2.5rem; border-radius: 12px; margin-bottom: 2rem; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1); gap: 1.5rem; flex-wrap: wrap;">
-  <div style="flex: 1; min-width: 250px;">
-    <h1 style="color: white; font-size: 2rem; font-weight: 800; margin: 0 0 0.5rem 0;">Data Peminjaman</h1>
-    <p style="color: rgba(255,255,255,0.9); font-size: 1rem; margin:0;">Kelola dan monitoring peminjaman laboratorium</p>
-  </div>
+<!-- HERO SECTION -->
+<div class="card border-0 shadow-sm mb-4 bg-gradient-primary-custom text-white overflow-hidden">
+  <div class="card-body p-4 d-flex align-items-center justify-content-between flex-wrap gap-3">
+    <div>
+      <h1 class="h2 fw-bold mb-1 text-white">Data Peminjaman</h1>
+      <p class="mb-0 opacity-75">Kelola dan monitoring peminjaman laboratorium.</p>
+    </div>
 
-  <div style="display:flex; gap:10px; flex-wrap:wrap; align-items: center;">
-    <button type="button" class="p-add-btn" onclick="openBookingModal()">
-      <i class="fas fa-plus"></i>
-      Tambah Peminjaman
-    </button>
-    <button type="button" class="p-export-btn" onclick="exportReport()">
-      <i class="fas fa-download"></i>
-      Export Laporan
-    </button>
+    <div class="d-flex gap-2 flex-wrap align-items-center">
+      <button type="button" class="btn btn-light fw-bold d-flex align-items-center gap-2 shadow-sm text-primary"
+        onclick="openBookingModal()">
+        <i class="fas fa-plus"></i>
+        Tambah Peminjaman
+      </button>
+      <button type="button" class="btn btn-outline-light fw-bold d-flex align-items-center gap-2 shadow-sm"
+        onclick="exportReport()">
+        <i class="fas fa-download"></i>
+        Export Laporan
+      </button>
+    </div>
   </div>
 </div>
 

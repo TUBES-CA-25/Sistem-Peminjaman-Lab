@@ -61,24 +61,24 @@ class Jadwal extends Controller
 
             if ($action === 'create') {
                 if ($model->checkConflict($data['lab_id'], $data['hari'], $data['jam_mulai'], $data['jam_selesai'])) {
-                    header("Location: " . BASE_URL . "jadwal?status=error&msg=Jadwal bentrok!");
+                    header("Location: " . BASE_URL . "/jadwal?status=error&msg=Jadwal bentrok!");
                     exit;
                 }
 
                 if ($model->create($data)) {
-                    header("Location: " . BASE_URL . "jadwal?status=success&msg=Jadwal berhasil ditambahkan");
+                    header("Location: " . BASE_URL . "/jadwal?status=success&msg=Jadwal berhasil ditambahkan");
                     exit;
                 }
             } elseif ($action === 'update') {
                 $id = $_POST['id'] ?? 0;
 
                 if ($model->checkConflict($data['lab_id'], $data['hari'], $data['jam_mulai'], $data['jam_selesai'], $id)) {
-                    header("Location: " . BASE_URL . "jadwal?status=error&msg=Jadwal bentrok!");
+                    header("Location: " . BASE_URL . "/jadwal?status=error&msg=Jadwal bentrok!");
                     exit;
                 }
 
                 if ($model->update($id, $data)) {
-                    header("Location: " . BASE_URL . "jadwal?status=success&msg=Jadwal berhasil diperbarui");
+                    header("Location: " . BASE_URL . "/jadwal?status=success&msg=Jadwal berhasil diperbarui");
                     exit;
                 }
             }
@@ -86,7 +86,7 @@ class Jadwal extends Controller
         } elseif ($action === 'delete') {
             $id = $_POST['id'] ?? 0;
             if ($model->delete($id)) {
-                header("Location: " . BASE_URL . "jadwal?status=success&msg=Jadwal berhasil dihapus");
+                header("Location: " . BASE_URL . "/jadwal?status=success&msg=Jadwal berhasil dihapus");
                 exit;
             }
         }

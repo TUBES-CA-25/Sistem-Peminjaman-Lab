@@ -19,7 +19,15 @@ class App
 
         // 1. Check Controller
         if (isset($url[0])) {
-            if (file_exists(__DIR__ . '/../controllers/' . ucfirst($url[0]) . '.php')) {
+            // Normalize URL: convert snake_case or kebab-case to PascalCase
+            // e.g. 'tahun_ajaran' -> 'TahunAjaran', 'mata-kuliah' -> 'MataKuliah'
+            $normalized_controller = str_replace(['_', '-'], '', ucwords($url[0], '_-'));
+
+            if (file_exists(__DIR__ . '/../controllers/' . $normalized_controller . '.php')) {
+                $this->controller = $normalized_controller;
+                unset($url[0]);
+            } elseif (file_exists(__DIR__ . '/../controllers/' . ucfirst($url[0]) . '.php')) {
+                // Fallback to simple ucfirst (e.g. 'Home' or 'Login')
                 $this->controller = ucfirst($url[0]);
                 unset($url[0]);
             }
