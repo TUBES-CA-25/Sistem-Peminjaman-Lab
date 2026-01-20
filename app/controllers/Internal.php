@@ -76,7 +76,7 @@ class Internal extends Controller
     private function getLabsData()
     {
         $labs = [];
-        
+
         foreach ($this->ruanganModel->getAll() as $ruangan) {
             $labs[] = [
                 'id' => $ruangan['id'],
@@ -89,7 +89,7 @@ class Internal extends Controller
                 'status' => $ruangan['status'] == 1 ? 'tersedia' : 'terpakai'
             ];
         }
-        
+
         return $labs;
     }
 
@@ -106,7 +106,7 @@ class Internal extends Controller
     {
         $dayName = strtolower($this->getDayName($date));
         $schedules = [];
-        
+
         foreach ($this->jadwalModel->getAll() as $jadwal) {
             // Hanya include jadwal untuk hari yang dipilih
             if (strtolower($jadwal['hari']) === $dayName) {
@@ -120,7 +120,7 @@ class Internal extends Controller
                 ];
             }
         }
-        
+
         return $schedules;
     }
 
@@ -138,16 +138,16 @@ class Internal extends Controller
         // Hitung rentang tanggal (±7 hari untuk tampilan kalender)
         $startDate = date('Y-m-d', strtotime($selectedDate . ' -7 days'));
         $endDate = date('Y-m-d', strtotime($selectedDate . ' +7 days'));
-        
+
         $bookings = [];
-        
+
         foreach ($this->peminjamanModel->getAll() as $peminjaman) {
             $bookingDate = $peminjaman['tanggal_peminjaman'];
-            
+
             // Filter: hanya booking yang approved dan dalam rentang tanggal
             $isApproved = $peminjaman['status'] === 'disetujui';
             $isInRange = $bookingDate >= $startDate && $bookingDate <= $endDate;
-            
+
             if ($isApproved && $isInRange) {
                 $bookings[] = [
                     'lab_id' => $peminjaman['lab_id'],
@@ -160,7 +160,7 @@ class Internal extends Controller
                 ];
             }
         }
-        
+
         return $bookings;
     }
 
@@ -250,7 +250,7 @@ class Internal extends Controller
             $formData['jamMulai'],
             $formData['jamSelesai']
         );
-        
+
         if ($scheduleConflict) {
             echo json_encode(['success' => false, 'message' => $scheduleConflict]);
             return;
@@ -311,8 +311,10 @@ class Internal extends Controller
     private function validateBookingInput($data)
     {
         // Cek field yang required
-        if (empty($data['tanggal']) || empty($data['labName']) || 
-            empty($data['jamMulai']) || empty($data['jamSelesai'])) {
+        if (
+            empty($data['tanggal']) || empty($data['labName']) ||
+            empty($data['jamMulai']) || empty($data['jamSelesai'])
+        ) {
             return ['valid' => false, 'message' => 'Data tidak lengkap'];
         }
 
@@ -332,13 +334,13 @@ class Internal extends Controller
     private function getLabIdByName($labName)
     {
         $labs = $this->ruanganModel->getAll();
-        
+
         foreach ($labs as $lab) {
             if ($lab['nama_ruangan'] === $labName) {
                 return $lab['id'];
             }
         }
-        
+
         return null;
     }
 
@@ -392,7 +394,7 @@ class Internal extends Controller
             'Friday' => 'Jumat',
             'Saturday' => 'Sabtu'
         ];
-        
+
         $dayEnglish = date('l', strtotime($date));
         return $days[$dayEnglish] ?? $dayEnglish;
     }
