@@ -147,7 +147,7 @@
         // Create a form to submit delete request
         const form = document.createElement('form');
         form.method = 'POST';
-        form.action = '<?= BASE_URL ?>jadwal';
+        form.action = '<?= BASE_URL ?>/jadwal';
 
         const inputAction = document.createElement('input');
         inputAction.type = 'hidden';
