@@ -40,10 +40,7 @@ class TahunAjaranModel
 
         $this->db->execute();
 
-        // If this one is Active, deactivate others
-        if ($data['status'] == 'Aktif') {
-            $this->deactivateOthers($this->db->lastInsertId());
-        }
+
 
         return $this->db->rowCount();
     }
