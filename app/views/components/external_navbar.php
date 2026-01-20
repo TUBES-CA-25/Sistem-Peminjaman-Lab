@@ -1,18 +1,8 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top">
-  <div class="container">
-
-    <a class="navbar-brand fw-bold" href="<?= BASE_URL; ?>">
+<nav class="navbar navbar-expand-lg bg-white border-bottom sticky-top">
+  <div class="container-fluid px-4">
+    <a class="navbar-brand fw-bold text-primary fs-4" href="<?= BASE_URL; ?>">
+      <img src="<?= BASE_URL; ?>/public/img/logo-iclabs.png" alt="ICLABS Logo" height="40">
       ICLABS
     </a>
-
-    <!-- Menu di sebelah kanan -->
-    <div class="ms-auto">
-      <a href="<?= BASE_URL; ?>/external/profile" class="btn btn-sm btn-outline-primary me-2">
-          <i class="bi bi-person-circle me-1"></i> Profil Saya
-      </a>
-      <a href="<?= BASE_URL; ?>auth/logout" class="btn btn-danger rounded-pill px-4 fw-bold" style="font-size: 0.9rem;">
-        Sign Out
-      </a>
-    </div>
   </div>
 </nav>

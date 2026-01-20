@@ -14,11 +14,11 @@ class External extends Controller
     {
         $data['judul'] = 'Dashboard Peminjaman';
         $data['riwayat'] = $this->model('Pengajuan_model')->getRiwayat();
+        $data['active_page'] = 'external';
 
         $this->view('components/header', $data);
         $this->view('components/external_navbar', $data);
         $this->view('external/index', $data);
-        $this->view('components/footer');
     }
 
     public function detail($id = null)
@@ -166,22 +166,34 @@ class External extends Controller
     }
 
 
-    public function profile()
+   public function profile()
     {
-        // 1. Cek apakah user sudah login (Wajib)
-        // if (!isset($_SESSION['user_id'])) { header('Location: ' . BASE_URL . '/login'); exit; }
+        // 1. CEK SESSION (Validasi Login)
+        // Pastikan Anda sudah login, jika belum kembalikan ke halaman login
+        // Sesuaikan 'user_id' dengan nama session saat login (misal: 'id_user' atau 'id')
+        if (!isset($_SESSION['user_id'])) { 
+            header('Location: ' . BASE_URL . '/auth/login'); // Atau arahkan ke /login
+            exit;
+        }
 
         $data['judul'] = 'Profil Saya';
         
-        // 2. Ambil ID dari Session
-        $userId = $_SESSION['user_id']; // Pastikan session user_id sudah diset saat login
+        // 2. Ambil ID dari Session dengan aman
+        $userId = $_SESSION['user_id']; 
         
-        // 3. Ambil data user terbaru dari database
+        // 3. Ambil data user
         $data['user'] = $this->model('User_model')->getUserById($userId);
+
+        // Cek jika data user tidak ditemukan (misal user dihapus tapi session masih nyangkut)
+        if (!$data['user']) {
+            session_destroy(); // Hapus session error
+            header('Location: ' . BASE_URL . '/');
+            exit;
+        }
 
         $this->view('components/header', $data);
         $this->view('components/external_navbar', $data);
-        $this->view('external/profile', $data); // Kita akan buat file ini
+        $this->view('external/profile', $data);
         $this->view('components/footer');
     }
 
