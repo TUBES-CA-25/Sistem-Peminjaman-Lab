@@ -1,7 +1,7 @@
 <?php
 /**
- * Database Seeder
- * Run this to populate initial data for labs (ruangan)
+ * Database Seeder - Ruangan
+ * Populate initial data for lab rooms
  * Access: http://localhost:8000/seeder.php
  */
 
@@ -13,7 +13,7 @@ $db = new Database();
 echo "<!DOCTYPE html>
 <html>
 <head>
-    <title>Database Seeder</title>
+    <title>Database Seeder - Ruangan</title>
     <style>
         body { font-family: Arial, sans-serif; max-width: 900px; margin: 50px auto; padding: 20px; }
         .success { color: green; padding: 10px; background: #d4edda; border-radius: 5px; margin: 10px 0; }
@@ -23,7 +23,7 @@ echo "<!DOCTYPE html>
     </style>
 </head>
 <body>
-    <h1>🌱 Database Seeder - Ruangan (Labs)</h1>";
+    <h1>🌱 Database Seeder - Ruangan</h1>";
 
 try {
     // Check if table exists using new wrapper
@@ -33,7 +33,7 @@ try {
         throw new Exception("Table 'ruangan' does not exist! Please run setup.php first.");
     }
 
-    // Lab data based on previous configuration
+    // Lab data - 8 labs
     $labs = [
         [
             'nama_ruangan' => 'Lab Start Up',
@@ -42,7 +42,7 @@ try {
             'pic' => 'Dr. Budi Santoso',
             'email_pic' => 'budi.santoso@iclabs.ac.id',
             'fasilitas' => 'Komputer 30 unit, Proyektor, AC, Whiteboard',
-            'deskripsi' => 'Lab Start Up dengan fasilitas lengkap untuk pembelajaran dan praktikum',
+            'deskripsi' => 'Lab Start Up dengan fasilitas lengkap',
             'gambar' => 'StartUp.jpg',
             'status' => 1
         ],
@@ -52,8 +52,8 @@ try {
             'lokasi' => 'Gedung E, Lantai 1',
             'pic' => 'Dr. Budi Santoso',
             'email_pic' => 'budi.santoso@iclabs.ac.id',
-            'fasilitas' => 'Komputer 25 unit, IoT Devices, Arduino Kit, Raspberry Pi',
-            'deskripsi' => 'Lab khusus untuk pembelajaran Internet of Things',
+            'fasilitas' => 'Komputer 25 unit, IoT Devices, Arduino Kit',
+            'deskripsi' => 'Lab khusus untuk Internet of Things',
             'gambar' => 'IoT.jpg',
             'status' => 1
         ],
@@ -63,8 +63,8 @@ try {
             'lokasi' => 'Gedung F, Lantai 2',
             'pic' => 'Dr. Budi Santoso',
             'email_pic' => 'budi.santoso@iclabs.ac.id',
-            'fasilitas' => 'Komputer High-End 28 unit, Wacom Tablet, Video Editing Software',
-            'deskripsi' => 'Lab Multimedia untuk desain grafis dan video editing',
+            'fasilitas' => 'Komputer High-End 28 unit, Wacom Tablet',
+            'deskripsi' => 'Lab Multimedia untuk desain grafis',
             'gambar' => 'Mulmed.jpg',
             'status' => 1
         ],
@@ -74,8 +74,8 @@ try {
             'lokasi' => 'Gedung F, Lantai 3',
             'pic' => 'Dr. Budi Santoso',
             'email_pic' => 'budi.santoso@iclabs.ac.id',
-            'fasilitas' => 'Komputer 30 unit, Cisco Router, Switch, Cable Tools',
-            'deskripsi' => 'Lab Networking dengan perangkat jaringan lengkap',
+            'fasilitas' => 'Komputer 30 unit, Cisco Router, Switch',
+            'deskripsi' => 'Lab Networking dengan perangkat lengkap',
             'gambar' => 'comnet.png',
             'status' => 1
         ],
@@ -85,8 +85,8 @@ try {
             'lokasi' => 'Gedung F, Lantai 1',
             'pic' => 'Dr. Budi Santoso',
             'email_pic' => 'budi.santoso@iclabs.ac.id',
-            'fasilitas' => 'Komputer 32 unit, GPU Server, Python Environment',
-            'deskripsi' => 'Lab Data Science dengan server GPU untuk machine learning',
+            'fasilitas' => 'Komputer 32 unit, GPU Server',
+            'deskripsi' => 'Lab Data Science dengan server GPU',
             'gambar' => 'DS.jpg',
             'status' => 1
         ],
@@ -96,8 +96,8 @@ try {
             'lokasi' => 'Gedung F, Lantai 2',
             'pic' => 'Dr. Budi Santoso',
             'email_pic' => 'budi.santoso@iclabs.ac.id',
-            'fasilitas' => 'Komputer 20 unit, Camera Equipment, Deep Learning Tools',
-            'deskripsi' => 'Lab Computer Vision untuk pengolahan citra',
+            'fasilitas' => 'Komputer 20 unit, Camera Equipment',
+            'deskripsi' => 'Lab Computer Vision',
             'gambar' => 'CV.jpg',
             'status' => 1
         ],
@@ -107,7 +107,7 @@ try {
             'lokasi' => 'Gedung E, Lantai 2',
             'pic' => 'Dr. Budi Santoso',
             'email_pic' => 'budi.santoso@iclabs.ac.id',
-            'fasilitas' => 'Komputer 25 unit, Microcontroller Kit, Oscilloscope',
+            'fasilitas' => 'Komputer 25 unit, Microcontroller Kit',
             'deskripsi' => 'Lab Microcontroller untuk embedded systems',
             'gambar' => 'Micro.jpg',
             'status' => 1
@@ -118,8 +118,8 @@ try {
             'lokasi' => 'Gedung F, Lantai 3',
             'pic' => 'Dr. Budi Santoso',
             'email_pic' => 'budi.santoso@iclabs.ac.id',
-            'fasilitas' => 'Komputer 28 unit, Research Tools, Server Access',
-            'deskripsi' => 'Laboratorium untuk riset dan penelitian',
+            'fasilitas' => 'Komputer 28 unit, Research Tools',
+            'deskripsi' => 'Laboratorium riset',
             'gambar' => 'Riset.jpg',
             'status' => 1
         ]
@@ -168,9 +168,9 @@ try {
         <h3>✅ Seeding Complete!</h3>
         <strong>Summary:</strong><br>
         ✓ Inserted: {$inserted} labs<br>
-        ⚠️ Skipped: {$skipped} labs (already exist)<br><br>
-        <a href='http://localhost:8000/internal/booking' style='color: blue;'>→ Go to Internal Booking Page</a><br>
-        <a href='http://localhost:8000/auth/login' style='color: blue;'>→ Go to Admin Login</a>
+        ⚠️ Skipped: {$skipped} labs<br><br>
+        <a href='http://localhost:8000/internal/booking' style='color: blue;'>→ Internal Booking</a><br>
+        <a href='http://localhost:8000/auth/login' style='color: blue;'>→ Admin Login</a>
     </div>";
     
 } catch (Exception $e) {
