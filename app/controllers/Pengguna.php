@@ -47,22 +47,32 @@ class Pengguna extends Controller
                 'password' => $_POST['password'] ?? ''
             ];
 
-            if ($action === 'create') {
-                if ($model->create($data)) {
-                    header("Location: " . BASE_URL . "pengguna?status=success&msg=Pengguna ditambahkan");
-                    exit;
+            try {
+                if ($action === 'create') {
+                    if ($model->create($data)) {
+                        header("Location: " . BASE_URL . "/pengguna?status=success&msg=Pengguna ditambahkan");
+                        exit;
+                    }
+                } elseif ($action === 'update') {
+                    $id = $_POST['id'] ?? 0;
+                    if ($model->update($id, $data)) {
+                        header("Location: " . BASE_URL . "/pengguna?status=success&msg=Pengguna diperbarui");
+                        exit;
+                    }
                 }
-            } elseif ($action === 'update') {
-                $id = $_POST['id'] ?? 0;
-                if ($model->update($id, $data)) {
-                    header("Location: " . BASE_URL . "pengguna?status=success&msg=Pengguna diperbarui");
+            } catch (PDOException $e) {
+                if ($e->getCode() == '23000') {
+                    // Duplicate entry
+                    header("Location: " . BASE_URL . "/pengguna?status=error&msg=Email sudah terdaftar!");
                     exit;
+                } else {
+                    throw $e;
                 }
             }
         } elseif ($action === 'delete') {
             $id = $_POST['id'] ?? 0;
             if ($model->delete($id)) {
-                header("Location: " . BASE_URL . "pengguna?status=success&msg=Pengguna dihapus");
+                header("Location: " . BASE_URL . "/pengguna?status=success&msg=Pengguna dihapus");
                 exit;
             }
         }

@@ -60,7 +60,7 @@
                                     <i class="fas fa-edit"></i> <span class="d-none d-lg-inline">Edit</span>
                                 </button>
 
-                                <form action="<?= BASE_URL ?>pengguna" method="POST"
+                                <form action="<?= BASE_URL ?>/pengguna" method="POST"
                                     onsubmit="return confirm('Hapus pengguna ini?');">
                                     <input type="hidden" name="action" value="delete">
                                     <input type="hidden" name="id" value="<?= $u['id'] ?>">

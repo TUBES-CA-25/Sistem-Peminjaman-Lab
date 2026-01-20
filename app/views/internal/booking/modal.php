@@ -1,9 +1,21 @@
 <?php
-// app/views/internal/booking/modal.php
-// Schedule Modal - Admin Style (CSS di internal-booking.css)
+/**
+ * app/views/internal/booking/modal.php
+ * 
+ * File ini berisi 3 modal yang berbeda:
+ * 1. MODAL 1: Schedule Modal (Tambah Peminjaman) - Custom modal for per-lab schedule view
+ * 2. MODAL 2: Booking Form Modal - Bootstrap modal for submitting booking
+ * 3. MODAL 3: View Schedule Modal (Lihat Jadwal) - Custom modal for viewing all labs at once
+ * 
+ * Styling: internal-booking.css
+ */
 ?>
 
-<!-- Modal: Tambah Peminjaman -->
+<!-- ========================================================================= -->
+<!-- MODAL 1: SCHEDULE MODAL (TAMBAH PEMINJAMAN)                              -->
+<!-- Purpose: Menampilkan jadwal satu lab + slot kosong untuk booking         -->
+<!-- Type: Custom modal (CSS di internal-booking.css)                         -->
+<!-- ========================================================================= -->
 <div id="scheduleModal" class="p-modal">
     <div class="p-modal-card">
         <div class="p-modal-head">
@@ -53,7 +65,7 @@
                             ?>
                             <div class="p-slot <?= $slotClass ?>">
                                 <span class="p-slot-label"><?= $slotLabel ?>: <?= $p['jam_mulai'] ?>-<?= $p['jam_selesai'] ?></span>
-                                <span class="p-slot-sub"><?= htmlspecialchars($p['keterangan']) ?></span>
+                                <span class="p-slot-sub"><?= htmlspecialchars($p['keterangan']) ?> - <span style="font-weight: 600;"><?= htmlspecialchars($p['peminjam']) ?></span></span>
                             </div>
                             <?php endforeach; ?>
                             
@@ -91,7 +103,11 @@
     </div>
 </div>
 
-<!-- Modal: Booking Form (Internal) - Bootstrap Modal -->
+<!-- ========================================================================= -->
+<!-- MODAL 2: BOOKING FORM MODAL (INTERNAL)                                   -->
+<!-- Purpose: Form untuk submit booking laboratorium                          -->
+<!-- Type: Bootstrap modal                                                     -->
+<!-- ========================================================================= -->
 <div class="modal fade" id="bookingModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" style="max-width: 450px;">
         <div class="modal-content" style="border-radius: 12px; border: none; box-shadow: 0 10px 40px rgba(0,0,0,0.15);">
@@ -151,7 +167,11 @@
     </div>
 </div>
 
-<!-- Modal: View Schedule (Read-Only) -->
+<!-- ========================================================================= -->
+<!-- MODAL 3: VIEW SCHEDULE MODAL (LIHAT JADWAL)                              -->
+<!-- Purpose: Menampilkan jadwal semua lab sekaligus (read-only)              -->
+<!-- Type: Custom modal (CSS di internal-booking.css)                         -->
+<!-- ========================================================================= -->
 <div id="viewScheduleModal" class="p-modal">
     <div class="p-modal-card">
         <div class="p-modal-head">
@@ -194,7 +214,7 @@
                         ?>
                         <div class="p-slot <?= $slotClass ?>" style="cursor: default;">
                             <span class="p-slot-label"><?= $slotLabel ?>: <?= $p['jam_mulai'] ?>-<?= $p['jam_selesai'] ?></span>
-                            <span class="p-slot-sub"><?= htmlspecialchars($p['keterangan']) ?></span>
+                            <span class="p-slot-sub"><?= htmlspecialchars($p['keterangan']) ?> - <span style="font-weight: 600;"><?= htmlspecialchars($p['peminjam']) ?></span></span>
                         </div>
                         <?php endforeach; ?>
                     </div>

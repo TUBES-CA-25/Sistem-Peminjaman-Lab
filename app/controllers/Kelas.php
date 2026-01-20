@@ -15,10 +15,21 @@ class Kelas extends Controller
     public function index()
     {
         $kelas = $this->kelasModel->getAll();
+        $jurusanModel = $this->model('JurusanModel'); // Ensure Controller base class has model() method or use standard instantiation
+
+        // Fallback if model() is not available in parent (based on line 12 use of new KelasModel())
+        if (!method_exists($this, 'model')) {
+            require_once __DIR__ . '/../models/JurusanModel.php';
+            $jurusanModel = new JurusanModel();
+        } else {
+            $jurusanModel = $this->model('JurusanModel');
+        }
+
         $data = [
             'title' => 'Data Kelas',
             'active_page' => 'kelas',
-            'kelas' => $kelas
+            'kelas' => $kelas,
+            'jurusan_list' => $jurusanModel->getAll()
         ];
 
         $this->view('components/admin_head', $data);
@@ -31,12 +42,16 @@ class Kelas extends Controller
     public function store()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $nama_kelas = $_POST['nama_kelas'];
+            $data = [
+                'nama_kelas' => $_POST['nama_kelas'],
+                'jurusan_id' => $_POST['jurusan_id'],
+                'angkatan' => $_POST['angkatan']
+            ];
 
-            if ($this->kelasModel->create($nama_kelas)) {
-                header("Location: " . BASE_URL . "kelas?status=success&msg=Kelas berhasil ditambahkan");
+            if ($this->kelasModel->create($data)) {
+                header("Location: " . BASE_URL . "/kelas?status=success&msg=Kelas berhasil ditambahkan");
             } else {
-                header("Location: " . BASE_URL . "kelas?status=error&msg=Gagal menambahkan kelas");
+                header("Location: " . BASE_URL . "/kelas?status=error&msg=Gagal menambahkan kelas");
             }
         }
     }
@@ -45,12 +60,16 @@ class Kelas extends Controller
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $id = $_POST['id'];
-            $nama_kelas = $_POST['nama_kelas'];
+            $data = [
+                'nama_kelas' => $_POST['nama_kelas'],
+                'jurusan_id' => $_POST['jurusan_id'],
+                'angkatan' => $_POST['angkatan']
+            ];
 
-            if ($this->kelasModel->update($id, $nama_kelas)) {
-                header("Location: " . BASE_URL . "kelas?status=success&msg=Kelas berhasil diupdate");
+            if ($this->kelasModel->update($id, $data)) {
+                header("Location: " . BASE_URL . "/kelas?status=success&msg=Kelas berhasil diupdate");
             } else {
-                header("Location: " . BASE_URL . "kelas?status=error&msg=Gagal update kelas");
+                header("Location: " . BASE_URL . "/kelas?status=error&msg=Gagal update kelas");
             }
         }
     }

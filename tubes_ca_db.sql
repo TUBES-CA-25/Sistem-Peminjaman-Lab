@@ -40,19 +40,53 @@ CREATE TABLE users (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+-- 3. Table Jurusan
+CREATE TABLE IF NOT EXISTS jurusan (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nama_jurusan VARCHAR(100) NOT NULL,
+    singkatan VARCHAR(20) NOT NULL
+);
+
+-- 4. Table Tahun Ajaran
+CREATE TABLE IF NOT EXISTS tahun_ajaran (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nama VARCHAR(50) NOT NULL,
+    status ENUM('Aktif', 'Tidak Aktif') DEFAULT 'Tidak Aktif'
+);
+
+-- 5. Table Kelas
+DROP TABLE IF EXISTS kelas;
+
+CREATE TABLE IF NOT EXISTS kelas (
 -- C. Table Kelas
 CREATE TABLE kelas (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    nama_kelas VARCHAR(50) NOT NULL UNIQUE
+    nama_kelas VARCHAR(50) NOT NULL UNIQUE,
+    jurusan_id INT NULL,
+    angkatan VARCHAR(4) NULL,
+    FOREIGN KEY (jurusan_id) REFERENCES jurusan (id) ON DELETE SET NULL
 );
 
+-- 6. Table Matakuliah
+DROP TABLE IF EXISTS matakuliah;
+
+CREATE TABLE IF NOT EXISTS matakuliah (
 -- D. Table Matakuliah
 CREATE TABLE matakuliah (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nama_matakuliah VARCHAR(100) NOT NULL,
-    kode_matakuliah VARCHAR(20) NOT NULL UNIQUE
+    kode_matakuliah VARCHAR(20) NOT NULL UNIQUE,
+    singkatan VARCHAR(20) NULL,
+    semester ENUM('Ganjil', 'Genap') NULL,
+    sks INT NULL,
+    jurusan_id INT NULL,
+    FOREIGN KEY (jurusan_id) REFERENCES jurusan (id) ON DELETE SET NULL
 );
 
+-- 7. Table Jadwal
+DROP TABLE IF EXISTS jadwal;
+
+CREATE TABLE IF NOT EXISTS jadwal (
 -- E. Table Jadwal
 CREATE TABLE jadwal (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -68,6 +102,10 @@ CREATE TABLE jadwal (
     FOREIGN KEY (kelas_id) REFERENCES kelas (id) ON DELETE CASCADE
 );
 
+-- 8. Table Peminjaman
+DROP TABLE IF EXISTS peminjaman;
+
+CREATE TABLE IF NOT EXISTS peminjaman (
 -- F. Table Peminjaman
 CREATE TABLE peminjaman (
     id INT AUTO_INCREMENT PRIMARY KEY,
