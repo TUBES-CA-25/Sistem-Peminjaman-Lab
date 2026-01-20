@@ -166,60 +166,45 @@ class External extends Controller
     }
 
 
-   public function profile()
+   // Method untuk menampilkan halaman profile
+    public function profile()
     {
-        // 1. CEK SESSION (Validasi Login)
-        // Pastikan Anda sudah login, jika belum kembalikan ke halaman login
-        // Sesuaikan 'user_id' dengan nama session saat login (misal: 'id_user' atau 'id')
-        if (!isset($_SESSION['user_id'])) { 
-            header('Location: ' . BASE_URL . '/auth/login'); // Atau arahkan ke /login
+        // Cek login
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: ' . BASE_URL . '/auth');
             exit;
         }
 
         $data['judul'] = 'Profil Saya';
-        
-        // 2. Ambil ID dari Session dengan aman
-        $userId = $_SESSION['user_id']; 
-        
-        // 3. Ambil data user
-        $data['user'] = $this->model('User_model')->getUserById($userId);
+        // Ambil data user terbaru dari DB (jangan hanya dari session, biar real-time)
+        $data['user'] = $this->model('User_model')->getUserById($_SESSION['user_id']);
 
-        // Cek jika data user tidak ditemukan (misal user dihapus tapi session masih nyangkut)
-        if (!$data['user']) {
-            session_destroy(); // Hapus session error
-            header('Location: ' . BASE_URL . '/');
-            exit;
-        }
-
-        $this->view('components/header', $data);
-        $this->view('components/external_navbar', $data);
         $this->view('external/profile', $data);
-        $this->view('components/footer');
     }
 
+    // Method untuk memproses update
     public function prosesUpdateProfile()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            // Ambil ID dari input hidden atau session (lebih aman session)
+            
+            // Siapkan data
             $data = [
                 'id' => $_SESSION['user_id'],
                 'nama' => $_POST['nama'],
                 'email' => $_POST['email'],
-                'telepon' => $_POST['telepon']
+                'telepon' => $_POST['telepon'],
+                'password' => $_POST['password_baru'] // Kosong jika tidak diganti
             ];
 
-            // 1. Update Data Diri
-            if ($this->model('User_model')->updateProfile($data) > 0) {
-                // Berhasil Update Data
-                // (Anda bisa set Flash Message disini jika punya fitur Flasher)
+            // Kirim ke Model
+            if ($this->model('User_model')->updateUserProfile($data) > 0) {
+                // Update Session Nama jika berubah
+                $_SESSION['nama'] = $data['nama'];
+                Flasher::setFlash('Berhasil', 'Profil berhasil diperbarui.', 'success');
+            } else {
+                Flasher::setFlash('Info', 'Tidak ada perubahan data atau terjadi kesalahan.', 'warning');
             }
 
-            // 2. Cek apakah user ingin ganti password
-            if (!empty($_POST['password_baru'])) {
-                $this->model('User_model')->updatePassword($data['id'], $_POST['password_baru']);
-            }
-
-            // Redirect kembali ke halaman profile
             header('Location: ' . BASE_URL . '/external/profile');
             exit;
         }

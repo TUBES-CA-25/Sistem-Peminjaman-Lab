@@ -26,7 +26,7 @@
 
     <hr class="text-secondary opacity-25">
 
-    <a href="<?= BASE_URL; ?>/logout" class="btn btn-danger w-100 fw-bold">
+    <a href="<?= BASE_URL; ?>/auth/logout" class="btn btn-danger w-100 fw-bold">
         <i class="bi bi-box-arrow-right me-2"></i> Logout
     </a>
 </div>

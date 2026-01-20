@@ -104,7 +104,7 @@ class RuanganModel
     // Get Assistants
     public function getAssistants()
     {
-        $query = "SELECT nama, email FROM pengguna WHERE role = 'internal' AND status = 'Asisten' ORDER BY nama ASC";
+        $query = "SELECT nama, email FROM users WHERE role = 'internal' AND status = 'Asisten' ORDER BY nama ASC";
         $this->db->query($query);
         return $this->db->resultSet();
     }
