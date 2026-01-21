@@ -309,34 +309,6 @@
         window.location.href = '<?= BASE_URL ?>/internal/booking?date=' + newDate;
     }
 
-    /**
-     * Navigasi ke tanggal berbeda dari view modal
-     * 
-     * @param {string} newDate - Tanggal dalam format Y-m-d
-     */
-    function changeViewDate(newDate) {
-        window.location.href = '<?= BASE_URL ?>/internal/booking?date=' + newDate;
-    }
-
-    // =================================================================
-    // MANAJEMEN MODAL - View All Schedules Modal
-    // =================================================================
-
-    /**
-     * Buka modal view semua jadwal (read-only)
-     * Menampilkan jadwal untuk semua lab sekaligus
-     */
-    function openViewScheduleModal() {
-        document.getElementById('viewScheduleModal').classList.add('active');
-    }
-
-    /**
-     * Tutup modal view semua jadwal
-     */
-    function closeViewScheduleModal() {
-        document.getElementById('viewScheduleModal').classList.remove('active');
-    }
-
     // =================================================================
     // EVENT LISTENERS - Interaksi Modal
     // =================================================================
@@ -359,26 +331,11 @@
     document.addEventListener('keydown', function (e) {
         if (e.key === 'Escape') {
             const bookingModal = document.getElementById('bookingModal');
-            const viewModal = document.getElementById('viewScheduleModal');
 
             // Tutup schedule modal hanya jika booking modal tidak visible
             if (!bookingModal.classList.contains('show')) {
                 closeScheduleModal();
             }
-
-            // Tutup view modal jika sedang terbuka
-            if (viewModal && viewModal.classList.contains('active')) {
-                closeViewScheduleModal();
-            }
-        }
-    });
-
-    /**
-     * Tutup modal view jadwal ketika klik backdrop
-     */
-    document.getElementById('viewScheduleModal').addEventListener('click', function (e) {
-        if (e.target === this) {
-            closeViewScheduleModal();
         }
     });
 </script>

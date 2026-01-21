@@ -2,11 +2,11 @@
 /**
  * app/views/internal/booking/modal.php
  * 
- * File ini berisi 3 modal yang berbeda:
+ * File ini berisi 2 modal yang berbeda:
  * 1. MODAL 1: Schedule Modal (Tambah Peminjaman) - Custom modal for per-lab schedule view
  * 2. MODAL 2: Booking Form Modal - Bootstrap modal for submitting booking
- * 3. MODAL 3: View Schedule Modal (Lihat Jadwal) - Custom modal for viewing all labs at once
  * 
+
  * Styling: internal-booking.css
  */
 ?>
@@ -49,14 +49,15 @@
                         <div class="p-slot-list">
                             <?php // Praktikum Tetap ?>
                             <?php foreach ($jadwalLab as $j): ?>
-                            <div class="p-slot praktikum" onclick="openBookingModal('<?= htmlspecialchars($lab['short_name']) ?>', '<?= $j['jam_mulai'] ?>', '<?= $j['jam_selesai'] ?>')">
+                            <div class="p-slot praktikum">
                                 <span class="p-slot-label">Praktikum: <?= $j['jam_mulai'] ?>-<?= $j['jam_selesai'] ?></span>
                                 <span class="p-slot-sub"><?= htmlspecialchars($j['matkul']) ?> (<?= $j['kelas'] ?>)</span>
                             </div>
                             <?php endforeach; ?>
-                            
+
                             <?php // Peminjaman ?>
                             <?php foreach ($peminjamanLab as $p): ?>
+
                             <?php 
                                 $slotClass = 'internal';
                                 $slotLabel = 'Internal';
@@ -99,6 +100,7 @@
                     Jadwal Tergeser
                 </div>
             </div>
+
         </div>
     </div>
 </div>
@@ -164,83 +166,8 @@
                 </form>
             </div>
         </div>
-    </div>
-</div>
-
-<!-- ========================================================================= -->
-<!-- MODAL 3: VIEW SCHEDULE MODAL (LIHAT JADWAL)                              -->
-<!-- Purpose: Menampilkan jadwal semua lab sekaligus (read-only)              -->
-<!-- Type: Custom modal (CSS di internal-booking.css)                         -->
-<!-- ========================================================================= -->
-<div id="viewScheduleModal" class="p-modal">
-    <div class="p-modal-card">
-        <div class="p-modal-head">
-            <h2 style="margin:0; font-size:20px; font-weight:900; color:#0f172a;">Lihat Jadwal Laboratorium</h2>
-            <button type="button" class="p-x" onclick="closeViewScheduleModal()">&times;</button>
-        </div>
-
-        <div class="p-modal-body">
-            <div class="p-form-head" style="align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;">
-                <div class="p-date-picker" style="flex-grow:1;">
-                    <label for="viewScheduleDate">Tanggal</label>
-                    <input type="date" id="viewScheduleDate" value="<?= htmlspecialchars($data['selected_date']) ?>" onchange="changeViewDate(this.value)" />
-                </div>
-            </div>
-
-            <div class="p-labs-grid">
-                <?php foreach ($data['labs'] as $lab): 
-                    $jadwalLab = getJadwalLab($data['jadwal_tetap'], $lab['id'], $data['selected_day']);
-                    $peminjamanLab = getPeminjamanLab($data['peminjaman'], $lab['id'], $data['selected_date']);
-                    $slotKosong = getSlotKosong($jadwalLab, $peminjamanLab);
-                ?>
-                <div class="p-lab-card">
-                    <h3><?= htmlspecialchars($lab['short_name']) ?></h3>
-                    <div class="p-slot-list">
-                        <?php // Praktikum Tetap ?>
-                        <?php foreach ($jadwalLab as $j): ?>
-                        <div class="p-slot praktikum" style="cursor: default;">
-                            <span class="p-slot-label">Praktikum: <?= $j['jam_mulai'] ?>-<?= $j['jam_selesai'] ?></span>
-                            <span class="p-slot-sub"><?= htmlspecialchars($j['matkul']) ?> (<?= $j['kelas'] ?>)</span>
-                        </div>
-                        <?php endforeach; ?>
-                        
-                        <?php // Peminjaman ?>
-                        <?php foreach ($peminjamanLab as $p): ?>
-                        <?php 
-                            $slotClass = 'internal';
-                            $slotLabel = 'Internal';
-                            if ($p['type'] == 'external') { $slotClass = 'eksternal'; $slotLabel = 'Eksternal'; }
-                            elseif ($p['type'] == 'tergeser') { $slotClass = 'tergeser'; $slotLabel = 'Tergeser'; }
-                        ?>
-                        <div class="p-slot <?= $slotClass ?>" style="cursor: default;">
-                            <span class="p-slot-label"><?= $slotLabel ?>: <?= $p['jam_mulai'] ?>-<?= $p['jam_selesai'] ?></span>
-                            <span class="p-slot-sub"><?= htmlspecialchars($p['keterangan']) ?> - <span style="font-weight: 600;"><?= htmlspecialchars($p['peminjam']) ?></span></span>
-                        </div>
-                        <?php endforeach; ?>
-                    </div>
-                </div>
-                <?php endforeach; ?>
-            </div>
-
-            <div class="p-legend">
-                <div class="p-legend-item praktikum-tetap">
-                    <span class="p-legend-color p-lg-praktikum"></span>
-                    Praktikum Tetap
-                </div>
-                <div class="p-legend-item peminjaman-internal">
-                    <span class="p-legend-color p-lg-internal"></span>
-                    Peminjaman Internal
-                </div>
-                <div class="p-legend-item peminjaman-eksternal">
-                    <span class="p-legend-color p-lg-eksternal"></span>
-                    Peminjaman Eksternal
-                </div>
-                <div class="p-legend-item jadwal-tergeser">
-                    <span class="p-legend-color p-lg-expired"></span>
-                    Jadwal Tergeser
-                </div>
-            </div>
         </div>
     </div>
 </div>
+
 
