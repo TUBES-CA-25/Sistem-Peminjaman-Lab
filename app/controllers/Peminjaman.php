@@ -74,12 +74,21 @@ class Peminjaman extends Controller
             // Only block if conflicting with another BOOKING.
             // Fixed Schedule conflict is allowed (Admin overrides -> "Jadwal Tergeser")
             if ($isBookingConflict) {
-                if ($isAjax) {
-                    echo json_encode(['success' => false, 'message' => 'Jadwal bentrok dengan peminjaman lain!']);
+                // Check if Override is requested
+                $override = $_POST['override'] ?? false;
+
+                if ($override) {
+                    // Shift conflicting bookings to 'tergeser'
+                    $peminjamanModel->shiftConflictingBookings($labId, $tanggal, $jamMulai, $jamSelesai);
+                    // Proceed to create the new booking (it will succeed now or overlap is gone)
+                } else {
+                    if ($isAjax) {
+                        echo json_encode(['success' => false, 'message' => 'Jadwal bentrok dengan peminjaman lain!']);
+                        exit;
+                    }
+                    header("Location: " . BASE_URL . "/peminjaman?status=error&msg=Jadwal bentrok dengan peminjaman lain!");
                     exit;
                 }
-                header("Location: " . BASE_URL . "/peminjaman?status=error&msg=Jadwal bentrok dengan peminjaman lain!");
-                exit;
             }
 
             // Status is Approved
