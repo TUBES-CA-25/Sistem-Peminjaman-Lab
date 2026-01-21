@@ -53,12 +53,24 @@
           </td>
           <td>
             <div class="p-actions">
-              <button class="p-act p-edit" onclick="editPeminjaman(<?= $p['id'] ?>)" title="Edit">
-                <i class="fas fa-pen"></i>
-              </button>
-              <button class="p-act p-del" onclick="deletePeminjaman(<?= $p['id'] ?>)" title="Hapus">
-                <i class="fas fa-trash"></i>
-              </button>
+              <?php 
+                // Gabungkan tanggal dan jam selesai untuk mendapatkan waktu berakhir peminjaman
+                $waktuSelesai = strtotime($p['tanggal'] . ' ' . $p['jam_selesai']);
+                $waktuSekarang = time();
+                $isExpired = $waktuSelesai < $waktuSekarang;
+              ?>
+
+              <?php if (!$isExpired): ?>
+                <button class="p-act p-edit" onclick="editPeminjaman(<?= $p['id'] ?>)" title="Edit">
+                  <i class="fas fa-pen"></i>
+                </button>
+                <button class="p-act p-del" onclick="deletePeminjaman(<?= $p['id'] ?>)" title="Hapus">
+                  <i class="fas fa-trash"></i>
+                </button>
+              <?php else: ?>
+                <!-- Jika sudah lewat, tidak ada aksi (read-only) atau icon info -->
+                <span style="color: #94a3b8; font-size: 0.85rem; font-style: italic;">Selesai</span>
+              <?php endif; ?>
             </div>
           </td>
         </tr>
