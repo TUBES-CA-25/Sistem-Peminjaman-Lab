@@ -527,4 +527,63 @@ class Internal extends Controller
         $dayEnglish = date('l', strtotime($date));
         return $days[$dayEnglish] ?? $dayEnglish;
     }
+
+
+    /**
+     * Endpoint AJAX untuk mengambil slot jadwal lab tertentu pada tanggal tertentu
+     */
+    public function getLabSlots()
+    {
+        // Parameter check
+        $labId = $_GET['lab_id'] ?? null;
+        $date = $_GET['date'] ?? date('Y-m-d');
+
+        if (!$labId) {
+            echo "Error: Lab ID required";
+            return;
+        }
+
+        // Include helpers
+        include_once __DIR__ . '/../views/internal/booking/helpers.php';
+
+        // 1. Ambil data lab info (untuk nama lab di tombol booking)
+        $ruangan = $this->ruanganModel->getAll(); 
+        $labName = '';
+        foreach($ruangan as $r) {
+            if ($r['id'] == $labId) {
+                $labName = $r['nama_ruangan'];
+                break;
+            }
+        }
+
+        // 2. Ambil Jadwal Tetap
+        $jadwalTetapRaw = $this->getFilteredSchedules($date); 
+        $jadwalLab = [];
+        foreach ($jadwalTetapRaw as $j) {
+            if ($j['lab_id'] == $labId) {
+                $jadwalLab[] = $j; 
+            }
+        }
+
+        // 3. Ambil Peminjaman
+        $peminjamanRaw = $this->getBookingsInRange($date);
+        $peminjamanLab = [];
+        foreach ($peminjamanRaw as $p) {
+            if ($p['lab_id'] == $labId && $p['tanggal'] == $date) {
+                $peminjamanLab[] = $p;
+            }
+        }
+
+        // 4. Hitung Slot Kosong & Sort
+        $slotKosong = getSlotKosong($jadwalLab, $peminjamanLab);
+        $sortedSlots = getSortedSlots($jadwalLab, $peminjamanLab, $slotKosong);
+
+        // 5. Render View Fragment
+        $data = [
+            'slots' => $sortedSlots,
+            'labName' => $labName
+        ];
+
+        $this->view('internal/booking/ajax_slots', $data);
+    }
 }
