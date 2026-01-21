@@ -15,14 +15,14 @@ class External extends Controller
     {
         $data['judul'] = 'Dashboard Peminjaman';
         $data['active_menu'] = 'dashboard'; // Untuk sidebar active state
-        
+
         // 1. PERBAIKAN: Ambil Data User untuk Auto-fill Modal Tambah
-        $data['user'] = $this->model('User_model')->getUserById($_SESSION['user_id']);
-        
+        $data['user'] = $this->model('UserModel')->getUserById($_SESSION['user_id']);
+
         // 2. Ambil Riwayat Pengajuan (Filter berdasarkan User ID di Model)
         // Pastikan di Pengajuan_model, query-nya pakai WHERE user_id = ...
-        $data['riwayat'] = $this->model('Pengajuan_model')->getRiwayat($_SESSION['user_id']); 
-        
+        $data['riwayat'] = $this->model('PengajuanModel')->getRiwayat($_SESSION['user_id']);
+
         $data['active_page'] = 'external';
 
         $this->view('components/header', $data);
@@ -32,13 +32,13 @@ class External extends Controller
 
     public function detail($id = null)
     {
-        if(is_null($id)) {
+        if (is_null($id)) {
             header('Location: ' . BASE_URL . '/external');
             exit;
         }
 
         $data['judul'] = 'Detail Pengajuan';
-        $data['peminjaman'] = $this->model('Pengajuan_model')->getById($id);
+        $data['peminjaman'] = $this->model('PengajuanModel')->getById($id);
 
         $this->view('components/header', $data);
         $this->view('components/external_navbar', $data);
@@ -50,11 +50,11 @@ class External extends Controller
     {
         $data['judul'] = 'Form Pengajuan Baru';
         // Tambahkan data user juga disini jika halaman ini dipakai terpisah
-        $data['user'] = $this->model('User_model')->getUserById($_SESSION['user_id']);
-        
+        $data['user'] = $this->model('UserModel')->getUserById($_SESSION['user_id']);
+
         $this->view('components/header', $data);
         $this->view('components/external_navbar', $data);
-        $this->view('external/form_pengajuan', $data); 
+        $this->view('external/form_pengajuan', $data);
         $this->view('components/footer');
     }
 
@@ -62,10 +62,10 @@ class External extends Controller
     public function prosesPinjam()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            
+
             // 1. Handle File Upload
             $file_proposal = $this->uploadFile($_FILES['proposal']);
-            
+
             if (!$file_proposal) {
                 echo "<script>window.history.back();</script>";
                 return;
@@ -74,20 +74,20 @@ class External extends Controller
             // 2. Susun Data
             $data = [
                 // PERBAIKAN: Masukkan User ID agar data terhubung ke akun
-                'user_id'        => $_SESSION['user_id'], 
-                
-                'nama_lengkap'   => $_POST['nama'],
-                'email'          => $_POST['email'],
-                'telepon'        => $_POST['telepon'],
+                'user_id' => $_SESSION['user_id'],
+
+                'nama_lengkap' => $_POST['nama'],
+                'email' => $_POST['email'],
+                'telepon' => $_POST['telepon'],
                 'jumlah_peserta' => $_POST['jumlah_peserta'],
-                'nama_kegiatan'  => $_POST['nama_kegiatan'],
-                'tgl_mulai'      => $_POST['tgl_mulai'],
-                'tgl_selesai'    => $_POST['tgl_selesai'],
-                'file_proposal'  => $file_proposal
+                'nama_kegiatan' => $_POST['nama_kegiatan'],
+                'tgl_mulai' => $_POST['tgl_mulai'],
+                'tgl_selesai' => $_POST['tgl_selesai'],
+                'file_proposal' => $file_proposal
             ];
 
             // 3. Kirim ke Model
-            if ($this->model('Pengajuan_model')->tambahPengajuan($data) > 0) {
+            if ($this->model('PengajuanModel')->tambahPengajuan($data) > 0) {
                 Flasher::setFlash('Berhasil', 'Pengajuan berhasil dikirim.', 'success');
                 header('Location: ' . BASE_URL . '/external');
                 exit;
@@ -104,14 +104,14 @@ class External extends Controller
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $data = [
-                'id'             => $_POST['id'],
-                'nama_kegiatan'  => $_POST['nama_kegiatan'],
+                'id' => $_POST['id'],
+                'nama_kegiatan' => $_POST['nama_kegiatan'],
                 'jumlah_peserta' => $_POST['jumlah_peserta'],
-                'tgl_mulai'      => $_POST['tgl_mulai'],
-                'tgl_selesai'    => $_POST['tgl_selesai']
+                'tgl_mulai' => $_POST['tgl_mulai'],
+                'tgl_selesai' => $_POST['tgl_selesai']
             ];
 
-            if ($this->model('Pengajuan_model')->updatePengajuan($data) > 0) {
+            if ($this->model('PengajuanModel')->updatePengajuan($data) > 0) {
                 Flasher::setFlash('Berhasil', 'Data pengajuan diperbarui.', 'success');
                 header('Location: ' . BASE_URL . '/external');
                 exit;
@@ -127,7 +127,7 @@ class External extends Controller
     public function hapus($id)
     {
         // Validasi: Pastikan yang dihapus adalah milik user yang sedang login (opsional tapi disarankan di Model)
-        if ($this->model('Pengajuan_model')->hapusPengajuan($id) > 0) {
+        if ($this->model('PengajuanModel')->hapusPengajuan($id) > 0) {
             Flasher::setFlash('Berhasil', 'Pengajuan telah dihapus.', 'success');
         } else {
             Flasher::setFlash('Gagal', 'Gagal menghapus data.', 'danger');
@@ -139,10 +139,10 @@ class External extends Controller
     // --- HELPER UPLOAD ---
     private function uploadFile($file)
     {
-        $namaFile   = $file['name'];
+        $namaFile = $file['name'];
         $ukuranFile = $file['size'];
-        $error      = $file['error'];
-        $tmpName    = $file['tmp_name'];
+        $error = $file['error'];
+        $tmpName = $file['tmp_name'];
 
         if ($error === 4) {
             echo "<script>alert('Pilih file proposal terlebih dahulu!');</script>";
@@ -150,8 +150,8 @@ class External extends Controller
         }
 
         $ekstensiValid = ['pdf', 'doc', 'docx']; // Bolehkan doc/docx sesuai view
-        $ekstensiFile  = explode('.', $namaFile);
-        $ekstensiFile  = strtolower(end($ekstensiFile));
+        $ekstensiFile = explode('.', $namaFile);
+        $ekstensiFile = strtolower(end($ekstensiFile));
 
         if (!in_array($ekstensiFile, $ekstensiValid)) {
             echo "<script>alert('Format file tidak valid! Gunakan PDF/DOC/DOCX');</script>";
@@ -165,14 +165,14 @@ class External extends Controller
 
         $namaFileBaru = uniqid() . '.' . $ekstensiFile;
         $targetDir = 'public/uploads/';
-        
+
         if (!file_exists($targetDir)) {
             mkdir($targetDir, 0777, true);
         }
 
         $tujuan = $targetDir . $namaFileBaru;
 
-        if(move_uploaded_file($tmpName, $tujuan)) {
+        if (move_uploaded_file($tmpName, $tujuan)) {
             return $namaFileBaru;
         } else {
             echo "<script>alert('Gagal mengupload file ke server.');</script>";
@@ -181,7 +181,7 @@ class External extends Controller
     }
 
 
-   // Method untuk menampilkan halaman profile
+    // Method untuk menampilkan halaman profile
     public function profile()
     {
         // Cek login
@@ -192,7 +192,7 @@ class External extends Controller
 
         $data['judul'] = 'Profil Saya';
         $data['active_menu'] = 'profile'; // Untuk sidebar active state
-        $data['user'] = $this->model('User_model')->getUserById($_SESSION['user_id']);
+        $data['user'] = $this->model('UserModel')->getUserById($_SESSION['user_id']);
 
         $this->view('components/header', $data);
         $this->view('components/external_navbar', $data);
@@ -203,7 +203,7 @@ class External extends Controller
     public function prosesUpdateProfile()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            
+
             $data = [
                 'id' => $_SESSION['user_id'],
                 'nama' => $_POST['nama'],
@@ -212,7 +212,7 @@ class External extends Controller
                 'password' => $_POST['password_baru']
             ];
 
-            if ($this->model('User_model')->updateUserProfile($data) > 0) {
+            if ($this->model('UserModel')->updateUserProfile($data) > 0) {
                 $_SESSION['nama'] = $data['nama'];
                 Flasher::setFlash('Berhasil', 'Profil berhasil diperbarui.', 'success');
             } else {

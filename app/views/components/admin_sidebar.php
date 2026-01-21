@@ -13,8 +13,8 @@
             </li>
 
             <li class="sidebar-item">
-                <a href="<?= BASE_URL ?>/pengguna"
-                    class="sidebar-link <?= ($active_page === 'pengguna') ? 'active' : ''; ?>">
+                <a href="<?= BASE_URL ?>/user"
+                    class="sidebar-link <?= ($active_page === 'users') ? 'active' : ''; ?>">
                     <i class="fas fa-users sidebar-icon"></i>
                     <span>Data Pengguna</span>
                 </a>

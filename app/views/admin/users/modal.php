@@ -9,14 +9,13 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body p-4">
-                <form id="uUserForm" action="<?= BASE_URL ?>/pengguna" method="POST" autocomplete="off">
+                <form id="uUserForm" action="<?= BASE_URL ?>/user" method="POST" autocomplete="off">
                     <input type="hidden" name="action" id="formAction" value="create">
                     <input type="hidden" name="id" id="editId" value="">
 
                     <div class="mb-3">
                         <label class="form-label fw-bold">Nama Lengkap <span class="text-danger">*</span></label>
-                        <input type="text" name="nama" id="nama" class="form-control"
-                            placeholder="Contoh: Dr. Ahmad Rahman, M.Kom" required>
+                        <input type="text" name="nama" id="nama" class="form-control" placeholder="Nama" required>
                     </div>
 
                     <div class="mb-3">

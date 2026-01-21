@@ -14,9 +14,9 @@ switch ($page) {
         $controller = new Ruangan();
         $controller->index();
         exit;
-    case 'pengguna':
-        require_once __DIR__ . '/../../../controllers/Pengguna.php';
-        $controller = new Pengguna();
+    case 'users':
+        require_once __DIR__ . '/../../../controllers/User.php';
+        $controller = new User();
         $controller->index();
         exit;
     case 'tahun_ajaran':
