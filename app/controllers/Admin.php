@@ -15,7 +15,7 @@ class Admin extends Controller
         $data['active_page'] = 'pengajuan'; // Kunci agar menu sidebar menyala
 
         // Ambil data dari Model
-        $data['pengajuan'] = $this->model('Pengajuan_model')->getAllPengajuan();
+        $data['pengajuan'] = $this->model('PengajuanModel')->getAllPengajuan();
 
         // 1. Load Header (CSS)
         $this->view('components/admin_head', $data);
@@ -38,7 +38,7 @@ class Admin extends Controller
     public function updateStatusPengajuan()
     {
         // Panggil Model untuk update
-        if ($this->model('Pengajuan_model')->updateStatus($_POST) > 0) {
+        if ($this->model('PengajuanModel')->updateStatus($_POST) > 0) {
             // Bisa tambah Flasher disini
             header('Location: ' . BASE_URL . '/admin/pengajuan');
             exit;

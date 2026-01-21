@@ -109,12 +109,13 @@
       return false;
     }
 
-    // Get bookings for rendering
+    // Get bookings for rendering in GRID (Exclude Tergeser)
     function getBookingsForLab(tanggal, labIdKey) {
       return peminjamanData
         .filter(item =>
           item.tanggal === tanggal &&
-          item.labId == labIdKey
+          item.labId == labIdKey &&
+          item.statusPeminjaman !== 'Tergeser' // Hide shifted bookings from grid
         )
         .map(item => ({
           ...item, // keep all props
@@ -125,19 +126,23 @@
     }
 
     // Compute free intervals
-    function computeFreeIntervals(dayKey, labIdKey) {
-      // "Busy" includes Fixed Schedule AND Bookings?
-      // Actually, user wants to be able to book "anywhere".
-      // If we define "Available" gaps, we usually subtract everything.
-      // BUT, if user can book over Fixed Schedule, Fixed Schedule shouldn't "consume" the free space for the purpose of clicking "Add"?
-      // However, for visual clarity, usually "Available" is shown in empty spaces.
-      // Fixed Scedule slots are shown explicitly.
-      // Bookings are shown explicitly.
-      // I will stick to: Free Intervals based on Fixed Schedule. 
-      // And Fixed Schedule slots are clickable to Add Booking.
-      // Bookings basically overlay.
+    // Compute free intervals
+    function computeFreeIntervals(dayKey, labIdKey, dateStr) {
+      // 1. Get Fixed Schedule
+      const fixedBusy = (fixedSchedule[dayKey]?.[labIdKey] || []).map(ev => ({ start: toMin(ev.start), end: toMin(ev.end) }));
 
-      const busy = (fixedSchedule[dayKey]?.[labIdKey] || []).map(ev => ({ start: toMin(ev.start), end: toMin(ev.end) }));
+      // 2. Get Actual Bookings on that date (Excluding 'Tergeser' & 'Ditolak')
+      const bookingsBusy = peminjamanData
+        .filter(b =>
+          b.labId == labIdKey &&
+          b.tanggal === dateStr &&
+          !['tergeser', 'ditolak'].includes(b.statusPeminjaman.toLowerCase())
+        )
+        .map(b => ({ start: toMin(b.waktuMulai), end: toMin(b.waktuSelesai) }));
+
+      // Combine
+      const busy = [...fixedBusy, ...bookingsBusy];
+
       const dayStart = toMin(DAY_RANGE.start);
       const dayEnd = toMin(DAY_RANGE.end);
 
@@ -186,7 +191,16 @@
         // Logic handled by backend now
         const statusPeminjaman = item.statusPeminjaman;
 
-        const statusClass = statusPeminjaman.toLowerCase().includes('menunggu') ? 'p-status-nonaktif' : 'p-status-aktif';
+        let statusClass;
+        if (statusPeminjaman.toLowerCase().includes('menunggu')) {
+          statusClass = 'p-status-nonaktif';
+        } else if (statusPeminjaman.toLowerCase().includes('tergeser')) {
+          statusClass = 'p-status-tergeser'; // Red for shifted
+        } else if (statusPeminjaman.toLowerCase().includes('ditolak')) {
+          statusClass = 'p-status-nonaktif';
+        } else { // Default for 'Disetujui' or others
+          statusClass = 'p-status-aktif';
+        }
         const tipeClass = item.tipe.toLowerCase() === 'eksternal' ? 'p-eksternal' : (item.tipe.toLowerCase() === 'internal' ? 'p-internal' : 'p-admin');
 
         let actionButtons = '';
@@ -299,7 +313,7 @@
       LABS.forEach(lab => {
         // lab.key is ID now, fixedSchedule uses ID as key
         const praktikum = fixedSchedule[dayName]?.[lab.key] || [];
-        const freeIntervals = computeFreeIntervals(dayName, lab.key);
+        const freeIntervals = computeFreeIntervals(dayName, lab.key, dateInput.value);
 
         const card = document.createElement('div');
         card.className = 'p-lab-card';
@@ -468,7 +482,7 @@
           formData.append('nama_peminjam', instansiKegiatan); // Or add specific field if needed
 
           promises.push(
-            fetch('<?= BASE_URL ?>peminjaman', {
+            fetch('<?= BASE_URL ?>/peminjaman', {
               method: 'POST',
               body: formData
             }).then(response => response.json())
@@ -493,7 +507,7 @@
 
     window.editPeminjamanEksternal = function (id) {
       // Fetch the booking data for the given ID
-      fetch(`<?= BASE_URL ?>peminjaman?action=get&id=${id}`)
+      fetch(`<?= BASE_URL ?>/peminjaman?action=get&id=${id}`)
         .then(response => response.json())
         .then(item => {
           if (!item) {
@@ -545,7 +559,7 @@
         formData.append('ajax', '1');
         formData.append('id', id);
 
-        fetch('<?= BASE_URL ?>peminjaman', {
+        fetch('<?= BASE_URL ?>/peminjaman', {
           method: 'POST',
           body: formData
         })
@@ -569,7 +583,7 @@
         formData.append('ajax', '1');
         formData.append('id', id);
 
-        fetch('<?= BASE_URL ?>peminjaman', {
+        fetch('<?= BASE_URL ?>/peminjaman', {
           method: 'POST',
           body: formData
         })
@@ -703,22 +717,49 @@
       // Helper to check valid time range
       // (Client-side validation can be expanded here)
 
-      fetch('<?= BASE_URL ?>peminjaman', {
+      fetch('<?= BASE_URL ?>/peminjaman', {
         method: 'POST',
         body: formData
       })
-        .then(response => response.json())
+        .then(response => {
+          if (!response.ok) throw new Error(response.statusText);
+          return response.text().then(text => {
+            try {
+              return JSON.parse(text);
+            } catch (e) {
+              throw new Error('Server Return Invalid JSON: ' + text.substring(0, 50) + '...');
+            }
+          });
+        })
         .then(data => {
           if (data.success) {
             alert('✅ Peminjaman berhasil disimpan!');
             window.location.reload();
           } else {
-            alert('❌ Gagal: ' + (data.message || 'Error saving booking'));
+            // Handle Conflict (Future: Override Prompt)
+            if (data.message && data.message.includes('bentrok')) {
+              if (confirm(data.message + '\n\nApakah Anda ingin menggeser jadwal yang bentrok? (Override)')) {
+                // Retry with override=1
+                formData.append('override', '1');
+                return fetch('<?= BASE_URL ?>/peminjaman', { method: 'POST', body: formData })
+                  .then(res => res.json())
+                  .then(overrideData => {
+                    if (overrideData.success) {
+                      alert('✅ Jadwal berhasil disimpan & jadwal lama digeser!');
+                      window.location.reload();
+                    } else {
+                      alert('❌ Gagal override: ' + overrideData.message);
+                    }
+                  });
+              }
+            } else {
+              alert('❌ Gagal: ' + (data.message || 'Error saving booking'));
+            }
           }
         })
         .catch(err => {
           console.error(err);
-          alert('❌ Terjadi kesalahan koneksi.');
+          alert('❌ Terjadi kesalahan: ' + err.message);
         });
 
       return false;

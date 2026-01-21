@@ -1,6 +1,6 @@
 <?php
 // app/views/pages/admin/pengguna/index.php
-$users = $data['pengguna'] ?? [];
+$users = $data['users'] ?? [];
 ?>
 
 <!-- Custom CSS -->
@@ -24,7 +24,7 @@ $users = $data['pengguna'] ?? [];
 <!-- NOTIFICATION -->
 <!-- NOTIFICATION -->
 <?php if (isset($_GET['status']) && isset($_GET['msg'])): ?>
-    <?php 
+    <?php
     $alertClass = $_GET['status'] == 'success' ? 'alert-success' : 'alert-danger';
     $icon = $_GET['status'] == 'success' ? 'fa-check-circle' : 'fa-exclamation-circle';
     ?>

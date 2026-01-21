@@ -22,7 +22,7 @@ class Auth extends Controller
             $password = $_POST['password'];
 
             // 1. Cari user berdasarkan email
-            $user = $this->model('User_model')->getUserByEmail($email);
+            $user = $this->model('UserModel')->getUserByEmail($email);
 
             // 2. Jika user ada
             if ($user) {
@@ -57,14 +57,14 @@ class Auth extends Controller
     public function prosesRegister()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            
+
             // 1. Ambil Data Input
             $email = $_POST['email'];
             $password = $_POST['password'];
             $confirm_password = $_POST['confirm_password'];
 
             // 2. Validasi: Cek apakah email sudah terdaftar
-            if ($this->model('User_model')->getUserByEmail($email)) {
+            if ($this->model('UserModel')->getUserByEmail($email)) {
                 Flasher::setFlash('Gagal', 'Email sudah terdaftar. Silakan login.', 'danger');
                 header('Location: ' . BASE_URL . '/auth/register');
                 exit;
@@ -81,12 +81,12 @@ class Auth extends Controller
             $data = [
                 'nama' => $_POST['nama'],
                 'email' => $email,
-                'telepon' => $_POST['telepon'] ?? '-', 
+                'telepon' => $_POST['telepon'] ?? '-',
                 'password' => password_hash($password, PASSWORD_DEFAULT)
             ];
 
             // 5. Simpan ke Database
-            if ($this->model('User_model')->tambahUser($data) > 0) {
+            if ($this->model('UserModel')->tambahUser($data) > 0) {
                 Flasher::setFlash('Berhasil', 'Akun berhasil dibuat. Silakan login.', 'success');
                 header('Location: ' . BASE_URL . '/auth');
                 exit;
@@ -103,7 +103,7 @@ class Auth extends Controller
         // Hapus semua session
         session_destroy();
         session_unset();
-        
+
         // Kembalikan ke halaman login
         header('Location: ' . BASE_URL . '/auth');
         exit;

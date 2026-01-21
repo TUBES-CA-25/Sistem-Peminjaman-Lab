@@ -16,8 +16,8 @@ include __DIR__ . '/../booking/helpers.php';
 
 
 <!-- Jadwal Content -->
-<section class="labs-section py-4">
-    <div class="container-fluid px-4">
+<section class="labs-section py-2">
+    <div class="container-fluid px-0">
         <!-- Date Picker -->
         <div class="mb-4">
             <div class="p-date-picker">

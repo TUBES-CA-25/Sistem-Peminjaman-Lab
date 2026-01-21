@@ -15,9 +15,9 @@ class Pengajuan extends Controller
     public function index()
     {
         $data['judul'] = 'Admin - Verifikasi Pengajuan';
-        
+
         // Mengambil SEMUA data (getAllPengajuan sama dengan getRiwayat tapi untuk admin)
-        $data['pengajuan'] = $this->model('Pengajuan_model')->getAllPengajuan();
+        $data['pengajuan'] = $this->model('PengajuanModel')->getAllPengajuan();
         $data['active_page'] = 'pengajuan';
 
         // Load View Admin
@@ -34,7 +34,7 @@ class Pengajuan extends Controller
     public function updateAdmin()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            
+
             // Validasi ID
             if (empty($_POST['id'])) {
                 echo "<script>alert('Error: ID tidak ditemukan.'); window.history.back();</script>";
@@ -43,16 +43,16 @@ class Pengajuan extends Controller
 
             // Tangkap Data dari Form Admin
             $data = [
-                'id'               => $_POST['id'],
-                'tgl_mulai'        => $_POST['tgl_mulai'],
-                'tgl_selesai'      => $_POST['tgl_selesai'],
-                'status'           => $_POST['status'],
+                'id' => $_POST['id'],
+                'tgl_mulai' => $_POST['tgl_mulai'],
+                'tgl_selesai' => $_POST['tgl_selesai'],
+                'status' => $_POST['status'],
                 // Ambil alasan hanya jika status Ditolak
                 'alasan_penolakan' => ($_POST['status'] == 'Ditolak') ? $_POST['alasan_penolakan'] : null
             ];
 
             // Panggil Model (Pastikan method updatePengajuanAdmin ada di Model)
-            if ($this->model('Pengajuan_model')->updatePengajuanAdmin($data) > 0) {
+            if ($this->model('PengajuanModel')->updatePengajuanAdmin($data) > 0) {
                 // Berhasil
                 echo "<script>
                         alert('✅ Berhasil! Data pengajuan telah diperbarui.');
@@ -77,7 +77,7 @@ class Pengajuan extends Controller
     public function export()
     {
         // 1. Ambil Data
-        $data = $this->model('Pengajuan_model')->getAllPengajuan();
+        $data = $this->model('PengajuanModel')->getAllPengajuan();
 
         // 2. Set Nama File
         $filename = "Data_Pengajuan_" . date('Y-m-d_H-i') . ".xls";
@@ -93,16 +93,38 @@ class Pengajuan extends Controller
         ?>
         <!DOCTYPE html>
         <html>
+
         <head>
             <meta charset="utf-8">
             <style>
-                .header { background-color: #1F45AC; color: white; font-weight: bold; text-align: center; }
-                .text-center { text-align: center; }
-                .text-left { text-align: left; }
-                table { border-collapse: collapse; width: 100%; }
-                td, th { border: 1px solid #000000; padding: 5px; }
+                .header {
+                    background-color: #1F45AC;
+                    color: white;
+                    font-weight: bold;
+                    text-align: center;
+                }
+
+                .text-center {
+                    text-align: center;
+                }
+
+                .text-left {
+                    text-align: left;
+                }
+
+                table {
+                    border-collapse: collapse;
+                    width: 100%;
+                }
+
+                td,
+                th {
+                    border: 1px solid #000000;
+                    padding: 5px;
+                }
             </style>
         </head>
+
         <body>
             <h3>Laporan Data Pengajuan Peminjaman</h3>
             <table>
@@ -121,35 +143,39 @@ class Pengajuan extends Controller
                     </tr>
                 </thead>
                 <tbody>
-                    <?php $no = 1; foreach ($data as $row) : ?>
+                    <?php $no = 1;
+                    foreach ($data as $row): ?>
                         <?php
-                            // Logic Warna Status Sederhana
-                            $bgStatus = '';
-                            if($row['status'] == 'Disetujui') $bgStatus = '#d1e7dd'; // Hijau muda
-                            elseif($row['status'] == 'Ditolak') $bgStatus = '#f8d7da'; // Merah muda
+                        // Logic Warna Status Sederhana
+                        $bgStatus = '';
+                        if ($row['status'] == 'Disetujui')
+                            $bgStatus = '#d1e7dd'; // Hijau muda
+                        elseif ($row['status'] == 'Ditolak')
+                            $bgStatus = '#f8d7da'; // Merah muda
                         ?>
                         <tr>
                             <td class="text-center"><?= $no++; ?></td>
                             <td><?= $row['nama_lengkap']; ?></td>
                             <td><?= $row['email']; ?></td>
-                            
+
                             <td style="mso-number-format:'\@'"><?= $row['telepon']; ?></td>
-                            
+
                             <td><?= $row['nama_kegiatan']; ?></td>
                             <td class="text-center"><?= $row['jumlah_peserta']; ?></td>
                             <td class="text-center"><?= $row['tgl_mulai']; ?></td>
                             <td class="text-center"><?= $row['tgl_selesai']; ?></td>
-                            
+
                             <td style="background-color: <?= $bgStatus; ?>; text-align:center;">
                                 <?= $row['status']; ?>
                             </td>
-                            
+
                             <td><?= $row['alasan_penolakan'] ?? '-'; ?></td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
             </table>
         </body>
+
         </html>
         <?php
         exit;

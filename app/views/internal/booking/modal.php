@@ -2,7 +2,7 @@
 /**
  * app/views/internal/booking/modal.php
  * 
- * File ini berisi 3 modal yang berbeda:
+ * File ini berisi 2 modal yang berbeda:
  * 1. MODAL 1: Schedule Modal (Tambah Peminjaman) - Custom modal for per-lab schedule view
  * 2. MODAL 2: Booking Form Modal - Bootstrap modal for submitting booking
  * 

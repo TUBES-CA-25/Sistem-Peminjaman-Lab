@@ -17,16 +17,15 @@ class Internal extends Controller
 
     public function __construct()
     {
-        // Load model yang dibutuhkan
         $this->ruanganModel = $this->model('RuanganModel');
         $this->jadwalModel = $this->model('JadwalModel');
         $this->peminjamanModel = $this->model('PeminjamanModel');
 
-        // if (!isset($_SESSION['user_id']) || $_SESSION['role'] != 'internal') {
-
-        //     header('Location: ' . BASE_URL . '/auth/login');
-        //     exit;
-        // }
+        // Proteksi Halaman Internal
+        if (!isset($_SESSION['user_id']) || $_SESSION['role'] != 'internal') {
+            header('Location: ' . BASE_URL . '/auth/login');
+            exit;
+        }
     }
 
     /**
@@ -40,12 +39,10 @@ class Internal extends Controller
 
     /**
      * Halaman booking utama
-     * 
-     * Menampilkan card lab dan jadwal untuk tanggal yang dipilih.
-     * User bisa lihat slot kosong dan melakukan booking.
      */
     public function booking()
     {
+        $data = $this->getCommonScheduleData('booking');
         $data['judul'] = 'Booking Laboratorium';
         $data['active_page'] = 'booking';
 
@@ -81,25 +78,31 @@ class Internal extends Controller
      */
     public function jadwal()
     {
+        $data = $this->getCommonScheduleData('jadwal');
         $data['judul'] = 'Jadwal Laboratorium';
-        $data['active_page'] = 'jadwal';
 
-        // Ambil tanggal dari parameter atau default hari ini
-        $selectedDate = $_GET['date'] ?? date('Y-m-d');
-        $data['selected_date'] = $selectedDate;
-        $data['selected_day'] = $this->getDayName($selectedDate);
-
-        // Siapkan data
-        $data['labs'] = $this->getLabsData();
-        $data['jadwal_tetap'] = $this->getFilteredSchedules($selectedDate);
-        $data['peminjaman'] = $this->getBookingsInRange($selectedDate);
-
-        // Render views
         $this->view('components/internal_head', $data);
         $this->view('components/internal_navbar', $data);
         $this->view('components/internal_sidebar', $data);
         $this->view('/internal/jadwal/index', $data);
         $this->view('components/internal_footer');
+    }
+
+    /**
+     * Helper untuk mengambil data jadwal yang umum digunakan di beberapa halaman
+     */
+    private function getCommonScheduleData($activePage)
+    {
+        $selectedDate = $_GET['date'] ?? date('Y-m-d');
+        
+        return [
+            'active_page'   => $activePage,
+            'selected_date' => $selectedDate,
+            'selected_day'  => $this->getDayName($selectedDate),
+            'labs'          => $this->getLabsData(),
+            'jadwal_tetap'  => $this->getFilteredSchedules($selectedDate),
+            'peminjaman'    => $this->getBookingsInRange($selectedDate)
+        ];
     }
 
     /**
