@@ -24,6 +24,9 @@
     // MANAJEMEN MODAL - Schedule Modal
     // =================================================================
 
+    // Variable global untuk menyimpan ID lab yang sedang dibuka modalnya
+    let currentOpenLabId = null;
+
     /**
      * Buka modal jadwal untuk lab tertentu
      * Menampilkan card jadwal untuk satu lab saja
@@ -32,6 +35,8 @@
      * @param {string} labName - Nama lab untuk judul
      */
     function openScheduleModal(labId, labName) {
+        currentOpenLabId = labId; // Simpan state
+
         const scheduleModal = document.getElementById('scheduleModal');
         const modalCard = scheduleModal.querySelector('.p-modal-card');
         const allLabsData = document.getElementById('allLabsData');
@@ -64,6 +69,8 @@
      * Tutup modal jadwal dan reset styling
      */
     function closeScheduleModal() {
+        currentOpenLabId = null; // Reset state
+
         const scheduleModal = document.getElementById('scheduleModal');
         const modalCard = scheduleModal.querySelector('.p-modal-card');
 
@@ -265,7 +272,12 @@
                         confirmButtonColor: '#3b82f6'
                     }).then(() => {
                         // Reload halaman untuk tampilkan booking baru
-                        window.location.reload();
+                        // Jika dalam modal, reload dengan state modal tetap terbuka
+                        if (currentOpenLabId) {
+                            window.location.href = '<?= BASE_URL ?>/internal/booking?date=' + formData.tanggal + '&open_lab_id=' + currentOpenLabId;
+                        } else {
+                            window.location.reload();
+                        }
                     });
                 } else {
                     // Gagal: Tampilkan pesan error (konflik, error validasi, dll.)
@@ -306,8 +318,43 @@
      * @param {string} newDate - Tanggal dalam format Y-m-d
      */
     function changeDate(newDate) {
-        window.location.href = '<?= BASE_URL ?>/internal/booking?date=' + newDate;
+        let url = '<?= BASE_URL ?>/internal/booking?date=' + newDate;
+        
+        // Jika sedang membuka modal jadwal, tambahkan parameter agar modal terbuka kembali setelah reload
+        if (currentOpenLabId) {
+            url += '&open_lab_id=' + currentOpenLabId;
+        }
+        
+        window.location.href = url;
     }
+
+    /**
+     * Auto-open modal jika ada parameter open_lab_id di URL
+     * Dijalankan saat halaman selesai dimuat
+     */
+    document.addEventListener('DOMContentLoaded', function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const openLabId = urlParams.get('open_lab_id');
+        
+        if (openLabId) {
+            const labId = parseInt(openLabId);
+            
+            // Cari nama lab dari data tersembunyi
+            const allLabsData = document.getElementById('allLabsData');
+            const labDataElements = allLabsData.querySelectorAll('.lab-data');
+            let labName = '';
+            
+            labDataElements.forEach(function (labData) {
+                if (parseInt(labData.getAttribute('data-lab-id')) === labId) {
+                    labName = labData.getAttribute('data-lab-name');
+                }
+            });
+            
+            if (labName) {
+                openScheduleModal(labId, labName);
+            }
+        }
+    });
 
     // =================================================================
     // EVENT LISTENERS - Interaksi Modal
