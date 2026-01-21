@@ -36,33 +36,74 @@ include __DIR__ . '/../booking/helpers.php';
             <div class="p-lab-card">
                 <h3><?= htmlspecialchars($lab['short_name']) ?></h3>
                 <div class="p-slot-list">
-                    <?php // Praktikum Tetap ?>
-                    <?php foreach ($jadwalLab as $j): ?>
-                    <div class="p-slot praktikum">
-                        <span class="p-slot-label">Praktikum: <?= $j['jam_mulai'] ?>-<?= $j['jam_selesai'] ?></span>
-                        <span class="p-slot-sub"><?= htmlspecialchars($j['matkul']) ?> (<?= $j['kelas'] ?>)</span>
-                    </div>
-                    <?php endforeach; ?>
-                    
-                    <?php // Peminjaman ?>
-                    <?php foreach ($peminjamanLab as $p): ?>
                     <?php 
-                        $slotClass = 'internal';
-                        $slotLabel = 'Internal';
-                        if ($p['type'] == 'external') { $slotClass = 'eksternal'; $slotLabel = 'Eksternal'; }
-                        elseif ($p['type'] == 'tergeser') { $slotClass = 'tergeser'; $slotLabel = 'Tergeser'; }
-                    ?>
-                    <div class="p-slot <?= $slotClass ?>">
-                        <span class="p-slot-label"><?= $slotLabel ?>: <?= $p['jam_mulai'] ?>-<?= $p['jam_selesai'] ?></span>
-                        <span class="p-slot-sub"><?= htmlspecialchars($p['keterangan']) ?> - <span style="font-weight: 600;"><?= htmlspecialchars($p['peminjam']) ?></span></span>
-                    </div>
-                    <?php endforeach; ?>
+                        // Gabungkan semua slot untuk diurutkan berdasarkan waktu
+                        $allSlots = [];
 
-                    <?php // Slot Kosong (Read-only) ?>
-                    <?php foreach ($slotKosong as $k): ?>
-                    <div class="p-slot" style="background: #F8FAFC; border: 1px dashed #CBD5E1; color: #94A3B8; text-align: center; cursor: default;">
-                        Kosong <?= $k['mulai'] ?>-<?= $k['selesai'] ?>
-                    </div>
+                        // 1. Praktikum
+                        foreach ($jadwalLab as $j) {
+                            $allSlots[] = [
+                                'type' => 'praktikum',
+                                'start' => $j['jam_mulai'],
+                                'end'   => $j['jam_selesai'],
+                                'data'  => $j
+                            ];
+                        }
+
+                        // 2. Peminjaman
+                        foreach ($peminjamanLab as $p) {
+                            $allSlots[] = [
+                                'type' => 'peminjaman',
+                                'start' => $p['jam_mulai'],
+                                'end'   => $p['jam_selesai'],
+                                'data'  => $p
+                            ];
+                        }
+
+                        // 3. Slot Kosong
+                        foreach ($slotKosong as $k) {
+                            $allSlots[] = [
+                                'type' => 'kosong',
+                                'start' => $k['mulai'],
+                                'end'   => $k['selesai'],
+                                'data'  => $k
+                            ];
+                        }
+
+                        // Sort berdasarkan jam mulai
+                        usort($allSlots, function($a, $b) {
+                            return strcmp($a['start'], $b['start']);
+                        });
+                    ?>
+
+                    <?php foreach ($allSlots as $slot): ?>
+                        
+                        <?php if ($slot['type'] == 'praktikum'): $j = $slot['data']; ?>
+                            <div class="p-slot praktikum">
+                                <span class="p-slot-label">Praktikum: <?= $j['jam_mulai'] ?>-<?= $j['jam_selesai'] ?></span>
+                                <span class="p-slot-sub"><?= htmlspecialchars($j['matkul']) ?> (<?= $j['kelas'] ?>)</span>
+                            </div>
+
+                        <?php elseif ($slot['type'] == 'peminjaman'): $p = $slot['data']; ?>
+                            <?php 
+                                $slotClass = 'internal';
+                                $slotLabel = 'Internal';
+                                if ($p['type'] == 'external') { $slotClass = 'eksternal'; $slotLabel = 'Eksternal'; }
+                                elseif ($p['type'] == 'tergeser') { $slotClass = 'tergeser'; $slotLabel = 'Tergeser'; }
+                            ?>
+                            <div class="p-slot <?= $slotClass ?>">
+                                <span class="p-slot-label"><?= $slotLabel ?>: <?= $p['jam_mulai'] ?>-<?= $p['jam_selesai'] ?></span>
+                                <span class="p-slot-sub"><?= htmlspecialchars($p['keterangan']) ?> - <span style="font-weight: 600;"><?= htmlspecialchars($p['peminjam']) ?></span></span>
+                            </div>
+
+                        <?php elseif ($slot['type'] == 'kosong'): $k = $slot['data']; ?>
+                            <div class="p-slot" style="background: #F8FAFC; border: 1px dashed #CBD5E1; color: #94A3B8; cursor: default;">
+                                <span class="p-slot-label" style="display:block; margin-bottom:4px;">Kosong</span>
+                                <span class="p-slot-sub" style="display:block; font-size:12px;"><?= $k['mulai'] ?>-<?= $k['selesai'] ?></span>
+                            </div>
+
+                        <?php endif; ?>
+
                     <?php endforeach; ?>
 
                     <?php if (empty($jadwalLab) && empty($peminjamanLab) && empty($slotKosong)): ?>
