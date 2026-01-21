@@ -58,10 +58,10 @@ include __DIR__ . '/../booking/helpers.php';
                     </div>
                     <?php endforeach; ?>
 
-                    <?php // Slot Kosong ?>
+                    <?php // Slot Kosong (Read-only) ?>
                     <?php foreach ($slotKosong as $k): ?>
-                    <div class="p-slot available" onclick="window.location.href='<?= BASE_URL ?>/internal/booking'">
-                        + Pinjam (Kosong <?= $k['mulai'] ?>-<?= $k['selesai'] ?>)
+                    <div class="p-slot" style="background: #F8FAFC; border: 1px dashed #CBD5E1; color: #94A3B8; text-align: center; cursor: default;">
+                        Kosong <?= $k['mulai'] ?>-<?= $k['selesai'] ?>
                     </div>
                     <?php endforeach; ?>
 

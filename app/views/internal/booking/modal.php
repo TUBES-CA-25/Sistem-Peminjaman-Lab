@@ -47,6 +47,14 @@
                     <div class="p-lab-card">
                         <h3><?= htmlspecialchars($lab['short_name']) ?></h3>
                         <div class="p-slot-list">
+                            <?php // Praktikum Tetap ?>
+                            <?php foreach ($jadwalLab as $j): ?>
+                            <div class="p-slot praktikum">
+                                <span class="p-slot-label">Praktikum: <?= $j['jam_mulai'] ?>-<?= $j['jam_selesai'] ?></span>
+                                <span class="p-slot-sub"><?= htmlspecialchars($j['matkul']) ?> (<?= $j['kelas'] ?>)</span>
+                            </div>
+                            <?php endforeach; ?>
+
                             <?php // Peminjaman ?>
                             <?php foreach ($peminjamanLab as $p): ?>
 
@@ -75,6 +83,10 @@
             </div>
 
             <div class="p-legend">
+                <div class="p-legend-item praktikum-tetap">
+                    <span class="p-legend-color p-lg-praktikum"></span>
+                    Praktikum Tetap
+                </div>
                 <div class="p-legend-item peminjaman-internal">
                     <span class="p-legend-color p-lg-internal"></span>
                     Peminjaman Internal
@@ -139,7 +151,13 @@
                     
                     <div style="margin-bottom: 10px;">
                         <label style="font-size: 0.7rem; color: #4A5568; margin-bottom: 4px; display: block;">Nama Peminjam</label>
-                        <input type="text" class="form-control" id="namaPeminjam" value="" placeholder="Nama peminjam" style="border: 1px solid #E2E8F0; border-radius: 6px; font-size: 0.8rem; padding: 8px 10px;">
+                        <input type="text" class="form-control" id="namaPeminjam" 
+                               value="<?= htmlspecialchars($data['current_user']['nama'] ?? '') ?>" 
+                               readonly 
+                               style="border: 1px solid #E2E8F0; border-radius: 6px; font-size: 0.8rem; padding: 8px 10px; background: #F7FAFC; cursor: not-allowed;">
+                        <small style="font-size: 0.65rem; color: #718096; display: block; margin-top: 4px;">
+                            <i class="fas fa-info-circle"></i> Nama otomatis dari akun yang login
+                        </small>
                     </div>
                     
                     <div style="margin-bottom: 16px;">

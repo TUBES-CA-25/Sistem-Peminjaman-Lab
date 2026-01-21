@@ -59,6 +59,15 @@ class Internal extends Controller
         $data['jadwal_tetap'] = $this->getFilteredSchedules($selectedDate);
         $data['peminjaman'] = $this->getBookingsInRange($selectedDate);
 
+        // Ambil data user yang sedang login untuk auto-fill form
+        $userId = $_SESSION['user_id'] ?? null;
+        if ($userId) {
+            $userModel = $this->model('User_model');
+            $data['current_user'] = $userModel->getUserById($userId);
+        } else {
+            $data['current_user'] = null;
+        }
+
         // Render views
         $this->view('components/internal_head', $data);
         $this->view('components/internal_navbar', $data);
