@@ -1,9 +1,8 @@
 <?php
-// app/models/PenggunaModel.php
 
 class PenggunaModel
 {
-    private $table_name = "pengguna";
+    private $table_name = "users";
     private $db;
 
     public function __construct()
@@ -14,7 +13,7 @@ class PenggunaModel
 
     public function getAll()
     {
-        $this->db->query("SELECT id, nama, email, status, role, nomor_hp FROM " . $this->table_name . " ORDER BY id DESC");
+        $this->db->query("SELECT id, nama, email, status, role, telepon FROM " . $this->table_name . " ORDER BY id DESC");
         return $this->db->resultSet();
     }
 
@@ -29,9 +28,9 @@ class PenggunaModel
     public function create($data)
     {
         $query = "INSERT INTO " . $this->table_name . "
-                  (nama, email, status, role, nomor_hp, password)
+                  (nama, email, status, role, telepon, password)
                   VALUES
-                  (:nama, :email, :status, :role, :nomor_hp, :password)";
+                  (:nama, :email, :status, :role, :telepon, :password)";
 
         $this->db->query($query);
 
@@ -40,7 +39,7 @@ class PenggunaModel
         $this->db->bind('email', htmlspecialchars(strip_tags($data['email'])));
         $this->db->bind('status', htmlspecialchars(strip_tags($data['status'])));
         $this->db->bind('role', $data['role']);
-        $this->db->bind('nomor_hp', htmlspecialchars(strip_tags($data['nomor_hp'])));
+        $this->db->bind('telepon', htmlspecialchars(strip_tags($data['telepon'])));
 
         // Hash password
         $password_hash = password_hash($data['password'], PASSWORD_BCRYPT);
@@ -57,12 +56,12 @@ class PenggunaModel
         if (!empty($data['password'])) {
             $query = "UPDATE " . $this->table_name . "
                       SET nama=:nama, email=:email, status=:status, 
-                          role=:role, nomor_hp=:nomor_hp, password=:password
+                          role=:role, telepon=:telepon, password=:password
                       WHERE id = :id";
         } else {
             $query = "UPDATE " . $this->table_name . "
                       SET nama=:nama, email=:email, status=:status, 
-                          role=:role, nomor_hp=:nomor_hp
+                          role=:role, telepon=:telepon
                       WHERE id = :id";
         }
 
@@ -74,7 +73,7 @@ class PenggunaModel
         $this->db->bind('email', htmlspecialchars(strip_tags($data['email'])));
         $this->db->bind('status', htmlspecialchars(strip_tags($data['status'])));
         $this->db->bind('role', $data['role']);
-        $this->db->bind('nomor_hp', htmlspecialchars(strip_tags($data['nomor_hp'])));
+        $this->db->bind('telepon', htmlspecialchars(strip_tags($data['telepon'])));
 
         // Bind Password (Jika ada)
         if (!empty($data['password'])) {

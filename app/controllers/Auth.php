@@ -4,112 +4,128 @@ class Auth extends Controller
 {
     public function index()
     {
-        $this->login();
+        // Jika user sudah login, lempar langsung ke halaman sesuai role
+        if (isset($_SESSION['user_id'])) {
+            $this->redirectBasedOnRole($_SESSION['role']);
+            exit;
+        }
+
+        $data['judul'] = 'Login | Peminjaman Lab';
+        $this->view('auth/login', $data);
     }
 
-    public function login()
+    // --- FUNGSI LOGIN (PENTING: Tadi Hilang) ---
+    public function prosesLogin()
     {
-        $data['title'] = 'Login';
-        $this->view('components/header', $data);
-        $this->view('auth/login', $data);
-        $this->view('components/footer', $data);
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+
+            // 1. Cari user berdasarkan email
+            $user = $this->model('User_model')->getUserByEmail($email);
+
+            // 2. Jika user ada
+            if ($user) {
+                // 3. Cek Password
+                if (password_verify($password, $user['password'])) {
+                    // 4. Set Session
+                    $_SESSION['user_id'] = $user['id'];
+                    $_SESSION['nama'] = $user['nama'];
+                    $_SESSION['role'] = $user['role'];
+
+                    // 5. Redirect sesuai role
+                    $this->redirectBasedOnRole($user['role']);
+                } else {
+                    Flasher::setFlash('Gagal', 'Password salah.', 'danger');
+                    header('Location: ' . BASE_URL . '/auth');
+                    exit;
+                }
+            } else {
+                Flasher::setFlash('Gagal', 'Email tidak ditemukan.', 'danger');
+                header('Location: ' . BASE_URL . '/auth');
+                exit;
+            }
+        }
     }
 
     public function register()
     {
-        $data['title'] = 'Register';
-        $this->view('components/header', $data);
+        $data['judul'] = 'Daftar Akun Baru';
         $this->view('auth/register', $data);
-        $this->view('components/footer', $data);
     }
 
-    /**
-     * Menampilkan halaman forgot password
-     */
-    public function forgot()
+    public function prosesRegister()
     {
-        $data['title'] = 'Lupa Password';
-        
-        $this->view('components/header', $data);
-        $this->view('auth/forgot', $data);
-        $this->view('components/footer', $data);
-    }
-
-    public function sendResetLink()
-    {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $email = $_POST['email'] ?? '';
-
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             
-            $_SESSION['reset_email'] = $email;
-            header("Location: " . BASE_URL . "auth/emailSent");
-            exit;
-        }
-    }
+            // 1. Ambil Data Input
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+            $confirm_password = $_POST['confirm_password'];
 
-    /**
-     * Menampilkan halaman konfirmasi email terkirim
-     */
-    public function emailSent()
-    {
-        $data['title'] = 'Cek Email Anda';
-        
-        $this->view('components/header', $data);
-        $this->view('auth/email-sent', $data);
-        $this->view('components/footer', $data);
-    }
-
-    /**
-     * Menampilkan halaman reset password
-     * Hanya bisa diakses via link dari email
-     */
-    public function reset()
-    {
-        // Validasi token dari URL
-        $token = $_GET['token'] ?? '';
-        
-        if (empty($token)) {
-            $_SESSION['error_message'] = 'Token tidak valid.';
-            header("Location: " . BASE_URL . "auth/forgot");
-            exit;
-        }
-
-        
-        $data['title'] = 'Reset Password';
-        $data['token'] = $token;
-        $data['user_id'] = ''; 
-        
-        $this->view('components/header', $data);
-        $this->view('auth/reset', $data);
-        $this->view('components/footer', $data);
-    }
-
-    
-    public function processReset()
-    {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $password = $_POST['password'] ?? '';
-            $password_confirm = $_POST['password_confirm'] ?? '';
-            $token = $_POST['token'] ?? '';
-
-            // Validasi password match
-            if ($password !== $password_confirm) {
-                $_SESSION['error_message'] = 'Password tidak cocok.';
-                header("Location: " . BASE_URL . "auth/reset?token=" . $token);
+            // 2. Validasi: Cek apakah email sudah terdaftar
+            if ($this->model('User_model')->getUserByEmail($email)) {
+                Flasher::setFlash('Gagal', 'Email sudah terdaftar. Silakan login.', 'danger');
+                header('Location: ' . BASE_URL . '/auth/register');
                 exit;
             }
 
-            // Validasi panjang password
-            if (strlen($password) < 6) {
-                $_SESSION['error_message'] = 'Password minimal 6 karakter.';
-                header("Location: " . BASE_URL . "auth/reset?token=" . $token);
+            // 3. Validasi: Cek apakah password sama
+            if ($password !== $confirm_password) {
+                Flasher::setFlash('Gagal', 'Konfirmasi password tidak sesuai.', 'danger');
+                header('Location: ' . BASE_URL . '/auth/register');
                 exit;
             }
 
-            // Untuk sementara (dummy), langsung redirect ke login:
-            $_SESSION['success_message'] = 'Password berhasil direset. Silakan login dengan password baru.';
-            header("Location: " . BASE_URL . "auth/login");
-            exit;
+            // 4. Siapkan Data untuk Model
+            $data = [
+                'nama' => $_POST['nama'],
+                'email' => $email,
+                'telepon' => $_POST['telepon'] ?? '-', 
+                'password' => password_hash($password, PASSWORD_DEFAULT)
+            ];
+
+            // 5. Simpan ke Database
+            if ($this->model('User_model')->tambahUser($data) > 0) {
+                Flasher::setFlash('Berhasil', 'Akun berhasil dibuat. Silakan login.', 'success');
+                header('Location: ' . BASE_URL . '/auth');
+                exit;
+            } else {
+                Flasher::setFlash('Gagal', 'Terjadi kesalahan sistem.', 'danger');
+                header('Location: ' . BASE_URL . '/auth/register');
+                exit;
+            }
         }
+    }
+
+    public function logout()
+    {
+        // Hapus semua session
+        session_destroy();
+        session_unset();
+        
+        // Kembalikan ke halaman login
+        header('Location: ' . BASE_URL . '/auth');
+        exit;
+    }
+
+    // Fungsi helper (Private) untuk mengarahkan user berdasarkan role-nya
+    private function redirectBasedOnRole($role)
+    {
+        switch ($role) {
+            case 'admin':
+                header('Location: ' . BASE_URL . '/admin');
+                break;
+            case 'internal': // Dosen/Laboran
+                header('Location: ' . BASE_URL . '/internal');
+                break;
+            case 'external': // Mahasiswa/Umum
+                header('Location: ' . BASE_URL . '/external');
+                break;
+            default:
+                header('Location: ' . BASE_URL . '/auth');
+                break;
+        }
+        exit;
     }
 }

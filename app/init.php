@@ -16,3 +16,4 @@ require_once 'core/Controller.php';
 // --- PERBAIKAN UTAMA ADA DISINI ---
 // Ubah dari 'config/Database.php' menjadi 'core/Database.php'
 require_once 'core/Database.php';
+require_once 'core/Flasher.php';

@@ -20,7 +20,7 @@ class PeminjamanModel
                          r.nama_ruangan as lab_nama, u.nama as user_nama, u.email as user_email
                   FROM " . $this->table_name . " p
                   LEFT JOIN ruangan r ON p.lab_id = r.id
-                  LEFT JOIN pengguna u ON p.user_id = u.id
+                  LEFT JOIN users u ON p.user_id = u.id
                   ORDER BY p.tanggal_peminjaman DESC, p.jam_mulai DESC";
         
         $this->db->query($query);
@@ -35,7 +35,7 @@ class PeminjamanModel
                          r.nama_ruangan as lab_nama, u.nama as user_nama, u.email as user_email
                   FROM " . $this->table_name . " p
                   LEFT JOIN ruangan r ON p.lab_id = r.id
-                  LEFT JOIN pengguna u ON p.user_id = u.id
+                  LEFT JOIN users u ON p.user_id = u.id
                   WHERE p.id = :id";
         
         $this->db->query($query);
