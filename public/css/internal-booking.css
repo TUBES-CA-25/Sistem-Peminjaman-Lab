@@ -1,244 +1,36 @@
-/* Internal Booking Page - Consolidated CSS */
+/* public/css/internal-booking.css */
+/* Main styling for internal booking and schedule pages */
 
-/* Page Layout Overrides */
-
-/* Hide default navbar from header.php */
-nav.navbar.navbar-expand.fixed-top {
-    display: none;
-}
-
-/* Reset body padding */
-body {
-    padding-top: 0;
-    margin-top: 0;
-}
-
-/* Hero Section */
+/* Reset & Helper */
 .hero-section-internal {
-    background: linear-gradient(135deg, #2C5282 0%, #1A365D 100%);
+    background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+    color: white;
     padding: 60px 0;
     margin-top: 56px;
-}
-
-.hero-section-internal h1 {
-    font-size: 2rem;
-    font-weight: 700;
-    color: white;
-}
-
-.hero-section-internal p {
-    font-size: 0.95rem;
-    color: rgba(255, 255, 255, 0.9);
-}
-
-/*
-   LAB CARDS
- */
-
-.labs-section {
-    background-color: #F7FAFC;
-    padding: 40px 0;
-}
-
-.lab-card {
-    background: white;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-    transition: all 0.3s ease;
-    height: 100%;
-    border: 1px solid #E2E8F0;
-}
-
-.lab-card:hover {
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-    transform: translateY(-4px);
-}
-
-.lab-image {
-    position: relative;
-    width: 100%;
-    height: 180px;
-    overflow: hidden;
-    background: #E2E8F0;
-}
-
-.lab-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.badge-status {
-    position: absolute;
-    top: 12px;
-    right: 12px;
-    padding: 6px 14px;
-    border-radius: 20px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    color: white;
-    z-index: 10;
-}
-
-.badge-tersedia {
-    background-color: #48BB78;
-}
-
-.badge-terpakai {
-    background-color: #ED8936;
-}
-
-.lab-card-body {
-    padding: 16px;
-}
-
-.lab-name {
-    font-size: 0.95rem;
-    font-weight: 700;
-    color: #1A202C;
-    margin-bottom: 10px;
-}
-
-.lab-info {
-    font-size: 0.8rem;
-    color: #718096;
-    margin-bottom: 4px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-}
-
-.lab-info i {
-    font-size: 0.85rem;
-    color: #A0AEC0;
-}
-
-.lab-card-body .btn-primary {
-    background-color: #3182CE;
-    border: none;
-    padding: 10px;
-    border-radius: 6px;
-    font-weight: 600;
-    font-size: 0.95rem;
-    margin-top: 8px;
-}
-
-.lab-card-body .btn-primary:hover {
-    background-color: #2C5282;
-}
-
-/*
-   SCHEDULE MODAL (Custom - Admin Style)
- */
-
-.p-modal {
-    display: none;
-    position: fixed;
-    inset: 0;
-    z-index: 1050;
-    background: rgba(0, 0, 0, .5);
-    padding: 22px;
-    align-items: center;
-    justify-content: center;
-}
-
-
-.p-modal.active {
-    display: flex;
-}
-
-.p-modal-card {
-    width: 95%;
-    max-width: 1100px;
-    max-height: 90vh;
-    overflow: auto;
-    background: #fff;
-    border-radius: 12px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, .3);
-    animation: pSlide .18s ease-out;
-}
-
-@keyframes pSlide {
-    from {
-        transform: translateY(-12px);
-        opacity: .7
-    }
-
-    to {
-        transform: translateY(0);
-        opacity: 1
-    }
-}
-
-.p-modal-head {
-    padding: 18px 22px;
-    border-bottom: 1px solid #e5e7eb;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.p-x {
-    width: 40px;
-    height: 40px;
-    border: none;
-    border-radius: 10px;
-    background: transparent;
-    font-size: 28px;
-    line-height: 1;
-    color: #94a3b8;
-    cursor: pointer;
-}
-
-.p-x:hover {
-    background: #f1f5f9;
-    color: #475569;
-}
-
-.p-modal-body {
-    padding: 22px;
-}
-
-.p-form-head {
-    display: flex;
-    gap: 12px;
-    align-items: flex-end;
-    flex-wrap: wrap;
-    margin-bottom: 18px;
-}
-
-.p-date-picker label {
-    display: block;
-    font-size: 14px;
-    font-weight: 900;
-    color: #334155;
-    margin-bottom: 8px;
-}
-
-.p-date-picker input {
-    padding: 10px 14px;
-    border: 1px solid #e2e8f0;
-    border-radius: 10px;
-    font-size: 14px;
-    min-width: 180px;
-    outline: none;
-}
-
-.p-date-picker input:focus {
-    border-color: #3b82f6;
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, .12);
+    border-radius: 0 0 30px 30px;
 }
 
 /* Labs Grid */
 .p-labs-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 18px;
-    margin-bottom: 18px;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 15px;
+    margin-bottom: 20px;
 }
 
-@media (max-width: 992px) {
+@media (max-width: 1400px) {
+    .p-labs-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (max-width: 1100px) {
+    .p-labs-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
     .p-labs-grid {
         grid-template-columns: repeat(2, 1fr);
     }
@@ -255,6 +47,7 @@ body {
     border: 1px solid #e2e8f0;
     border-radius: 12px;
     padding: 16px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
 }
 
 .p-lab-card h3 {
@@ -272,20 +65,74 @@ body {
     gap: 10px;
 }
 
-/*
-   SLOT STYLING
- */
+/* Booking Page - Lab Cards (different from schedule cards) */
+.labs-section {
+    padding: 20px 0;
+}
 
+.lab-card {
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    transition: all 0.3s ease;
+    border: 1px solid #e5e7eb;
+}
+
+.lab-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px -4px rgba(0, 0, 0, 0.12);
+}
+
+.lab-image {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+    background: #f3f4f6;
+}
+
+.lab-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.lab-card-body {
+    padding: 20px;
+}
+
+.lab-name {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #1f2937;
+    margin-bottom: 12px;
+}
+
+.lab-info {
+    font-size: 0.875rem;
+    color: #6b7280;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.lab-info i {
+    color: #3b82f6;
+    width: 16px;
+}
+
+/* SLOT STYLING - Original Style */
 .p-slot {
     padding: 12px 14px;
     border-radius: 10px;
     font-size: 13px;
     line-height: 1.5;
     border: 2px solid;
+    background: #fff;
 }
 
 .p-slot.praktikum {
-    background: #fff;
     border-color: #1B3555;
     color: #1B3555;
 }
@@ -325,6 +172,15 @@ body {
     box-shadow: 0 6px 14px rgba(27, 53, 85, 0.25);
 }
 
+.p-slot.read-only {
+    background: #fff;
+    border: 2px dashed #cbd5e1;
+    color: #94a3b8;
+    cursor: default;
+    font-weight: 700;
+    text-align: center;
+}
+
 .p-slot-label {
     display: block;
     font-weight: 900;
@@ -336,136 +192,236 @@ body {
     opacity: 0.85;
 }
 
-/*
-   LEGEND STYLING
- */
-
+/* Legend Styling */
 .p-legend {
     display: flex;
     gap: 16px;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    margin-top: 20px;
-    padding: 16px;
+    margin-top: 30px;
+    padding: 20px;
     background: #f8fafc;
-    border-radius: 12px;
+    border-radius: 15px;
 }
 
 .p-legend-item {
     display: flex;
     align-items: center;
     gap: 8px;
-    padding: 8px 16px;
-    border-radius: 24px;
-    font-size: 13px;
-    font-weight: 700;
-    border: 2px solid;
-    transition: all 0.3s ease;
-}
-
-.p-legend-item:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.p-legend-item.praktikum-tetap {
-    background: #fff;
-    border-color: #1B3555;
-    color: #1B3555;
-}
-
-.p-legend-item.peminjaman-internal {
-    background: #CCFBF1;
-    border-color: #0D9488;
-    color: #0D9488;
-}
-
-.p-legend-item.peminjaman-eksternal {
-    background: #FEF3C7;
-    border-color: #D97706;
-    color: #D97706;
-}
-
-.p-legend-item.jadwal-tergeser {
-    background: #FCE7F3;
-    border-color: #DB2777;
-    color: #DB2777;
+    font-size: 14px;
+    font-weight: 600;
+    color: #475569;
 }
 
 .p-legend-color {
-    display: inline-block;
-    width: 20px;
-    height: 20px;
+    width: 16px;
+    height: 16px;
     border-radius: 4px;
+    display: inline-block;
 }
 
 .p-lg-praktikum {
-    background: #1B3555;
+    background-color: #1B3555;
 }
 
 .p-lg-internal {
-    background: #0D9488;
+    background-color: #0D9488;
 }
 
 .p-lg-eksternal {
-    background: #D97706;
+    background-color: #D97706;
 }
 
 .p-lg-expired {
-    background: #DB2777;
+    background-color: #DB2777;
 }
 
-/*
-   BOOKING MODAL (Bootstrap)
- */
-
-#bookingModal .modal-dialog {
-    max-width: 450px;
+/* Modal Custom Styles */
+.p-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(4px);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
 }
 
-#bookingModal .modal-content {
-    border-radius: 12px;
+.p-modal.active {
+    display: flex;
+}
+
+.p-modal-card {
+    background: white;
+    width: 100%;
+    max-width: 1200px;
+    max-height: 90vh;
+    border-radius: 20px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.p-modal-head {
+    padding: 20px 24px;
+    border-bottom: 1px solid #e2e8f0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.p-x {
+    background: #f1f5f9;
     border: none;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    font-size: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
 }
 
-#bookingModal .modal-body {
-    padding: 20px 18px;
+.p-x:hover {
+    background: #e2e8f0;
+    color: #ef4444;
 }
 
-/*
-   RESPONSIVE
- */
-
-@media (max-width: 991px) {
-    .hero-section-internal h1 {
-        font-size: 1.75rem;
-    }
+.p-modal-body {
+    padding: 24px;
+    overflow-y: auto;
 }
 
-@media (max-width: 767px) {
-    .hero-section-internal {
-        padding: 40px 0;
-        margin-top: 56px;
-    }
+/* History Page Styling */
+.p-history-container {
+    padding: 24px 0;
+}
 
-    .hero-section-internal h1 {
-        font-size: 1.5rem;
-    }
+.p-table-wrap {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    border: 1px solid #e2e8f0;
+}
 
-    .p-modal-card {
-        max-width: 95%;
-        margin: 0.5rem auto;
-    }
+.p-table {
+    width: 100%;
+    border-collapse: collapse;
+}
 
-    .p-legend {
-        gap: 8px;
-        padding: 12px;
-    }
+.p-table th {
+    background: #f8fafc;
+    padding: 16px;
+    text-align: left;
+    font-size: 13px;
+    font-weight: 700;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 1px solid #e2e8f0;
+}
 
-    .p-legend-item {
-        font-size: 11px;
-        padding: 6px 12px;
-    }
+.p-table td {
+    padding: 16px;
+    border-bottom: 1px solid #f1f5f9;
+    vertical-align: middle;
+}
+
+.p-dt {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.p-date {
+    font-weight: 600;
+    color: #1e293b;
+}
+
+.p-time {
+    font-size: 13px;
+    color: #64748b;
+}
+
+.p-badge {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.p-status-aktif {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.p-status-nonaktif {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.p-actions {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+}
+
+.p-act {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.p-edit {
+    background: #f1f5f9;
+    color: #0f172a;
+}
+
+.p-edit:hover {
+    background: #e2e8f0;
+    color: #3b82f6;
+}
+
+.p-del {
+    background: #fef2f2;
+    color: #ef4444;
+}
+
+.p-del:hover {
+    background: #fee2e2;
+    color: #b91c1c;
+}
+
+/* Datepicker Styling Custom */
+.p-date-picker {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.p-date-picker input {
+    border: 1px solid #e2e8f0;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-weight: 600;
+    color: #1e293b;
+    outline: none;
+}
+
+.p-date-picker input:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }

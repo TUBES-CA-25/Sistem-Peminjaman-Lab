@@ -17,16 +17,15 @@ class Internal extends Controller
 
     public function __construct()
     {
-        // Load model yang dibutuhkan
         $this->ruanganModel = $this->model('RuanganModel');
         $this->jadwalModel = $this->model('JadwalModel');
         $this->peminjamanModel = $this->model('PeminjamanModel');
 
-        // TODO: Uncomment ketika sistem authentication sudah siap
-        // if (!isset($_SESSION['user_id']) || $_SESSION['role'] != 'internal') {
-        //     header('Location: ' . BASE_URL . '/auth/login');
-        //     exit;
-        // }
+        // Proteksi Halaman Internal
+        if (!isset($_SESSION['user_id']) || $_SESSION['role'] != 'internal') {
+            header('Location: ' . BASE_URL . '/auth/login');
+            exit;
+        }
     }
 
     /**
@@ -40,30 +39,139 @@ class Internal extends Controller
 
     /**
      * Halaman booking utama
-     * 
-     * Menampilkan card lab dan jadwal untuk tanggal yang dipilih.
-     * User bisa lihat slot kosong dan melakukan booking.
      */
     public function booking()
     {
+        $data = $this->getCommonScheduleData('booking');
         $data['judul'] = 'Booking Laboratorium';
 
-        // Ambil tanggal yang dipilih dari URL parameter (default: hari ini)
-        $selectedDate = $_GET['date'] ?? date('Y-m-d');
-        $data['selected_date'] = $selectedDate;
-        $data['selected_day'] = $this->getDayName($selectedDate);
+        $this->view('components/internal_head', $data);
+        $this->view('components/internal_navbar', $data);
+        $this->view('components/internal_sidebar', $data);
+        $this->view('/internal/booking/index', $data);
+        $this->view('components/internal_footer');
+    }
 
-        // Siapkan data untuk view
-        $data['labs'] = $this->getLabsData();
-        $data['jadwal_tetap'] = $this->getFilteredSchedules($selectedDate);
-        $data['peminjaman'] = $this->getBookingsInRange($selectedDate);
+    /**
+     * Halaman Jadwal Laboratorium
+     */
+    public function jadwal()
+    {
+        $data = $this->getCommonScheduleData('jadwal');
+        $data['judul'] = 'Jadwal Laboratorium';
+
+        $this->view('components/internal_head', $data);
+        $this->view('components/internal_navbar', $data);
+        $this->view('components/internal_sidebar', $data);
+        $this->view('/internal/jadwal/index', $data);
+        $this->view('components/internal_footer');
+    }
+
+    /**
+     * Helper untuk mengambil data jadwal yang umum digunakan di beberapa halaman
+     */
+    private function getCommonScheduleData($activePage)
+    {
+        $selectedDate = $_GET['date'] ?? date('Y-m-d');
+        
+        return [
+            'active_page'   => $activePage,
+            'selected_date' => $selectedDate,
+            'selected_day'  => $this->getDayName($selectedDate),
+            'labs'          => $this->getLabsData(),
+            'jadwal_tetap'  => $this->getFilteredSchedules($selectedDate),
+            'peminjaman'    => $this->getBookingsInRange($selectedDate)
+        ];
+    }
+
+    /**
+     * Halaman Data Peminjaman - History peminjaman user yang login
+     */
+    public function history()
+    {
+        $data['judul'] = 'Data Peminjaman Saya';
+        $data['active_page'] = 'history';
+
+        // Ambil peminjaman milik user yang login (internal)
+        $peminjamanModel = $this->model('PeminjamanModel');
+        $userId = $_SESSION['user_id'] ?? null;
+        
+        if ($userId) {
+            $data['peminjaman'] = $peminjamanModel->getByUserId($userId);
+        } else {
+            $data['peminjaman'] = [];
+        }
 
         // Render views
-        $this->view('components/header', $data);
+        $this->view('components/internal_head', $data);
         $this->view('components/internal_navbar', $data);
-        $this->view('/internal/booking/index', $data);
-        $this->view('components/footer');
+        $this->view('components/internal_sidebar', $data);
+        $this->view('/internal/history/index', $data);
+        $this->view('components/internal_footer');
     }
+
+    /**
+     * Update peminjaman milik user
+     */
+    public function updatePeminjaman()
+    {
+        header('Content-Type: application/json');
+        
+        $input = json_decode(file_get_contents('php://input'), true);
+        $userId = $_SESSION['user_id'] ?? null;
+        
+        if (!$userId) {
+            echo json_encode(['success' => false, 'message' => 'Unauthorized']);
+            return;
+        }
+
+        $peminjamanModel = $this->model('PeminjamanModel');
+        
+        // Verify ownership
+        $peminjaman = $peminjamanModel->getById($input['id']);
+        if (!$peminjaman || $peminjaman['user_id'] != $userId) {
+            echo json_encode(['success' => false, 'message' => 'Tidak diizinkan']);
+            return;
+        }
+
+        $result = $peminjamanModel->update($input['id'], [
+            'tanggal' => $input['tanggal'],
+            'jam_mulai' => $input['jam_mulai'],
+            'jam_selesai' => $input['jam_selesai'],
+            'keterangan' => $input['keterangan']
+        ]);
+
+        echo json_encode(['success' => $result]);
+    }
+
+    /**
+     * Hapus peminjaman milik user
+     */
+    public function deletePeminjaman()
+    {
+        header('Content-Type: application/json');
+        
+        $input = json_decode(file_get_contents('php://input'), true);
+        $userId = $_SESSION['user_id'] ?? null;
+        
+        if (!$userId) {
+            echo json_encode(['success' => false, 'message' => 'Unauthorized']);
+            return;
+        }
+
+        $peminjamanModel = $this->model('PeminjamanModel');
+        
+        // Verify ownership
+        $peminjaman = $peminjamanModel->getById($input['id']);
+        if (!$peminjaman || $peminjaman['user_id'] != $userId) {
+            echo json_encode(['success' => false, 'message' => 'Tidak diizinkan']);
+            return;
+        }
+
+        $result = $peminjamanModel->delete($input['id']);
+        echo json_encode(['success' => $result]);
+    }
+
 
     /**
      * Ambil semua data lab dengan format yang sudah ditransformasi
