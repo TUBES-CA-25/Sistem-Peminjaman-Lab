@@ -415,6 +415,11 @@ body {
     color: #b45309;
 }
 
+.p-status-tergeser {
+    background: #FCE7F3;
+    color: #DB2777;
+}
+
 /* Action Buttons in Table */
 .p-actions {
     display: flex;

@@ -22,7 +22,7 @@ class PeminjamanModel
                   LEFT JOIN ruangan r ON p.lab_id = r.id
                   LEFT JOIN users u ON p.user_id = u.id
                   ORDER BY p.tanggal_peminjaman DESC, p.jam_mulai DESC";
-        
+
         $this->db->query($query);
         return $this->db->resultSet();
     }
@@ -37,10 +37,10 @@ class PeminjamanModel
                   LEFT JOIN ruangan r ON p.lab_id = r.id
                   LEFT JOIN users u ON p.user_id = u.id
                   WHERE p.id = :id";
-        
+
         $this->db->query($query);
         $this->db->bind('id', $id);
-        
+
         return $this->db->single();
     }
 
@@ -62,7 +62,7 @@ class PeminjamanModel
         $data['catatan'] = htmlspecialchars(strip_tags($data['catatan'] ?? ''));
 
         // Bind Data
-        $this->db->bind('user_id', $data['user_id']); 
+        $this->db->bind('user_id', $data['user_id']);
         $this->db->bind('lab_id', $data['lab_id']);
         $this->db->bind('tanggal', $data['tanggal_peminjaman']);
         $this->db->bind('jam_mulai', $data['jam_mulai']);
@@ -74,7 +74,7 @@ class PeminjamanModel
         $this->db->bind('catatan', $data['catatan']);
 
         $this->db->execute();
-        
+
         return $this->db->rowCount();
     }
 
@@ -82,13 +82,13 @@ class PeminjamanModel
     public function updateStatus($id, $status)
     {
         $query = "UPDATE " . $this->table_name . " SET status = :status WHERE id = :id";
-        
+
         $this->db->query($query);
         $this->db->bind('status', $status);
         $this->db->bind('id', $id);
 
         $this->db->execute();
-        
+
         return $this->db->rowCount();
     }
 
@@ -96,12 +96,12 @@ class PeminjamanModel
     public function delete($id)
     {
         $query = "DELETE FROM " . $this->table_name . " WHERE id = :id";
-        
+
         $this->db->query($query);
         $this->db->bind('id', $id);
 
         $this->db->execute();
-        
+
         return $this->db->rowCount();
     }
 
@@ -149,11 +149,12 @@ class PeminjamanModel
     // Check Conflict in Peminjaman Table
     public function checkConflict($labId, $tanggal, $start, $end, $excludeId = null)
     {
-        // Conflict if: Same Lab, Same Date, Time Overlaps, Status != 'ditolak'
+        // Conflict if: Same Lab, Same Date, Time Overlaps, Status includes 'disetujui' and 'menunggu' (active bookings)
+        // Ignored status: 'ditolak', 'tergeser'
         $query = "SELECT COUNT(*) as count FROM " . $this->table_name . "
                   WHERE lab_id = :lab_id 
                   AND tanggal_peminjaman = :tanggal
-                  AND status != 'ditolak'
+                  AND status NOT IN ('ditolak', 'tergeser')
                   AND jam_mulai < :end 
                   AND jam_selesai > :start";
 
@@ -174,5 +175,27 @@ class PeminjamanModel
 
         $result = $this->db->single();
         return $result['count'] > 0;
+    }
+
+    // Shift Conflicting Bookings (Override)
+    // Ubah status booking yang bentrok menjadi 'tergeser'
+    public function shiftConflictingBookings($labId, $tanggal, $start, $end)
+    {
+        $query = "UPDATE " . $this->table_name . " 
+                  SET status = 'tergeser'
+                  WHERE lab_id = :lab_id 
+                  AND tanggal_peminjaman = :tanggal
+                  AND status NOT IN ('ditolak', 'tergeser')
+                  AND jam_mulai < :end 
+                  AND jam_selesai > :start";
+
+        $this->db->query($query);
+        $this->db->bind('lab_id', $labId);
+        $this->db->bind('tanggal', $tanggal);
+        $this->db->bind('start', $start);
+        $this->db->bind('end', $end);
+
+        $this->db->execute();
+        return $this->db->rowCount();
     }
 }
