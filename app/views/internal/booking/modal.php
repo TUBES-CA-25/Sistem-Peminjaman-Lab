@@ -47,43 +47,8 @@
                         <h3><?= htmlspecialchars($lab['short_name']) ?></h3>
                         <div class="p-slot-list">
                             <?php 
-                                // Gabungkan semua slot untuk diurutkan berdasarkan waktu
-                                $allSlots = [];
-
-                                // 1. Praktikum
-                                foreach ($jadwalLab as $j) {
-                                    $allSlots[] = [
-                                        'type' => 'praktikum',
-                                        'start' => $j['jam_mulai'],
-                                        'end'   => $j['jam_selesai'],
-                                        'data'  => $j
-                                    ];
-                                }
-
-                                // 2. Peminjaman
-                                foreach ($peminjamanLab as $p) {
-                                    $allSlots[] = [
-                                        'type' => 'peminjaman',
-                                        'start' => $p['jam_mulai'],
-                                        'end'   => $p['jam_selesai'],
-                                        'data'  => $p
-                                    ];
-                                }
-
-                                // 3. Slot Kosong
-                                foreach ($slotKosong as $k) {
-                                    $allSlots[] = [
-                                        'type' => 'kosong',
-                                        'start' => $k['mulai'],
-                                        'end'   => $k['selesai'],
-                                        'data'  => $k
-                                    ];
-                                }
-
-                                // Sort berdasarkan jam mulai
-                                usort($allSlots, function($a, $b) {
-                                    return strcmp($a['start'], $b['start']);
-                                });
+                                // Gunakan helper function untuk menggabungkan dan mengurutkan slot
+                                $allSlots = getSortedSlots($jadwalLab, $peminjamanLab, $slotKosong);
                             ?>
 
                             <?php foreach ($allSlots as $slot): ?>
