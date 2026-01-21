@@ -47,6 +47,7 @@ class Internal extends Controller
     public function booking()
     {
         $data['judul'] = 'Booking Laboratorium';
+        $data['active_page'] = 'booking';
 
         // Ambil tanggal yang dipilih dari URL parameter (default: hari ini)
         $selectedDate = $_GET['date'] ?? date('Y-m-d');
@@ -59,11 +60,127 @@ class Internal extends Controller
         $data['peminjaman'] = $this->getBookingsInRange($selectedDate);
 
         // Render views
-        $this->view('components/header', $data);
+        $this->view('components/internal_head', $data);
         $this->view('components/internal_navbar', $data);
+        $this->view('components/internal_sidebar', $data);
         $this->view('/internal/booking/index', $data);
-        $this->view('components/footer');
+        $this->view('components/internal_footer');
     }
+
+    /**
+     * Halaman Jadwal Laboratorium
+     */
+    public function jadwal()
+    {
+        $data['judul'] = 'Jadwal Laboratorium';
+        $data['active_page'] = 'jadwal';
+
+        // Ambil tanggal dari parameter atau default hari ini
+        $selectedDate = $_GET['date'] ?? date('Y-m-d');
+        $data['selected_date'] = $selectedDate;
+        $data['selected_day'] = $this->getDayName($selectedDate);
+
+        // Siapkan data
+        $data['labs'] = $this->getLabsData();
+        $data['jadwal_tetap'] = $this->getFilteredSchedules($selectedDate);
+        $data['peminjaman'] = $this->getBookingsInRange($selectedDate);
+
+        // Render views
+        $this->view('components/internal_head', $data);
+        $this->view('components/internal_navbar', $data);
+        $this->view('components/internal_sidebar', $data);
+        $this->view('/internal/jadwal/index', $data);
+        $this->view('components/internal_footer');
+    }
+
+    /**
+     * Halaman Data Peminjaman - History peminjaman user yang login
+     */
+    public function history()
+    {
+        $data['judul'] = 'Data Peminjaman Saya';
+        $data['active_page'] = 'history';
+
+        // Ambil peminjaman milik user yang login (internal)
+        $peminjamanModel = $this->model('PeminjamanModel');
+        $userId = $_SESSION['user_id'] ?? null;
+        
+        if ($userId) {
+            $data['peminjaman'] = $peminjamanModel->getByUserId($userId);
+        } else {
+            $data['peminjaman'] = [];
+        }
+
+        // Render views
+        $this->view('components/internal_head', $data);
+        $this->view('components/internal_navbar', $data);
+        $this->view('components/internal_sidebar', $data);
+        $this->view('/internal/history/index', $data);
+        $this->view('components/internal_footer');
+    }
+
+    /**
+     * Update peminjaman milik user
+     */
+    public function updatePeminjaman()
+    {
+        header('Content-Type: application/json');
+        
+        $input = json_decode(file_get_contents('php://input'), true);
+        $userId = $_SESSION['user_id'] ?? null;
+        
+        if (!$userId) {
+            echo json_encode(['success' => false, 'message' => 'Unauthorized']);
+            return;
+        }
+
+        $peminjamanModel = $this->model('PeminjamanModel');
+        
+        // Verify ownership
+        $peminjaman = $peminjamanModel->getById($input['id']);
+        if (!$peminjaman || $peminjaman['user_id'] != $userId) {
+            echo json_encode(['success' => false, 'message' => 'Tidak diizinkan']);
+            return;
+        }
+
+        $result = $peminjamanModel->update($input['id'], [
+            'tanggal' => $input['tanggal'],
+            'jam_mulai' => $input['jam_mulai'],
+            'jam_selesai' => $input['jam_selesai'],
+            'keterangan' => $input['keterangan']
+        ]);
+
+        echo json_encode(['success' => $result]);
+    }
+
+    /**
+     * Hapus peminjaman milik user
+     */
+    public function deletePeminjaman()
+    {
+        header('Content-Type: application/json');
+        
+        $input = json_decode(file_get_contents('php://input'), true);
+        $userId = $_SESSION['user_id'] ?? null;
+        
+        if (!$userId) {
+            echo json_encode(['success' => false, 'message' => 'Unauthorized']);
+            return;
+        }
+
+        $peminjamanModel = $this->model('PeminjamanModel');
+        
+        // Verify ownership
+        $peminjaman = $peminjamanModel->getById($input['id']);
+        if (!$peminjaman || $peminjaman['user_id'] != $userId) {
+            echo json_encode(['success' => false, 'message' => 'Tidak diizinkan']);
+            return;
+        }
+
+        $result = $peminjamanModel->delete($input['id']);
+        echo json_encode(['success' => $result]);
+    }
+
 
     /**
      * Ambil semua data lab dengan format yang sudah ditransformasi

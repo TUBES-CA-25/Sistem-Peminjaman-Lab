@@ -105,6 +105,47 @@ class PeminjamanModel
         return $this->db->rowCount();
     }
 
+    // Get Bookings by User ID (for user history)
+    public function getByUserId($userId)
+    {
+        $query = "SELECT p.id, p.user_id, p.lab_id, p.tanggal_peminjaman as tanggal, 
+                         p.jam_mulai, p.jam_selesai, p.nama_peminjam, p.kegiatan as keterangan, 
+                         p.tipe, p.status, p.catatan,
+                         r.nama_ruangan
+                  FROM " . $this->table_name . " p
+                  LEFT JOIN ruangan r ON p.lab_id = r.id
+                  WHERE p.user_id = :user_id
+                  ORDER BY p.tanggal_peminjaman DESC, p.jam_mulai DESC";
+        
+        $this->db->query($query);
+        $this->db->bind('user_id', $userId);
+        
+        return $this->db->resultSet();
+    }
+
+    // Update Booking
+    public function update($id, $data)
+    {
+        $query = "UPDATE " . $this->table_name . " SET 
+                  tanggal_peminjaman = :tanggal,
+                  jam_mulai = :jam_mulai,
+                  jam_selesai = :jam_selesai,
+                  kegiatan = :keterangan
+                  WHERE id = :id";
+        
+        $this->db->query($query);
+        $this->db->bind('tanggal', $data['tanggal']);
+        $this->db->bind('jam_mulai', $data['jam_mulai']);
+        $this->db->bind('jam_selesai', $data['jam_selesai']);
+        $this->db->bind('keterangan', htmlspecialchars(strip_tags($data['keterangan'])));
+        $this->db->bind('id', $id);
+
+        $this->db->execute();
+        
+        return $this->db->rowCount();
+    }
+
+
     // Check Conflict in Peminjaman Table
     public function checkConflict($labId, $tanggal, $start, $end, $excludeId = null)
     {
