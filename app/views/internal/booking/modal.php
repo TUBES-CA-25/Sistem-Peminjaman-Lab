@@ -2,7 +2,7 @@
 /**
  * app/views/internal/booking/modal.php
  * 
- * File ini berisi 3 modal yang berbeda:
+ * File ini berisi 2 modal yang berbeda:
  * 1. MODAL 1: Schedule Modal (Tambah Peminjaman) - Custom modal for per-lab schedule view
  * 2. MODAL 2: Booking Form Modal - Bootstrap modal for submitting booking
  * 
@@ -47,6 +47,14 @@
                     <div class="p-lab-card">
                         <h3><?= htmlspecialchars($lab['short_name']) ?></h3>
                         <div class="p-slot-list">
+                            <?php // Praktikum Tetap ?>
+                            <?php foreach ($jadwalLab as $j): ?>
+                            <div class="p-slot praktikum">
+                                <span class="p-slot-label">Praktikum: <?= $j['jam_mulai'] ?>-<?= $j['jam_selesai'] ?></span>
+                                <span class="p-slot-sub"><?= htmlspecialchars($j['matkul']) ?> (<?= $j['kelas'] ?>)</span>
+                            </div>
+                            <?php endforeach; ?>
+
                             <?php // Peminjaman ?>
                             <?php foreach ($peminjamanLab as $p): ?>
 
@@ -75,6 +83,10 @@
             </div>
 
             <div class="p-legend">
+                <div class="p-legend-item praktikum-tetap">
+                    <span class="p-legend-color p-lg-praktikum"></span>
+                    Praktikum Tetap
+                </div>
                 <div class="p-legend-item peminjaman-internal">
                     <span class="p-legend-color p-lg-internal"></span>
                     Peminjaman Internal

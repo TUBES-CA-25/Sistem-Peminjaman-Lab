@@ -16,8 +16,8 @@ include __DIR__ . '/../booking/helpers.php';
 
 
 <!-- Jadwal Content -->
-<section class="labs-section py-4">
-    <div class="container-fluid px-4">
+<section class="labs-section py-2">
+    <div class="container-fluid px-0">
         <!-- Date Picker -->
         <div class="mb-4">
             <div class="p-date-picker">
@@ -60,8 +60,8 @@ include __DIR__ . '/../booking/helpers.php';
 
                     <?php // Slot Kosong ?>
                     <?php foreach ($slotKosong as $k): ?>
-                    <div class="p-slot available" onclick="window.location.href='<?= BASE_URL ?>/internal/booking'">
-                        + Pinjam (Kosong <?= $k['mulai'] ?>-<?= $k['selesai'] ?>)
+                    <div class="p-slot read-only">
+                        Kosong <?= $k['mulai'] ?>-<?= $k['selesai'] ?>
                     </div>
                     <?php endforeach; ?>
 
