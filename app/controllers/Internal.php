@@ -59,7 +59,7 @@ class Internal extends Controller
         // Ambil data user yang sedang login untuk auto-fill form
         $userId = $_SESSION['user_id'] ?? null;
         if ($userId) {
-            $userModel = $this->model('User_model');
+            $userModel = $this->model('UserModel');
             $data['current_user'] = $userModel->getUserById($userId);
         } else {
             $data['current_user'] = null;

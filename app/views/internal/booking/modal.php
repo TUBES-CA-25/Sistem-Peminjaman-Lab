@@ -2,11 +2,10 @@
 /**
  * app/views/internal/booking/modal.php
  * 
- * File ini berisi 2 modal yang berbeda:
+ * File ini berisi 3 modal yang berbeda:
  * 1. MODAL 1: Schedule Modal (Tambah Peminjaman) - Custom modal for per-lab schedule view
  * 2. MODAL 2: Booking Form Modal - Bootstrap modal for submitting booking
  * 
-
  * Styling: internal-booking.css
  */
 ?>
@@ -73,7 +72,8 @@
                             <?php // Slot Kosong ?>
                             <?php foreach ($slotKosong as $k): ?>
                             <div class="p-slot available" onclick="openBookingModal('<?= htmlspecialchars($lab['short_name']) ?>', '<?= $k['mulai'] ?>', '<?= $k['selesai'] ?>')">
-                                + Pinjam (Kosong <?= $k['mulai'] ?>-<?= $k['selesai'] ?>)
+                                <span class="p-slot-label">+ Pinjam</span>
+                                <span class="p-slot-sub">Kosong <?= $k['mulai'] ?>-<?= $k['selesai'] ?></span>
                             </div>
                             <?php endforeach; ?>
                         </div>
@@ -153,7 +153,7 @@
                         <label style="font-size: 0.7rem; color: #4A5568; margin-bottom: 4px; display: block;">Nama Peminjam</label>
                         <input type="text" class="form-control" id="namaPeminjam" 
                                value="<?= htmlspecialchars($data['current_user']['nama'] ?? '') ?>" 
-                               readonly 
+                               readonly
                                style="border: 1px solid #E2E8F0; border-radius: 6px; font-size: 0.8rem; padding: 8px 10px; background: #F7FAFC; cursor: not-allowed;">
                         <small style="font-size: 0.65rem; color: #718096; display: block; margin-top: 4px;">
                             <i class="fas fa-info-circle"></i> Nama otomatis dari akun yang login
@@ -172,8 +172,5 @@
                 </form>
             </div>
         </div>
-        </div>
     </div>
 </div>
-
-
