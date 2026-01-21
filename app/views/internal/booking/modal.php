@@ -5,8 +5,8 @@
  * File ini berisi 3 modal yang berbeda:
  * 1. MODAL 1: Schedule Modal (Tambah Peminjaman) - Custom modal for per-lab schedule view
  * 2. MODAL 2: Booking Form Modal - Bootstrap modal for submitting booking
- * 3. MODAL 3: View Schedule Modal (Lihat Jadwal) - Custom modal for viewing all labs at once
  * 
+
  * Styling: internal-booking.css
  */
 ?>

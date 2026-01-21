@@ -22,8 +22,8 @@ class Internal extends Controller
         $this->jadwalModel = $this->model('JadwalModel');
         $this->peminjamanModel = $this->model('PeminjamanModel');
 
-        // TODO: Uncomment ketika sistem authentication sudah siap
         // if (!isset($_SESSION['user_id']) || $_SESSION['role'] != 'internal') {
+
         //     header('Location: ' . BASE_URL . '/auth/login');
         //     exit;
         // }
