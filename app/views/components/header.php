@@ -22,6 +22,7 @@
 
     <!-- Global Custom CSS -->
     <link rel="stylesheet" href="<?= BASE_URL ?>/public/css/style.css">
+    <link rel="stylesheet" href="<?= BASE_URL; ?>/public/css/external.css">
     </head>
 
     <body>

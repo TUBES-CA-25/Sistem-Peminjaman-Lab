@@ -48,7 +48,7 @@ body{
 .auth-image{
     position:relative;
     overflow:hidden;
-    perspective:1400px; /* MAKIN BESAR = 3D MAKIN TERASA */
+    perspective:1400px;
 }
 
 .auth-image img.bg{
@@ -69,7 +69,7 @@ body{
     );
 }
 
-/* ================= LOGO 3D CENTER (SUPER STRONG) ================= */
+/* ================= LOGO 3D CENTER ================= */
 .logo-3d{
     position:absolute;
     top:50%;
@@ -81,7 +81,7 @@ body{
 }
 
 .logo-3d img{
-    width:240px;                 /* 🔥 LEBIH BESAR */
+    width:240px;
     max-width:75%;
     filter:
         drop-shadow(0 40px 80px rgba(0,0,0,.9))
@@ -90,37 +90,21 @@ body{
     animation:logoGlowStrong 3s ease-in-out infinite;
 }
 
-/* FLOATING 3D KUAT */
 @keyframes logoFloatStrong{
     0%,100%{
-        transform:
-            translate(-50%,-50%)
-            translateZ(120px)
-            rotateX(0deg)
-            rotateY(0deg);
+        transform: translate(-50%,-50%) translateZ(120px) rotateX(0deg) rotateY(0deg);
     }
     50%{
-        transform:
-            translate(-50%,-50%)
-            translateZ(180px)
-            rotateX(18deg)
-            rotateY(-18deg);
+        transform: translate(-50%,-50%) translateZ(180px) rotateX(18deg) rotateY(-18deg);
     }
 }
 
-/* GLOW + DEPTH KUAT */
 @keyframes logoGlowStrong{
     0%,100%{
-        filter:
-            drop-shadow(0 40px 80px rgba(0,0,0,.9))
-            drop-shadow(0 0 35px rgba(59,130,246,.55))
-            drop-shadow(0 0 70px rgba(34,211,238,.35));
+        filter: drop-shadow(0 40px 80px rgba(0,0,0,.9)) drop-shadow(0 0 35px rgba(59,130,246,.55)) drop-shadow(0 0 70px rgba(34,211,238,.35));
     }
     50%{
-        filter:
-            drop-shadow(0 60px 120px rgba(0,0,0,1))
-            drop-shadow(0 0 60px rgba(59,130,246,.85))
-            drop-shadow(0 0 110px rgba(34,211,238,.6));
+        filter: drop-shadow(0 60px 120px rgba(0,0,0,1)) drop-shadow(0 0 60px rgba(59,130,246,.85)) drop-shadow(0 0 110px rgba(34,211,238,.6));
     }
 }
 
@@ -133,13 +117,8 @@ body{
     color:white;
 }
 
-.image-caption h3{
-    font-weight:900;
-}
-
-.image-caption p{
-    opacity:.85;
-}
+.image-caption h3{ font-weight:900; }
+.image-caption p{ opacity:.85; }
 
 /* ================= FORM SIDE ================= */
 .auth-form{
@@ -147,9 +126,7 @@ body{
     color:white;
 }
 
-.auth-form h2{
-    font-weight:900;
-}
+.auth-form h2{ font-weight:900; }
 
 .form-control{
     background:rgba(255,255,255,.12)!important;
@@ -159,8 +136,12 @@ body{
     padding:14px 18px;
 }
 
-.form-control::placeholder{
-    color:rgba(255,255,255,.4);
+.form-control::placeholder{ color:rgba(255,255,255,.4); }
+
+.form-control:focus{
+    background:rgba(255,255,255,.18)!important;
+    border-color:var(--primary)!important;
+    box-shadow:0 0 0 4px rgba(59,130,246,.25)!important;
 }
 
 .btn-login{
@@ -177,14 +158,12 @@ body{
     box-shadow:0 20px 40px rgba(59,130,246,.45);
 }
 
+.auth-link-alt:hover { color: white !important; }
+
 /* ================= RESPONSIVE ================= */
 @media(max-width:900px){
-    .auth-box{
-        grid-template-columns:1fr;
-    }
-    .auth-image{
-        display:none;
-    }
+    .auth-box{ grid-template-columns:1fr; }
+    .auth-image{ display:none; }
 }
 </style>
 </head>
@@ -194,7 +173,6 @@ body{
 <div class="auth-wrapper">
     <div class="auth-box">
 
-        <!-- IMAGE SIDE -->
         <div class="auth-image">
             <img src="<?= BASE_URL ?>/public/img/cv.jpg" class="bg" alt="Laboratorium">
 
@@ -208,28 +186,34 @@ body{
             </div>
         </div>
 
-        <!-- FORM SIDE -->
         <div class="auth-form">
             <h2>Masuk ke Akun</h2>
             <p class="text-white-50 mb-4">
                 Silakan masuk untuk mengelola peminjaman laboratorium
             </p>
 
-            <form method="post" action="<?= BASE_URL ?>/auth/login">
+            <div class="row">
+                <div class="col-12">
+                    <?php Flasher::flash(); ?>
+                </div>
+            </div>
+
+            <form method="post" action="<?= BASE_URL ?>/auth/prosesLogin">
                 <div class="mb-3">
                     <label class="small text-white-50">Email</label>
-                    <input type="email" name="email" class="form-control" placeholder="nama@email.com">
+                    <input type="email" name="email" class="form-control" placeholder="nama@email.com" required>
                 </div>
 
                 <div class="mb-2">
                     <label class="small text-white-50">Password</label>
-                    <input type="password" name="password" class="form-control" placeholder="Masukkan password">
+                    <input type="password" name="password" class="form-control" placeholder="Masukkan password" required>
                 </div>
 
-            <div class="text-end mb-4">
-                <a href="<?= BASE_URL ?>/auth/forgot"
-                    class="auth-link-alt small text-white-50 text-decoration-none">Lupa Password?</a>
-            </div>
+                <div class="text-end mb-4">
+                    <a href="<?= BASE_URL ?>/auth/forgot"
+                        class="auth-link-alt small text-white-50 text-decoration-none">Lupa Password?</a>
+                </div>
+
                 <button type="submit" class="btn btn-login w-100">Masuk</button>
             </form>
 
@@ -242,52 +226,6 @@ body{
     </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-
-<style>
-    .auth-page-container {
-        min-height: 100vh;
-        background: radial-gradient(circle at top right, #1e3a8a, #0f172a);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 100px 20px;
-        margin-top: -80px;
-
-    }
-
-    .auth-card {
-        width: 100%;
-        max-width: 450px;
-        background: rgba(255, 255, 255, 0.05);
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 24px;
-        padding: 50px 40px;
-        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-    }
-
-    .form-control {
-        background: rgba(255, 255, 255, 0.1) !important;
-        border: 1px solid rgba(255, 255, 255, 0.1) !important;
-        color: white !important;
-        padding: 12px 15px !important;
-        border-radius: 12px !important;
-    }
-
-    .form-control::placeholder {
-        color: rgba(255, 255, 255, 0.3) !important;
-    }
-
-    .form-control:focus {
-        background: rgba(255, 255, 255, 0.15) !important;
-        box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.05) !important;
-        border-color: rgba(255, 255, 255, 0.3) !important;
-    }
-
-    .auth-link-alt:hover {
-        color: white !important;
-    }
-</style>

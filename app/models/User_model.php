@@ -2,7 +2,7 @@
 
 class User_model
 {
-    private $table = 'pengguna'; // Nama tabel di database
+    private $table = 'users'; // Nama tabel di database
     private $db;
 
     public function __construct()
@@ -11,6 +11,7 @@ class User_model
     }
 
     // 1. Ambil data user berdasarkan ID (Untuk ditampilkan di form profil)
+    // Ambil 1 user berdasarkan ID
     public function getUserById($id)
     {
         $this->db->query('SELECT * FROM ' . $this->table . ' WHERE id = :id');
@@ -18,24 +19,38 @@ class User_model
         return $this->db->single();
     }
 
-    // 2. Update data profil (Nama, Email, Telepon)
-    public function updateProfile($data)
+    // Update Profile
+    public function updateUserProfile($data)
     {
-        $query = "UPDATE " . $this->table . " SET 
-                    nama_lengkap = :nama, 
-                    email = :email, 
-                    telepon = :telepon 
-                  WHERE id = :id";
-        
+        // Cek apakah user ingin ganti password?
+        if (!empty($data['password'])) {
+            // Jika ada password baru
+            $query = "UPDATE " . $this->table . " SET 
+                        nama = :nama, 
+                        email = :email, 
+                        telepon = :telepon, 
+                        password = :password 
+                      WHERE id = :id";
+        } else {
+            // Jika tidak ganti password
+            $query = "UPDATE " . $this->table . " SET 
+                        nama = :nama, 
+                        email = :email, 
+                        telepon = :telepon 
+                      WHERE id = :id";
+        }
+
         $this->db->query($query);
         $this->db->bind('nama', $data['nama']);
         $this->db->bind('email', $data['email']);
         $this->db->bind('telepon', $data['telepon']);
         $this->db->bind('id', $data['id']);
 
+        if (!empty($data['password'])) {
+            $this->db->bind('password', password_hash($data['password'], PASSWORD_DEFAULT));
+        }
+
         $this->db->execute();
-        
-        // Mengembalikan jumlah baris yang berubah (agar kita tahu update berhasil/tidak)
         return $this->db->rowCount();
     }
 
@@ -56,8 +71,29 @@ class User_model
     public function getUserByEmail($email)
     {
         // Pastikan nama tabel di database Anda benar ('users' atau 'user')
-        $this->db->query('SELECT * FROM pengguna WHERE email = :email');
+        $this->db->query('SELECT * FROM ' . $this->table . ' WHERE email = :email');
         $this->db->bind('email', $email);
         return $this->db->single();
+    }
+
+    // REGISTER: Tambah user baru
+    public function tambahUser($data)
+    {
+        $query = "INSERT INTO " . $this->table . " 
+                    (nama, email, password, role, telepon)
+                  VALUES
+                    (:nama, :email, :password, :role, :telepon)";
+        
+        $this->db->query($query);
+        $this->db->bind('nama', $data['nama']);
+        $this->db->bind('email', $data['email']);
+        // Password sudah di-hash di Controller sebelum dikirim kesini
+        $this->db->bind('password', $data['password']);
+        $this->db->bind('role', 'external'); // Default role untuk pendaftar umum
+        $this->db->bind('telepon', $data['telepon']); // Opsional, jika ada kolom telepon
+
+        $this->db->execute();
+
+        return $this->db->rowCount();
     }
 }

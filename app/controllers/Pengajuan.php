@@ -18,6 +18,7 @@ class Pengajuan extends Controller
         
         // Mengambil SEMUA data (getAllPengajuan sama dengan getRiwayat tapi untuk admin)
         $data['pengajuan'] = $this->model('Pengajuan_model')->getAllPengajuan();
+        $data['active_page'] = 'pengajuan';
 
         // Load View Admin
         // Pastikan Anda sudah punya admin_sidebar, admin_navbar, dll
