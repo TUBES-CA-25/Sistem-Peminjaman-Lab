@@ -71,7 +71,7 @@ nav.navbar.navbar-expand.fixed-top {
 /* KONTEN UTAMA (Disebelah Kanan Sidebar) */
 .main-content-user {
     margin-left: 250px; /* Geser konten ke kanan sebesar lebar sidebar */
-    padding-top: 0px; /* Space for fixed navbar */
+    padding-top: 70px; /* Space for fixed navbar */
     min-height: 100vh;
     background-color: #f8f9fa; /* Warna background abu muda agar card terlihat menonjol */
 }
@@ -92,4 +92,60 @@ nav.navbar {
     .main-content-user {
         margin-left: 0; /* Konten full width di HP */
     }
+}
+
+/* ========================================== */
+/* TOMBOL AKSI (View, Edit, Delete) */
+/* ========================================== */
+.btn-action {
+    width: 32px;
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    border: none;
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+    font-size: 0.85rem;
+    margin: 0 2px;
+}
+
+.btn-action:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+}
+
+/* Tombol View (Mata) - Biru */
+.btn-view {
+    background-color: #e7f1ff;
+    color: #0d6efd;
+}
+.btn-view:hover {
+    background-color: #0d6efd;
+    color: white;
+}
+
+/* Tombol Edit (Pensil) - Kuning */
+.btn-edit {
+    background-color: #fff3cd;
+    color: #856404;
+}
+.btn-edit:hover {
+    background-color: #ffc107;
+    color: #000;
+}
+
+/* Tombol Delete (Sampah) - Merah */
+.btn-delete {
+    background-color: #f8d7da;
+    color: #842029;
+}
+.btn-delete:hover {
+    background-color: #dc3545;
+    color: white;
+}
+
+.btn-action i {
+    pointer-events: none;
 }

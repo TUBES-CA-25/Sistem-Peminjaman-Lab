@@ -805,3 +805,60 @@ body {
     padding: 4px 12px;
     vertical-align: middle;
 }
+
+/* Base Style untuk tombol ikon */
+.btn-icon {
+    width: 32px;
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px; /* Sudut melengkung */
+    border: none;
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+    font-size: 0.85rem;
+    margin: 0 2px; /* Jarak antar tombol */
+    text-decoration: none; /* Hilangkan garis bawah jika tag <a> */
+}
+
+/* Efek Hover umum */
+.btn-icon:hover {
+    transform: translateY(-2px); /* Efek naik sedikit saat hover */
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+/* 1. Tombol View (Mata) - Biru Muda */
+.btn-view {
+    background-color: #e7f1ff;
+    color: #0d6efd;
+}
+.btn-view:hover {
+    background-color: #0d6efd;
+    color: white;
+}
+
+/* 2. Tombol Edit (Pensil) - Kuning Muda */
+.btn-edit {
+    background-color: #fff3cd;
+    color: #856404;
+}
+.btn-edit:hover {
+    background-color: #ffc107;
+    color: #000;
+}
+
+/* 3. Tombol Delete (Sampah) - Merah Muda */
+.btn-delete {
+    background-color: #f8d7da;
+    color: #842029;
+}
+.btn-delete:hover {
+    background-color: #dc3545;
+    color: white;
+}
+
+/* Agar ikon di dalam tombol pas di tengah */
+.btn-icon i {
+    pointer-events: none; /* Agar klik ikon tetap terhitung klik tombol */
+}

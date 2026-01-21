@@ -5,7 +5,7 @@
 <div class="main-content-user">
     
     <div class="container-fluid px-4">
-        <div class="hero-bg rounded-3 mt-3">
+        <div class="hero-bg rounded-3" style="margin-top: -50px;">
             <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
                 <div class="text-white">
                     <h2 class="fw-bold mb-1">Dashboard Peminjaman</h2>
