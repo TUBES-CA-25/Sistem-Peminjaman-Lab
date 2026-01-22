@@ -387,6 +387,18 @@ class Internal extends Controller
 
         // Cek konflik dengan booking yang sudah ada
         try {
+            // VALIDASI: Cek apakah waktu sudah lewat
+            $currentDateTime = time();
+            $requestedStart = strtotime($formData['tanggal'] . ' ' . $formData['jamMulai']);
+            
+            if ($requestedStart < $currentDateTime) {
+                echo json_encode([
+                    'success' => false,
+                    'message' => 'Tidak dapat melakukan booking untuk waktu yang sudah terlewati.'
+                ]);
+                return;
+            }
+
             if ($this->peminjamanModel->checkConflict($labId, $formData['tanggal'], $formData['jamMulai'], $formData['jamSelesai'])) {
                 echo json_encode([
                     'success' => false,
@@ -581,7 +593,8 @@ class Internal extends Controller
         // 5. Render View Fragment
         $data = [
             'slots' => $sortedSlots,
-            'labName' => $labName
+            'labName' => $labName,
+            'selected_date' => $date
         ];
 
         $this->view('internal/booking/ajax_slots', $data);

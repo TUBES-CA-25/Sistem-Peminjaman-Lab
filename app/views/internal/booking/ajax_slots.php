@@ -24,10 +24,17 @@
         </div>
 
     <?php elseif ($slot['type'] == 'kosong'): $k = $slot['data']; ?>
-        <div class="p-slot available" onclick="openBookingModal('<?= htmlspecialchars($data['labName']) ?>', '<?= $k['mulai'] ?>', '<?= $k['selesai'] ?>')">
-            <span class="p-slot-label">+ Pinjam</span>
-            <span class="p-slot-sub">Kosong <?= $k['mulai'] ?>-<?= $k['selesai'] ?></span>
-        </div>
+        <?php if (isPastSlot($data['selected_date'], $k['mulai'])): ?>
+            <div class="p-slot read-only" style="opacity: 0.6; cursor: not-allowed;">
+                <span class="p-slot-label">Terlewati</span>
+                <span class="p-slot-sub">Kosong <?= $k['mulai'] ?>-<?= $k['selesai'] ?></span>
+            </div>
+        <?php else: ?>
+            <div class="p-slot available" onclick="openBookingModal('<?= htmlspecialchars($data['labName']) ?>', '<?= $k['mulai'] ?>', '<?= $k['selesai'] ?>')">
+                <span class="p-slot-label">+ Pinjam</span>
+                <span class="p-slot-sub">Kosong <?= $k['mulai'] ?>-<?= $k['selesai'] ?></span>
+            </div>
+        <?php endif; ?>
 
     <?php endif; ?>
 

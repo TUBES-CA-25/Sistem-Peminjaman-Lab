@@ -472,3 +472,177 @@
         transform: rotate(360deg);
     }
 }
+
+/* RESPONSIVE LAYOUT adjustments */
+@media (max-width: 768px) {
+
+    /* Layout Padding Adjustments */
+    .admin-container {
+        padding: 0;
+    }
+
+    .main-content {
+        padding: 20px 15px !important;
+    }
+
+    .hero-section-internal {
+        padding: 30px 20px;
+        border-radius: 0 0 20px 20px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .hero-section-internal h1 {
+        font-size: 1.5rem;
+    }
+
+    /* Datepicker full width on mobile */
+    .p-date-picker {
+        flex-direction: column;
+        align-items: flex-start;
+        width: 100%;
+        gap: 8px;
+    }
+
+    .p-date-picker input {
+        width: 100%;
+    }
+
+    /* Modal Custom: Centered Card on Mobile (Premium Feel) */
+    .p-modal {
+        padding: 15px;
+        align-items: center;
+        /* Center vertically */
+        justify-content: center;
+        background: rgba(0, 0, 0, 0.6);
+        /* Lebih gelap dikit */
+    }
+
+    .p-modal-card {
+        max-height: 80vh;
+        /* Jangan terlalu penuh */
+        width: 100%;
+        max-width: 100%;
+        margin: 0;
+        border-radius: 16px;
+        /* Rounded all corners */
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .p-modal-body {
+        padding: 15px;
+    }
+
+    /* Bootstrap Modal Adjustments for Mobile */
+    .modal-dialog {
+        margin: 10px;
+        max-width: 100%;
+    }
+
+    .modal-content {
+        border-radius: 16px !important;
+    }
+
+    /* Legend Full Width (Vertical Stack) */
+    .p-legend {
+        flex-direction: column;
+        align-items: stretch;
+        /* Full width items */
+        gap: 8px;
+        padding: 10px 0 0 0;
+    }
+
+    .p-legend-item {
+        width: 100%;
+        justify-content: center;
+        /* Text centered inside the full bar */
+        margin: 0;
+    }
+}
+
+/* Navbar Toggle Button (added for clean code) */
+.navbar-hamburger {
+    background: transparent;
+    border: none;
+    font-size: 1.5rem;
+    color: #1e3a8a;
+    cursor: pointer;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s;
+}
+
+.navbar-hamburger:active {
+    transform: scale(0.95);
+}
+
+/* SIDEBAR & OVERLAY STYLING (Moved from internal_sidebar.php) */
+.sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1040;
+    backdrop-filter: blur(2px);
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        display: block;
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 260px;
+        z-index: 1050;
+        transform: translateX(-100%);
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 4px 0 15px rgba(0, 0, 0, 0.1);
+        padding-top: 0;
+        background: white;
+        overflow-y: auto;
+    }
+
+    .sidebar.active {
+        transform: translateX(0);
+    }
+
+    .sidebar-overlay.active {
+        display: block;
+    }
+
+    .sidebar-header-mobile {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 20px;
+        border-bottom: 1px solid #f1f5f9;
+        margin-bottom: 10px;
+        color: #1e3a8a;
+        font-size: 1.1rem;
+    }
+
+    .desktop-only {
+        display: none;
+    }
+
+    .close-btn {
+        background: transparent;
+        border: none;
+        font-size: 1.5rem;
+        color: #64748b;
+        cursor: pointer;
+        padding: 5px;
+    }
+}
+
+@media (min-width: 769px) {
+
+    .sidebar-header-mobile,
+    .mobile-only {
+        display: none;
+    }
+}
