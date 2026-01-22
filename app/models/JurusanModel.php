@@ -56,6 +56,7 @@ class JurusanModel
         $query = "DELETE FROM " . $this->table_name . " WHERE id = :id";
         $this->db->query($query);
         $this->db->bind('id', $id);
-        return $this->db->execute();
+        $this->db->execute();
+        return $this->db->rowCount();
     }
 }

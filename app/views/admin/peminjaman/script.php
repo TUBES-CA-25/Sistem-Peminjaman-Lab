@@ -219,7 +219,9 @@
         } else {
           // Eksternal or Admin
           actionButtons = `
-          <!-- No Edit for now -->
+          <button type="button" class="p-act p-edit" title="Edit" onclick="editPeminjamanEksternal(${id})">
+            <i class="fas fa-edit"></i>
+          </button>
           <button type="button" class="p-act p-check" title="Approve" onclick="approvePeminjaman(${id})">
             <i class="fas fa-check"></i>
           </button>
@@ -424,7 +426,7 @@
       let tanggalSelesai = form.externalTanggalSelesai.value;
       let instansiKegiatan = form.instansiKegiatan.value.trim();
       let catatan = form.catatanOpsional.value.trim();
-      let tipe = form.tipe.value; // Get selected role
+      let tipe = form.tipe.value; // 'eksternal' (hidden input)
 
       // Basic Validation
       if (tanggalMulai > tanggalSelesai) {
@@ -444,7 +446,7 @@
         if (aktif) {
           if (mulai >= selesai) {
             alert(`Jam Mulai harus sebelum Jam Selesai pada lab ${lab.name}.`);
-            return false; // Stop form submission
+            return false;
           }
           labsToBook.push({ labId: lab.key, mulai, selesai });
         }
@@ -455,50 +457,113 @@
         return false;
       }
 
-      // Generate dates
-      let dates = [];
+      // Generate List of Requests
+      let requestItems = [];
       let curr = new Date(tanggalMulai + 'T00:00:00');
       let end = new Date(tanggalSelesai + 'T00:00:00');
+
       while (curr <= end) {
-        dates.push(new Date(curr).toISOString().split('T')[0]);
+        // Fix: Use local date components avoids timezone offset issues from toISOString()
+        const y = curr.getFullYear();
+        const m = String(curr.getMonth() + 1).padStart(2, '0');
+        const dt = String(curr.getDate()).padStart(2, '0');
+        const d = `${y}-${m}-${dt}`;
+        labsToBook.forEach(l => {
+          requestItems.push({
+            tanggal: d,
+            lab: l.labId,
+            jamMulai: l.mulai,
+            jamSelesai: l.selesai,
+            kegiatan: instansiKegiatan,
+            catatan: catatan,
+            tipe: tipe,
+            nama_peminjam: instansiKegiatan
+          });
+        });
         curr.setDate(curr.getDate() + 1);
       }
 
-      // Use Fetch API
-      const promises = [];
+      // Helper Fetch Function
+      const sendBooking = (item, override = false) => {
+        const formData = new FormData();
 
-      dates.forEach(d => {
-        labsToBook.forEach(l => {
-          const formData = new FormData();
-          formData.append('action', 'create');
-          formData.append('tipe', tipe); // Use selected tipe
-          formData.append('ajax', '1');
-          formData.append('tanggal', d);
-          formData.append('lab', l.labId);
-          formData.append('jamMulai', l.mulai);
-          formData.append('jamSelesai', l.selesai);
-          formData.append('kegiatan', instansiKegiatan);
-          formData.append('catatan', catatan);
-          formData.append('nama_peminjam', instansiKegiatan); // Or add specific field if needed
+        // Determine Action: create or update?
+        // Check if main form has ID
+        const formAction = form.elements['action'] ? form.elements['action'].value : 'create';
+        const formId = form.elements['id'] ? form.elements['id'].value : '';
 
-          promises.push(
-            fetch('<?= BASE_URL ?>/peminjaman', {
-              method: 'POST',
-              body: formData
-            }).then(response => response.json())
-              .then(data => data.success)
-              .catch(err => false)
-          );
-        });
-      });
+        formData.append('action', formAction); // 'create' or 'update'
+        if (formId) formData.append('id', formId);
+
+        formData.append('ajax', '1');
+
+        // Append all item props
+        for (const key in item) {
+          formData.append(key, item[key]);
+        }
+
+        if (override) {
+          formData.append('override', '1');
+        }
+
+        return fetch('<?= BASE_URL ?>/peminjaman', {
+          method: 'POST',
+          body: formData
+        })
+          .then(response => response.json())
+          .then(data => ({ item, success: data.success, message: data.message || '' }))
+          .catch(err => ({ item, success: false, message: 'Connection Error' }));
+      };
+
+      // 1. Initial Attempt (No Override)
+      const promises = requestItems.map(item => sendBooking(item, false));
 
       Promise.all(promises).then(results => {
-        const allSuccess = results.every(r => r === true);
-        if (allSuccess) {
-          alert('✅ Peminjaman berhasil disimpan. Halaman akan dimuat ulang.');
-        } else {
-          alert('⚠️ Beberapa peminjaman gagal disimpan (Mungkin bentrok).');
+        const failures = results.filter(r => !r.success);
+
+        // If everything success
+        if (failures.length === 0) {
+          alert('✅ Semua peminjaman berhasil disimpan!');
+          window.location.reload();
+          return;
         }
+
+        // Analyze Conflicts
+        const conflicts = failures.filter(r => r.message.toLowerCase().includes('bentrok'));
+        const otherErrors = failures.filter(r => !r.message.toLowerCase().includes('bentrok'));
+
+        if (conflicts.length > 0) {
+          const confirmMsg = `⚠️ Ditemukan ${conflicts.length} jadwal bentrok dengan booking Internal!\n` +
+            `(${conflicts[0].item.tanggal} ${conflicts[0].item.jamMulai}-${conflicts[0].item.jamSelesai}...)\n\n` +
+            `Apakah Anda ingin MENGGESER (Override) jadwal internal tersebut?\n` +
+            `Jadwal internal akan diubah statusnya menjadi 'Tergeser'.`;
+
+          if (confirm(confirmMsg)) {
+            // 2. Retry with Override
+            const retries = conflicts.map(r => sendBooking(r.item, true));
+
+            Promise.all(retries).then(retryResults => {
+              const retryFailures = retryResults.filter(r => !r.success);
+
+              if (retryFailures.length === 0 && otherErrors.length === 0) {
+                alert('✅ Sukses! Jadwal bentrok berhasil digeser dan disimpan.');
+              } else {
+                let msg = '⚠️ Proses selesai dengan catatan:\n';
+                if (otherErrors.length > 0) msg += `- ${otherErrors.length} error teknis/validasi.\n`;
+                if (retryFailures.length > 0) msg += `- ${retryFailures.length} gagal override (mungkin bentrok sesama prioritas/fixed).`;
+                alert(msg);
+              }
+              window.location.reload();
+            });
+            return;
+          }
+        }
+
+        // If conflicts exist but user cancelled override, OR only other errors exist
+        alert(`❌ Terjadi kesalahan pada ${failures.length} peminjaman.\n` +
+          (conflicts.length > 0 ? '(Anda membatalkan override jadwal bentrok)' : '(Cek koneksi atau validasi data)'));
+        // Don't reload immediately so user can see form? Or reload to show partial success?
+        // Reload is safer to reflect partial bookings.
         window.location.reload();
       });
 
@@ -508,7 +573,18 @@
     window.editPeminjamanEksternal = function (id) {
       // Fetch the booking data for the given ID
       fetch(`<?= BASE_URL ?>/peminjaman?action=get&id=${id}`)
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Server Error: ' + response.statusText);
+            }
+            return response.text().then(text => {
+                try {
+                    return JSON.parse(text);
+                } catch (e) {
+                    throw new Error('Invalid JSON: ' + text.substring(0, 100)); // Show start of text
+                }
+            });
+        })
         .then(item => {
           if (!item) {
             alert('Data peminjaman tidak ditemukan.');
@@ -517,22 +593,45 @@
 
           pExternalForm.reset();
 
-          document.getElementById('externalTanggalMulai').value = item.tanggal_peminjaman; // use DB col name
+          // Set Hidden Action & ID
+          const actionInput = document.createElement('input');
+          actionInput.type = 'hidden'; actionInput.name = 'action'; actionInput.value = 'update';
+          // Check if exists, update value
+          if (pExternalForm.elements['action']) pExternalForm.elements['action'].value = 'update';
+          else pExternalForm.appendChild(actionInput);
+
+          const idInput = document.createElement('input');
+          idInput.type = 'hidden'; idInput.name = 'id'; idInput.value = item.id;
+          if (pExternalForm.elements['id']) pExternalForm.elements['id'].value = item.id;
+          else pExternalForm.appendChild(idInput);
+
+          document.getElementById('pExternalModalTitle').textContent = 'Edit Peminjaman';
+          document.getElementById('btnSaveExternal').textContent = 'Update Peminjaman';
+
+          document.getElementById('externalTanggalMulai').value = item.tanggal_peminjaman;
           document.getElementById('externalTanggalSelesai').value = item.tanggal_peminjaman;
           document.getElementById('instansiKegiatan').value = item.kegiatan || item.nama_peminjam || '';
           document.getElementById('catatanOpsional').value = item.catatan || '';
 
+          // Set Tipe
+          pExternalForm.elements['tipe'].value = item.tipe || 'eksternal';
+
           externalLabTimesBody.innerHTML = '';
           LABS.forEach(lab => {
-            const isActive = (lab.key === item.lab_id);
+            const isActive = (lab.key == item.lab_id); // Strict match for key? item.lab_id is string from DB
             const checkedAttr = isActive ? 'checked' : '';
+            // If active, use stored times. If not, default 07:00-12:00
             const jamMulai = isActive ? item.jam_mulai.substring(0, 5) : '07:00';
             const jamSelesai = isActive ? item.jam_selesai.substring(0, 5) : '12:00';
 
             const html = `
             <tr>
               <td>${lab.name}</td>
-              <td style="text-align:center;"><input type="checkbox" name="aktif_${lab.key}" ${checkedAttr} /></td>
+              <td style="text-align:center;">
+                  <input type="checkbox" name="aktif_${lab.key}" ${checkedAttr} 
+                  class="lab-checkbox" 
+                  onchange="handleSingleLabEdit(this)" />
+              </td>
               <td><input type="time" name="mulai_${lab.key}" value="${jamMulai}" /></td>
               <td><input type="time" name="selesai_${lab.key}" value="${jamSelesai}" /></td>
             </tr>
@@ -540,17 +639,32 @@
             externalLabTimesBody.insertAdjacentHTML('beforeend', html);
           });
 
-          // Not fully implementing UPDATE yet in Controller, so this might just show data.
-          // But user can delete and recreate.
-          alert("Mode Edit hanya menampilkan data saat ini. \nSilakan hapus booking lama dan buat baru jika ingin mengubah secara drastis.");
-
           pExternalModal.classList.add('active');
         })
         .catch(error => {
           console.error('Error fetching booking data:', error);
-          alert('Gagal memuat data peminjaman.');
+          alert('Gagal memuat data: ' + error.message);
         });
     };
+
+    // Helper to ensure single lab selection in edit mode
+    window.handleSingleLabEdit = function (checkbox) {
+      // Optional: if needed to enforce 1 lab
+    };
+
+    // Reset Form when opening 'Add' modal, to clear Update IDs
+    const originalOpenExternal = window.openExternalBookingModal;
+    window.openExternalBookingModal = function (tanggal) {
+      // Reset ID and Action to Create
+      if (pExternalForm.elements['id']) pExternalForm.elements['id'].value = '';
+      if (pExternalForm.elements['action']) pExternalForm.elements['action'].value = 'create';
+
+      document.getElementById('pExternalModalTitle').textContent = 'Tambah Peminjaman (Admin)';
+      document.getElementById('btnSaveExternal').textContent = 'Simpan Peminjaman';
+
+      originalOpenExternal(tanggal);
+    };
+
 
     window.approvePeminjaman = function (id) {
       if (confirm(`Approve peminjaman dengan ID ${id}?`)) {
@@ -704,7 +818,7 @@
       document.getElementById('pDetailedBookingModal').classList.remove('active');
     };
 
-    // SAVE PEMINJAMAN (SINGLE)
+    // SAVE PEMINJAMAN (SINGLE - INTERNAL / REGULER)
     window.savePeminjaman = function (event) {
       event.preventDefault();
       const form = event.target;
@@ -713,9 +827,7 @@
       const formData = new FormData(form);
       formData.append('action', 'create');
       formData.append('ajax', '1');
-
-      // Helper to check valid time range
-      // (Client-side validation can be expanded here)
+      // Tipe is now hidden 'internal', so it's auto appended.
 
       fetch('<?= BASE_URL ?>/peminjaman', {
         method: 'POST',
@@ -724,37 +836,17 @@
         .then(response => {
           if (!response.ok) throw new Error(response.statusText);
           return response.text().then(text => {
-            try {
-              return JSON.parse(text);
-            } catch (e) {
-              throw new Error('Server Return Invalid JSON: ' + text.substring(0, 50) + '...');
-            }
+            try { return JSON.parse(text); }
+            catch (e) { throw new Error('Server Return Invalid JSON'); }
           });
         })
         .then(data => {
           if (data.success) {
-            alert('✅ Peminjaman berhasil disimpan!');
+            alert('✅ Peminjaman Internal berhasil disimpan!');
             window.location.reload();
           } else {
-            // Handle Conflict (Future: Override Prompt)
-            if (data.message && data.message.includes('bentrok')) {
-              if (confirm(data.message + '\n\nApakah Anda ingin menggeser jadwal yang bentrok? (Override)')) {
-                // Retry with override=1
-                formData.append('override', '1');
-                return fetch('<?= BASE_URL ?>/peminjaman', { method: 'POST', body: formData })
-                  .then(res => res.json())
-                  .then(overrideData => {
-                    if (overrideData.success) {
-                      alert('✅ Jadwal berhasil disimpan & jadwal lama digeser!');
-                      window.location.reload();
-                    } else {
-                      alert('❌ Gagal override: ' + overrideData.message);
-                    }
-                  });
-              }
-            } else {
-              alert('❌ Gagal: ' + (data.message || 'Error saving booking'));
-            }
+            // NO OVERRIDE OFFER HERE. Strict check.
+            alert('❌ Gagal: ' + (data.message || 'Slot tidak tersedia / Bentrok.'));
           }
         })
         .catch(err => {

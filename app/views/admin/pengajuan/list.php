@@ -28,7 +28,7 @@
                         <?php
                         // Set path relative to project root
                         $pathProposal = BASE_URL . '/public/uploads/' . $row['file_proposal'];
-                        
+
                         // JSON Data for Modal
                         $dataJSON = htmlspecialchars(json_encode([
                             'id' => $row['id'],
@@ -39,8 +39,8 @@
                             'peserta' => $row['jumlah_peserta'],
                             'mulai_fmt' => date('d M Y', strtotime($row['tgl_mulai'])),
                             'selesai_fmt' => date('d M Y', strtotime($row['tgl_selesai'])),
-                            'raw_mulai' => $row['tgl_mulai'], 
-                            'raw_selesai' => $row['tgl_selesai'], 
+                            'raw_mulai' => $row['tgl_mulai'],
+                            'raw_selesai' => $row['tgl_selesai'],
                             'proposal' => $pathProposal,
                             'status' => $row['status'],
                             'alasan' => $row['alasan_penolakan'] ?? ''
@@ -51,7 +51,8 @@
 
                             <td class="ps-4">
                                 <div class="fw-bold text-dark"><?= htmlspecialchars($row['nama_lengkap']); ?></div>
-                                <div class="small text-muted"><i class="fas fa-envelope me-1"></i> <?= htmlspecialchars($row['email']); ?></div>
+                                <div class="small text-muted"><i class="fas fa-envelope me-1"></i>
+                                    <?= htmlspecialchars($row['email']); ?></div>
                                 <div class="small text-primary fw-bold"><?= htmlspecialchars($row['telepon']); ?></div>
                             </td>
 
@@ -84,10 +85,13 @@
 
                             <td class="text-center">
                                 <?php
-                                $badgeClass = 'bs-warning'; 
-                                if ($row['status'] == 'Disetujui') $badgeClass = 'bs-success';
-                                elseif ($row['status'] == 'Ditolak') $badgeClass = 'bs-danger';
-                                elseif ($row['status'] == 'Menunggu Interview') $badgeClass = 'bs-info';
+                                $badgeClass = 'bs-warning';
+                                if ($row['status'] == 'Disetujui')
+                                    $badgeClass = 'bs-success';
+                                elseif ($row['status'] == 'Ditolak')
+                                    $badgeClass = 'bs-danger';
+                                elseif ($row['status'] == 'Menunggu Interview')
+                                    $badgeClass = 'bs-info';
                                 ?>
                                 <span class="badge-status <?= $badgeClass; ?>">
                                     <?= $row['status']; ?>
@@ -96,12 +100,20 @@
 
                             <td class="text-end pe-4">
                                 <div class="d-flex justify-content-end gap-1">
-                                    <button class="btn-icon btn-view" data-item="<?= $dataJSON; ?>" onclick="openDetailModal(this)" title="Lihat Detail">
+                                    <button class="btn-icon btn-view" data-item="<?= $dataJSON; ?>"
+                                        onclick="openDetailModal(this)" title="Lihat Detail">
                                         <i class="fas fa-eye"></i>
                                     </button>
-                                    <button class="btn-icon btn-edit" data-item="<?= $dataJSON; ?>" onclick="openEditModal(this)" title="Proses Status">
+                                    <button class="btn-icon btn-edit" data-item="<?= $dataJSON; ?>"
+                                        onclick="openEditModal(this)" title="Proses Status">
                                         <i class="fas fa-edit"></i>
                                     </button>
+                                    <form action="<?= BASE_URL ?>/pengajuan/delete/<?= $row['id'] ?>" method="POST"
+                                        class="d-inline" onsubmit="return confirm('Hapus pengajuan ini secara permanen?');">
+                                        <button type="submit" class="btn-icon btn-delete text-danger" title="Hapus">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
                                 </div>
                             </td>
                         </tr>

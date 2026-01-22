@@ -116,10 +116,10 @@ class PeminjamanModel
                   LEFT JOIN ruangan r ON p.lab_id = r.id
                   WHERE p.user_id = :user_id
                   ORDER BY p.tanggal_peminjaman DESC, p.jam_mulai DESC";
-        
+
         $this->db->query($query);
         $this->db->bind('user_id', $userId);
-        
+
         return $this->db->resultSet();
     }
 
@@ -127,29 +127,35 @@ class PeminjamanModel
     public function update($id, $data)
     {
         $query = "UPDATE " . $this->table_name . " SET 
+                  lab_id = :lab_id,
                   tanggal_peminjaman = :tanggal,
                   jam_mulai = :jam_mulai,
                   jam_selesai = :jam_selesai,
-                  kegiatan = :keterangan
+                  nama_peminjam = :nama_peminjam,
+                  kegiatan = :kegiatan,
+                  catatan = :catatan
                   WHERE id = :id";
-        
+
         $this->db->query($query);
+        $this->db->bind('lab_id', $data['lab_id']);
         $this->db->bind('tanggal', $data['tanggal']);
         $this->db->bind('jam_mulai', $data['jam_mulai']);
         $this->db->bind('jam_selesai', $data['jam_selesai']);
-        $this->db->bind('keterangan', htmlspecialchars(strip_tags($data['keterangan'])));
+        $this->db->bind('nama_peminjam', htmlspecialchars(strip_tags($data['nama_peminjam'])));
+        $this->db->bind('kegiatan', htmlspecialchars(strip_tags($data['kegiatan'])));
+        $this->db->bind('catatan', htmlspecialchars(strip_tags($data['catatan'] ?? '')));
         $this->db->bind('id', $id);
 
         $this->db->execute();
-        
+
         return $this->db->rowCount();
     }
 
 
-    // Check Conflict in Peminjaman Table
+    // Check Conflict in Peminjaman Table AND Jadwal Tetap
     public function checkConflict($labId, $tanggal, $start, $end, $excludeId = null)
     {
-        // Conflict if: Same Lab, Same Date, Time Overlaps, Status includes 'disetujui' and 'menunggu' (active bookings)
+        // 1. Check Table Peminjaman (Existing Bookings)
         // Ignored status: 'ditolak', 'tergeser'
         $query = "SELECT COUNT(*) as count FROM " . $this->table_name . "
                   WHERE lab_id = :lab_id 
@@ -163,7 +169,6 @@ class PeminjamanModel
         }
 
         $this->db->query($query);
-
         $this->db->bind('lab_id', $labId);
         $this->db->bind('tanggal', $tanggal);
         $this->db->bind('start', $start);
@@ -174,7 +179,42 @@ class PeminjamanModel
         }
 
         $result = $this->db->single();
-        return $result['count'] > 0;
+        if ($result['count'] > 0) {
+            return true; // Conflict with existing booking
+        }
+
+        // 2. Check Table Jadwal (Fixed Schedule / Praktikum)
+        // Convert Date to Day Name (Indonesian)
+        $dayEnglish = date('l', strtotime($tanggal));
+        $daysMap = [
+            'Sunday' => 'minggu',
+            'Monday' => 'senin',
+            'Tuesday' => 'selasa',
+            'Wednesday' => 'rabu',
+            'Thursday' => 'kamis',
+            'Friday' => 'jumat',
+            'Saturday' => 'sabtu'
+        ];
+        $hari = $daysMap[$dayEnglish] ?? '';
+
+        $queryJadwal = "SELECT COUNT(*) as count FROM jadwal
+                        WHERE lab_id = :lab_id
+                        AND hari = :hari
+                        AND jam_mulai < :end
+                        AND jam_selesai > :start";
+
+        $this->db->query($queryJadwal);
+        $this->db->bind('lab_id', $labId);
+        $this->db->bind('hari', $hari);
+        $this->db->bind('start', $start);
+        $this->db->bind('end', $end);
+
+        $resultJadwal = $this->db->single();
+        if ($resultJadwal['count'] > 0) {
+            return true; // Conflict with Fixed Schedule
+        }
+
+        return false;
     }
 
     // Shift Conflicting Bookings (Override)
