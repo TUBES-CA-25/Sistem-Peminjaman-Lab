@@ -4,6 +4,12 @@
     </a>
 
     <div class="navbar-menu">
-        <a href="<?= BASE_URL ?>/auth/logout" class="btn-signout">Sign Out</a>
+        <!-- Sign Out Button: Visible on Desktop, Hidden on Mobile -->
+        <a href="<?= BASE_URL ?>/auth/logout" class="btn-signout d-none d-md-block">Sign Out</a>
+        
+        <!-- Hamburger Button: Visible on Mobile, Hidden on Desktop -->
+        <button id="mobileNavbarToggle" class="d-md-none navbar-hamburger">
+            <i class="fas fa-bars"></i>
+        </button>
     </div>
 </nav>

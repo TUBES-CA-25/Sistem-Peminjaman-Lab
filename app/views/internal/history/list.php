@@ -3,7 +3,8 @@
 ?>
 
 <!-- TABLE WRAPPER -->
-<div class="p-table-wrap">
+<!-- DESKTOP TABLE VIEW (Hidden on Mobile) -->
+<div class="p-table-wrap d-none d-md-block">
   <table class="p-table">
     <thead>
       <tr>
@@ -54,7 +55,6 @@
           <td>
             <div class="p-actions">
               <?php 
-                // Gabungkan tanggal dan jam selesai untuk mendapatkan waktu berakhir peminjaman
                 $waktuSelesai = strtotime($p['tanggal'] . ' ' . $p['jam_selesai']);
                 $waktuSekarang = time();
                 $isExpired = $waktuSelesai < $waktuSekarang;
@@ -68,7 +68,6 @@
                   <i class="fas fa-trash"></i>
                 </button>
               <?php else: ?>
-                <!-- Jika sudah lewat, tidak ada aksi (read-only) atau icon info -->
                 <span style="color: #94a3b8; font-size: 0.85rem; font-style: italic;">Selesai</span>
               <?php endif; ?>
             </div>
@@ -78,4 +77,63 @@
       <?php endif; ?>
     </tbody>
   </table>
+</div>
+
+<!-- MOBILE CARD VIEW (Hidden on Desktop) -->
+<div class="d-md-none">
+    <?php if (empty($data['peminjaman'])): ?>
+        <div style="text-align: center; padding: 40px; color: #64748b; background: white; border-radius: 12px; border: 1px solid #e2e8f0;">
+          <i class="fas fa-inbox" style="font-size: 48px; margin-bottom: 16px; display: block;"></i>
+          Belum ada riwayat
+        </div>
+    <?php else: ?>
+        <div style="display: flex; flex-direction: column; gap: 16px;">
+            <?php foreach ($data['peminjaman'] as $p): ?>
+            <div style="background: white; border-radius: 12px; padding: 16px; border: 1px solid #e2e8f0; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px;">
+                    <div>
+                        <div style="font-weight: 800; color: #0f172a; font-size: 1.1rem;margin-bottom: 4px;"><?= htmlspecialchars($p['nama_ruangan']) ?></div>
+                        <div style="font-size: 0.9rem; color: #64748b;"><i class="far fa-calendar"></i> <?= date('d M Y', strtotime($p['tanggal'])) ?></div>
+                        <div style="font-size: 0.9rem; color: #64748b;"><i class="far fa-clock"></i> <?= $p['jam_mulai'] ?> - <?= $p['jam_selesai'] ?></div>
+                    </div>
+                    <?php 
+                      $statusClass = 'p-status-nonaktif';
+                      $statusText = 'Menunggu';
+                      if ($p['status'] == 'disetujui') {
+                        $statusClass = 'p-status-aktif';
+                        $statusText = 'Disetujui';
+                      } elseif ($p['status'] == 'ditolak') {
+                        $statusClass = 'p-status-nonaktif';
+                        $statusText = 'Ditolak';
+                      }
+                    ?>
+                    <span class="p-badge <?= $statusClass ?>" style="font-size: 0.75rem;"><?= $statusText ?></span>
+                </div>
+                
+                <div style="background: #f8fafc; padding: 10px; border-radius: 8px; font-size: 0.9rem; color: #475569; margin-bottom: 12px;">
+                    <?= htmlspecialchars($p['keterangan']) ?>
+                </div>
+                
+                <div style="display: flex; justify-content: flex-end; pt-2; border-top: 1px solid #f1f5f9; padding-top: 12px;">
+                     <?php 
+                        $waktuSelesai = strtotime($p['tanggal'] . ' ' . $p['jam_selesai']);
+                        $isExpired = $waktuSelesai < time();
+                      ?>
+                      <?php if (!$isExpired): ?>
+                        <div class="p-actions">
+                            <button class="p-act p-edit" onclick="editPeminjaman(<?= $p['id'] ?>)" title="Edit">
+                              <i class="fas fa-pen"></i>
+                            </button>
+                            <button class="p-act p-del" onclick="deletePeminjaman(<?= $p['id'] ?>)" title="Hapus">
+                              <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                      <?php else: ?>
+                        <span style="color: #94a3b8; font-size: 0.85rem; font-style: italic;"><i class="fas fa-check-circle"></i> Selesai</span>
+                      <?php endif; ?>
+                </div>
+            </div>
+            <?php endforeach; ?>
+        </div>
+    <?php endif; ?>
 </div>
