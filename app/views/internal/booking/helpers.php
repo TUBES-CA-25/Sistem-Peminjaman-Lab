@@ -162,3 +162,29 @@ function getSortedSlots($jadwalLab, $peminjamanLab, $slotKosong) {
 
     return $allSlots;
 }
+
+/**
+ * Cek apakah sebuah slot waktu pada tanggal tertentu sudah terlewati
+ * dibanding waktu sistem saat ini.
+ * 
+ * @param string $tanggal Tanggal (Y-m-d)
+ * @param string $jamMulais Jam mulai (HH:MM:SS atau HH:MM)
+ * @return bool True jika sudah lewat
+ */
+function isPastSlot($tanggal, $jamMulai) {
+    $currentDate = date('Y-m-d');
+    $currentTime = date('H:i');
+    
+    // Pastikan jamMulai hanya HH:MM untuk perbandingan string aman
+    $jamMulai = substr($jamMulai, 0, 5);
+
+    if ($tanggal < $currentDate) {
+        return true;
+    } elseif ($tanggal == $currentDate) {
+        if ($jamMulai < $currentTime) {
+            return true;
+        }
+    }
+    
+    return false;
+}

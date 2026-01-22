@@ -24,22 +24,7 @@
         </div>
 
     <?php elseif ($slot['type'] == 'kosong'): $k = $slot['data']; ?>
-        <?php 
-            // Cek apakah waktu sudah lewat
-            $isPast = false;
-            $currentDate = date('Y-m-d');
-            $currentTime = date('H:i');
-            
-            if ($data['selected_date'] < $currentDate) {
-                $isPast = true;
-            } elseif ($data['selected_date'] == $currentDate) {
-                if ($k['mulai'] < $currentTime) {
-                    $isPast = true;
-                }
-            }
-        ?>
-
-        <?php if ($isPast): ?>
+        <?php if (isPastSlot($data['selected_date'], $k['mulai'])): ?>
             <div class="p-slot read-only" style="opacity: 0.6; cursor: not-allowed;">
                 <span class="p-slot-label">Terlewati</span>
                 <span class="p-slot-sub">Kosong <?= $k['mulai'] ?>-<?= $k['selesai'] ?></span>
