@@ -112,3 +112,53 @@ function getSlotKosong($jadwalLab, $peminjamanLab, $jamBuka = '07:00', $jamTutup
     
     return $kosong;
 }
+
+/**
+ * Gabungkan dan urutkan semua jenis slot (Praktikum, Peminjaman, Kosong)
+ * berdasarkan waktu mulai secara kronologis.
+ * 
+ * @param array $jadwalLab Data praktikum
+ * @param array $peminjamanLab Data peminjaman
+ * @param array $slotKosong Data slot kosong
+ * @return array Array of slot objects sorted by start time
+ */
+function getSortedSlots($jadwalLab, $peminjamanLab, $slotKosong) {
+    $allSlots = [];
+
+    // 1. Praktikum
+    foreach ($jadwalLab as $j) {
+        $allSlots[] = [
+            'type' => 'praktikum',
+            'start' => $j['jam_mulai'],
+            'end'   => $j['jam_selesai'],
+            'data'  => $j
+        ];
+    }
+
+    // 2. Peminjaman
+    foreach ($peminjamanLab as $p) {
+        $allSlots[] = [
+            'type' => 'peminjaman',
+            'start' => $p['jam_mulai'],
+            'end'   => $p['jam_selesai'],
+            'data'  => $p
+        ];
+    }
+
+    // 3. Slot Kosong
+    foreach ($slotKosong as $k) {
+        $allSlots[] = [
+            'type' => 'kosong',
+            'start' => $k['mulai'],
+            'end'   => $k['selesai'],
+            'data'  => $k
+        ];
+    }
+
+    // Sort berdasarkan jam mulai
+    usort($allSlots, function($a, $b) {
+        return strcmp($a['start'], $b['start']);
+    });
+
+    return $allSlots;
+}

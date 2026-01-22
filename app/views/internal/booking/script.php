@@ -6,163 +6,165 @@
 <script>
     /**
      * =================================================================
-     * INTERNAL BOOKING - JAVASCRIPT
+     * INTERNAL BOOKING - JAVASCRIPT (AJAX VERSION)
      * =================================================================
      * 
-     * File ini menghandle:
-     * 1. Manajemen modal (schedule, form booking, view all)
-     * 2. Validasi form (required fields, time range, duration)
-     * 3. API calls untuk submit booking
-     * 
-     * Tipe modal:
-     * - MODAL 1: Schedule Modal (view per-lab via custom modal)
-     * - MODAL 2: Booking Form (Bootstrap modal)
-     * - MODAL 3: View All Schedules (read-only custom modal)
+     * Fitur Utama:
+     * - Manajemen Modal Jadwal & Booking
+     * - AJAX Updates untuk pergantian tanggal & post-booking (Smooth Transition)
+     * - Validasi Form
      */
 
     // =================================================================
     // MANAJEMEN MODAL - Schedule Modal
     // =================================================================
 
+    // Variable global untuk menyimpan ID lab yang sedang dibuka modalnya
+    let currentOpenLabId = null;
+
     /**
      * Buka modal jadwal untuk lab tertentu
-     * Menampilkan card jadwal untuk satu lab saja
+     * Flow: 
+     * 1. Render data awal dari cache DOM (Instant)
+     * 2. Trigger AJAX silent update untuk memastikan data fresh
      * 
      * @param {number} labId - ID lab yang akan ditampilkan
      * @param {string} labName - Nama lab untuk judul
      */
     function openScheduleModal(labId, labName) {
+        currentOpenLabId = labId; 
+
         const scheduleModal = document.getElementById('scheduleModal');
         const modalCard = scheduleModal.querySelector('.p-modal-card');
         const allLabsData = document.getElementById('allLabsData');
         const singleLabGrid = document.getElementById('singleLabGrid');
 
-        // Bersihkan konten sebelumnya
+        // 1. TAMPILKAN DATA CACHED DULU (INSTANT)
         singleLabGrid.innerHTML = '';
-
-        // Cari dan clone data jadwal lab yang spesifik
         const labDataElements = allLabsData.querySelectorAll('.lab-data');
         labDataElements.forEach(function (labData) {
             if (parseInt(labData.getAttribute('data-lab-id')) === labId) {
-                // Clone seluruh card lab (termasuk grid jadwal)
                 const labCard = labData.querySelector('.p-lab-card').cloneNode(true);
                 singleLabGrid.appendChild(labCard);
             }
         });
 
-        // Sesuaikan styling untuk view satu lab
+        // Set styling untuk view single lab
         singleLabGrid.style.gridTemplateColumns = '1fr';
         singleLabGrid.style.maxWidth = 'none';
         singleLabGrid.style.margin = '0';
-        modalCard.style.maxWidth = '480px';  // Lebih sempit untuk satu lab
+        modalCard.style.maxWidth = '480px';
 
         // Tampilkan modal
         scheduleModal.classList.add('active');
+
+        // 2. FETCH DATA TERBARU VIA AJAX (SILENT UPDATE)
+        const currentDate = document.getElementById('scheduleDate') ? document.getElementById('scheduleDate').value : '<?= $data["selected_date"] ?>';
+        refreshScheduleContent(labId, currentDate);
     }
 
     /**
-     * Tutup modal jadwal dan reset styling
+     * Helper: Refresh konten jadwal via AJAX dengan transisi halus (Opacity)
+     * Tidak merusak layout karena tidak me-remove konten lama sebelum konten baru siap.
+     */
+    function refreshScheduleContent(labId, dateStr) {
+        const singleLabGrid = document.getElementById('singleLabGrid');
+        const slotListContainer = singleLabGrid.querySelector('.p-slot-list');
+        
+        if (!slotListContainer) return;
+
+        // Visual Feedback: Redupkan konten lama (jangan dihapus)
+        slotListContainer.style.transition = 'opacity 0.2s ease';
+        slotListContainer.style.opacity = '0.5';
+        slotListContainer.style.pointerEvents = 'none'; // Cegah klik
+
+        // Fetch
+        fetch('<?= BASE_URL ?>/internal/getLabSlots?lab_id=' + labId + '&date=' + dateStr)
+            .then(response => response.text())
+            .then(html => {
+                // Update HTML
+                slotListContainer.innerHTML = html;
+                
+                // Kembalikan Opacity (terang kembali)
+                slotListContainer.style.opacity = '1';
+                slotListContainer.style.pointerEvents = 'auto';
+            })
+            .catch(err => {
+                console.error('Failed to refresh schedule:', err);
+                // Jika error, kembalikan opacity (tetap tampilkan data lama)
+                slotListContainer.style.opacity = '1';
+                slotListContainer.style.pointerEvents = 'auto';
+            });
+    }
+
+    /**
+     * Tutup modal jadwal
      */
     function closeScheduleModal() {
+        currentOpenLabId = null;
         const scheduleModal = document.getElementById('scheduleModal');
         const modalCard = scheduleModal.querySelector('.p-modal-card');
-
-        // Reset lebar modal ke default
+        
+        // Reset styling
         modalCard.style.maxWidth = '';
-
-        // Sembunyikan modal
+        
+        // Hide modal
         scheduleModal.classList.remove('active');
+        
+        // Hapus param URL agar bersih
+        const url = new URL(window.location.href);
+        url.searchParams.delete('open_lab_id');
+        window.history.pushState({}, '', url);
     }
 
     // =================================================================
     // MANAJEMEN MODAL - Form Booking Modal
     // =================================================================
 
-    // Variable global untuk menyimpan instance Bootstrap modal
     let bookingModalInstance = null;
 
-    /**
-     * Buka modal form booking dengan time slot yang sudah di-prefill
-     * 
-     * @param {string} labName - Nama lab yang akan dibooking
-     * @param {string} jamMulai - Jam mulai (HH:MM)
-     * @param {string} jamSelesai - Jam selesai (HH:MM)
-     */
     function openBookingModal(labName, jamMulai, jamSelesai) {
-        // Isi field form dengan data awal
+        // Sync tanggal dari modal jadwal
+        const scheduleDateInput = document.getElementById('scheduleDate');
+        if (scheduleDateInput) {
+             document.getElementById('bookingDate').value = scheduleDateInput.value;
+        }
+
+        // Isi form
         document.getElementById('bookingLab').value = labName;
         document.getElementById('jamMulai').value = jamMulai;
         document.getElementById('jamSelesai').value = jamSelesai;
         document.getElementById('slotInfoText').textContent = 'Slot kosong: ' + jamMulai + '-' + jamSelesai;
 
-        // Buat instance Bootstrap modal jika belum ada
+        // Buka modal
         const bookingModalEl = document.getElementById('bookingModal');
         if (!bookingModalInstance) {
             bookingModalInstance = new bootstrap.Modal(bookingModalEl, {
-                backdrop: 'static',  // Cegah tutup modal saat klik backdrop
-                keyboard: false      // Cegah tutup modal dengan ESC key
+                backdrop: 'static',
+                keyboard: false
             });
         }
-
-        // Tampilkan modal
         bookingModalInstance.show();
     }
 
     // =================================================================
-    // VALIDATION HELPERS - Function Bantuan Validasi
+    // VALIDATION HELPERS
     // =================================================================
-
-    /**
-     * Validasi field booking yang required
-     * 
-     * @param {Object} formData - Object data form
-     * @returns {Object} {valid: boolean, message: string}
-     */
+    
     function validateRequiredFields(formData) {
-        if (!formData.peminjam || !formData.kegiatan) {
-            return {
-                valid: false,
-                message: 'Mohon isi nama peminjam dan nama kegiatan!'
-            };
-        }
+        if (!formData.peminjam || !formData.kegiatan) return { valid: false, message: 'Mohon isi nama peminjam dan nama kegiatan!' };
         return { valid: true, message: '' };
     }
 
-    /**
-     * Validasi rentang waktu (mulai harus lebih awal dari selesai)
-     * 
-     * @param {string} startTime - Jam mulai (HH:MM)
-     * @param {string} endTime - Jam selesai (HH:MM)
-     * @returns {Object} {valid: boolean, message: string}
-     */
     function validateTimeRange(startTime, endTime) {
-        if (startTime >= endTime) {
-            return {
-                valid: false,
-                message: 'Jam mulai harus lebih awal dari jam selesai!'
-            };
-        }
+        if (startTime >= endTime) return { valid: false, message: 'Jam mulai harus lebih awal dari jam selesai!' };
         return { valid: true, message: '' };
     }
 
-    /**
-     * Validasi durasi minimum booking (1 jam)
-     * 
-     * @param {string} startTime - Jam mulai (HH:MM)
-     * @param {string} endTime - Jam selesai (HH:MM)
-     * @returns {Object} {valid: boolean, message: string}
-     */
     function validateMinimumDuration(startTime, endTime) {
         const [startHour] = startTime.split(':');
         const [endHour] = endTime.split(':');
-        
-        // Cek selisih jam sederhana (asumsi booking di hari yang sama)
-        if (parseInt(endHour) - parseInt(startHour) < 1) {
-            return {
-                valid: false,
-                message: 'Durasi peminjaman minimal 1 jam!'
-            };
-        }
+        if (parseInt(endHour) - parseInt(startHour) < 1) return { valid: false, message: 'Durasi peminjaman minimal 1 jam!' };
         return { valid: true, message: '' };
     }
 
@@ -170,12 +172,7 @@
     // API CALLS - Submit Booking
     // =================================================================
 
-    /**
-     * Submit form booking ke server
-     * Validasi input, panggil API, handle response
-     */
     function submitBooking() {
-        // Kumpulkan data dari form
         const formData = {
             tanggal: document.getElementById('bookingDate').value,
             lab: document.getElementById('bookingLab').value,
@@ -185,52 +182,24 @@
             kegiatan: document.getElementById('namaKegiatan').value
         };
 
-        // Validasi 1: Field yang required
-        const requiredValidation = validateRequiredFields(formData);
-        if (!requiredValidation.valid) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Data Tidak Lengkap',
-                text: requiredValidation.message,
-                confirmButtonColor: '#3b82f6'
-            });
-            return;
-        }
+        // Validasi
+        const v1 = validateRequiredFields(formData);
+        if (!v1.valid) { Swal.fire({ icon: 'error', title: 'Data Tidak Lengkap', text: v1.message, confirmButtonColor: '#3b82f6' }); return; }
         
-        // Validasi 2: Rentang waktu
-        const timeValidation = validateTimeRange(formData.jamMulai, formData.jamSelesai);
-        if (!timeValidation.valid) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Waktu Tidak Valid',
-                text: timeValidation.message,
-                confirmButtonColor: '#3b82f6'
-            });
-            return;
-        }
+        const v2 = validateTimeRange(formData.jamMulai, formData.jamSelesai);
+        if (!v2.valid) { Swal.fire({ icon: 'error', title: 'Waktu Tidak Valid', text: v2.message, confirmButtonColor: '#3b82f6' }); return; }
         
-        // Validasi 3: Durasi minimum
-        const durationValidation = validateMinimumDuration(formData.jamMulai, formData.jamSelesai);
-        if (!durationValidation.valid) {
-            Swal.fire({
-                icon: 'warning',
-                title: 'Durasi Terlalu Singkat',
-                text: durationValidation.message,
-                confirmButtonColor: '#3b82f6'
-            });
-            return;
-        }
+        const v3 = validateMinimumDuration(formData.jamMulai, formData.jamSelesai);
+        if (!v3.valid) { Swal.fire({ icon: 'warning', title: 'Durasi Terlalu Singkat', text: v3.message, confirmButtonColor: '#3b82f6' }); return; }
 
-        // Dapatkan referensi tombol submit untuk loading state
+        // Loading
         const submitButton = event.target;
         const originalButtonText = submitButton.textContent;
-        
-        // Tampilkan loading state
         submitButton.disabled = true;
         submitButton.textContent = 'Menyimpan...';
         submitButton.style.opacity = '0.6';
 
-        // API call untuk submit booking
+        // Submit AJAX
         fetch('<?= BASE_URL ?>/internal/submitBooking', {
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -244,17 +213,11 @@
             })
         })
             .then(async response => {
-                // Parse response sebagai text dulu untuk handle error
                 const text = await response.text();
-                try {
-                    return JSON.parse(text);
-                } catch (e) {
-                    throw new Error("Server Error: " + text);
-                }
+                try { return JSON.parse(text); } catch (e) { throw new Error("Server Error: " + text); }
             })
             .then(data => {
                 if (data.success) {
-                    // Berhasil: Tutup modal, reset form, tampilkan pesan sukses
                     if (bookingModalInstance) bookingModalInstance.hide();
                     document.getElementById('bookingForm').reset();
                     
@@ -262,33 +225,26 @@
                         icon: 'success',
                         title: 'Berhasil!',
                         text: data.message,
-                        confirmButtonColor: '#3b82f6'
+                        timer: 1500,
+                        showConfirmButton: false
                     }).then(() => {
-                        // Reload halaman untuk tampilkan booking baru
-                        window.location.reload();
+                        // AJAX REFRESH: Smooth update tanpa reload
+                        if (currentOpenLabId) {
+                            refreshScheduleContent(currentOpenLabId, formData.tanggal);
+                        } else {
+                            // Fallback
+                            window.location.reload(); 
+                        }
                     });
                 } else {
-                    // Gagal: Tampilkan pesan error (konflik, error validasi, dll.)
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Gagal',
-                        text: data.message,
-                        confirmButtonColor: '#3b82f6'
-                    });
+                    Swal.fire({ icon: 'error', title: 'Gagal', text: data.message, confirmButtonColor: '#3b82f6' });
                 }
             })
             .catch(error => {
-                // Network error atau server crash
                 console.error('submitBooking error:', error);
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Terjadi Kesalahan',
-                    text: 'Silakan coba lagi atau hubungi administrator.',
-                    confirmButtonColor: '#3b82f6'
-                });
+                Swal.fire({ icon: 'error', title: 'Terjadi Kesalahan', text: 'Silakan coba lagi.', confirmButtonColor: '#3b82f6' });
             })
             .finally(() => {
-                // Re-enable tombol submit
                 submitButton.disabled = false;
                 submitButton.textContent = originalButtonText;
                 submitButton.style.opacity = '1';
@@ -301,38 +257,64 @@
 
     /**
      * Navigasi ke tanggal yang berbeda
-     * Reload halaman dengan parameter tanggal baru
-     * 
-     * @param {string} newDate - Tanggal dalam format Y-m-d
      */
     function changeDate(newDate) {
+        if (currentOpenLabId) {
+            // Update URL bar
+            const newUrl = '<?= BASE_URL ?>/internal/booking?date=' + newDate + '&open_lab_id=' + currentOpenLabId;
+            window.history.pushState({path: newUrl}, '', newUrl);
+            
+            // Trigger smooth refresh
+            refreshScheduleContent(currentOpenLabId, newDate);
+            
+            // Sync main date picker
+            const mainDatePicker = document.getElementById('jadwalDate');
+            if (mainDatePicker) mainDatePicker.value = newDate;
+            
+            return;
+        }
+        
         window.location.href = '<?= BASE_URL ?>/internal/booking?date=' + newDate;
     }
 
+    /**
+     * Auto-open logic
+     */
+    document.addEventListener('DOMContentLoaded', function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const openLabId = urlParams.get('open_lab_id');
+        
+        if (openLabId) {
+            const labId = parseInt(openLabId);
+            const allLabsData = document.getElementById('allLabsData');
+            const labDataElements = allLabsData.querySelectorAll('.lab-data');
+            let labName = '';
+            
+            labDataElements.forEach(function (labData) {
+                if (parseInt(labData.getAttribute('data-lab-id')) === labId) {
+                    labName = labData.getAttribute('data-lab-name');
+                }
+            });
+            
+            if (labName) {
+                openScheduleModal(labId, labName);
+            }
+        }
+    });
+
     // =================================================================
-    // EVENT LISTENERS - Interaksi Modal
+    // EVENT LISTENERS
     // =================================================================
 
-    /**
-     * Tutup modal jadwal ketika klik backdrop (bukan kontennya)
-     * PENTING: Hanya tutup ketika klik background semi-transparan
-     */
     document.getElementById('scheduleModal').addEventListener('click', function (e) {
-        // e.target === this artinya klik langsung di backdrop, bukan child elements
         if (e.target === this) {
             closeScheduleModal();
         }
     });
 
-    /**
-     * Tutup modal dengan tombol ESC
-     * Hanya tutup jika tidak ada modal lain yang sedang terbuka
-     */
     document.addEventListener('keydown', function (e) {
         if (e.key === 'Escape') {
             const bookingModal = document.getElementById('bookingModal');
-
-            // Tutup schedule modal hanya jika booking modal tidak visible
             if (!bookingModal.classList.contains('show')) {
                 closeScheduleModal();
             }

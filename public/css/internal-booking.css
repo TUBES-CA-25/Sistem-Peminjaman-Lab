@@ -14,17 +14,17 @@
 .p-labs-grid {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    gap: 15px;
-    margin-bottom: 20px;
+    gap: 18px;
+    margin-bottom: 18px;
 }
 
-@media (max-width: 1400px) {
+@media (max-width: 1200px) {
     .p-labs-grid {
         grid-template-columns: repeat(4, 1fr);
     }
 }
 
-@media (max-width: 1100px) {
+@media (max-width: 992px) {
     .p-labs-grid {
         grid-template-columns: repeat(3, 1fr);
     }
@@ -188,53 +188,89 @@
 }
 
 .p-slot-sub {
+    display: block;
     font-size: 12px;
     opacity: 0.85;
 }
 
-/* Legend Styling */
+/*
+   LEGEND STYLING
+ */
+
 .p-legend {
     display: flex;
     gap: 16px;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    margin-top: 30px;
-    padding: 20px;
+    margin-top: 20px;
+    padding: 16px;
     background: #f8fafc;
-    border-radius: 15px;
+    border-radius: 12px;
 }
 
 .p-legend-item {
     display: flex;
     align-items: center;
     gap: 8px;
-    font-size: 14px;
-    font-weight: 600;
-    color: #475569;
+    padding: 8px 16px;
+    border-radius: 24px;
+    font-size: 13px;
+    font-weight: 700;
+    border: 2px solid;
+    transition: all 0.3s ease;
+}
+
+.p-legend-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.p-legend-item.praktikum-tetap {
+    background: #fff;
+    border-color: #1B3555;
+    color: #1B3555;
+}
+
+.p-legend-item.peminjaman-internal {
+    background: #CCFBF1;
+    border-color: #0D9488;
+    color: #0D9488;
+}
+
+.p-legend-item.peminjaman-eksternal {
+    background: #FEF3C7;
+    border-color: #D97706;
+    color: #D97706;
+}
+
+.p-legend-item.jadwal-tergeser {
+    background: #FCE7F3;
+    border-color: #DB2777;
+    color: #DB2777;
 }
 
 .p-legend-color {
-    width: 16px;
-    height: 16px;
-    border-radius: 4px;
     display: inline-block;
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
 }
 
 .p-lg-praktikum {
-    background-color: #1B3555;
+    background: #1B3555;
 }
 
 .p-lg-internal {
-    background-color: #0D9488;
+    background: #0D9488;
 }
 
 .p-lg-eksternal {
-    background-color: #D97706;
+    background: #D97706;
 }
 
 .p-lg-expired {
-    background-color: #DB2777;
+    background: #DB2777;
 }
 
 /* Modal Custom Styles */
@@ -247,7 +283,7 @@
     height: 100%;
     background: rgba(15, 23, 42, 0.6);
     backdrop-filter: blur(4px);
-    z-index: 9999;
+    z-index: 1040;
     align-items: center;
     justify-content: center;
     padding: 20px;
@@ -424,4 +460,15 @@
 .p-date-picker input:focus {
     border-color: #3b82f6;
     box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Loading Spinner Animation */
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
 }

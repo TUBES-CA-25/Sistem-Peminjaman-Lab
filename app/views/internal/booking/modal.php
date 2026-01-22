@@ -2,11 +2,10 @@
 /**
  * app/views/internal/booking/modal.php
  * 
- * File ini berisi 2 modal yang berbeda:
+ * File ini berisi 3 modal yang berbeda:
  * 1. MODAL 1: Schedule Modal (Tambah Peminjaman) - Custom modal for per-lab schedule view
  * 2. MODAL 2: Booking Form Modal - Bootstrap modal for submitting booking
  * 
-
  * Styling: internal-booking.css
  */
 ?>
@@ -47,34 +46,39 @@
                     <div class="p-lab-card">
                         <h3><?= htmlspecialchars($lab['short_name']) ?></h3>
                         <div class="p-slot-list">
-                            <?php // Praktikum Tetap ?>
-                            <?php foreach ($jadwalLab as $j): ?>
-                            <div class="p-slot praktikum">
-                                <span class="p-slot-label">Praktikum: <?= $j['jam_mulai'] ?>-<?= $j['jam_selesai'] ?></span>
-                                <span class="p-slot-sub"><?= htmlspecialchars($j['matkul']) ?> (<?= $j['kelas'] ?>)</span>
-                            </div>
-                            <?php endforeach; ?>
-
-                            <?php // Peminjaman ?>
-                            <?php foreach ($peminjamanLab as $p): ?>
-
                             <?php 
-                                $slotClass = 'internal';
-                                $slotLabel = 'Internal';
-                                if ($p['type'] == 'external') { $slotClass = 'eksternal'; $slotLabel = 'Eksternal'; }
-                                elseif ($p['type'] == 'tergeser') { $slotClass = 'tergeser'; $slotLabel = 'Tergeser'; }
+                                // Gunakan helper function untuk menggabungkan dan mengurutkan slot
+                                $allSlots = getSortedSlots($jadwalLab, $peminjamanLab, $slotKosong);
                             ?>
-                            <div class="p-slot <?= $slotClass ?>">
-                                <span class="p-slot-label"><?= $slotLabel ?>: <?= $p['jam_mulai'] ?>-<?= $p['jam_selesai'] ?></span>
-                                <span class="p-slot-sub"><?= htmlspecialchars($p['keterangan']) ?> - <span style="font-weight: 600;"><?= htmlspecialchars($p['peminjam']) ?></span></span>
-                            </div>
-                            <?php endforeach; ?>
-                            
-                            <?php // Slot Kosong ?>
-                            <?php foreach ($slotKosong as $k): ?>
-                            <div class="p-slot available" onclick="openBookingModal('<?= htmlspecialchars($lab['short_name']) ?>', '<?= $k['mulai'] ?>', '<?= $k['selesai'] ?>')">
-                                + Pinjam (Kosong <?= $k['mulai'] ?>-<?= $k['selesai'] ?>)
-                            </div>
+
+                            <?php foreach ($allSlots as $slot): ?>
+                                
+                                <?php if ($slot['type'] == 'praktikum'): $j = $slot['data']; ?>
+                                    <div class="p-slot praktikum">
+                                        <span class="p-slot-label">Praktikum: <?= $j['jam_mulai'] ?>-<?= $j['jam_selesai'] ?></span>
+                                        <span class="p-slot-sub"><?= htmlspecialchars($j['matkul']) ?> (<?= $j['kelas'] ?>)</span>
+                                    </div>
+
+                                <?php elseif ($slot['type'] == 'peminjaman'): $p = $slot['data']; ?>
+                                    <?php 
+                                        $slotClass = 'internal';
+                                        $slotLabel = 'Internal';
+                                        if ($p['type'] == 'external') { $slotClass = 'eksternal'; $slotLabel = 'Eksternal'; }
+                                        elseif ($p['type'] == 'tergeser') { $slotClass = 'tergeser'; $slotLabel = 'Tergeser'; }
+                                    ?>
+                                    <div class="p-slot <?= $slotClass ?>">
+                                        <span class="p-slot-label"><?= $slotLabel ?>: <?= $p['jam_mulai'] ?>-<?= $p['jam_selesai'] ?></span>
+                                        <span class="p-slot-sub"><?= htmlspecialchars($p['keterangan']) ?> - <span style="font-weight: 600;"><?= htmlspecialchars($p['peminjam']) ?></span></span>
+                                    </div>
+
+                                <?php elseif ($slot['type'] == 'kosong'): $k = $slot['data']; ?>
+                                    <div class="p-slot available" onclick="openBookingModal('<?= htmlspecialchars($lab['short_name']) ?>', '<?= $k['mulai'] ?>', '<?= $k['selesai'] ?>')">
+                                        <span class="p-slot-label">+ Pinjam</span>
+                                        <span class="p-slot-sub">Kosong <?= $k['mulai'] ?>-<?= $k['selesai'] ?></span>
+                                    </div>
+
+                                <?php endif; ?>
+
                             <?php endforeach; ?>
                         </div>
                     </div>
@@ -151,7 +155,13 @@
                     
                     <div style="margin-bottom: 10px;">
                         <label style="font-size: 0.7rem; color: #4A5568; margin-bottom: 4px; display: block;">Nama Peminjam</label>
-                        <input type="text" class="form-control" id="namaPeminjam" value="" placeholder="Nama peminjam" style="border: 1px solid #E2E8F0; border-radius: 6px; font-size: 0.8rem; padding: 8px 10px;">
+                        <input type="text" class="form-control" id="namaPeminjam" 
+                               value="<?= htmlspecialchars($data['current_user']['nama'] ?? '') ?>" 
+                               readonly
+                               style="border: 1px solid #E2E8F0; border-radius: 6px; font-size: 0.8rem; padding: 8px 10px; background: #F7FAFC; cursor: not-allowed;">
+                        <small style="font-size: 0.65rem; color: #718096; display: block; margin-top: 4px;">
+                            <i class="fas fa-info-circle"></i> Nama otomatis dari akun yang login
+                        </small>
                     </div>
                     
                     <div style="margin-bottom: 16px;">
@@ -166,8 +176,5 @@
                 </form>
             </div>
         </div>
-        </div>
     </div>
 </div>
-
-
