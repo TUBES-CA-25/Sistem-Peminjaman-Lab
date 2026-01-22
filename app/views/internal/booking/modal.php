@@ -72,10 +72,31 @@
                                     </div>
 
                                 <?php elseif ($slot['type'] == 'kosong'): $k = $slot['data']; ?>
-                                    <div class="p-slot available" onclick="openBookingModal('<?= htmlspecialchars($lab['short_name']) ?>', '<?= $k['mulai'] ?>', '<?= $k['selesai'] ?>')">
-                                        <span class="p-slot-label">+ Pinjam</span>
-                                        <span class="p-slot-sub">Kosong <?= $k['mulai'] ?>-<?= $k['selesai'] ?></span>
-                                    </div>
+                                    <?php 
+                                        $isPast = false;
+                                        $currentDate = date('Y-m-d');
+                                        $currentTime = date('H:i');
+                                        
+                                        if ($data['selected_date'] < $currentDate) {
+                                            $isPast = true;
+                                        } elseif ($data['selected_date'] == $currentDate) {
+                                            if ($k['mulai'] < $currentTime) {
+                                                $isPast = true;
+                                            }
+                                        }
+                                    ?>
+
+                                    <?php if ($isPast): ?>
+                                        <div class="p-slot read-only" style="opacity: 0.6; cursor: not-allowed;">
+                                            <span class="p-slot-label">Terlewati</span>
+                                            <span class="p-slot-sub">Kosong <?= $k['mulai'] ?>-<?= $k['selesai'] ?></span>
+                                        </div>
+                                    <?php else: ?>
+                                        <div class="p-slot available" onclick="openBookingModal('<?= htmlspecialchars($lab['short_name']) ?>', '<?= $k['mulai'] ?>', '<?= $k['selesai'] ?>')">
+                                            <span class="p-slot-label">+ Pinjam</span>
+                                            <span class="p-slot-sub">Kosong <?= $k['mulai'] ?>-<?= $k['selesai'] ?></span>
+                                        </div>
+                                    <?php endif; ?>
 
                                 <?php endif; ?>
 
