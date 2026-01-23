@@ -47,10 +47,10 @@ include __DIR__ . '/../booking/helpers.php';
 
                         <?php foreach ($allSlots as $slot): ?>
 
-                            <?php if ($slot['type'] == 'praktikum'): $j = $slot['data']; ?>
-                                <div class="p-slot praktikum">
-                                    <span class="p-slot-label">Praktikum: <?= $j['jam_mulai'] ?>-<?= $j['jam_selesai'] ?></span>
-                                    <span class="p-slot-sub"><?= htmlspecialchars($j['matkul']) ?> (<?= $j['kelas'] ?>)</span>
+                            <?php if ($slot['type'] == 'praktikum' || $slot['type'] == 'tergeser'): $j = $slot['data']; ?>
+                                <div class="p-slot <?= $slot['type'] ?>">
+                                    <span class="p-slot-label"><?= $slot['type'] == 'tergeser' ? 'Tergeser' : 'Praktikum' ?>: <?= $j['jam_mulai'] ?>-<?= $j['jam_selesai'] ?></span>
+                                    <span class="p-slot-sub"><?= htmlspecialchars($j['matkul']) ?> (<?= $j['kelas'] ?>)<?php if ($slot['type'] == 'tergeser') echo "- Digeser oleh " . htmlspecialchars($slot['overridden_by']); ?></span>
                                 </div>
 
                             <?php elseif ($slot['type'] == 'peminjaman'): $p = $slot['data']; ?>

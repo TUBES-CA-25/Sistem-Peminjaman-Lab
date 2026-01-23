@@ -48,6 +48,9 @@
               } elseif ($p['status'] == 'ditolak') {
                 $statusClass = 'p-status-nonaktif';
                 $statusText = 'Ditolak';
+              } elseif ($p['status'] == 'tergeser') {
+                $statusClass = 'p-status-tergeser';
+                $statusText = 'Tergeser';
               }
             ?>
             <span class="p-badge <?= $statusClass ?>"><?= $statusText ?></span>
@@ -105,6 +108,9 @@
                       } elseif ($p['status'] == 'ditolak') {
                         $statusClass = 'p-status-nonaktif';
                         $statusText = 'Ditolak';
+                      } elseif ($p['status'] == 'tergeser') {
+                        $statusClass = 'p-status-tergeser';
+                        $statusText = 'Tergeser';
                       }
                     ?>
                     <span class="p-badge <?= $statusClass ?>" style="font-size: 0.75rem;"><?= $statusText ?></span>
