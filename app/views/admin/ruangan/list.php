@@ -34,10 +34,6 @@
                     ?>
                     <img src="<?= htmlspecialchars($imgSrc) ?>" class="card-img-top"
                         alt="<?= htmlspecialchars($lab['nama_ruangan']) ?>" style="height: 220px; object-fit: cover;">
-                    <span
-                        class="position-absolute top-0 end-0 m-3 badge rounded-pill <?= $lab['status'] ? 'bg-success' : 'bg-danger' ?> shadow-sm">
-                        <?= $lab['status'] ? 'Tersedia' : 'Tidak Tersedia' ?>
-                    </span>
                 </div>
                 <div class="card-body p-4 d-flex flex-column">
                     <h5 class="card-title fw-bold text-dark mb-3">
@@ -49,12 +45,6 @@
                             <i class="fas fa-users text-primary w-25px"></i>
                             <span>Kapasitas:
                                 <?= htmlspecialchars($lab['kapasitas']) ?> orang
-                            </span>
-                        </div>
-                        <div class="d-flex align-items-center gap-2">
-                            <i class="fas fa-map-marker-alt text-primary w-25px"></i>
-                            <span>
-                                <?= htmlspecialchars($lab['lokasi']) ?>
                             </span>
                         </div>
                         <div class="d-flex align-items-center gap-2">
