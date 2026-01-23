@@ -123,14 +123,27 @@
 
     let bookingModalInstance = null;
 
+    function getIndonesianDay(dateStr) {
+        const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+        const date = new Date(dateStr);
+        return days[date.getDay()];
+    }
+
     function openBookingModal(labName, jamMulai, jamSelesai) {
         // Sync tanggal dari modal jadwal
         const scheduleDateInput = document.getElementById('scheduleDate');
+        const bookingDateInput = document.getElementById('bookingDate');
+        const bookingDayInput = document.getElementById('bookingDay');
+
         if (scheduleDateInput) {
-             document.getElementById('bookingDate').value = scheduleDateInput.value;
+             const selectedDate = scheduleDateInput.value;
+             bookingDateInput.value = selectedDate;
+             
+             // UPDATE HARI SECARA DINAMIS
+             bookingDayInput.value = getIndonesianDay(selectedDate).toUpperCase();
         }
 
-        // Isi form
+        // Isi form lainnya
         document.getElementById('bookingLab').value = labName;
         document.getElementById('jamMulai').value = jamMulai;
         document.getElementById('jamSelesai').value = jamSelesai;
@@ -259,6 +272,12 @@
      * Navigasi ke tanggal yang berbeda
      */
     function changeDate(newDate) {
+        // Update display nama hari di modal
+        const displayDay = document.getElementById('displayDayName');
+        if (displayDay) {
+            displayDay.textContent = getIndonesianDay(newDate).toUpperCase();
+        }
+
         if (currentOpenLabId) {
             // Update URL bar
             const newUrl = '<?= BASE_URL ?>/internal/booking?date=' + newDate + '&open_lab_id=' + currentOpenLabId;
@@ -266,10 +285,6 @@
             
             // Trigger smooth refresh
             refreshScheduleContent(currentOpenLabId, newDate);
-            
-            // Sync main date picker
-            const mainDatePicker = document.getElementById('jadwalDate');
-            if (mainDatePicker) mainDatePicker.value = newDate;
             
             return;
         }
