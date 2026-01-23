@@ -278,7 +278,7 @@ class Internal extends Controller
 
             $bookingDate = $peminjaman['tanggal']; // Using alias from model
 
-            // Filter: hanya booking yang approved dan dalam rentang tanggal
+            // Filter: hanya booking yang disetujui (yang tergeser disembunyikan sesuai permintaan)
             $isApproved = ($peminjaman['status'] ?? '') === 'disetujui';
             $isInRange = $bookingDate >= $startDate && $bookingDate <= $endDate;
 

@@ -175,9 +175,11 @@
     }
 
     function validateMinimumDuration(startTime, endTime) {
-        const [startHour] = startTime.split(':');
-        const [endHour] = endTime.split(':');
-        if (parseInt(endHour) - parseInt(startHour) < 1) return { valid: false, message: 'Durasi peminjaman minimal 1 jam!' };
+        const start = new Date('2000-01-01 ' + startTime);
+        const end = new Date('2000-01-01 ' + endTime);
+        const diffMinutes = (end - start) / (1000 * 60);
+
+        if (diffMinutes < 30) return { valid: false, message: 'Durasi peminjaman minimal 30 menit! (Update Terbaru)' };
         return { valid: true, message: '' };
     }
 
