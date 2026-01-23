@@ -88,28 +88,40 @@ class Ruangan extends Controller
 
     private function handleFileUpload($file)
     {
-        $targetDir = "public/storage/images/";
+        // FIXED: Use new dedicated labs folder
+        $targetDir = __DIR__ . "/../../public/uploads/labs/";
+
         if (!file_exists($targetDir)) {
-            mkdir($targetDir, 0777, true);
+            mkdir($targetDir, 0755, true);
         }
 
         $fileName = basename($file["name"]);
         $fileType = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
-        $newFileName = uniqid() . '.' . $fileType;
+        $newFileName = 'lab_' . uniqid() . '.' . $fileType;
         $targetFilePath = $targetDir . $newFileName;
 
-        // Allow certain file formats
+        // Validasi File
         $allowTypes = array('jpg', 'png', 'jpeg', 'gif', 'webp');
-        if (in_array($fileType, $allowTypes)) {
-            if (move_uploaded_file($file["tmp_name"], $targetFilePath)) {
-                // Return path relative to index.php or handling logic? 
-                // Usually storing 'storage/images/filename.jpg' or just filename.
-                // App seems to expect full public path or mapped path. 
-                // Let's store 'public/storage/images/filename.jpg' to be safe with current setup,
-                // or 'storage/images/filename.jpg'. 
-                return "public/storage/images/" . $newFileName;
-            }
+        if (!in_array($fileType, $allowTypes)) {
+            return false;
         }
+
+        // Validasi size (max 2MB)
+        if ($file['size'] > 2097152) {
+            return false;
+        }
+
+        // Validasi dimensi (minimal 400x300px)
+        list($width, $height) = @getimagesize($file["tmp_name"]);
+        if ($width < 400 || $height < 300) {
+            return false;
+        }
+
+        if (move_uploaded_file($file["tmp_name"], $targetFilePath)) {
+            // Return path relatif (untuk disimpan di DB) - HARUS include 'public/'
+            return "/public/uploads/labs/" . $newFileName;
+        }
+
         return false;
     }
 }

@@ -11,9 +11,24 @@
                     <div class="lab-image">
                         <?php
                         $img = $lab['image'];
-                        // Use stored path if it contains '/', otherwise assume it's in storage/images
-                        $path = (strpos($img, '/') !== false) ? $img : 'public/storage/images/' . $img;
-                        $imgSrc = BASE_URL . '/' . $path;
+
+                        // Handle different path formats (same logic as admin)
+                        if (!empty($img)) {
+                            // If starts with /, already absolute path (new format)
+                            if ($img[0] === '/') {
+                                $imgSrc = BASE_URL . $img;
+                            }
+                            // If contains 'public/', use as-is
+                            elseif (strpos($img, 'public/') === 0) {
+                                $imgSrc = BASE_URL . '/' . $img;
+                            }
+                            // Filename only, assume old location
+                            else {
+                                $imgSrc = BASE_URL . '/public/storage/images/' . $img;
+                            }
+                        } else {
+                            $imgSrc = 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=400&h=250&fit=crop';
+                        }
                         ?>
                         <img src="<?= $imgSrc ?>" alt="<?= htmlspecialchars($lab['name']) ?>"
                             onerror="this.src='https://images.unsplash.com/photo-1497366216548-37526070297c?w=400&h=250&fit=crop'">
