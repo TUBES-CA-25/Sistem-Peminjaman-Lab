@@ -77,9 +77,9 @@ class Kelas extends Controller
     public function delete($id)
     {
         if ($this->kelasModel->delete($id)) {
-            header("Location: " . BASE_URL . "kelas?status=success&msg=Kelas berhasil dihapus");
+            header("Location: " . BASE_URL . "/kelas?status=success&msg=Kelas berhasil dihapus");
         } else {
-            header("Location: " . BASE_URL . "kelas?status=error&msg=Gagal menghapus kelas");
+            header("Location: " . BASE_URL . "/kelas?status=error&msg=Gagal menghapus kelas");
         }
     }
 }

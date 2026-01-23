@@ -115,19 +115,40 @@ class Peminjaman extends Controller
                     }
                     header("Location: " . BASE_URL . "/peminjaman?status=success&msg=Peminjaman berhasil ditambahkan");
                     exit;
+                } else {
+                    if ($isAjax) {
+                        echo json_encode(['success' => false, 'message' => 'Gagal menambahkan peminjaman (DB Error)']);
+                        exit;
+                    }
+                    header("Location: " . BASE_URL . "/peminjaman?status=error&msg=Gagal menambahkan peminjaman");
+                    exit;
                 }
             } elseif ($action === 'update' && $id) {
-                // Not implemented in Model yet, but logic is here.
-                // Assuming update method exists or we use delete+create?
-                // Step 226 `editPeminjamanEksternal` logic sets `action=create` but I added logic for `update` in form dataset.
-                // But honestly, for complex update, delete+create is risky.
-                // Let's assume PeminjamanModel has Update or I strictly rely on "Delete and Create New" for updates if desired?
-                // Wait, I did NOT add `update` to PeminjamanModel in Step 162! I only added `create`, `updateStatus`, `delete`, `checkConflict`.
-                // So I cannot update!
-                // ERROR: I need `update` method in PeminjamanModel if I want to edit!
-                // For now, I will return error for update.
-                if ($isAjax) {
-                    echo json_encode(['success' => false, 'message' => 'Update belum didukung server.']);
+                // Prepare data for update (keys match Model expectations)
+                $updateData = [
+                    'lab_id' => $labId,
+                    'tanggal' => $tanggal,
+                    'jam_mulai' => $jamMulai,
+                    'jam_selesai' => $jamSelesai,
+                    'nama_peminjam' => $_POST['nama_peminjam'] ?? '-',
+                    'kegiatan' => $_POST['kegiatan'] ?? '-',
+                    'catatan' => $_POST['catatan'] ?? ''
+                ];
+
+                if ($peminjamanModel->update($id, $updateData)) {
+                    if ($isAjax) {
+                        echo json_encode(['success' => true]);
+                        exit;
+                    }
+                    header("Location: " . BASE_URL . "/peminjaman?status=success&msg=Peminjaman berhasil diupdate");
+                    exit;
+                } else {
+                    if ($isAjax) {
+                        echo json_encode(['success' => true, 'message' => 'Data disimpan (Tidak ada perubahan)']);
+                        // Often rowCount is 0 if no changes, treat as success or warning
+                        exit;
+                    }
+                    header("Location: " . BASE_URL . "/peminjaman?status=success&msg=Peminjaman diupdate (Mungkin tidak ada perubahan)");
                     exit;
                 }
             }
@@ -143,9 +164,11 @@ class Peminjaman extends Controller
                 exit;
             } else {
                 if ($isAjax) {
-                    echo json_encode(['success' => false, 'message' => 'Gagal menghapus']);
+                    echo json_encode(['success' => false, 'message' => 'Gagal menghapus peminjaman']);
                     exit;
                 }
+                header("Location: " . BASE_URL . "/peminjaman?status=error&msg=Gagal menghapus peminjaman");
+                exit;
             }
         } elseif ($action === 'approve') {
             // If we implement 'Request' feature later where users request manually

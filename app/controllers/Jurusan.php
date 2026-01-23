@@ -37,17 +37,32 @@ class Jurusan extends Controller
             if ($model->create($data)) {
                 header("Location: " . BASE_URL . "/jurusan?status=success&msg=Jurusan berhasil ditambahkan");
                 exit;
+            } else {
+                header("Location: " . BASE_URL . "/jurusan?status=error&msg=Gagal menambahkan jurusan");
+                exit;
             }
         } elseif ($action === 'update') {
             $id = $_POST['id'] ?? 0;
             if ($model->update($id, $data)) {
                 header("Location: " . BASE_URL . "/jurusan?status=success&msg=Jurusan berhasil diperbarui");
                 exit;
+            } else {
+                header("Location: " . BASE_URL . "/jurusan?status=error&msg=Gagal memperbarui jurusan");
+                exit;
             }
         } elseif ($action === 'delete') {
             $id = $_POST['id'] ?? 0;
-            if ($model->delete($id)) {
-                header("Location: " . BASE_URL . "/jurusan?status=success&msg=Jurusan berhasil dihapus");
+            // Check for foreign key constraints locally if needed, but model should handle it
+            try {
+                if ($model->delete($id)) {
+                    header("Location: " . BASE_URL . "/jurusan?status=success&msg=Jurusan berhasil dihapus");
+                    exit;
+                } else {
+                    header("Location: " . BASE_URL . "/jurusan?status=error&msg=Gagal menghapus jurusan (Mungkin sedang digunakan)");
+                    exit;
+                }
+            } catch (Exception $e) {
+                header("Location: " . BASE_URL . "/jurusan?status=error&msg=Gagal menghapus: " . $e->getMessage());
                 exit;
             }
         }

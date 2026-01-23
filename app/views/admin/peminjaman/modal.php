@@ -20,7 +20,7 @@
         <!-- Button to open Multi-Lab / Manual Form -->
         <button type="button" class="p-type-btn" onclick="openExternalBookingModal()"
           style="min-width:180px; background:#1e3a5f; color:#fff;">
-          + Booking Manual / Banyak Lab
+          + Booking Prioritas / Eksternal
         </button>
       </div>
 
@@ -50,16 +50,17 @@
   </div>
 </div>
 
-<!-- MODAL: FORM DETAIL PINJAM (SINGLE SLOT) -->
+<!-- MODAL: FORM DETAIL PINJAM (SINGLE SLOT - INTERNAL/REGULER) -->
 <div id="pDetailedBookingModal" class="p-modal">
   <div class="p-modal-card" style="max-width:480px;">
     <div class="p-modal-head">
-      <h2 style="margin:0; font-size:20px; font-weight:900; color:#0f172a;" id="pDetailModalTitle">Tambah Peminjaman
+      <h2 style="margin:0; font-size:20px; font-weight:900; color:#0f172a;" id="pDetailModalTitle">Booking Internal /
+        Reguler
       </h2>
       <button type="button" class="p-x" onclick="closeDetailedBookingModal()">&times;</button>
     </div>
 
-    <form id="pBookingForm" class="p-modal-body" method="POST" action="<?= BASE_URL ?>peminjaman"
+    <form id="pBookingForm" class="p-modal-body" method="POST" action="<?= BASE_URL ?>/peminjaman"
       onsubmit="return savePeminjaman(event)">
       <!-- Tanggal -->
       <div style="margin-bottom:12px;">
@@ -104,16 +105,8 @@
         <small style="opacity:0.7;">Pilih jam mulai/selesai di dalam slot kosong.</small>
       </div>
 
-      <!-- Tipe Peminjam (Role) -->
-      <div style="margin-bottom:12px;">
-        <label for="tipePeminjamDetail" style="font-weight:900; font-size:13px; color:#334155;">Tipe Peminjam</label>
-        <select id="tipePeminjamDetail" name="tipe" required
-          style="width:100%; padding:10px; border-radius:10px; border:1px solid #e2e8f0; margin-top:4px;">
-          <option value="internal">Internal (Dosen/Asisten)</option>
-          <option value="eksternal">Eksternal (Luar Kampus)</option>
-          <option value="admin">Admin (Maintenance/Testing)</option>
-        </select>
-      </div>
+      <!-- Tipe Peminjam (Hidden - Always Internal) -->
+      <input type="hidden" name="tipe" value="internal">
 
       <!-- Nama Peminjam -->
       <div style="margin-bottom:12px;">
@@ -143,11 +136,12 @@
 </div>
 </div>
 
-<!-- MODAL: FORM DETAIL PINJAM MULTI-LAB (MANUAL) -->
+<!-- MODAL: FORM DETAIL PINJAM MULTI-LAB (MANUAL - PRIORITY/EXTERNAL) -->
 <div id="pExternalBookingModal" class="p-modal">
   <div class="p-modal-card" style="max-width:600px;">
     <div class="p-modal-head">
-      <h2 style="margin:0; font-size:20px; font-weight:900; color:#0f172a;">Input Manual / Banyak Lab</h2>
+      <h2 style="margin:0; font-size:20px; font-weight:900; color:#0f172a;" id="pExternalModalTitle">Booking Prioritas /
+        Eksternal</h2>
       <button type="button" class="p-x" onclick="closeExternalBookingModal()">&times;</button>
     </div>
 
@@ -168,16 +162,11 @@
         </div>
       </div>
 
-      <!-- Tipe Peminjam (Role) -->
-      <div style="margin-bottom:12px;">
-        <label for="tipePeminjamMulti" style="font-weight:900; font-size:13px; color:#334155;">Tipe Peminjam</label>
-        <select id="tipePeminjamMulti" name="tipe" required
-          style="width:100%; padding:10px; border-radius:10px; border:1px solid #e2e8f0; margin-top:4px;">
-          <option value="eksternal">Eksternal (Luar Kampus)</option>
-          <option value="internal">Internal (Dosen/Asisten)</option>
-          <option value="admin">Admin (Maintenance/Testing)</option>
-        </select>
-      </div>
+      <!-- Tipe Peminjam (Hidden - Always Eksternal for Priority) -->
+      <input type="hidden" name="tipe" value="eksternal">
+      <!-- (Optional) We could allow admin to act as 'admin' but treat it as priority, but user asked for 'external priority'. 
+           Let's stick to 'eksternal' or maybe 'admin' if better? 
+           User said: "jadi peminjaman khusus external", so 'eksternal' is safer. -->
 
       <!-- Nama Instansi / Kegiatan -->
       <div style="margin-bottom:12px;">
@@ -215,7 +204,7 @@
       <div style="text-align:right; display:flex; justify-content:flex-end; gap:10px;">
         <button type="button" onclick="closeExternalBookingModal()"
           style="padding:10px 20px; border-radius:10px; border:1px solid #ccc; background:#f9fafb; cursor:pointer; font-weight:700;">Batal</button>
-        <button type="submit"
+        <button type="submit" id="btnSaveExternal"
           style="padding:10px 20px; border-radius:10px; border:none; background:#1F45AC; color:#fff; font-weight:900; cursor:pointer;">Simpan
           Peminjaman</button>
       </div>

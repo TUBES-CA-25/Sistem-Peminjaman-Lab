@@ -82,9 +82,9 @@ class Matakuliah extends Controller
     public function delete($id)
     {
         if ($this->matakuliahModel->delete($id)) {
-            header("Location: " . BASE_URL . "matakuliah?status=success&msg=Mata Kuliah berhasil dihapus");
+            header("Location: " . BASE_URL . "/matakuliah?status=success&msg=Mata Kuliah berhasil dihapus");
         } else {
-            header("Location: " . BASE_URL . "matakuliah?status=error&msg=Gagal menghapus mata kuliah");
+            header("Location: " . BASE_URL . "/matakuliah?status=error&msg=Gagal menghapus mata kuliah");
         }
     }
 }
