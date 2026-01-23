@@ -104,9 +104,11 @@ class Admin extends Controller
             }
 
             $bookingDate = $peminjaman['tanggal'];
-            $isApproved = true; // Admin melihat semua, atau filter: $peminjaman['status_approval'] == 'approved'
+            
+            // Filter: hanya yang disetujui (yang tergeser disembunyikan sesuai logic internal)
+            $isShown = ($peminjaman['status'] ?? '') === 'disetujui';
 
-            if ($bookingDate == $date && $isApproved) {
+            if ($bookingDate == $date && $isShown) {
                 $bookings[] = [
                     'lab_id' => $peminjaman['lab_id'],
                     'tanggal' => $bookingDate,
