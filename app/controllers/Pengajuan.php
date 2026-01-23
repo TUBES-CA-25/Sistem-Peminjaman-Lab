@@ -95,7 +95,7 @@ class Pengajuan extends Controller
             die('File not found in database');
         }
 
-        $filePath = __DIR__ . '/../../storage/uploads/proposals/' . $proposal['file_proposal'];
+        $filePath = __DIR__ . '/../../public/storage/uploads/proposals/' . $proposal['file_proposal'];
 
         if (!file_exists($filePath)) {
             die('File not found on server: ' . $proposal['file_proposal']);

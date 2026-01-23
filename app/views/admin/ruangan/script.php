@@ -77,7 +77,6 @@
                 $('editIndex').value = '';
                 $('labImageFile').required = true;
                 resetUpload();
-                if ($('labStatus')) $('labStatus').checked = true;
             } else {
                 $('modalTitle').textContent = 'Edit Ruangan';
                 $('submitBtnText').textContent = 'Simpan Perubahan';
@@ -86,13 +85,9 @@
 
                 $('labName').value = data.nama_ruangan;
                 $('labCapacity').value = data.kapasitas;
-                $('labLocation').value = data.lokasi;
                 $('labPIC').value = data.pic;
                 $('labEmail').value = data.email_pic;
-                $('labFacilities').value = data.fasilitas;
-                $('labDescription').value = data.deskripsi;
                 $('labImage').value = data.gambar;
-                if ($('labStatus')) $('labStatus').checked = (data.status == 1);
                 $('labImageFile').required = false;
 
                 if (data.gambar) {
