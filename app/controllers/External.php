@@ -167,8 +167,8 @@ class External extends Controller
         $userId = $_SESSION['user_id'];
         $namaFileBaru = 'proposal_' . $userId . '_' . time() . '.' . $ekstensiFile;
 
-        // FIXED: PRIVATE folder (di luar public, akses via controller proxy)
-        $targetDir = __DIR__ . '/../../storage/uploads/proposals/';
+        // FIXED: PRIVATE folder (di luar public, akses via controller proxy) -> Moved to public/storage per user request
+        $targetDir = __DIR__ . '/../../public/storage/uploads/proposals/';
 
         if (!file_exists($targetDir)) {
             mkdir($targetDir, 0755, true);

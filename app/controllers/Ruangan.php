@@ -32,7 +32,6 @@ class Ruangan extends Controller
         $action = $_POST['action'] ?? '';
 
         if ($action === 'create' || $action === 'update') {
-            $status = isset($_POST['status']) ? 1 : 0;
 
             // Handle File Upload
             $gambarPath = null;
@@ -50,13 +49,9 @@ class Ruangan extends Controller
             $data = [
                 'nama_ruangan' => $_POST['nama_ruangan'] ?? '',
                 'kapasitas' => $_POST['kapasitas'] ?? 0,
-                'lokasi' => $_POST['lokasi'] ?? '',
                 'pic' => $_POST['pic'] ?? '',
                 'email_pic' => $_POST['email_pic'] ?? '',
-                'fasilitas' => $_POST['fasilitas'] ?? '',
-                'deskripsi' => $_POST['deskripsi'] ?? '',
-                'gambar' => $gambarPath,
-                'status' => $status
+                'gambar' => $gambarPath
             ];
 
             if ($action === 'create') {
@@ -89,7 +84,7 @@ class Ruangan extends Controller
     private function handleFileUpload($file)
     {
         // FIXED: Use new dedicated labs folder
-        $targetDir = __DIR__ . "/../../public/uploads/labs/";
+        $targetDir = __DIR__ . "/../../public/storage/uploads/labs/";
 
         if (!file_exists($targetDir)) {
             mkdir($targetDir, 0755, true);
@@ -119,7 +114,7 @@ class Ruangan extends Controller
 
         if (move_uploaded_file($file["tmp_name"], $targetFilePath)) {
             // Return path relatif (untuk disimpan di DB) - HARUS include 'public/'
-            return "/public/uploads/labs/" . $newFileName;
+            return "/public/storage/uploads/labs/" . $newFileName;
         }
 
         return false;
