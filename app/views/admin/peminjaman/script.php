@@ -24,7 +24,7 @@
         email: "<?= $booking['user_email'] ?? '-' ?>",
         instansi: "<?= $booking['kegiatan'] ?>",
         role: "<?= $booking['tipe'] ?>", // internal/eksternal
-        tanggal: "<?= $booking['tanggal_peminjaman'] ?>", // YYYY-MM-DD
+        tanggal: "<?= $booking['tanggal'] ?? $booking['tanggal_peminjaman'] ?? '' ?>", // YYYY-MM-DD (with fallback)
         status: "<?= $booking['status'] == 'menunggu' ? 'nonaktif' : 'aktif' ?>", // mapped for UI badge color logic
         username: "-", // Not used
         lab: "<?= $booking['lab_nama'] ?>",
@@ -574,16 +574,16 @@
       // Fetch the booking data for the given ID
       fetch(`<?= BASE_URL ?>/peminjaman?action=get&id=${id}`)
         .then(response => {
-            if (!response.ok) {
-                throw new Error('Server Error: ' + response.statusText);
+          if (!response.ok) {
+            throw new Error('Server Error: ' + response.statusText);
+          }
+          return response.text().then(text => {
+            try {
+              return JSON.parse(text);
+            } catch (e) {
+              throw new Error('Invalid JSON: ' + text.substring(0, 100)); // Show start of text
             }
-            return response.text().then(text => {
-                try {
-                    return JSON.parse(text);
-                } catch (e) {
-                    throw new Error('Invalid JSON: ' + text.substring(0, 100)); // Show start of text
-                }
-            });
+          });
         })
         .then(item => {
           if (!item) {

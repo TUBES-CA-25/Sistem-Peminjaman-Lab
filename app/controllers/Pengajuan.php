@@ -70,6 +70,55 @@ class Pengajuan extends Controller
         }
     }
 
+    // Download Proposal (Secure Proxy dengan Access Control)
+    public function downloadProposal($id)
+    {
+        // Check login
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: ' . BASE_URL . '/auth/login');
+            exit;
+        }
+
+        $pengajuanModel = $this->model('PengajuanModel');
+        $proposal = $pengajuanModel->getById($id);
+
+        if (!$proposal) {
+            die('Proposal not found');
+        }
+
+        // Validasi akses: hanya admin atau pemilik proposal
+        if ($_SESSION['role'] != 'admin' && isset($proposal['user_id']) && $proposal['user_id'] != $_SESSION['user_id']) {
+            die('Unauthorized: Access denied');
+        }
+
+        if (empty($proposal['file_proposal'])) {
+            die('File not found in database');
+        }
+
+        $filePath = __DIR__ . '/../../storage/uploads/proposals/' . $proposal['file_proposal'];
+
+        if (!file_exists($filePath)) {
+            die('File not found on server: ' . $proposal['file_proposal']);
+        }
+
+        // Determine MIME type
+        $extension = pathinfo($filePath, PATHINFO_EXTENSION);
+        $mimeTypes = [
+            'pdf' => 'application/pdf',
+            'doc' => 'application/msword',
+            'docx' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+        ];
+        $contentType = $mimeTypes[$extension] ?? 'application/octet-stream';
+
+        // Force download
+        header('Content-Type: ' . $contentType);
+        header('Content-Disposition: attachment; filename="proposal_' . $id . '.' . $extension . '"');
+        header('Content-Length: ' . filesize($filePath));
+        header('Cache-Control: no-cache, must-revalidate');
+        readfile($filePath);
+        exit;
+    }
+
 
 
 
