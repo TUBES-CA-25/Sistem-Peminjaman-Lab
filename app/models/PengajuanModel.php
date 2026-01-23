@@ -10,10 +10,17 @@ class PengajuanModel
         $this->db = new Database;
     }
 
-    // 1. GET ALL (Riwayat)
-    public function getRiwayat()
+    // 1. GET ALL (Riwayat) - FIXED: Add user_id filter
+    public function getRiwayat($userId = null)
     {
-        $this->db->query('SELECT * FROM ' . $this->table . ' ORDER BY created_at DESC');
+        if ($userId) {
+            // User hanya lihat proposal sendiri
+            $this->db->query('SELECT * FROM ' . $this->table . ' WHERE user_id = :user_id ORDER BY created_at DESC');
+            $this->db->bind('user_id', $userId);
+        } else {
+            // Admin lihat semua
+            $this->db->query('SELECT * FROM ' . $this->table . ' ORDER BY created_at DESC');
+        }
         return $this->db->resultSet();
     }
 
@@ -25,15 +32,16 @@ class PengajuanModel
         return $this->db->single();
     }
 
-    // 3. TAMBAH (Create)
+    // 3. TAMBAH (Create) - FIXED: Include user_id
     public function tambahPengajuan($data)
     {
         $query = "INSERT INTO " . $this->table . " 
-                    (nama_lengkap, email, telepon, jumlah_peserta, nama_kegiatan, tgl_mulai, tgl_selesai, file_proposal, status)
+                    (user_id, nama_lengkap, email, telepon, jumlah_peserta, nama_kegiatan, tgl_mulai, tgl_selesai, file_proposal, status)
                   VALUES
-                    (:nama, :email, :telepon, :jumlah, :kegiatan, :mulai, :selesai, :proposal, 'Menunggu Konfirmasi')";
+                    (:user_id, :nama, :email, :telepon, :jumlah, :kegiatan, :mulai, :selesai, :proposal, 'Menunggu Konfirmasi')";
 
         $this->db->query($query);
+        $this->db->bind('user_id', $data['user_id']);
         $this->db->bind('nama', $data['nama_lengkap']);
         $this->db->bind('email', $data['email']);
         $this->db->bind('telepon', $data['telepon']);
@@ -68,12 +76,21 @@ class PengajuanModel
         return $this->db->rowCount();
     }
 
-    // 5. HAPUS
-    public function hapusPengajuan($id)
+    // 5. HAPUS - FIXED: Add ownership check
+    public function hapusPengajuan($id, $userId = null)
     {
-        $query = "DELETE FROM " . $this->table . " WHERE id = :id";
-        $this->db->query($query);
-        $this->db->bind('id', $id);
+        if ($userId) {
+            // User hanya bisa hapus milik sendiri
+            $query = "DELETE FROM " . $this->table . " WHERE id = :id AND user_id = :user_id";
+            $this->db->query($query);
+            $this->db->bind('id', $id);
+            $this->db->bind('user_id', $userId);
+        } else {
+            // Admin bisa hapus semua
+            $query = "DELETE FROM " . $this->table . " WHERE id = :id";
+            $this->db->query($query);
+            $this->db->bind('id', $id);
+        }
         $this->db->execute();
         return $this->db->rowCount();
     }
