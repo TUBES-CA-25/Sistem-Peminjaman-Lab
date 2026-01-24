@@ -148,7 +148,6 @@ try {
         if ($db->rowCount() > 0) { out("Skipped ruangan: {$nama_ruangan}"); continue; }
 
         $kap = rand(15,40);
-        $lok = "Gedung Seeder, Lantai " . rand(1,4);
         $pic = "Asisten Seeder {$i}";
         $email_pic = "asisten{$i}@iclabs.local";
         $fasilitas = "Komputer {$kap} unit, Proyektor";
@@ -160,7 +159,6 @@ try {
         $dataRow = [
             'nama_ruangan' => $nama_ruangan,
             'kapasitas' => $kap,
-            'lokasi' => $lok,
             'pic' => $pic,
             'email_pic' => $email_pic,
             'fasilitas' => $fasilitas,

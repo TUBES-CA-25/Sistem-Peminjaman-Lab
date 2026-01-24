@@ -212,7 +212,6 @@ class Internal extends Controller
                 'name' => $ruangan['nama_ruangan'],
                 'short_name' => $ruangan['nama_ruangan'],
                 'capacity' => $ruangan['kapasitas'],
-                'building' => $ruangan['lokasi'],
                 'pic' => $ruangan['pic'],
                 'image' => $this->extractImageFilename($ruangan['gambar']),
                 'status' => $ruangan['status'] == 1 ? 'tersedia' : 'terpakai'
