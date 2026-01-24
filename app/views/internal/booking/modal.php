@@ -191,7 +191,7 @@
                     <div id="slotInfoBox"
                         style="background: #F7FAFC; border-radius: 6px; padding: 10px 12px; border: 1px solid #E2E8F0; margin-bottom: 10px;">
                         <div id="slotInfoText" style="font-weight: 600; font-size: 0.75rem; color: #2D3748;">Slot
-                            kosong: 07:00-18:25</div>
+                            kosong: 07:00-18:20</div>
                         <div style="font-size: 0.65rem; color: #718096;">Pilih jam mulai/selesai di dalam slot kosong.
                         </div>
                     </div>

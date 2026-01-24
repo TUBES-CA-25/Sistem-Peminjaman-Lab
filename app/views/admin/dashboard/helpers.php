@@ -38,7 +38,7 @@ function getPeminjamanLab($peminjaman, $labId, $tanggal) {
 /**
  * Hitung slot waktu yang tersedia untuk sebuah lab
  */
-function getSlotKosong($jadwalLab, $peminjamanLab, $jamBuka = '07:00', $jamTutup = '18:25') {
+function getSlotKosong($jadwalLab, $peminjamanLab, $jamBuka = '07:00', $jamTutup = '18:20') {
     $occupied = [];
     foreach ($jadwalLab as $j) {
         $occupied[] = ['mulai' => $j['jam_mulai'], 'selesai' => $j['jam_selesai']];

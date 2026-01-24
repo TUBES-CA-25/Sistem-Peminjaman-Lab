@@ -404,6 +404,15 @@ class Internal extends Controller
                 return;
             }
 
+            // VALIDASI: Batas maksimal 18:20
+            if (substr($formData['jamSelesai'], 0, 5) > '18:20') {
+                echo json_encode([
+                    'success' => false,
+                    'message' => 'Batas maksimal peminjaman laboratorium adalah pukul 18:20.'
+                ]);
+                return;
+            }
+
             if ($this->peminjamanModel->checkConflict($labId, $formData['tanggal'], $formData['jamMulai'], $formData['jamSelesai'])) {
                 echo json_encode([
                     'success' => false,

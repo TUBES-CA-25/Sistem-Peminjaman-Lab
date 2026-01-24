@@ -72,7 +72,7 @@ function getPeminjamanLab($peminjaman, $labId, $tanggal) {
  * @param string $jamTutup Jam tutup lab (default: 18:25)
  * @return array Array berisi slot tersedia ['mulai' => HH:MM, 'selesai' => HH:MM]
  */
-function getSlotKosong($jadwalLab, $peminjamanLab, $jamBuka = '07:00', $jamTutup = '18:25') {
+function getSlotKosong($jadwalLab, $peminjamanLab, $jamBuka = '07:00', $jamTutup = '18:20') {
     // Langkah 1: Gabungkan semua slot yang terisi (jadwal + peminjaman)
     $occupied = [];
     
