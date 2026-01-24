@@ -403,6 +403,11 @@
     color: #991b1b;
 }
 
+.p-status-tergeser {
+    background: #FCE7F3;
+    color: #DB2777;
+}
+
 .p-actions {
     display: flex;
     gap: 8px;

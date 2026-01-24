@@ -31,9 +31,9 @@ class RuanganModel
     public function create($data)
     {
         $query = "INSERT INTO " . $this->table_name . "
-                (nama_ruangan, kapasitas, lokasi, pic, email_pic, fasilitas, deskripsi, gambar, status)
+                (nama_ruangan, kapasitas, pic, email_pic, gambar)
                 VALUES
-                (:nama_ruangan, :kapasitas, :lokasi, :pic, :email_pic, :fasilitas, :deskripsi, :gambar, :status)";
+                (:nama_ruangan, :kapasitas, :pic, :email_pic, :gambar)";
 
         $this->db->query($query);
 
@@ -43,13 +43,9 @@ class RuanganModel
         // Bind Data
         $this->db->bind('nama_ruangan', $data['nama_ruangan']);
         $this->db->bind('kapasitas', $data['kapasitas']);
-        $this->db->bind('lokasi', $data['lokasi']);
         $this->db->bind('pic', $data['pic']);
         $this->db->bind('email_pic', $data['email_pic']);
-        $this->db->bind('fasilitas', $data['fasilitas']);
-        $this->db->bind('deskripsi', $data['deskripsi']);
         $this->db->bind('gambar', $data['gambar']);
-        $this->db->bind('status', $data['status']);
 
         $this->db->execute();
 
@@ -63,13 +59,9 @@ class RuanganModel
                   SET
                     nama_ruangan = :nama_ruangan,
                     kapasitas = :kapasitas,
-                    lokasi = :lokasi,
                     pic = :pic,
                     email_pic = :email_pic,
-                    fasilitas = :fasilitas,
-                    deskripsi = :deskripsi,
-                    gambar = :gambar,
-                    status = :status
+                    gambar = :gambar
                   WHERE id = :id";
 
         $this->db->query($query);
@@ -77,13 +69,9 @@ class RuanganModel
         $this->db->bind('id', $id);
         $this->db->bind('nama_ruangan', $data['nama_ruangan']);
         $this->db->bind('kapasitas', $data['kapasitas']);
-        $this->db->bind('lokasi', $data['lokasi']);
         $this->db->bind('pic', $data['pic']);
         $this->db->bind('email_pic', $data['email_pic']);
-        $this->db->bind('fasilitas', $data['fasilitas']);
-        $this->db->bind('deskripsi', $data['deskripsi']);
         $this->db->bind('gambar', $data['gambar']);
-        $this->db->bind('status', $data['status']);
 
         $this->db->execute();
 
@@ -96,7 +84,7 @@ class RuanganModel
         $query = "DELETE FROM " . $this->table_name . " WHERE id = :id";
         $this->db->query($query);
         $this->db->bind('id', $id);
-        
+
         $this->db->execute();
         return $this->db->rowCount();
     }

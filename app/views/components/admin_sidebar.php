@@ -1,7 +1,19 @@
 <?php $active_page = $data['active_page'] ?? ''; ?>
 <div class="admin-container">
     <aside class="sidebar">
-        <div class="sidebar-header">DATA</div>
+        <div class="sidebar-header">DASHBOARD</div>
+
+        <ul class="sidebar-menu">
+            <li class="sidebar-item">
+                <a href="<?= BASE_URL ?>/admin"
+                    class="sidebar-link <?= ($active_page === 'dashboard') ? 'active' : ''; ?>">
+                    <i class="fas fa-tachometer-alt sidebar-icon"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+        </ul>
+
+        <div class="sidebar-header" style="margin-top: 2rem;">DATA</div>
 
         <ul class="sidebar-menu">
             <li class="sidebar-item">
@@ -13,8 +25,7 @@
             </li>
 
             <li class="sidebar-item">
-                <a href="<?= BASE_URL ?>/user"
-                    class="sidebar-link <?= ($active_page === 'users') ? 'active' : ''; ?>">
+                <a href="<?= BASE_URL ?>/user" class="sidebar-link <?= ($active_page === 'users') ? 'active' : ''; ?>">
                     <i class="fas fa-users sidebar-icon"></i>
                     <span>Data Pengguna</span>
                 </a>

@@ -10,9 +10,9 @@ include __DIR__ . '/../booking/helpers.php';
 <div
     style="background: linear-gradient(135deg, #122E4F 0%, #1F45AC 100%); padding: 2.5rem; border-radius: 12px; margin-bottom: 2rem; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1); gap: 1.5rem; flex-wrap: wrap;">
     <div style="flex: 1; min-width: 250px;">
-        <h1 style="color: white; font-size: 2rem; font-weight: 800; margin: 0 0 0.5rem 0;">Jadwal Laboratorium</h1>
-        <p style="color: rgba(255,255,255,0.9); font-size: 1rem; margin:0;">Lihat jadwal praktikum dan peminjaman semua
-            lab</p>
+        <h1 style="color: white; font-size: 2rem; font-weight: 800; margin: 0 0 0.5rem 0;">Dashboard Internal</h1>
+        <p style="color: rgba(255,255,255,0.9); font-size: 1rem; margin:0;">Monitoring jadwal praktikum dan peminjaman
+            semua laboratorium</p>
     </div>
 </div>
 
@@ -47,10 +47,10 @@ include __DIR__ . '/../booking/helpers.php';
 
                         <?php foreach ($allSlots as $slot): ?>
 
-                            <?php if ($slot['type'] == 'praktikum'): $j = $slot['data']; ?>
-                                <div class="p-slot praktikum">
-                                    <span class="p-slot-label">Praktikum: <?= $j['jam_mulai'] ?>-<?= $j['jam_selesai'] ?></span>
-                                    <span class="p-slot-sub"><?= htmlspecialchars($j['matkul']) ?> (<?= $j['kelas'] ?>)</span>
+                            <?php if ($slot['type'] == 'praktikum' || $slot['type'] == 'tergeser'): $j = $slot['data']; ?>
+                                <div class="p-slot <?= $slot['type'] ?>">
+                                    <span class="p-slot-label"><?= $slot['type'] == 'tergeser' ? 'Tergeser' : 'Praktikum' ?>: <?= $j['jam_mulai'] ?>-<?= $j['jam_selesai'] ?></span>
+                                    <span class="p-slot-sub"><?= htmlspecialchars($j['matkul']) ?> (<?= $j['kelas'] ?>)<?php if ($slot['type'] == 'tergeser') echo "- Digeser oleh " . htmlspecialchars($slot['overridden_by']); ?></span>
                                 </div>
 
                             <?php elseif ($slot['type'] == 'peminjaman'): $p = $slot['data']; ?>

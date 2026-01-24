@@ -12,8 +12,10 @@ class Database
 
     public function __construct()
     {
-        // XAMPP Mac uses socket file
-        $dsn = 'mysql:host=' . $this->host . ';dbname=' . $this->db_name . ';unix_socket=/Applications/XAMPP/xamppfiles/var/mysql/mysql.sock';
+        // Use standard TCP connection for Windows/Linux
+        // Ensure DB_PORT is defined in config.php, default to 3306 if not
+        $port = defined('DB_PORT') ? DB_PORT : 3306;
+        $dsn = 'mysql:host=' . $this->host . ';port=' . $port . ';dbname=' . $this->db_name;
 
         $option = [
             PDO::ATTR_PERSISTENT => true,

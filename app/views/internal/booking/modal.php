@@ -25,10 +25,17 @@
         <div class="p-modal-body">
             <div class="p-form-head"
                 style="align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;">
-                <div class="p-date-picker" style="flex-grow:1;">
-                    <label for="scheduleDate">Tanggal</label>
-                    <input type="date" id="scheduleDate" value="<?= htmlspecialchars($data['selected_date']) ?>"
-                        onchange="changeDate(this.value)" />
+                <div class="p-date-picker" style="flex-grow:1; display: flex; align-items: center; gap: 12px;">
+                    <div>
+                        <label for="scheduleDate" style="display: block; font-size: 0.75rem; color: #64748b; margin-bottom: 4px;">Pilih Tanggal</label>
+                        <input type="date" id="scheduleDate" value="<?= htmlspecialchars($data['selected_date']) ?>"
+                            onchange="changeDate(this.value)" style="padding: 8px 12px; border: 1px solid #e2e8f0; border-radius: 8px; font-weight: 600;" />
+                    </div>
+                    <div style="margin-top: 20px;">
+                        <span id="displayDayName" style="background: #e0e7ff; color: #4338ca; padding: 8px 16px; border-radius: 8px; font-weight: 700; font-size: 14px;">
+                            <?= strtoupper($data['selected_day']) ?>
+                        </span>
+                    </div>
                 </div>
             </div>
 
@@ -56,12 +63,11 @@
 
                                 <?php foreach ($allSlots as $slot): ?>
 
-                                    <?php if ($slot['type'] == 'praktikum'): $j = $slot['data']; ?>
-                                        <div class="p-slot praktikum">
-                                            <span class="p-slot-label">Praktikum:
+                                    <?php if ($slot['type'] == 'praktikum' || $slot['type'] == 'tergeser'): $j = $slot['data']; ?>
+                                        <div class="p-slot <?= $slot['type'] ?>">
+                                            <span class="p-slot-label"><?= $slot['type'] == 'tergeser' ? 'Tergeser' : 'Praktikum' ?>:
                                                 <?= $j['jam_mulai'] ?>-<?= $j['jam_selesai'] ?></span>
-                                            <span class="p-slot-sub"><?= htmlspecialchars($j['matkul']) ?>
-                                                (<?= $j['kelas'] ?>)</span>
+                                            <span class="p-slot-sub"><?= htmlspecialchars($j['matkul']) ?> (<?= $j['kelas'] ?>)<?php if ($slot['type'] == 'tergeser') echo "- Digeser oleh " . htmlspecialchars($slot['overridden_by']); ?></span>
                                         </div>
 
                                     <?php elseif ($slot['type'] == 'peminjaman'): $p = $slot['data']; ?>
@@ -85,7 +91,7 @@
 
                                     <?php elseif ($slot['type'] == 'kosong'):
                                         $k = $slot['data']; ?>
-                                        <?php if (isPastSlot($data['selected_date'], $k['mulai'])): ?>
+                                        <?php if (isPastSlot($data['selected_date'], $k['selesai'])): ?>
                                             <div class="p-slot read-only" style="opacity: 0.6; cursor: not-allowed;">
                                                 <span class="p-slot-label">Terlewati</span>
                                                 <span class="p-slot-sub">Kosong <?= $k['mulai'] ?>-<?= $k['selesai'] ?></span>
@@ -185,7 +191,7 @@
                     <div id="slotInfoBox"
                         style="background: #F7FAFC; border-radius: 6px; padding: 10px 12px; border: 1px solid #E2E8F0; margin-bottom: 10px;">
                         <div id="slotInfoText" style="font-weight: 600; font-size: 0.75rem; color: #2D3748;">Slot
-                            kosong: 07:00-18:25</div>
+                            kosong: 07:00-18:20</div>
                         <div style="font-size: 0.65rem; color: #718096;">Pilih jam mulai/selesai di dalam slot kosong.
                         </div>
                     </div>
