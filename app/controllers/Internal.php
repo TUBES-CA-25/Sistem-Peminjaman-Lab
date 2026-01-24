@@ -212,7 +212,6 @@ class Internal extends Controller
                 'name' => $ruangan['nama_ruangan'],
                 'short_name' => $ruangan['nama_ruangan'],
                 'capacity' => $ruangan['kapasitas'],
-                'building' => $ruangan['lokasi'],
                 'pic' => $ruangan['pic'],
                 'image' => $this->extractImageFilename($ruangan['gambar']),
                 'status' => $ruangan['status'] == 1 ? 'tersedia' : 'terpakai'
@@ -401,6 +400,15 @@ class Internal extends Controller
                 echo json_encode([
                     'success' => false,
                     'message' => 'Tidak dapat melakukan booking untuk waktu yang sudah terlewati.'
+                ]);
+                return;
+            }
+
+            // VALIDASI: Batas maksimal 18:20
+            if (substr($formData['jamSelesai'], 0, 5) > '18:20') {
+                echo json_encode([
+                    'success' => false,
+                    'message' => 'Batas maksimal peminjaman laboratorium adalah pukul 18:20.'
                 ]);
                 return;
             }

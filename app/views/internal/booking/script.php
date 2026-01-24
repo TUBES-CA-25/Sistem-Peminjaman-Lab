@@ -183,6 +183,11 @@
         return { valid: true, message: '' };
     }
 
+    function validateMaxTime(endTime) {
+        if (endTime > "18:20") return { valid: false, message: 'Batas maksimal peminjaman adalah jam 18:20!' };
+        return { valid: true, message: '' };
+    }
+
     // =================================================================
     // API CALLS - Submit Booking
     // =================================================================
@@ -206,6 +211,10 @@
         
         const v3 = validateMinimumDuration(formData.jamMulai, formData.jamSelesai);
         if (!v3.valid) { Swal.fire({ icon: 'warning', title: 'Durasi Terlalu Singkat', text: v3.message, confirmButtonColor: '#3b82f6' }); return; }
+
+        const v4 = validateMaxTime(formData.jamSelesai);
+        if (!v4.valid) { Swal.fire({ icon: 'error', title: 'Melebihi Batas Waktu', text: v4.valid === false ? v4.message : '', confirmButtonColor: '#3b82f6' }); return; }
+        
 
         // Loading
         const submitButton = event.target;
