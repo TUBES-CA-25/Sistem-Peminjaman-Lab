@@ -12,4 +12,24 @@
             document.getElementById('edit_angkatan').value = this.dataset.angkatan;
         });
     });
+
+    window.hapusKelas = function (id) {
+        Swal.fire({
+            title: 'Hapus Kelas?',
+            text: "Data yang dihapus tidak dapat dikembalikan!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Ya, Hapus!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = '<?= BASE_URL ?>/kelas/delete/' + id;
+                document.body.appendChild(form);
+                form.submit();
+            }
+        });
+    }
 </script>

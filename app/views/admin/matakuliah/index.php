@@ -71,7 +71,7 @@ $matakuliah = $data['matakuliah'] ?? [];
                                 <?= htmlspecialchars($row['nama_jurusan'] ?? '-') ?>
                             </td>
                             <td>
-                                <button class="btn btn-warning btn-sm btn-edit" data-id="<?= $row['id'] ?>"
+                                <button class="btn btn-sm btn-primary fw-bold btn-edit" data-id="<?= $row['id'] ?>"
                                     data-nama="<?= htmlspecialchars($row['nama_matakuliah']) ?>"
                                     data-kode="<?= htmlspecialchars($row['kode_matakuliah']) ?>"
                                     data-singkatan="<?= htmlspecialchars($row['singkatan'] ?? '') ?>"
@@ -81,12 +81,9 @@ $matakuliah = $data['matakuliah'] ?? [];
                                     data-bs-target="#editModal">
                                     <i class="fas fa-edit"></i>
                                 </button>
-                                <form action="<?= BASE_URL ?>/matakuliah/delete/<?= $row['id'] ?>" method="POST"
-                                    class="d-inline" onsubmit="return confirm('Yakin ingin menghapus?');">
-                                    <button type="submit" class="btn btn-danger btn-sm">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </form>
+                                <button onclick="hapusMatakuliah(<?= $row['id'] ?>)" class="btn btn-sm btn-danger fw-bold">
+                                    <i class="fas fa-trash"></i>
+                                </button>
                             </td>
                         </tr>
                     <?php endforeach; ?>
@@ -221,4 +218,24 @@ $matakuliah = $data['matakuliah'] ?? [];
             document.getElementById('edit_jurusan_id').value = this.dataset.jurusan;
         });
     });
+
+    window.hapusMatakuliah = function (id) {
+        Swal.fire({
+            title: 'Hapus Mata Kuliah?',
+            text: "Data yang dihapus tidak dapat dikembalikan!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Ya, Hapus!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = '<?= BASE_URL ?>/matakuliah/delete/' + id;
+                document.body.appendChild(form);
+                form.submit();
+            }
+        });
+    }
 </script>

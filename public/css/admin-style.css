@@ -241,8 +241,10 @@ body {
 .p-table {
     width: 100%;
     border-collapse: collapse;
-    table-layout: fixed; /* IMPORTANT: Fixed layout untuk column width */
-    min-width: 1000px; /* Minimum width untuk prevent squash */
+    table-layout: fixed;
+    /* IMPORTANT: Fixed layout untuk column width */
+    min-width: 1000px;
+    /* Minimum width untuk prevent squash */
 }
 
 .p-table thead {
@@ -521,6 +523,7 @@ body {
         transform: translateY(-12px);
         opacity: .7;
     }
+
     to {
         transform: translateY(0);
         opacity: 1;
@@ -813,52 +816,29 @@ body {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    border-radius: 8px; /* Sudut melengkung */
+    border-radius: 8px;
+    /* Sudut melengkung */
     border: none;
     transition: all 0.2s ease-in-out;
     cursor: pointer;
     font-size: 0.85rem;
-    margin: 0 2px; /* Jarak antar tombol */
-    text-decoration: none; /* Hilangkan garis bawah jika tag <a> */
+    margin: 0 2px;
+    /* Jarak antar tombol */
+    text-decoration: none;
+    /* Hilangkan garis bawah jika tag <a> */
 }
 
 /* Efek Hover umum */
 .btn-icon:hover {
-    transform: translateY(-2px); /* Efek naik sedikit saat hover */
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transform: translateY(-2px);
+    /* Efek naik sedikit saat hover */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-/* 1. Tombol View (Mata) - Biru Muda */
-.btn-view {
-    background-color: #e7f1ff;
-    color: #0d6efd;
-}
-.btn-view:hover {
-    background-color: #0d6efd;
-    color: white;
-}
-
-/* 2. Tombol Edit (Pensil) - Kuning Muda */
-.btn-edit {
-    background-color: #fff3cd;
-    color: #856404;
-}
-.btn-edit:hover {
-    background-color: #ffc107;
-    color: #000;
-}
-
-/* 3. Tombol Delete (Sampah) - Merah Muda */
-.btn-delete {
-    background-color: #f8d7da;
-    color: #842029;
-}
-.btn-delete:hover {
-    background-color: #dc3545;
-    color: white;
-}
+/* Custom button styles removed to use standard Bootstrap classes */
 
 /* Agar ikon di dalam tombol pas di tengah */
 .btn-icon i {
-    pointer-events: none; /* Agar klik ikon tetap terhitung klik tombol */
+    pointer-events: none;
+    /* Agar klik ikon tetap terhitung klik tombol */
 }

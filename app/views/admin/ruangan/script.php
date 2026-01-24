@@ -16,8 +16,15 @@
         window.handleFileSelect = function (event) {
             const file = event?.target?.files?.[0];
             if (!file) return;
-            if (!file.type.match('image.*')) { alert('Hanya gambar!'); return; }
-            if (file.size > 5 * 1024 * 1024) { alert('Maks 5MB!'); return; }
+            if (!file.type.match('image.*')) {
+                Swal.fire({ icon: 'error', title: 'Format Salah', text: 'Hanya gambar (JPG, PNG) yang diperbolehkan!' });
+                return;
+            }
+            if (file.size > 5 * 1024 * 1024) {
+                Swal.fire({ icon: 'error', title: 'File Terlalu Besar', text: 'Maksimum ukuran file adalah 5MB!' });
+                return;
+            }
+
 
             const reader = new FileReader();
             reader.onload = function (e) {
@@ -113,5 +120,29 @@
             const email = selected.getAttribute('data-email');
             $('labEmail').value = email || '';
         }
+
+        window.hapusRuangan = function (id) {
+            Swal.fire({
+                title: 'Hapus Ruangan?',
+                text: "Data yang dihapus tidak dapat dikembalikan!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Ya, Hapus!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const form = document.createElement('form');
+                    form.method = 'POST';
+                    form.action = '<?= BASE_URL ?>/ruangan';
+                    const act = document.createElement('input'); act.type = 'hidden'; act.name = 'action'; act.value = 'delete';
+                    const inp = document.createElement('input'); inp.type = 'hidden'; inp.name = 'id'; inp.value = id;
+                    form.appendChild(act); form.appendChild(inp);
+                    document.body.appendChild(form);
+                    form.submit();
+                }
+            });
+        }
+
     });
 </script>

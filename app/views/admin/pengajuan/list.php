@@ -108,12 +108,7 @@
                                         onclick="openEditModal(this)" title="Proses Status">
                                         <i class="fas fa-edit"></i>
                                     </button>
-                                    <form action="<?= BASE_URL ?>/pengajuan/delete/<?= $row['id'] ?>" method="POST"
-                                        class="d-inline" onsubmit="return confirm('Hapus pengajuan ini secara permanen?');">
-                                        <button type="submit" class="btn-icon btn-delete text-danger" title="Hapus">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </form>
+
                                 </div>
                             </td>
                         </tr>

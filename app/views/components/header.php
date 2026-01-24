@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="id">
 
-<body class="d-flex flex-column min-vh-100">
+<head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <link rel="icon" type="image/png" href="<?= BASE_URL ?>/public/storage/images/logo-iclabs.png">
@@ -22,29 +22,28 @@
 
     <!-- Global Custom CSS -->
     <link rel="stylesheet" href="<?= BASE_URL ?>/public/css/style.css">
-    <link rel="stylesheet" href="<?= BASE_URL; ?>/public/css/external.css">
-    </head>
+</head>
 
-    <body>
+<body class="d-flex flex-column min-vh-100">
 
-        <nav class="navbar navbar-expand fixed-top">
-            <div class="container">
-                <!-- Navbar Brand -->
-                <a class="navbar-brand d-flex align-items-center gap-2" href="<?= BASE_URL ?>">
-                    <img src="<?= BASE_URL ?>/public/storage/images/logo-iclabs.png" alt="Logo ICLABS">
-                    <span class="font-display">ICLABS</span>
-                </a>
-                <!-- <span class="font-display">ICLABS</span> -->
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ms-auto">
-                        <!-- Example Nav Links if needed -->
-                        <!-- <li class="nav-item">
+    <nav class="navbar navbar-expand fixed-top">
+        <div class="container">
+            <!-- Navbar Brand -->
+            <a class="navbar-brand d-flex align-items-center gap-2" href="<?= BASE_URL ?>">
+                <img src="<?= BASE_URL ?>/public/storage/images/logo-iclabs.png" alt="Logo ICLABS">
+                <span class="font-display">ICLABS</span>
+            </a>
+            <!-- <span class="font-display">ICLABS</span> -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <!-- Example Nav Links if needed -->
+                    <!-- <li class="nav-item">
                         <a class="nav-link" href="#">Beranda</a>
                     </li> -->
-                    </ul>
-                </div>
+                </ul>
             </div>
-        </nav>
+        </div>
+    </nav>
