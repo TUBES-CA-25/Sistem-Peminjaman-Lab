@@ -214,7 +214,6 @@ class Internal extends Controller
                 'capacity' => $ruangan['kapasitas'],
                 'pic' => $ruangan['pic'],
                 'image' => $this->extractImageFilename($ruangan['gambar']),
-                'status' => $ruangan['status'] == 1 ? 'tersedia' : 'terpakai'
             ];
         }
 

@@ -47,19 +47,16 @@
                                 <?= htmlspecialchars($row['angkatan'] ?? '-') ?>
                             </td>
                             <td>
-                                <button class="btn btn-warning btn-sm btn-edit" data-id="<?= $row['id'] ?>"
+                                <button class="btn btn-sm btn-primary fw-bold btn-edit" data-id="<?= $row['id'] ?>"
                                     data-nama="<?= htmlspecialchars($row['nama_kelas']) ?>"
                                     data-jurusan="<?= $row['jurusan_id'] ?>"
                                     data-angkatan="<?= htmlspecialchars($row['angkatan']) ?>" data-bs-toggle="modal"
                                     data-bs-target="#editModal">
                                     <i class="fas fa-edit"></i>
                                 </button>
-                                <form action="<?= BASE_URL ?>/kelas/delete/<?= $row['id'] ?>" method="POST" class="d-inline"
-                                    onsubmit="return confirm('Yakin ingin menghapus?');">
-                                    <button type="submit" class="btn btn-danger btn-sm">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </form>
+                                <button onclick="hapusKelas(<?= $row['id'] ?>)" class="btn btn-sm btn-danger fw-bold">
+                                    <i class="fas fa-trash"></i>
+                                </button>
                             </td>
                         </tr>
                     <?php endforeach; ?>
