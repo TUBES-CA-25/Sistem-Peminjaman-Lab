@@ -58,12 +58,12 @@
           <span class="p-badge p-internal">${item.nama_kelas}</span>
         </td>
         <td style="text-align:center;">
-          <div class="p-actions" style="justify-content:center;">
-            <button type="button" class="p-act p-edit" title="Edit" onclick="editJadwal(${item.id})">
+          <div class="d-flex justify-content-center gap-2">
+            <button type="button" class="btn btn-sm btn-primary fw-bold" title="Edit" onclick="editJadwal(${item.id})">
               <i class="fas fa-edit"></i>
             </button>
-            <button type="button" class="p-act p-del" title="Hapus" onclick="hapusJadwal(${item.id})">
-              <i class="fas fa-times"></i>
+            <button type="button" class="btn btn-sm btn-danger fw-bold" title="Hapus" onclick="hapusJadwal(${item.id})">
+              <i class="fas fa-trash"></i>
             </button>
           </div>
         </td>
@@ -108,7 +108,11 @@
       const jamSelesai = form.jamSelesai.value;
 
       if (jamMulai >= jamSelesai) {
-        alert('Jam Selesai harus lebih besar dari Jam Mulai.');
+        Swal.fire({
+          icon: 'error',
+          title: 'Validasi Gagal',
+          text: 'Jam Selesai harus lebih besar dari Jam Mulai.'
+        });
         event.preventDefault();
         return false;
       }
@@ -143,34 +147,49 @@
 
     // Hapus Jadwal
     window.hapusJadwal = function (id) {
-      if (confirm('Apakah Anda yakin ingin menghapus jadwal ini?')) {
-        // Create a form to submit delete request
-        const form = document.createElement('form');
-        form.method = 'POST';
-        form.action = '<?= BASE_URL ?>/jadwal';
+      Swal.fire({
+        title: 'Hapus Jadwal?',
+        text: "Apakah Anda yakin ingin menghapus jadwal ini?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Ya, Hapus!',
+        cancelButtonText: 'Batal'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          // Create a form to submit delete request
+          const form = document.createElement('form');
+          form.method = 'POST';
+          form.action = '<?= BASE_URL ?>/jadwal';
 
-        const inputAction = document.createElement('input');
-        inputAction.type = 'hidden';
-        inputAction.name = 'action';
-        inputAction.value = 'delete';
+          const inputAction = document.createElement('input');
+          inputAction.type = 'hidden';
+          inputAction.name = 'action';
+          inputAction.value = 'delete';
 
-        const inputId = document.createElement('input');
-        inputId.type = 'hidden';
-        inputId.name = 'id';
-        inputId.value = id;
+          const inputId = document.createElement('input');
+          inputId.type = 'hidden';
+          inputId.name = 'id';
+          inputId.value = id;
 
-        form.appendChild(inputAction);
-        form.appendChild(inputId);
-        document.body.appendChild(form);
-        form.submit();
-      }
+          form.appendChild(inputAction);
+          form.appendChild(inputId);
+          document.body.appendChild(form);
+          form.submit();
+        }
+      });
     };
 
     // ===== EXPORT REPORT =====
     // Reuse existing logic but with 'schedules' var
     window.exportJadwalReport = function () {
       if (schedules.length === 0) {
-        alert('Tidak ada data jadwal untuk diexport.');
+        Swal.fire({
+          icon: 'info',
+          title: 'Info',
+          text: 'Tidak ada data jadwal untuk diexport.'
+        });
         return;
       }
 
@@ -203,6 +222,14 @@
 
       XLSX.utils.book_append_sheet(wb, ws, 'Jadwal Praktikum');
       XLSX.writeFile(wb, `Jadwal_Praktikum_${new Date().toISOString().split('T')[0]}.xlsx`);
+
+      Swal.fire({
+        icon: 'success',
+        title: 'Berhasil',
+        text: 'Download laporan dimulai',
+        timer: 1500,
+        showConfirmButton: false
+      });
     };
 
     // ===== EVENT LISTENERS =====

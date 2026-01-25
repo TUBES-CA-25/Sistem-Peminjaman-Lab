@@ -12,6 +12,10 @@
 
     <!-- Global Admin CSS with Cache Busting -->
     <link rel="stylesheet" href="<?= BASE_URL ?>/public/css/admin-style.css?v=<?= time() ?>">
+
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 </head>
 
 <body>
