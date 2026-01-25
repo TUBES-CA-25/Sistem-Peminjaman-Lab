@@ -39,14 +39,10 @@
                                         <i class="fas fa-edit"></i>
                                     </button>
 
-                                    <form action="<?= BASE_URL ?>/tahun_ajaran" method="POST"
-                                        onsubmit="return confirm('Hapus tahun ajaran ini?');">
-                                        <input type="hidden" name="action" value="delete">
-                                        <input type="hidden" name="id" value="<?= $row['id'] ?>">
-                                        <button type="submit" class="btn btn-sm btn-danger fw-bold">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </form>
+                                    <button type="button" onclick="hapusTahunAjaran(<?= $row['id'] ?>)"
+                                        class="btn btn-sm btn-danger fw-bold">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
                                 </div>
                             </td>
                         </tr>

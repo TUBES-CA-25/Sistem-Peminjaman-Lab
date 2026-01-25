@@ -29,11 +29,11 @@ class Internal extends Controller
     }
 
     /**
-     * Halaman index - redirect ke booking
+     * Halaman index - redirect ke dashboard (jadwal)
      */
     public function index()
     {
-        header('Location: ' . BASE_URL . '/internal/booking');
+        header('Location: ' . BASE_URL . '/internal/jadwal');
         exit;
     }
 
@@ -74,12 +74,12 @@ class Internal extends Controller
     }
 
     /**
-     * Halaman Jadwal Laboratorium
+     * Halaman Dashboard Internal (Jadwal Laboratorium)
      */
     public function jadwal()
     {
-        $data = $this->getCommonScheduleData('jadwal');
-        $data['judul'] = 'Jadwal Laboratorium';
+        $data = $this->getCommonScheduleData('dashboard');
+        $data['judul'] = 'Dashboard Internal';
 
         $this->view('components/internal_head', $data);
         $this->view('components/internal_navbar', $data);
@@ -94,14 +94,14 @@ class Internal extends Controller
     private function getCommonScheduleData($activePage)
     {
         $selectedDate = $_GET['date'] ?? date('Y-m-d');
-        
+
         return [
-            'active_page'   => $activePage,
+            'active_page' => $activePage,
             'selected_date' => $selectedDate,
-            'selected_day'  => $this->getDayName($selectedDate),
-            'labs'          => $this->getLabsData(),
-            'jadwal_tetap'  => $this->getFilteredSchedules($selectedDate),
-            'peminjaman'    => $this->getBookingsInRange($selectedDate)
+            'selected_day' => $this->getDayName($selectedDate),
+            'labs' => $this->getLabsData(),
+            'jadwal_tetap' => $this->getFilteredSchedules($selectedDate),
+            'peminjaman' => $this->getBookingsInRange($selectedDate)
         ];
     }
 
@@ -116,7 +116,7 @@ class Internal extends Controller
         // Ambil peminjaman milik user yang login (internal)
         $peminjamanModel = $this->model('PeminjamanModel');
         $userId = $_SESSION['user_id'] ?? null;
-        
+
         if ($userId) {
             $data['peminjaman'] = $peminjamanModel->getByUserId($userId);
         } else {
@@ -137,17 +137,17 @@ class Internal extends Controller
     public function updatePeminjaman()
     {
         header('Content-Type: application/json');
-        
+
         $input = json_decode(file_get_contents('php://input'), true);
         $userId = $_SESSION['user_id'] ?? null;
-        
+
         if (!$userId) {
             echo json_encode(['success' => false, 'message' => 'Unauthorized']);
             return;
         }
 
         $peminjamanModel = $this->model('PeminjamanModel');
-        
+
         // Verify ownership
         $peminjaman = $peminjamanModel->getById($input['id']);
         if (!$peminjaman || $peminjaman['user_id'] != $userId) {
@@ -171,17 +171,17 @@ class Internal extends Controller
     public function deletePeminjaman()
     {
         header('Content-Type: application/json');
-        
+
         $input = json_decode(file_get_contents('php://input'), true);
         $userId = $_SESSION['user_id'] ?? null;
-        
+
         if (!$userId) {
             echo json_encode(['success' => false, 'message' => 'Unauthorized']);
             return;
         }
 
         $peminjamanModel = $this->model('PeminjamanModel');
-        
+
         // Verify ownership
         $peminjaman = $peminjamanModel->getById($input['id']);
         if (!$peminjaman || $peminjaman['user_id'] != $userId) {
@@ -212,10 +212,8 @@ class Internal extends Controller
                 'name' => $ruangan['nama_ruangan'],
                 'short_name' => $ruangan['nama_ruangan'],
                 'capacity' => $ruangan['kapasitas'],
-                'building' => $ruangan['lokasi'],
                 'pic' => $ruangan['pic'],
                 'image' => $this->extractImageFilename($ruangan['gambar']),
-                'status' => $ruangan['status'] == 1 ? 'tersedia' : 'terpakai'
             ];
         }
 
@@ -271,21 +269,26 @@ class Internal extends Controller
         $bookings = [];
 
         foreach ($this->peminjamanModel->getAll() as $peminjaman) {
-            $bookingDate = $peminjaman['tanggal_peminjaman'];
+            // Skip if required fields are missing
+            if (!isset($peminjaman['tanggal']) || !isset($peminjaman['lab_id'])) {
+                continue;
+            }
 
-            // Filter: hanya booking yang approved dan dalam rentang tanggal
-            $isApproved = $peminjaman['status'] === 'disetujui';
+            $bookingDate = $peminjaman['tanggal']; // Using alias from model
+
+            // Filter: hanya booking yang disetujui (yang tergeser disembunyikan sesuai permintaan)
+            $isApproved = ($peminjaman['status'] ?? '') === 'disetujui';
             $isInRange = $bookingDate >= $startDate && $bookingDate <= $endDate;
 
             if ($isApproved && $isInRange) {
                 $bookings[] = [
                     'lab_id' => $peminjaman['lab_id'],
                     'tanggal' => $bookingDate,
-                    'jam_mulai' => substr($peminjaman['jam_mulai'], 0, 5),
-                    'jam_selesai' => substr($peminjaman['jam_selesai'], 0, 5),
-                    'type' => $peminjaman['tipe'],
-                    'keterangan' => $peminjaman['kegiatan'],
-                    'peminjam' => $peminjaman['nama_peminjam']
+                    'jam_mulai' => substr($peminjaman['jam_mulai'] ?? '00:00:00', 0, 5),
+                    'jam_selesai' => substr($peminjaman['jam_selesai'] ?? '00:00:00', 0, 5),
+                    'type' => $peminjaman['tipe'] ?? 'internal',
+                    'keterangan' => $peminjaman['kegiatan'] ?? '',
+                    'peminjam' => $peminjaman['nama_peminjam'] ?? 'Unknown'
                 ];
             }
         }
@@ -316,8 +319,9 @@ class Internal extends Controller
             return 'StartUp.jpg';
         }
 
-        // Case 3: Sudah proper path (public/storage/...)
-        if (strpos($gambar, 'public/') === 0 || strpos($gambar, 'storage/') === 0) {
+        // Case 3: Sudah proper path (public/storage/... atau /public/uploads/...)
+        // Handles both with and without leading slash
+        if (strpos($gambar, '/public/') === 0 || strpos($gambar, 'public/') === 0 || strpos($gambar, 'storage/') === 0) {
             return $gambar;
         }
 
@@ -390,11 +394,20 @@ class Internal extends Controller
             // VALIDASI: Cek apakah waktu sudah lewat
             $currentDateTime = time();
             $requestedStart = strtotime($formData['tanggal'] . ' ' . $formData['jamMulai']);
-            
+
             if ($requestedStart < $currentDateTime) {
                 echo json_encode([
                     'success' => false,
                     'message' => 'Tidak dapat melakukan booking untuk waktu yang sudah terlewati.'
+                ]);
+                return;
+            }
+
+            // VALIDASI: Batas maksimal 18:20
+            if (substr($formData['jamSelesai'], 0, 5) > '18:20') {
+                echo json_encode([
+                    'success' => false,
+                    'message' => 'Batas maksimal peminjaman laboratorium adalah pukul 18:20.'
                 ]);
                 return;
             }
@@ -559,9 +572,9 @@ class Internal extends Controller
         include_once __DIR__ . '/../views/internal/booking/helpers.php';
 
         // 1. Ambil data lab info (untuk nama lab di tombol booking)
-        $ruangan = $this->ruanganModel->getAll(); 
+        $ruangan = $this->ruanganModel->getAll();
         $labName = '';
-        foreach($ruangan as $r) {
+        foreach ($ruangan as $r) {
             if ($r['id'] == $labId) {
                 $labName = $r['nama_ruangan'];
                 break;
@@ -569,11 +582,11 @@ class Internal extends Controller
         }
 
         // 2. Ambil Jadwal Tetap
-        $jadwalTetapRaw = $this->getFilteredSchedules($date); 
+        $jadwalTetapRaw = $this->getFilteredSchedules($date);
         $jadwalLab = [];
         foreach ($jadwalTetapRaw as $j) {
             if ($j['lab_id'] == $labId) {
-                $jadwalLab[] = $j; 
+                $jadwalLab[] = $j;
             }
         }
 

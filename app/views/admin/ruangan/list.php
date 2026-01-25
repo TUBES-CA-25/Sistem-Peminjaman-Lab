@@ -8,16 +8,32 @@
                 <div class="position-relative">
                     <?php
                     $img = $lab['gambar'];
-                    // Use stored path if it contains '/', otherwise assume it's in storage/images
-                    $path = (strpos($img, '/') !== false) ? $img : 'public/storage/images/' . $img;
-                    $imgSrc = BASE_URL . '/' . $path;
+
+                    // Handle different path formats:
+                    // New: /uploads/labs/lab_xxx.jpg
+                    // Old: public/storage/images/xxx.jpg
+                    // Old: filename only (xxx.jpg)
+                
+                    if (!empty($img)) {
+                        // If starts with /, already absolute path (new format)
+                        if ($img[0] === '/') {
+                            $imgSrc = BASE_URL . $img;
+                        }
+                        // If contains 'public/', use as-is
+                        elseif (strpos($img, 'public/') === 0) {
+                            $imgSrc = BASE_URL . '/' . $img;
+                        }
+                        // Filename only, assume old location
+                        else {
+                            $imgSrc = BASE_URL . '/public/storage/images/' . $img;
+                        }
+                    } else {
+                        // Placeholder if no image
+                        $imgSrc = BASE_URL . '/public/img/no-image.png';
+                    }
                     ?>
                     <img src="<?= htmlspecialchars($imgSrc) ?>" class="card-img-top"
                         alt="<?= htmlspecialchars($lab['nama_ruangan']) ?>" style="height: 220px; object-fit: cover;">
-                    <span
-                        class="position-absolute top-0 end-0 m-3 badge rounded-pill <?= $lab['status'] ? 'bg-success' : 'bg-danger' ?> shadow-sm">
-                        <?= $lab['status'] ? 'Tersedia' : 'Tidak Tersedia' ?>
-                    </span>
                 </div>
                 <div class="card-body p-4 d-flex flex-column">
                     <h5 class="card-title fw-bold text-dark mb-3">
@@ -29,12 +45,6 @@
                             <i class="fas fa-users text-primary w-25px"></i>
                             <span>Kapasitas:
                                 <?= htmlspecialchars($lab['kapasitas']) ?> orang
-                            </span>
-                        </div>
-                        <div class="d-flex align-items-center gap-2">
-                            <i class="fas fa-map-marker-alt text-primary w-25px"></i>
-                            <span>
-                                <?= htmlspecialchars($lab['lokasi']) ?>
                             </span>
                         </div>
                         <div class="d-flex align-items-center gap-2">
@@ -50,14 +60,12 @@
                             class="btn btn-primary flex-grow-1 fw-bold">
                             <i class="fas fa-edit me-1"></i> Edit
                         </button>
-                        <form action="<?= BASE_URL ?>/ruangan" method="POST"
-                            onsubmit="return confirm('Hapus ruangan ini?');" class="flex-grow-1 d-flex">
-                            <input type="hidden" name="action" value="delete">
-                            <input type="hidden" name="id" value="<?= $lab['id'] ?>">
-                            <button type="submit" class="btn btn-danger w-100 fw-bold">
+                        <div class="flex-grow-1 d-flex">
+                            <button type="button" onclick="hapusRuangan(<?= $lab['id'] ?>)"
+                                class="btn btn-danger w-100 fw-bold">
                                 <i class="fas fa-trash me-1"></i> Hapus
                             </button>
-                        </form>
+                        </div>
                     </div>
                 </div>
             </div>

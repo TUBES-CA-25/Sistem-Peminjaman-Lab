@@ -5,7 +5,8 @@ body {
     padding-top: 0 !important;
 }
 
-nav, .navbar {
+nav,
+.navbar {
     margin-bottom: 0 !important;
 }
 
@@ -14,44 +15,178 @@ nav.navbar.navbar-expand.fixed-top {
 }
 
 /* 2. HERO SECTION */
-.hero-bg { 
-    background: linear-gradient(135deg, #0d3b66 0%, #1a5f99 100%); 
-    color: white; 
-    padding: 30px; 
+.hero-bg {
+    background: linear-gradient(135deg, #0d3b66 0%, #1a5f99 100%);
+    color: white;
+    padding: 30px;
     width: 100%;
 }
 
 /* 3. DASHBOARD CARD */
-.dashboard-card { 
-    margin-top: 20px; 
-    background: white; 
-    border-radius: 12px; 
-    box-shadow: 0 8px 20px rgba(0,0,0,0.08); 
-    padding: 30px; 
-    border: none; 
+.dashboard-card {
+    margin-top: 20px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    padding: 30px;
+    border: none;
 }
 
 /* 4. BADGES STATUS */
-.badge-status-ok { background: #d1e7dd; color: #0f5132; padding: 6px 12px; border-radius: 50px; font-weight: 700; font-size: 0.75rem; text-transform: uppercase; }
-.badge-status-interview { background: #cff4fc; color: #055160; padding: 6px 12px; border-radius: 50px; font-weight: 700; font-size: 0.75rem; text-transform: uppercase; }
-.badge-status-wait { background: #fff3cd; color: #856404; padding: 6px 12px; border-radius: 50px; font-weight: 700; font-size: 0.75rem; text-transform: uppercase; }
-.badge-status-reject { background: #f8d7da; color: #842029; padding: 6px 12px; border-radius: 50px; font-weight: 700; font-size: 0.75rem; text-transform: uppercase; }
+.badge-status-ok {
+    background: #d1e7dd;
+    color: #0f5132;
+    padding: 6px 12px;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+}
+
+.badge-status-interview {
+    background: #cff4fc;
+    color: #055160;
+    padding: 6px 12px;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+}
+
+.badge-status-wait {
+    background: #fff3cd;
+    color: #856404;
+    padding: 6px 12px;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+}
+
+.badge-status-reject {
+    background: #f8d7da;
+    color: #842029;
+    padding: 6px 12px;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+}
 
 /* 5. ACTION BUTTONS */
-.btn-action { width: 32px; height: 32px; display: inline-flex; align-items: center; justify-content: center; border-radius: 6px; border: none; transition: 0.2s; margin-left: 3px; cursor: pointer; }
-.btn-view { background: #e7f1ff; color: #0d6efd; } .btn-view:hover { background: #0d6efd; color: white; }
-.btn-edit { background: #fff3cd; color: #856404; } .btn-edit:hover { background: #ffc107; color: black; }
-.btn-delete { background: #f8d7da; color: #842029; } .btn-delete:hover { background: #dc3545; color: white; }
+.btn-action {
+    width: 32px;
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    border: none;
+    transition: 0.2s;
+    margin-left: 3px;
+    cursor: pointer;
+}
+
+.btn-view {
+    background: #e7f1ff;
+    color: #0d6efd;
+}
+
+.btn-view:hover {
+    background: #0d6efd;
+    color: white;
+}
+
+.btn-edit {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.btn-edit:hover {
+    background: #ffc107;
+    color: black;
+}
+
+.btn-delete {
+    background: #f8d7da;
+    color: #842029;
+}
+
+.btn-delete:hover {
+    background: #dc3545;
+    color: white;
+}
 
 /* 6. MODAL DETAIL STYLES */
-.detail-section { display: none; }
-.alert-box-success { background-color: #d1e7dd; border: 1px solid #badbcc; color: #0f5132; padding: 15px; border-radius: 8px; display: flex; align-items: start; gap: 10px; margin-bottom: 20px; }
-.alert-box-wait { background-color: #fff3cd; border: 1px solid #ffecb5; color: #664d03; padding: 15px; border-radius: 8px; display: flex; align-items: start; gap: 10px; margin-bottom: 20px; }
-.alert-box-reject { background-color: #f8d7da; border: 1px solid #f5c2c7; color: #842029; padding: 15px; border-radius: 8px; display: flex; align-items: start; gap: 10px; margin-bottom: 20px; }
-.detail-list .row { padding: 12px 0; border-bottom: 1px solid #f0f0f0; }
-.detail-list .label { font-weight: 700; color: #666; font-size: 0.9rem; }
-.detail-list .value { font-weight: 500; color: #333; font-size: 0.9rem; }
-.warning-footer { background-color: #fff3cd; border: 2px solid #ffecb5; padding: 15px; border-radius: 8px; margin-top: 20px; color: #664d03; font-size: 0.85rem; display: flex; gap: 10px; align-items: center; }
+.detail-section {
+    display: none;
+}
+
+.alert-box-success {
+    background-color: #d1e7dd;
+    border: 1px solid #badbcc;
+    color: #0f5132;
+    padding: 15px;
+    border-radius: 8px;
+    display: flex;
+    align-items: start;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.alert-box-wait {
+    background-color: #fff3cd;
+    border: 1px solid #ffecb5;
+    color: #664d03;
+    padding: 15px;
+    border-radius: 8px;
+    display: flex;
+    align-items: start;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.alert-box-reject {
+    background-color: #f8d7da;
+    border: 1px solid #f5c2c7;
+    color: #842029;
+    padding: 15px;
+    border-radius: 8px;
+    display: flex;
+    align-items: start;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.detail-list .row {
+    padding: 12px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.detail-list .label {
+    font-weight: 700;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.detail-list .value {
+    font-weight: 500;
+    color: #333;
+    font-size: 0.9rem;
+}
+
+.warning-footer {
+    background-color: #fff3cd;
+    border: 2px solid #ffecb5;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 20px;
+    color: #664d03;
+    font-size: 0.85rem;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
 
 
 
@@ -59,19 +194,23 @@ nav.navbar.navbar-expand.fixed-top {
 /* --- LAYOUT SIDEBAR USER --- */
 .sidebar-user {
     width: 250px;
-    height: 100vh; /* Full tinggi layar */
+    height: 100vh;
+    /* Full tinggi layar */
     position: fixed;
     top: 0;
     left: 0;
     z-index: 1000;
-    padding-top: 80px !important; /* Jarak agar tidak tertutup navbar jika navbar fixed */
+    padding-top: 80px !important;
+    /* Jarak agar tidak tertutup navbar jika navbar fixed */
     border-right: 1px solid #eee;
 }
 
 /* KONTEN UTAMA (Disebelah Kanan Sidebar) */
 .main-content-user {
-    margin-left: 250px; /* Geser konten ke kanan sebesar lebar sidebar */
-    padding-top: 70px; /* Space for fixed navbar */
+    margin-left: 250px;
+    /* Geser konten ke kanan sebesar lebar sidebar */
+    padding-top: 70px;
+    /* Space for fixed navbar */
     min-height: 100vh;
     background-color: #ffffff; /* Warna background abu muda agar card terlihat menonjol */
     transition: margin-left 0.3s ease;
@@ -80,7 +219,8 @@ nav.navbar.navbar-expand.fixed-top {
 /* Penyesuaian Navbar agar menutupi Sidebar bagian atas (Opsional) */
 /* Atau Navbar hanya disebelah kanan. Kita buat Navbar Full Width di atas Sidebar */
 nav.navbar {
-    z-index: 1050; /* Lebih tinggi dari sidebar */
+    z-index: 1050;
+    /* Lebih tinggi dari sidebar */
     background: white;
     box-shadow: 0 2px 4px rgba(255, 255, 255, 0.05);
 }
@@ -240,7 +380,7 @@ nav.navbar {
 
 .btn-action:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
 }
 
 /* Tombol View (Mata) - Biru */
@@ -248,6 +388,7 @@ nav.navbar {
     background-color: #e7f1ff;
     color: #0d6efd;
 }
+
 .btn-view:hover {
     background-color: #0d6efd;
     color: white;
@@ -258,6 +399,7 @@ nav.navbar {
     background-color: #fff3cd;
     color: #856404;
 }
+
 .btn-edit:hover {
     background-color: #ffc107;
     color: #000;
@@ -268,6 +410,7 @@ nav.navbar {
     background-color: #f8d7da;
     color: #842029;
 }
+
 .btn-delete:hover {
     background-color: #dc3545;
     color: white;

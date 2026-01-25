@@ -26,8 +26,8 @@
                     <?php $no = 1;
                     foreach ($data['pengajuan'] as $row): ?>
                         <?php
-                        // Set path relative to project root
-                        $pathProposal = BASE_URL . '/public/uploads/' . $row['file_proposal'];
+                        // FIXED: Use controller proxy for secure download
+                        $downloadUrl = BASE_URL . '/pengajuan/downloadProposal/' . $row['id'];
 
                         // JSON Data for Modal
                         $dataJSON = htmlspecialchars(json_encode([
@@ -41,7 +41,7 @@
                             'selesai_fmt' => date('d M Y', strtotime($row['tgl_selesai'])),
                             'raw_mulai' => $row['tgl_mulai'],
                             'raw_selesai' => $row['tgl_selesai'],
-                            'proposal' => $pathProposal,
+                            'proposal' => $downloadUrl,
                             'status' => $row['status'],
                             'alasan' => $row['alasan_penolakan'] ?? ''
                         ]), ENT_QUOTES, 'UTF-8');
@@ -74,7 +74,7 @@
 
                             <td class="text-center">
                                 <?php if (!empty($row['file_proposal'])): ?>
-                                    <a href="<?= $pathProposal; ?>" target="_blank"
+                                    <a href="<?= $downloadUrl; ?>" target="_blank"
                                         class="btn btn-sm btn-outline-danger shadow-sm py-1" title="Download Proposal">
                                         <i class="fas fa-file-pdf"></i> PDF
                                     </a>

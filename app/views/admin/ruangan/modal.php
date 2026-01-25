@@ -60,12 +60,7 @@
                             <input type="number" name="kapasitas" id="labCapacity" class="form-control" placeholder="36"
                                 required min="1">
                         </div>
-                        <div class="col-md-6">
-                            <label class="form-label fw-bold small">Lokasi <span class="text-danger">*</span></label>
-                            <input type="text" name="lokasi" id="labLocation" class="form-control"
-                                placeholder="Gedung F Lantai 3" required>
-                        </div>
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <label class="form-label fw-bold small">Koordinator Lab <span
                                     class="text-danger">*</span></label>
                             <select name="pic" id="labPIC" class="form-select" required
@@ -86,27 +81,6 @@
                                 class="text-danger">*</span></label>
                         <input type="email" name="email_pic" id="labEmail" class="form-control bg-light" readonly
                             placeholder="Otomatis terisi..." required>
-                    </div>
-
-                    <div class="mb-4">
-                        <label class="form-label fw-bold small">Fasilitas</label>
-                        <textarea name="fasilitas" id="labFacilities" rows="3" class="form-control"
-                            placeholder="Proyektor, AC, dll"></textarea>
-                    </div>
-
-                    <div class="mb-4">
-                        <label class="form-label fw-bold small">Deskripsi</label>
-                        <textarea name="deskripsi" id="labDescription" rows="3" class="form-control"
-                            placeholder="Deskripsi singkat..."></textarea>
-                    </div>
-
-                    <div class="mb-4 p-3 bg-light rounded border">
-                        <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" name="status" id="labStatus" value="1"
-                                checked>
-                            <label class="form-check-label fw-bold ms-2" for="labStatus">Ruangan tersedia untuk
-                                dipinjam</label>
-                        </div>
                     </div>
 
                     <div class="d-flex justify-content-end gap-2 pt-3 border-top">

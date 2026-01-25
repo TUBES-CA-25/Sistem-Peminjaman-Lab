@@ -72,7 +72,7 @@ function getPeminjamanLab($peminjaman, $labId, $tanggal) {
  * @param string $jamTutup Jam tutup lab (default: 18:25)
  * @return array Array berisi slot tersedia ['mulai' => HH:MM, 'selesai' => HH:MM]
  */
-function getSlotKosong($jadwalLab, $peminjamanLab, $jamBuka = '07:00', $jamTutup = '18:25') {
+function getSlotKosong($jadwalLab, $peminjamanLab, $jamBuka = '07:00', $jamTutup = '18:20') {
     // Langkah 1: Gabungkan semua slot yang terisi (jadwal + peminjaman)
     $occupied = [];
     
@@ -96,7 +96,10 @@ function getSlotKosong($jadwalLab, $peminjamanLab, $jamBuka = '07:00', $jamTutup
     foreach ($occupied as $slot) {
         // Jika ada celah sebelum slot ini mulai
         if ($slot['mulai'] > $currentTime) {
-            $kosong[] = ['mulai' => $currentTime, 'selesai' => $slot['mulai']];
+            // HANYA tampilkan jika minimal 30 menit
+            if (strtotime($slot['mulai']) - strtotime($currentTime) >= 1800) {
+                $kosong[] = ['mulai' => $currentTime, 'selesai' => $slot['mulai']];
+            }
         }
         
         // Update waktu sekarang ke akhir slot ini
@@ -107,7 +110,10 @@ function getSlotKosong($jadwalLab, $peminjamanLab, $jamBuka = '07:00', $jamTutup
     
     // Langkah 4: Cek apakah masih ada waktu tersisa setelah slot terakhir
     if ($currentTime < $jamTutup) {
-        $kosong[] = ['mulai' => $currentTime, 'selesai' => $jamTutup];
+        // HANYA tampilkan jika minimal 30 menit
+        if (strtotime($jamTutup) - strtotime($currentTime) >= 1800) {
+            $kosong[] = ['mulai' => $currentTime, 'selesai' => $jamTutup];
+        }
     }
     
     return $kosong;
@@ -125,13 +131,28 @@ function getSlotKosong($jadwalLab, $peminjamanLab, $jamBuka = '07:00', $jamTutup
 function getSortedSlots($jadwalLab, $peminjamanLab, $slotKosong) {
     $allSlots = [];
 
-    // 1. Praktikum
+    // 1. Praktikum (Jadwal Tetap)
     foreach ($jadwalLab as $j) {
+        $isOverridden = false;
+        $overriddenBy = '';
+
+        // Cek apakah praktikum ini digeser oleh peminjaman
+        foreach ($peminjamanLab as $p) {
+            // Jika jam bentrok (StartA < EndB dan EndA > StartB)
+            if ($j['jam_mulai'] < $p['jam_selesai'] && $j['jam_selesai'] > $p['jam_mulai']) {
+                $isOverridden = true;
+                $overriddenBy = $p['peminjam'];
+                break;
+            }
+        }
+
         $allSlots[] = [
-            'type' => 'praktikum',
+            'type' => $isOverridden ? 'tergeser' : 'praktikum',
             'start' => $j['jam_mulai'],
             'end'   => $j['jam_selesai'],
-            'data'  => $j
+            'data'  => $j,
+            'is_overridden' => $isOverridden,
+            'overridden_by' => $overriddenBy
         ];
     }
 
@@ -157,7 +178,23 @@ function getSortedSlots($jadwalLab, $peminjamanLab, $slotKosong) {
 
     // Sort berdasarkan jam mulai
     usort($allSlots, function($a, $b) {
-        return strcmp($a['start'], $b['start']);
+        // 1. Sort utama berdasarkan jam mulai
+        if ($a['start'] !== $b['start']) {
+            return strcmp($a['start'], $b['start']);
+        }
+        
+        // 2. Jika jam mulai sama, gunakan prioritas tipe (Ranking)
+        $priority = [
+            'peminjaman' => 1, // Prioritas tertinggi
+            'praktikum'  => 2,
+            'tergeser'   => 3, // Di bawah yang menggeser
+            'kosong'     => 4  // Paling bawah
+        ];
+        
+        $pA = $priority[$a['type']] ?? 99;
+        $pB = $priority[$b['type']] ?? 99;
+        
+        return $pA - $pB;
     });
 
     return $allSlots;
@@ -171,17 +208,26 @@ function getSortedSlots($jadwalLab, $peminjamanLab, $slotKosong) {
  * @param string $jamMulais Jam mulai (HH:MM:SS atau HH:MM)
  * @return bool True jika sudah lewat
  */
-function isPastSlot($tanggal, $jamMulai) {
+/**
+ * Cek apakah sebuah slot waktu pada tanggal tertentu sudah benar-benar selesai
+ * dibanding waktu sistem saat ini.
+ * 
+ * @param string $tanggal Tanggal (Y-m-d)
+ * @param string $jamSelesai Jam selesai slot (HH:MM:SS atau HH:MM)
+ * @return bool True jika sudah lewat
+ */
+function isPastSlot($tanggal, $jamSelesai) {
     $currentDate = date('Y-m-d');
     $currentTime = date('H:i');
     
-    // Pastikan jamMulai hanya HH:MM untuk perbandingan string aman
-    $jamMulai = substr($jamMulai, 0, 5);
+    // Pastikan jamSelesai hanya HH:MM untuk perbandingan string aman
+    $jamSelesai = substr($jamSelesai, 0, 5);
 
     if ($tanggal < $currentDate) {
         return true;
     } elseif ($tanggal == $currentDate) {
-        if ($jamMulai < $currentTime) {
+        // HANYA dianggap lewat jika jam SELESAI sudah lewat waktu sekarang
+        if ($jamSelesai <= $currentTime) {
             return true;
         }
     }

@@ -5,11 +5,11 @@
 
 <?php foreach ($data['slots'] as $slot): ?>
 
-    <?php if ($slot['type'] == 'praktikum'): $j = $slot['data']; ?>
-        <div class="p-slot praktikum">
-            <span class="p-slot-label">Praktikum:
+    <?php if ($slot['type'] == 'praktikum' || $slot['type'] == 'tergeser'): $j = $slot['data']; ?>
+        <div class="p-slot <?= $slot['type'] ?>">
+            <span class="p-slot-label"><?= $slot['type'] == 'tergeser' ? 'Tergeser' : 'Praktikum' ?>:
                 <?= substr($j['jam_mulai'], 0, 5) ?>-<?= substr($j['jam_selesai'], 0, 5) ?></span>
-            <span class="p-slot-sub"><?= htmlspecialchars($j['matkul']) ?> (<?= $j['kelas'] ?>)</span>
+            <span class="p-slot-sub"><?= htmlspecialchars($j['matkul']) ?> (<?= $j['kelas'] ?>)<?php if ($slot['type'] == 'tergeser') echo "- Digeser oleh " . htmlspecialchars($slot['overridden_by']); ?></span>
         </div>
 
     <?php elseif ($slot['type'] == 'peminjaman'): $p = $slot['data']; ?>
@@ -32,7 +32,7 @@
 
     <?php elseif ($slot['type'] == 'kosong'):
         $k = $slot['data']; ?>
-        <?php if (isPastSlot($data['selected_date'], $k['mulai'])): ?>
+        <?php if (isPastSlot($data['selected_date'], $k['selesai'])): ?>
             <div class="p-slot read-only" style="opacity: 0.6; cursor: not-allowed;">
                 <span class="p-slot-label">Terlewati</span>
                 <span class="p-slot-sub">Kosong <?= $k['mulai'] ?>-<?= $k['selesai'] ?></span>
