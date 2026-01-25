@@ -7,6 +7,12 @@
     <div class="container-fluid px-4">
         <div class="hero-bg rounded-3" style="margin-top: -50px;">
             <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+                
+                <!-- Hamburger Button untuk Mobile -->
+                <button class="btn-hamburger d-lg-none" id="sidebarToggle" type="button">
+                    <i class="bi bi-list"></i>
+                </button>
+
                 <div class="text-white">
                     <h2 class="fw-bold mb-1">Dashboard Peminjaman</h2>
                     <p class="opacity-75 mb-0">Pantau status pengajuan peminjaman ruangan Anda di sini.</p>

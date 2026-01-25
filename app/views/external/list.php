@@ -70,12 +70,11 @@
                             <td class="text-center">
                                 <?php if (!empty($item['file_proposal'])): ?>
                                     <a href="<?= $pathProposal; ?>" target="_blank"
-                                        class="btn btn-sm btn-light border text-danger shadow-sm rounded-pill px-3" 
-                                        title="Download Proposal">
-                                        <i class="bi bi-file-earmark-pdf-fill me-1"></i> PDF
+                                        class="btn btn-sm btn-outline-danger shadow-sm py-1" title="Download Proposal">
+                                        <i class="fas fa-file-pdf"></i> PDF
                                     </a>
                                 <?php else: ?>
-                                    <span class="badge bg-secondary opacity-25">No File</span>
+                                    <span class="text-muted small">No File</span>
                                 <?php endif; ?>
                             </td>
                             

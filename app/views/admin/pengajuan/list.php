@@ -17,7 +17,7 @@
                         <th width="20%" class="py-3 text-secondary text-uppercase small fw-bold ps-4">Pemohon</th>
                         <th width="25%" class="py-3 text-secondary text-uppercase small fw-bold">Kegiatan</th>
                         <th width="20%" class="py-3 text-secondary text-uppercase small fw-bold">Waktu</th>
-                        <th width="10%" class="text-center py-3 text-secondary text-uppercase small fw-bold">File</th>
+                        <th width="10%" class="text-center py-3 text-secondary text-uppercase small fw-bold">Proposal</th>
                         <th width="10%" class="text-center py-3 text-secondary text-uppercase small fw-bold">Status</th>
                         <th width="10%" class="text-end py-3 text-secondary text-uppercase small fw-bold pe-4">Aksi</th>
                     </tr>
@@ -79,7 +79,7 @@
                                         <i class="fas fa-file-pdf"></i> PDF
                                     </a>
                                 <?php else: ?>
-                                    <span class="text-muted small">-</span>
+                                    <span class="text-muted small">No File</span>
                                 <?php endif; ?>
                             </td>
 
@@ -108,7 +108,6 @@
                                         onclick="openEditModal(this)" title="Proses Status">
                                         <i class="fas fa-edit"></i>
                                     </button>
-
                                 </div>
                             </td>
                         </tr>
