@@ -62,14 +62,14 @@ function getPeminjamanLab($peminjaman, $labId, $tanggal) {
  * 4. Return celah sebagai slot yang tersedia
  * 
  * Contoh:
- * Lab buka: 07:00-18:25
+ * Lab buka: 07:00-18:20
  * Terisi: 08:00-10:00, 13:00-15:00
- * Hasil: [07:00-08:00], [10:00-13:00], [15:00-18:25]
+ * Hasil: [07:00-08:00], [10:00-13:00], [15:00-18:20]
  * 
  * @param array $jadwalLab Jadwal tetap untuk lab ini hari ini
  * @param array $peminjamanLab Bookings untuk lab ini hari ini
  * @param string $jamBuka Jam buka lab (default: 07:00)
- * @param string $jamTutup Jam tutup lab (default: 18:25)
+ * @param string $jamTutup Jam tutup lab (default: 18:20)
  * @return array Array berisi slot tersedia ['mulai' => HH:MM, 'selesai' => HH:MM]
  */
 function getSlotKosong($jadwalLab, $peminjamanLab, $jamBuka = '07:00', $jamTutup = '18:20') {
