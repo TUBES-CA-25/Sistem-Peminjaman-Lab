@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="id">
 
-<body class="d-flex flex-column min-vh-100">
+<head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <link rel="icon" type="image/png" href="<?= BASE_URL ?>/public/storage/images/logo-iclabs.png">
@@ -25,9 +25,9 @@
 
     <!-- External Dashboard Specific CSS -->
     <link rel="stylesheet" href="<?= BASE_URL; ?>/public/css/external.css">
-    </head>
+</head>
 
-    <body>
+<body class="d-flex flex-column min-vh-100">
 
         <!-- Navbar for External - Often uses external_navbar.php but base header usually has empty body tag -->
         <!-- If external.css hides navbar, then standard navbar here is kept hidden -->
