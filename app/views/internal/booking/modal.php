@@ -25,14 +25,14 @@
         <div class="p-modal-body">
             <div class="p-form-head"
                 style="align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;">
-                <div class="p-date-picker" style="flex-grow:1; display: flex; align-items: center; gap: 12px;">
+                <div class="p-date-picker">
                     <div>
                         <label for="scheduleDate" style="display: block; font-size: 0.75rem; color: #64748b; margin-bottom: 4px;">Pilih Tanggal</label>
                         <input type="date" id="scheduleDate" value="<?= htmlspecialchars($data['selected_date']) ?>"
                             onchange="changeDate(this.value)" style="padding: 8px 12px; border: 1px solid #e2e8f0; border-radius: 8px; font-weight: 600;" />
                     </div>
-                    <div style="margin-top: 20px;">
-                        <span id="displayDayName" style="background: #e0e7ff; color: #4338ca; padding: 8px 16px; border-radius: 8px; font-weight: 700; font-size: 14px;">
+                    <div style="align-self: flex-end; margin-bottom: 2px;">
+                        <span id="displayDayName" style="background: #e0e7ff; color: #4338ca; padding: 10px 16px; border-radius: 8px; font-weight: 700; font-size: 14px; display: inline-block;">
                             <?= strtoupper($data['selected_day']) ?>
                         </span>
                     </div>
