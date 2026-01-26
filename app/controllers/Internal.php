@@ -403,11 +403,14 @@ class Internal extends Controller
                 return;
             }
 
-            // VALIDASI: Batas maksimal 18:20
-            if (substr($formData['jamSelesai'], 0, 5) > '18:20') {
+            // VALIDASI: Jam Operasional (07:00 - 18:20)
+            $startCheck = substr($formData['jamMulai'], 0, 5);
+            $endCheck = substr($formData['jamSelesai'], 0, 5);
+
+            if ($startCheck < '07:00' || $endCheck > '18:20') {
                 echo json_encode([
                     'success' => false,
-                    'message' => 'Batas maksimal peminjaman laboratorium adalah pukul 18:20.'
+                    'message' => 'Peminjaman hanya diperbolehkan pada jam operasional lab (07:00 - 18:20).'
                 ]);
                 return;
             }
