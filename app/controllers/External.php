@@ -9,6 +9,17 @@ class External extends Controller
             header('Location: ' . BASE_URL . '/auth');
             exit;
         }
+
+        // Proteksi: Hanya role 'external' yang boleh masuk sini
+        if ($_SESSION['role'] !== 'external') {
+            // Redirect ke halaman masing-masing jika salah kamar
+            if ($_SESSION['role'] == 'admin') {
+                header('Location: ' . BASE_URL . '/admin');
+            } elseif ($_SESSION['role'] == 'internal') {
+                header('Location: ' . BASE_URL . '/internal');
+            }
+            exit;
+        }
     }
 
     public function index()

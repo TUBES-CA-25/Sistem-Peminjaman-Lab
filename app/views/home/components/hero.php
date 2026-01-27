@@ -19,7 +19,8 @@
                     teknologi terkini untuk masa depan.
                 </p>
                 <!-- Fixed Anchor to Peminjaman Section -->
-                <a href="#peminjaman" class="btn btn-primary btn-lg px-4 py-2 rounded-pill hero-btn btn-hover-effect">
+                <a href="<?= BASE_URL ?>/auth"
+                    class="btn btn-primary btn-lg px-4 py-2 rounded-pill hero-btn btn-hover-effect">
                     Ajukan Peminjaman Lab <i class="bi bi-arrow-right ms-2"></i>
                 </a>
             </div>

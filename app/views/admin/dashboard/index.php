@@ -33,14 +33,6 @@ include __DIR__ . '/helpers.php';
                 </div>
             </div>
 
-            <div
-                style="background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); padding: 1rem 1.5rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2);">
-                <div style="color: rgba(255,255,255,0.8); font-size: 0.85rem; margin-bottom: 0.25rem;">Peminjaman Hari
-                    Ini</div>
-                <div style="color: white; font-size: 1.75rem; font-weight: 700;">
-                    <?= $totalPeminjaman ?>
-                </div>
-            </div>
         </div>
     </div>
 </div>
@@ -87,7 +79,9 @@ include __DIR__ . '/helpers.php';
                                 <div class="p-slot <?= $slot['type'] ?>">
                                     <span class="p-slot-label"><?= $slot['type'] == 'tergeser' ? 'Tergeser' : 'Praktikum' ?>:
                                         <?= $j['jam_mulai'] ?>-<?= $j['jam_selesai'] ?></span>
-                                    <span class="p-slot-sub"><?= htmlspecialchars($j['matkul']) ?> (<?= $j['kelas'] ?>)<?php if ($slot['type'] == 'tergeser') echo "- Digeser oleh " . htmlspecialchars($slot['overridden_by']); ?></span>
+                                    <span class="p-slot-sub"><?= htmlspecialchars($j['matkul']) ?>
+                                        (<?= $j['kelas'] ?>)<?php if ($slot['type'] == 'tergeser')
+                                              echo "- Digeser oleh " . htmlspecialchars($slot['overridden_by']); ?></span>
                                 </div>
 
                             <?php elseif ($slot['type'] == 'peminjaman'): $p = $slot['data']; ?>

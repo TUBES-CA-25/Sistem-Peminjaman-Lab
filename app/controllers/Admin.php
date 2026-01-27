@@ -8,6 +8,12 @@ class Admin extends Controller
 
     public function __construct()
     {
+        // Proteksi Halaman Admin
+        if (!isset($_SESSION['user_id']) || $_SESSION['role'] != 'admin') {
+            header('Location: ' . BASE_URL . '/auth/login');
+            exit;
+        }
+
         $this->ruanganModel = $this->model('RuanganModel');
         $this->jadwalModel = $this->model('JadwalModel');
         $this->peminjamanModel = $this->model('PeminjamanModel');
@@ -104,7 +110,7 @@ class Admin extends Controller
             }
 
             $bookingDate = $peminjaman['tanggal'];
-            
+
             // Filter: hanya yang disetujui (yang tergeser disembunyikan sesuai logic internal)
             $isShown = ($peminjaman['status'] ?? '') === 'disetujui';
 

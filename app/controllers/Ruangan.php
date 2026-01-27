@@ -101,16 +101,16 @@ class Ruangan extends Controller
             return false;
         }
 
-        // Validasi size (max 2MB)
-        if ($file['size'] > 2097152) {
+        // Validasi size (max 5MB to match JS)
+        if ($file['size'] > 5242880) {
             return false;
         }
 
-        // Validasi dimensi (minimal 400x300px)
-        list($width, $height) = @getimagesize($file["tmp_name"]);
-        if ($width < 400 || $height < 300) {
-            return false;
-        }
+        // Validasi dimensi (DIHAPUS untuk fleksibilitas)
+        // list($width, $height) = @getimagesize($file["tmp_name"]);
+        // if ($width < 400 || $height < 300) {
+        //     return false;
+        // }
 
         if (move_uploaded_file($file["tmp_name"], $targetFilePath)) {
             // Return path relatif (untuk disimpan di DB) - HARUS include 'public/'
