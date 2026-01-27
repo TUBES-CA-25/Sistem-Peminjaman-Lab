@@ -64,6 +64,35 @@ class Peminjaman extends Controller
             //   So Admin adding External means it IS Approved.
             // Let's do conflict check for SAFETY for everyone.
 
+            // ===== VALIDASI TAMBAHAN REQUESTED =====
+            // Peminjaman Internal di Admin (atau semua via Admin) harus ikut aturan jam operasional dan tidak boleh backdate.
+            // Requirement: "peminjaman internal di admin itu Hanya bisa booking pukul 07:00 - 18:20 dan jadwal tidak bisa booking jika jam nya sudah lewat"
+
+            // 1. Cek Jam Operasional
+            $startCheck = substr($jamMulai, 0, 5);
+            $endCheck = substr($jamSelesai, 0, 5);
+            if ($startCheck < '07:00' || $endCheck > '18:20') {
+                if ($isAjax) {
+                    echo json_encode(['success' => false, 'message' => 'Gagal: Jam operasional lab hanya dari 07:00 s/d 18:20.']);
+                    exit;
+                }
+                header("Location: " . BASE_URL . "/peminjaman?status=error&msg=Gagal: Jam operasional lab hanya dari 07:00 s/d 18:20.");
+                exit;
+            }
+
+            // 2. Cek Backdate (Waktu lampau)
+            // Hanya cek jika ini CREATE baru atau UPDATE tanggal/jam
+            $bookingTimestamp = strtotime($tanggal . ' ' . $jamMulai);
+            if ($bookingTimestamp < time()) {
+                if ($isAjax) {
+                    echo json_encode(['success' => false, 'message' => 'Gagal: Waktu booking sudah terlewat. Mohon pilih waktu di masa depan.']);
+                    exit;
+                }
+                header("Location: " . BASE_URL . "/peminjaman?status=error&msg=Gagal: Waktu booking sudah terlewat. Mohon pilih waktu di masa depan.");
+                exit;
+            }
+            // =======================================
+
             // Check Conflict with Fixed Schedule
             $dayName = strtolower($this->getDayName($tanggal)); // senin, selasa...
             $isFixedConflict = $jadwalModel->checkConflict($labId, $dayName, $jamMulai, $jamSelesai);

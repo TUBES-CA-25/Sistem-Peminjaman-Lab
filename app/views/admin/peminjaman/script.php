@@ -65,4 +65,5 @@
 </script>
 
 <!-- Load External Script -->
-<script src="<?= BASE_URL ?>/public/js/admin/peminjaman.js"></script>
+<!-- Load External Script with Cache Buster -->
+<script src="<?= BASE_URL ?>/public/js/admin/peminjaman.js?v=<?= time() ?>"></script>
