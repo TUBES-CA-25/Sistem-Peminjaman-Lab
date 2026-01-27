@@ -269,8 +269,13 @@ const PeminjamanApp = (function () {
                     const slotLabel = adaBentrok ? 'Jadwal Tergeser' : 'Praktikum Tetap';
                     let overriddenText = adaBentrok ? `- Digeser oleh ${conflictBooking.instansi || conflictBooking.name}` : '';
 
+                    // Modification: Disable click on Fixed Schedule slots
+                    // User request: "kenapa saya bisa menekan jadwal praktikum tetap"
+                    const cursorStyle = 'cursor:default;';
+                    const onClickAttr = ''; // No action on click
+
                     slots += `
-              <div class="p-slot ${slotClass}" style="cursor:pointer;" onclick="PeminjamanApp.UiActions.handleSlotClick('${dateInput.value}', '${dayName}', '${lab.key}', '${lab.name}', '${slot.start}', '${slot.end}')">
+              <div class="p-slot ${slotClass}" style="${cursorStyle}" ${onClickAttr}>
                 <span class="p-slot-label">${slotLabel} ${slot.start}–${slot.end}</span>
                 <div class="p-slot-sub">${slot.title} ${overriddenText}</div>
               </div>
@@ -458,6 +463,33 @@ const PeminjamanApp = (function () {
         saveInternal: function (event) {
             event.preventDefault();
             const formData = new FormData(event.target);
+
+            // --- VALIDASI TAMBAHAN ---
+            const jamMulai = formData.get('jamMulai');
+            const jamSelesai = formData.get('jamSelesai');
+            const tanggal = formData.get('tanggal');
+
+            // 1. Cek Jam Operasional
+            if (jamMulai < "07:00" || jamSelesai > "18:20") {
+                Utils.showError('Gagal: Jam operasional lab hanya dari 07:00 s/d 18:20.');
+                return false;
+            }
+
+            // 1.5 Cek Logika Waktu (Mulai < Selesai)
+            if (jamMulai >= jamSelesai) {
+                Utils.showError('Gagal: Jam mulai harus lebih awal dari jam selesai.');
+                return false;
+            }
+
+            // 2. Cek Backdate
+            const bookingDateTime = new Date(tanggal + 'T' + jamMulai);
+            const now = new Date();
+            if (bookingDateTime < now) {
+                Utils.showError('Gagal: Waktu booking sudah terlewat. Mohon pilih waktu di masa depan.');
+                return false;
+            }
+            // -------------------------
+
             formData.append('action', 'create');
             formData.append('ajax', '1');
 
