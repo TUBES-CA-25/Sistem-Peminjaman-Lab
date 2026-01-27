@@ -9,6 +9,9 @@ if (isset($_SESSION['nama'])) {
 
 // Tentukan active page
 $currentPage = $data['active_menu'] ?? '';
+
+// ✅ TAMBAHAN: Ambil role untuk logout yang dinamis
+$userRole = $_SESSION['role'] ?? 'auth';
 ?>
 
 <!-- Overlay untuk mobile (klik di luar sidebar untuk menutup) -->
@@ -49,7 +52,8 @@ $currentPage = $data['active_menu'] ?? '';
 
     <hr class="text-secondary opacity-25">
 
-    <a href="<?= BASE_URL; ?>/auth/logout" class="btn btn-danger w-100 fw-bold">
+    <!-- ✅ FIX: Link logout dinamis sesuai role -->
+    <a href="<?= BASE_URL; ?>/<?= $userRole; ?>/logout" class="btn btn-danger w-100 fw-bold">
         <i class="bi bi-box-arrow-right me-2"></i> Logout
     </a>
 </div>

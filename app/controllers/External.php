@@ -238,4 +238,13 @@ class External extends Controller
             exit;
         }
     }
+
+    // Method untuk logout
+    public function logout()
+    {
+        session_unset();
+        session_destroy();
+        header('Location: ' . BASE_URL . '/auth');
+        exit;
+    }
 }
