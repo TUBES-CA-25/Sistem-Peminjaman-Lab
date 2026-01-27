@@ -1,4 +1,34 @@
+# macOS System Files
 .DS_Store
 app/.DS_Store
 app/views/.DS_Store
 app/views/public/.DS_Store
+
+# Environment Variables (JANGAN DI-COMMIT!)
+.env
+
+# Vendor / Dependencies
+/vendor/
+/node_modules/
+
+# Logs
+*.log
+error_log
+debug.log
+
+# IDE / Editor
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Temporary Files
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+
+# Upload Files (Optional - tergantung kebutuhan)
+# /public/uploads/*
+# !/public/uploads/.gitkeep

@@ -172,16 +172,16 @@ class Auth extends Controller
             try {
                 $mail = new PHPMailer(true);
                 
-                // ✅ GMAIL SMTP CONFIGURATION
+                // ✅ GMAIL SMTP CONFIGURATION (dari .env)
                 $mail->isSMTP();
-                $mail->Host = 'smtp.gmail.com';
+                $mail->Host = getenv('SMTP_HOST');
                 $mail->SMTPAuth = true;
-                $mail->Username = 'halimahdrr160@gmail.com';
-                $mail->Password = 'ifixwctkwnnfcujg'; // ← App Password (tanpa spasi)
+                $mail->Username = getenv('SMTP_USERNAME');
+                $mail->Password = getenv('SMTP_PASSWORD');
                 $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-                $mail->Port = 587;
+                $mail->Port = getenv('SMTP_PORT');
 
-                $mail->setFrom('halimahdrr160@gmail.com', 'ICLABS - Peminjaman Lab');
+                $mail->setFrom(getenv('SMTP_FROM_EMAIL'), getenv('SMTP_FROM_NAME'));
                 $mail->addAddress($email, $user['nama']);
 
                 $mail->isHTML(true);
