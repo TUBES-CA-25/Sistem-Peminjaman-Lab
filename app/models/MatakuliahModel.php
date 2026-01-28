@@ -14,7 +14,9 @@ class MatakuliahModel
 
     public function getAll()
     {
-        $this->db->query("SELECT matakuliah.*, jurusan.singkatan as nama_jurusan 
+        $this->db->query("SELECT matakuliah.id, matakuliah.nama_matakuliah, matakuliah.kode_matakuliah, 
+                          matakuliah.singkatan, matakuliah.semester, matakuliah.sks, matakuliah.jurusan_id,
+                          jurusan.singkatan as nama_jurusan 
                           FROM " . $this->table_name . " 
                           LEFT JOIN jurusan ON matakuliah.jurusan_id = jurusan.id 
                           ORDER BY matakuliah.nama_matakuliah ASC");
@@ -23,7 +25,7 @@ class MatakuliahModel
 
     public function getById($id)
     {
-        $this->db->query("SELECT * FROM " . $this->table_name . " WHERE id = :id");
+        $this->db->query("SELECT id, nama_matakuliah, kode_matakuliah, singkatan, semester, sks, jurusan_id FROM " . $this->table_name . " WHERE id = :id");
         $this->db->bind('id', $id);
         return $this->db->single();
     }

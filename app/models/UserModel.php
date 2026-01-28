@@ -14,7 +14,7 @@ class UserModel
     // Ambil 1 user berdasarkan ID
     public function getUserById($id)
     {
-        $this->db->query('SELECT * FROM ' . $this->table . ' WHERE id = :id');
+        $this->db->query("SELECT id, nama, email, password, telepon, role, status FROM " . $this->table . " WHERE id = :id");
         $this->db->bind('id', $id);
         return $this->db->single();
     }
@@ -70,7 +70,7 @@ class UserModel
     // 4. Ambil Semua User (Untuk Admin)
     public function getAll()
     {
-        $this->db->query("SELECT * FROM " . $this->table . " ORDER BY id DESC");
+        $this->db->query("SELECT id, nama, email, role, status, telepon FROM " . $this->table . " ORDER BY id DESC");
         return $this->db->resultSet();
     }
 
@@ -143,7 +143,7 @@ class UserModel
     // LOGIN: Cari user berdasarkan email
     public function getUserByEmail($email)
     {
-        $this->db->query('SELECT * FROM ' . $this->table . ' WHERE email = :email');
+        $this->db->query("SELECT id, nama, email, password, role FROM " . $this->table . " WHERE email = :email");
         $this->db->bind('email', $email);
         return $this->db->single();
     }
@@ -170,13 +170,13 @@ class UserModel
 
     public function getUserByResetToken($token)
     {
-        $query = "SELECT * FROM " . $this->table . " 
+        $query = "SELECT id, email, reset_token_expire FROM " . $this->table . " 
                   WHERE reset_token = :token 
                   AND reset_token_expire > NOW()";
-        
+
         $this->db->query($query);
         $this->db->bind('token', $token);
-        
+
         return $this->db->single();
     }
 
@@ -187,13 +187,13 @@ class UserModel
                       reset_token = NULL, 
                       reset_token_expire = NULL 
                   WHERE id = :id";
-        
+
         $this->db->query($query);
         $this->db->bind('password', $hashedPassword);
         $this->db->bind('id', $userId);
-        
+
         $this->db->execute();
-        
+
         return $this->db->rowCount();
     }
 
@@ -203,14 +203,14 @@ class UserModel
                   SET reset_token = :token, 
                       reset_token_expire = :expire 
                   WHERE id = :id";
-        
+
         $this->db->query($query);
         $this->db->bind('token', $token);
         $this->db->bind('expire', $expireTime);
         $this->db->bind('id', $userId);
-        
+
         $this->db->execute();
-        
+
         return $this->db->rowCount();
     }
 }

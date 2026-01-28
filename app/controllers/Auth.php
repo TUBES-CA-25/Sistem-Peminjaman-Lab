@@ -7,12 +7,12 @@ class Auth extends Controller
 {
     // Whitelist: method yang boleh diakses tanpa login
     private $publicMethods = [
-        'index', 
-        'prosesLogin', 
-        'register', 
-        'prosesRegister', 
-        'forgot', 
-        'sendResetLink', 
+        'index',
+        'prosesLogin',
+        'register',
+        'prosesRegister',
+        'forgot',
+        'sendResetLink',
         'reset',           // ← Tambahkan ini
         'processReset',    // ← Dan ini
         'emailSent',
@@ -22,16 +22,16 @@ class Auth extends Controller
     public function __construct()
     {
         $requestUri = $_SERVER['REQUEST_URI'] ?? '';
-        
+
         if (strpos($requestUri, '/auth/reset') !== false) {
             return;
         }
-        
+
         $url = $_GET['url'] ?? '';
         $url = strtok($url, '?');
         $parts = explode('/', trim($url, '/'));
         $currentMethod = $parts[1] ?? 'index';
-        
+
         // Sekarang logout akan masuk publicMethods, tidak di-redirect!
         if (isset($_SESSION['user_id']) && !in_array($currentMethod, $this->publicMethods)) {
             $this->redirectBasedOnRole($_SESSION['role']);
@@ -127,19 +127,19 @@ class Auth extends Controller
     {
         // Clear session
         session_unset();
-        
+
         // Delete cookie
         if (isset($_COOKIE[session_name()])) {
             setcookie(session_name(), '', time() - 3600, '/');
         }
-        
+
         // Destroy
         session_destroy();
-        
+
         // Start new for flash
         session_start();
         Flasher::setFlash('Berhasil', 'Anda telah keluar dari sistem.', 'success');
-        
+
         // Redirect
         header('Location: ' . BASE_URL . '/auth');
         exit;
@@ -163,7 +163,7 @@ class Auth extends Controller
             }
 
             $user = $this->model('UserModel')->getUserByEmail($email);
-            
+
             if (!$user) {
                 Flasher::setFlash('Gagal', 'Email tidak ditemukan.', 'danger');
                 header('Location: ' . BASE_URL . '/auth/forgot');
@@ -179,10 +179,10 @@ class Auth extends Controller
 
             // Kirim email
             $resetLink = BASE_URL . '/reset.php?token=' . $token;
-            
+
             try {
                 $mail = new PHPMailer(true);
-                
+
                 // ✅ GMAIL SMTP CONFIGURATION (dari .env)
                 $mail->isSMTP();
                 $mail->Host = getenv('SMTP_HOST');
@@ -201,11 +201,11 @@ class Auth extends Controller
                 $mail->AltBody = "Halo {$user['nama']},\n\nKlik link berikut untuk reset password Anda:\n$resetLink\n\nLink berlaku 1 jam.";
 
                 $mail->send();
-                
+
                 Flasher::setFlash('Berhasil', 'Link reset telah dikirim ke email Anda.', 'success');
                 header('Location: ' . BASE_URL . '/auth/emailSent');
                 exit;
-                
+
             } catch (Exception $e) {
                 error_log("PHPMailer Error: {$mail->ErrorInfo}");
                 Flasher::setFlash('Gagal', 'Gagal mengirim email. Coba lagi nanti.', 'danger');
@@ -223,7 +223,7 @@ class Auth extends Controller
         $data['judul'] = 'Email Terkirim';
         $this->view('auth/email-sent', $data);
     }
-    
+
     // ✅ METHOD RESET YANG DIPERBAIKI
     public function reset()
     {
@@ -237,7 +237,7 @@ class Auth extends Controller
 
         // Cek token di database
         $user = $this->model('UserModel')->getUserByResetToken($token);
-        
+
         if (!$user || strtotime($user['reset_token_expire']) < time()) {
             Flasher::setFlash('Gagal', 'Token tidak valid atau sudah kadaluarsa.', 'danger');
             header('Location: ' . BASE_URL . '/auth');
@@ -287,8 +287,8 @@ class Auth extends Controller
     }
 
     private function getResetEmailTemplate($nama, $resetLink)
-{
-    return "
+    {
+        return "
     <!DOCTYPE html>
     <html>
     <head>
@@ -332,7 +332,7 @@ class Auth extends Controller
     </body>
     </html>
     ";
-}
+    }
 
     private function redirectBasedOnRole($role)
     {

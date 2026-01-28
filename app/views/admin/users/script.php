@@ -35,6 +35,32 @@
         });
     });
 
+    // Role Change Listener
+    document.getElementById('role')?.addEventListener('change', function () {
+        const statusGroup = document.getElementById('statusGroup');
+        const posisi = document.getElementById('posisi');
+        const telepon = document.getElementById('telepon');
+        const telReq = document.getElementById('telReq');
+
+        if (this.value === 'internal') {
+            statusGroup.style.display = 'block';
+            posisi.required = true;
+
+            // Internal: Phone Not Required
+            telepon.required = false;
+            if (telReq) telReq.style.display = 'none';
+
+        } else {
+            statusGroup.style.display = 'none';
+            posisi.required = false;
+            posisi.value = ''; // Reset selection
+
+            // External: Phone Required
+            telepon.required = true;
+            if (telReq) telReq.style.display = 'inline';
+        }
+    });
+
     // Modal Logic
     function prepareModal(mode, data = null) {
         const form = document.getElementById('uUserForm');
@@ -42,6 +68,11 @@
         const btn = document.getElementById('submitBtn');
         const action = document.getElementById('formAction');
         const editId = document.getElementById('editId');
+
+        // Fields
+        const role = document.getElementById('role');
+        const posisi = document.getElementById('posisi');
+        const statusGroup = document.getElementById('statusGroup');
 
         // Pass Field Logic
         const pass = document.getElementById('password');
@@ -56,6 +87,9 @@
             action.value = 'create';
             editId.value = '';
 
+            // Default View
+            statusGroup.style.display = 'none';
+
             pass.required = true;
             passReq.style.display = 'inline';
             passHelp.textContent = 'Min. 8 karakter (Wajib)';
@@ -67,7 +101,29 @@
 
             document.getElementById('nama').value = data.nama;
             document.getElementById('email').value = data.email;
-            document.getElementById('posisi').value = data.status; // DB 'status' maps to ID 'posisi' select
+            document.getElementById('telepon').value = data.telepon || data.nomor_hp || ''; // Support both keys
+
+            // Set Role & Status
+            role.value = data.role;
+            const telepon = document.getElementById('telepon');
+            const telReq = document.getElementById('telReq');
+
+            if (data.role === 'internal') {
+                statusGroup.style.display = 'block';
+                posisi.required = true;
+                posisi.value = data.status;
+                
+                // Internal: Phone Not Required
+                telepon.required = false;
+                if(telReq) telReq.style.display = 'none';
+            } else {
+                statusGroup.style.display = 'none';
+                posisi.required = false;
+                
+                // External: Phone Required
+                telepon.required = true;
+                if(telReq) telReq.style.display = 'inline';
+            }
 
             pass.required = false;
             passReq.style.display = 'none';

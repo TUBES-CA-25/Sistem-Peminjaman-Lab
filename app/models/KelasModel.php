@@ -14,7 +14,7 @@ class KelasModel
 
     public function getAll()
     {
-        $this->db->query("SELECT kelas.*, jurusan.singkatan as nama_jurusan 
+        $this->db->query("SELECT kelas.id, kelas.nama_kelas, kelas.jurusan_id, kelas.angkatan, jurusan.singkatan as nama_jurusan 
                           FROM " . $this->table_name . " 
                           LEFT JOIN jurusan ON kelas.jurusan_id = jurusan.id 
                           ORDER BY kelas.nama_kelas ASC");
@@ -23,7 +23,7 @@ class KelasModel
 
     public function getById($id)
     {
-        $this->db->query("SELECT * FROM " . $this->table_name . " WHERE id = :id");
+        $this->db->query("SELECT id, nama_kelas, jurusan_id, angkatan FROM " . $this->table_name . " WHERE id = :id");
         $this->db->bind('id', $id);
         return $this->db->single();
     }

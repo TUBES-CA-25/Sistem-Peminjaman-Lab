@@ -45,7 +45,7 @@ $users = $data['users'] ?? [];
                 <div class="d-flex gap-2 flex-wrap" id="filterButtons">
                     <button class="btn btn-sm btn-dark rounded-pill px-3 active" data-filter="semua">Semua</button>
                     <button class="btn btn-sm btn-outline-secondary rounded-pill px-3"
-                        data-filter="eksternal">Eksternal</button>
+                        data-filter="external">Eksternal</button>
                     <button class="btn btn-sm btn-outline-secondary rounded-pill px-3"
                         data-filter="internal">Internal</button>
                 </div>
