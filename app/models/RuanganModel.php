@@ -15,14 +15,14 @@ class RuanganModel
     // Get All Data
     public function getAll()
     {
-        $this->db->query("SELECT * FROM " . $this->table_name . " ORDER BY id DESC");
+        $this->db->query("SELECT id, nama_ruangan, kapasitas, pic, email_pic, gambar FROM " . $this->table_name . " ORDER BY id DESC");
         return $this->db->resultSet();
     }
 
     // Get Single Data
     public function getById($id)
     {
-        $this->db->query("SELECT * FROM " . $this->table_name . " WHERE id = :id");
+        $this->db->query("SELECT id, nama_ruangan, kapasitas, pic, email_pic, gambar FROM " . $this->table_name . " WHERE id = :id");
         $this->db->bind('id', $id);
         return $this->db->single();
     }

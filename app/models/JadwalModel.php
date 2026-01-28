@@ -25,7 +25,7 @@ class JadwalModel
                   LEFT JOIN matakuliah m ON j.matakuliah_id = m.id
                   LEFT JOIN kelas k ON j.kelas_id = k.id
                   ORDER BY FIELD(j.hari, 'senin','selasa','rabu','kamis','jumat','sabtu','minggu'), j.jam_mulai ASC";
-        
+
         $this->db->query($query);
         return $this->db->resultSet();
     }
@@ -41,18 +41,18 @@ class JadwalModel
                   LEFT JOIN kelas k ON j.kelas_id = k.id
                   WHERE j.lab_id = :lab_id AND j.hari = :hari 
                   ORDER BY j.jam_mulai ASC";
-        
+
         $this->db->query($query);
         $this->db->bind('lab_id', $labId);
         $this->db->bind('hari', $hari);
-        
+
         return $this->db->resultSet();
     }
-    
+
     // Add Method getById (Untuk fitur Edit, sering terlupakan)
     public function getById($id)
     {
-        $this->db->query("SELECT * FROM " . $this->table_name . " WHERE id = :id");
+        $this->db->query("SELECT id, lab_id, hari, jam_mulai, jam_selesai, matakuliah_id, kelas_id FROM " . $this->table_name . " WHERE id = :id");
         $this->db->bind('id', $id);
         return $this->db->single();
     }
@@ -106,7 +106,7 @@ class JadwalModel
     public function delete($id)
     {
         $query = "DELETE FROM " . $this->table_name . " WHERE id = :id";
-        
+
         $this->db->query($query);
         $this->db->bind('id', $id);
 

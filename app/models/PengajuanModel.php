@@ -13,13 +13,15 @@ class PengajuanModel
     // 1. GET ALL (Riwayat) - FIXED: Add user_id filter
     public function getRiwayat($userId = null)
     {
+        $columns = "id, user_id, nama_lengkap, email, telepon, jumlah_peserta, nama_kegiatan, tgl_mulai, tgl_selesai, file_proposal, status, alasan_penolakan, created_at";
+
         if ($userId) {
             // User hanya lihat proposal sendiri
-            $this->db->query('SELECT * FROM ' . $this->table . ' WHERE user_id = :user_id ORDER BY created_at DESC');
+            $this->db->query("SELECT $columns FROM " . $this->table . " WHERE user_id = :user_id ORDER BY created_at DESC");
             $this->db->bind('user_id', $userId);
         } else {
             // Admin lihat semua
-            $this->db->query('SELECT * FROM ' . $this->table . ' ORDER BY created_at DESC');
+            $this->db->query("SELECT $columns FROM " . $this->table . " ORDER BY created_at DESC");
         }
         return $this->db->resultSet();
     }
@@ -27,7 +29,8 @@ class PengajuanModel
     // 2. GET BY ID (Detail & Edit)
     public function getById($id)
     {
-        $this->db->query('SELECT * FROM ' . $this->table . ' WHERE id = :id');
+        $columns = "id, user_id, nama_lengkap, email, telepon, jumlah_peserta, nama_kegiatan, tgl_mulai, tgl_selesai, file_proposal, status, alasan_penolakan, created_at";
+        $this->db->query("SELECT $columns FROM " . $this->table . " WHERE id = :id");
         $this->db->bind('id', $id);
         return $this->db->single();
     }

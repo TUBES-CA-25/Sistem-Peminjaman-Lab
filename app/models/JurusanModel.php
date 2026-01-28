@@ -13,13 +13,13 @@ class JurusanModel
 
     public function getAll()
     {
-        $this->db->query("SELECT * FROM " . $this->table_name . " ORDER BY nama_jurusan ASC");
+        $this->db->query("SELECT id, nama_jurusan, singkatan FROM " . $this->table_name . " ORDER BY nama_jurusan ASC");
         return $this->db->resultSet();
     }
 
     public function getById($id)
     {
-        $this->db->query("SELECT * FROM " . $this->table_name . " WHERE id = :id");
+        $this->db->query("SELECT id, nama_jurusan, singkatan FROM " . $this->table_name . " WHERE id = :id");
         $this->db->bind('id', $id);
         return $this->db->single();
     }
