@@ -91,7 +91,9 @@
           <option value="">Pilih Kelas</option>
           <?php if (!empty($data['kelas'])): ?>
             <?php foreach ($data['kelas'] as $kls): ?>
-              <option value="<?= $kls['id'] ?>"><?= $kls['nama_kelas'] ?></option>
+              <option value="<?= $kls['id'] ?>">
+                <?= $kls['nama_kelas'] . ' - ' . $kls['angkatan'] . ' - ' . $kls['nama_jurusan'] ?>
+              </option>
             <?php endforeach; ?>
           <?php endif; ?>
         </select>

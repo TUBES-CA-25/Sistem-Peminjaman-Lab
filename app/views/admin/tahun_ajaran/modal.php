@@ -19,8 +19,7 @@
                             required>
                     </div>
 
-                    <!-- Hidden Status Default -->
-                    <input type="hidden" name="status" value="Tidak Aktif">
+
 
                     <div class="d-flex justify-content-end gap-2 mt-4">
                         <button type="button" class="btn btn-outline-secondary fw-semibold"

@@ -31,8 +31,7 @@ class TahunAjaran extends Controller
         $action = $_POST['action'] ?? '';
 
         $data = [
-            'nama' => $_POST['nama'] ?? '',
-            'status' => $_POST['status'] ?? 'Tidak Aktif'
+            'nama' => $_POST['nama'] ?? ''
         ];
 
         if ($action === 'create') {
