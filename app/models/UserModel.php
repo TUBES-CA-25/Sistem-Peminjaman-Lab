@@ -167,4 +167,50 @@ class UserModel
 
         return $this->db->rowCount();
     }
+
+    public function getUserByResetToken($token)
+    {
+        $query = "SELECT * FROM " . $this->table . " 
+                  WHERE reset_token = :token 
+                  AND reset_token_expire > NOW()";
+        
+        $this->db->query($query);
+        $this->db->bind('token', $token);
+        
+        return $this->db->single();
+    }
+
+    public function updatePasswordAndClearToken($userId, $hashedPassword)
+    {
+        $query = "UPDATE " . $this->table . " 
+                  SET password = :password, 
+                      reset_token = NULL, 
+                      reset_token_expire = NULL 
+                  WHERE id = :id";
+        
+        $this->db->query($query);
+        $this->db->bind('password', $hashedPassword);
+        $this->db->bind('id', $userId);
+        
+        $this->db->execute();
+        
+        return $this->db->rowCount();
+    }
+
+    public function updateResetToken($userId, $token, $expireTime)
+    {
+        $query = "UPDATE " . $this->table . " 
+                  SET reset_token = :token, 
+                      reset_token_expire = :expire 
+                  WHERE id = :id";
+        
+        $this->db->query($query);
+        $this->db->bind('token', $token);
+        $this->db->bind('expire', $expireTime);
+        $this->db->bind('id', $userId);
+        
+        $this->db->execute();
+        
+        return $this->db->rowCount();
+    }
 }

@@ -201,10 +201,10 @@ body{
 
         <!-- IMAGE SIDE -->
         <div class="auth-image">
-            <img src="<?= BASE_URL ?>/public/img/cv.jpg" class="bg" alt="Laboratorium">
+            <img src="<?= BASE_URL ?>/public/storage/images/CV.jpg" class="bg" alt="Laboratorium">
 
             <div class="logo-3d">
-                <img src="<?= BASE_URL ?>/public/img/logo-iclabs.png" alt="Logo">
+                <img src="<?= BASE_URL ?>/public/storage/images/logo-iclabs.png" alt="Logo">
             </div>
 
             <div class="image-caption">
