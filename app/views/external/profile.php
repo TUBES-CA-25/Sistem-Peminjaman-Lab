@@ -1,40 +1,9 @@
 <link rel="stylesheet" href="<?= BASE_URL; ?>/public/css/external.css">
 
-<style>
-    .avatar-profile {
-        width: 100px;
-        height: 100px;
-        background: linear-gradient(135deg, #0d6efd, #0a58ca);
-        color: white;
-        font-size: 2.5rem;
-        font-weight: bold;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 50%;
-        margin: 0 auto 15px auto;
-        box-shadow: 0 4px 10px rgba(13, 110, 253, 0.3);
-    }
-    /* Style input saat mode baca (readonly) */
-    .form-control:read-only {
-        background-color: #f8f9fa;
-        border: 1px solid #dee2e6;
-        color: #6c757d;
-    }
-    /* Style input saat mode edit */
-    .form-control:not(:read-only) {
-        background-color: #fff;
-        border-color: #0d6efd;
-        box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.15);
-    }
-</style>
+<?php include __DIR__ . '/../components/external_sidebar.php'; ?>
 
-<?php include __DIR__ . '/../components/sidebar_user.php'; ?>
-
-<div class="main-content-user">
-    
     <div class="container-fluid px-4">
-        <div class="hero-bg rounded-3" style="margin-top: -50px;">
+        <div class="hero-bg rounded-3" style="margin-top: 0px; margin-bottom: 20px;">
             <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
                 <div class="text-white">
                     <h2 class="fw-bold mb-1">Profil Saya</h2>
@@ -129,9 +98,12 @@
                 </div>
             </div>
         </div>
-        
-    </div>
+
+
+    </main>
 </div>
+
+
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script>
@@ -182,3 +154,32 @@
 
 <!-- Bootstrap JS Bundle -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<style>
+    .avatar-profile {
+        width: 100px;
+        height: 100px;
+        background: linear-gradient(135deg, #0d6efd, #0a58ca);
+        color: white;
+        font-size: 2.5rem;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        margin: 0 auto 15px auto;
+        box-shadow: 0 4px 10px rgba(13, 110, 253, 0.3);
+    }
+    /* Style input saat mode baca (readonly) */
+    .form-control:read-only {
+        background-color: #f8f9fa;
+        border: 1px solid #dee2e6;
+        color: #6c757d;
+    }
+    /* Style input saat mode edit */
+    .form-control:not(:read-only) {
+        background-color: #fff;
+        border-color: #0d6efd;
+        box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.15);
+    }
+</style>

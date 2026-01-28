@@ -1,18 +1,247 @@
-/* --- public/css/style.css --- */
+/* --- public/css/external.css --- */
 
 /* 1. RESET PADDING BODY & NAVBAR */
 body {
     padding-top: 0 !important;
+    font-family: 'Inter', sans-serif;
 }
 
-nav,
+/* Navbar Styles - Matching Internal Navbar */
 .navbar {
+    background: #fff !important;
+    padding: 1rem 2rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
     margin-bottom: 0 !important;
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #122E4F !important;
+    text-decoration: none;
+}
+
+.admin-badge {
+    background: #dcfce7;
+    color: #059669;
+    padding: .25rem .75rem;
+    border-radius: 9999px;
+    font-size: .875rem;
+    font-weight: 500;
+}
+
+.navbar-menu {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.btn-signout {
+    background: #EF4444;
+    color: #fff;
+    padding: .5rem 1.25rem;
+    border-radius: 9999px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background 0.2s;
+}
+
+.btn-signout:hover {
+    background: #dc2626;
+    color: #fff;
+}
+
+/* Navbar Hamburger Button */
+.navbar-hamburger {
+    background: transparent;
+    border: none;
+    font-size: 1.5rem;
+    color: #122E4F;
+    cursor: pointer;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s;
+}
+
+.navbar-hamburger:hover {
+    color: #1F45AC;
+}
+
+.navbar-hamburger:active {
+    transform: scale(0.95);
 }
 
 nav.navbar.navbar-expand.fixed-top {
     display: none;
 }
+
+/* ========================================== */
+/* SIDEBAR STYLES - Matching Internal Sidebar */
+/* ========================================== */
+
+/* Layout Container */
+.admin-container {
+    display: flex;
+    margin-top: 70px;
+    min-height: calc(100vh - 70px);
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: 280px;
+    background: #fff;
+    padding: 2rem 0;
+    box-shadow: 2px 0 4px rgba(0, 0, 0, 0.05);
+    position: fixed;
+    left: 0;
+    top: 70px;
+    bottom: 0;
+    overflow-y: auto;
+    z-index: 999;
+}
+
+.sidebar-header {
+    padding: 0 1.5rem 1rem;
+    color: #6b7280;
+    font-size: .75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+}
+
+.sidebar-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar-item {
+    margin: .25rem 0;
+}
+
+.sidebar-link {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    padding: .875rem 1.5rem;
+    color: #4b5563;
+    text-decoration: none;
+    transition: all .2s;
+    border-left: 3px solid transparent;
+}
+
+.sidebar-link:hover {
+    background: #f3f4f6;
+    color: #1F45AC;
+}
+
+.sidebar-link.active {
+    background: #eff6ff;
+    color: #1F45AC;
+    border-left-color: #1F45AC;
+    font-weight: 700;
+}
+
+.sidebar-icon {
+    width: 20px;
+    text-align: center;
+    font-size: 1.125rem;
+}
+
+/* Main Content Area */
+.main-content {
+    flex: 1;
+    margin-left: 280px;
+    padding: 2rem;
+    background-color: #f8f9fa;
+}
+
+/* Sidebar Overlay */
+.sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 998;
+    backdrop-filter: blur(2px);
+}
+
+.sidebar-overlay.active {
+    display: block;
+}
+
+/* Mobile Sidebar Header */
+.sidebar-header-mobile {
+    display: none;
+}
+
+.close-btn {
+    background: transparent;
+    border: none;
+    font-size: 1.5rem;
+    color: #64748b;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.desktop-only {
+    display: block;
+}
+
+.mobile-only {
+    display: none;
+}
+
+/* Responsive Sidebar */
+@media (max-width: 768px) {
+    .sidebar {
+        transform: translateX(-100%);
+        transition: transform .3s;
+        top: 0;
+        z-index: 1050;
+    }
+
+    .sidebar.active {
+        transform: translateX(0);
+    }
+
+    .main-content {
+        margin-left: 0;
+    }
+
+    .sidebar-header-mobile {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 20px;
+        border-bottom: 1px solid #f1f5f9;
+        margin-bottom: 10px;
+        color: #1e3a8a;
+        font-size: 1.1rem;
+    }
+
+    .desktop-only {
+        display: none;
+    }
+
+    .mobile-only {
+        display: block;
+    }
+}
+
 
 /* 2. HERO SECTION */
 .hero-bg {
@@ -20,11 +249,12 @@ nav.navbar.navbar-expand.fixed-top {
     color: white;
     padding: 30px;
     width: 100%;
+    margin-top: 70px; /* Space for fixed navbar */
 }
 
 /* 3. DASHBOARD CARD */
 .dashboard-card {
-    margin-top: 20px;
+    margin-top: 100px;
     background: white;
     border-radius: 12px;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
@@ -190,109 +420,7 @@ nav.navbar.navbar-expand.fixed-top {
 
 
 
-/*untuk sidebar_user*/
-/* --- LAYOUT SIDEBAR USER --- */
-.sidebar-user {
-    width: 250px;
-    height: 100vh;
-    /* Full tinggi layar */
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 1000;
-    padding-top: 80px !important;
-    /* Jarak agar tidak tertutup navbar jika navbar fixed */
-    border-right: 1px solid #eee;
-}
 
-/* KONTEN UTAMA (Disebelah Kanan Sidebar) */
-.main-content-user {
-    margin-left: 250px;
-    /* Geser konten ke kanan sebesar lebar sidebar */
-    padding-top: 70px;
-    /* Space for fixed navbar */
-    min-height: 100vh;
-    background-color: #ffffff; /* Warna background abu muda agar card terlihat menonjol */
-    transition: margin-left 0.3s ease;
-}
-
-/* Penyesuaian Navbar agar menutupi Sidebar bagian atas (Opsional) */
-/* Atau Navbar hanya disebelah kanan. Kita buat Navbar Full Width di atas Sidebar */
-nav.navbar {
-    z-index: 1050;
-    /* Lebih tinggi dari sidebar */
-    background: white;
-    box-shadow: 0 2px 4px rgba(255, 255, 255, 0.05);
-}
-
-/* ========================================== */
-/* RESPONSIVE - MOBILE SIDEBAR */
-/* ========================================== */
-
-/* Hamburger Button */
-.btn-hamburger {
-    background: rgba(255, 255, 255, 0.2);
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    color: white;
-    width: 45px;
-    height: 45px;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 24px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    backdrop-filter: blur(10px);
-}
-
-.btn-hamburger:hover {
-    background: rgba(255, 255, 255, 0.3);
-    border-color: rgba(255, 255, 255, 0.5);
-    transform: scale(1.05);
-}
-
-/* Close Button di Sidebar */
-.btn-close-sidebar {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    background: #f8f9fa;
-    border: none;
-    width: 35px;
-    height: 35px;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    z-index: 1001;
-}
-
-.btn-close-sidebar:hover {
-    background: #e9ecef;
-    transform: rotate(90deg);
-}
-
-/* Overlay untuk Mobile */
-.sidebar-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 1040;
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.3s ease;
-}
-
-.sidebar-overlay.active {
-    opacity: 1;
-    visibility: visible;
-}
 
 /* Responsif untuk Layar Tablet dan Mobile */
 @media (max-width: 992px) {
