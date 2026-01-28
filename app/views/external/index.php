@@ -1,18 +1,11 @@
 <link rel="stylesheet" href="<?= BASE_URL; ?>/public/css/external.css">
 
-<?php include __DIR__ . '/../components/sidebar_user.php'; ?>
+<?php include __DIR__ . '/../components/external_sidebar.php'; ?>
 
-<div class="main-content-user">
-    
     <div class="container-fluid px-4">
-        <div class="hero-bg rounded-3" style="margin-top: -50px;">
+        <div class="hero-bg rounded-3" style="margin-top: 0px; margin-bottom: 20px;">
             <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
                 
-                <!-- Hamburger Button untuk Mobile -->
-                <button class="btn-hamburger d-lg-none" id="sidebarToggle" type="button">
-                    <i class="bi bi-list"></i>
-                </button>
-
                 <div class="text-white">
                     <h2 class="fw-bold mb-1">Dashboard Peminjaman</h2>
                     <p class="opacity-75 mb-0">Pantau status pengajuan peminjaman ruangan Anda di sini.</p>
@@ -33,7 +26,8 @@
             </div>
         </div>
     </div>
-    
+
+    </main>
 </div>
 
 <?php include 'modal.php'; ?>
