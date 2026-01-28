@@ -31,18 +31,26 @@ class User extends Controller
         $action = $_POST['action'] ?? '';
 
         if ($action === 'create' || $action === 'update') {
-            // "Posisi" form input maps to "Status" DB column (Dosen/Asisten)
-            $statusPosisi = $_POST['posisi'] ?? '';
+            $roleInput = $_POST['role'] ?? 'internal';
 
-            // Auto-assign role 'internal' if status is Dosen/Asisten
-            $role = 'internal';
+            // Security: Prevent creating ADMIN via this form
+            if ($roleInput === 'admin') {
+                $roleInput = 'internal'; // Fallback / Block
+            }
+
+            // Determine Status
+            if ($roleInput === 'internal') {
+                $status = $_POST['posisi'] ?? 'Mahasiswa';
+            } else {
+                $status = 'Umum'; // Default for External
+            }
 
             $data = [
                 'nama' => $_POST['nama'] ?? '',
                 'email' => $_POST['email'] ?? '',
-                'status' => $statusPosisi,
-                'role' => $role,
-                'telepon' => $_POST['nomor_hp'] ?? '',
+                'status' => $status,
+                'role' => $roleInput,
+                'telepon' => $_POST['telepon'] ?? '', // Updated from nomor_hp
                 'password' => $_POST['password'] ?? ''
             ];
 

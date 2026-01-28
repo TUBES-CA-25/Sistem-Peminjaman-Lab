@@ -25,13 +25,29 @@
                     </div>
 
                     <div class="mb-3">
+                        <label class="form-label fw-bold">Nomor HP <span class="text-danger" id="telReq"
+                                style="display:none;">*</span></label>
+                        <input type="text" name="telepon" id="telepon" class="form-control" placeholder="08xxxxxxxxxx">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Role <span class="text-danger">*</span></label>
+                        <select name="role" id="role" class="form-select" required>
+                            <option value="">Pilih Role</option>
+                            <option value="internal">Internal (Dosen/Asisten)</option>
+                            <option value="external">External (Umum/Mahasiswa Luar)</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3" id="statusGroup">
                         <label class="form-label fw-bold">Status (Posisi) <span class="text-danger">*</span></label>
-                        <select name="posisi" id="posisi" class="form-select" required>
+                        <select name="posisi" id="posisi" class="form-select">
                             <option value="">Pilih Status</option>
                             <option value="Dosen">Dosen</option>
                             <option value="Asisten">Asisten</option>
+                            <option value="Mahasiswa">Mahasiswa</option>
+                            <option value="Staff">Staff</option>
                         </select>
-                        <div class="form-text">Role otomatis diset sebagai Internal</div>
                     </div>
 
                     <div class="mb-3">
