@@ -277,33 +277,39 @@ body {
 /* Table Column Widths - CRITICAL */
 .p-table th:nth-child(1),
 .p-table td:nth-child(1) {
-    width: 22%;
+    width: 15%;
 }
 
 .p-table th:nth-child(2),
 .p-table td:nth-child(2) {
-    width: 13%;
+    width: 12%;
 }
 
 .p-table th:nth-child(3),
 .p-table td:nth-child(3) {
-    width: 18%;
+    width: 15%;
 }
 
 .p-table th:nth-child(4),
 .p-table td:nth-child(4) {
-    width: 15%;
+    width: 18%;
 }
 
 .p-table th:nth-child(5),
 .p-table td:nth-child(5) {
-    width: 12%;
+    width: 15%;
 }
 
 .p-table th:nth-child(6),
 .p-table td:nth-child(6) {
-    width: 12%;
-    text-align: right;
+    width: 10%;
+    text-align: left;
+}
+
+.p-table th:nth-child(7),
+.p-table td:nth-child(7) {
+    width: 15%;
+    text-align: center;
 }
 
 /* User Info in Table */

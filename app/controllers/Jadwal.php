@@ -51,7 +51,8 @@ class Jadwal extends Controller
                 'jam_mulai' => $_POST['jamMulai'] ?? '',
                 'jam_selesai' => $_POST['jamSelesai'] ?? '',
                 'matakuliah_id' => $_POST['mataKuliah'] ?? '', // This will now typically be an ID from select
-                'kelas_id' => $_POST['kelas'] ?? '' // This will now typically be an ID from select
+                'kelas_id' => $_POST['kelas'] ?? '', // This will now typically be an ID from select
+                'frekuensi' => $_POST['frekuensi'] ?? '' // Add Frequency
             ];
 
             // Check Conflict
