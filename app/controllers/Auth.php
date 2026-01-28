@@ -7,34 +7,35 @@ class Auth extends Controller
 {
     // Whitelist: method yang boleh diakses tanpa login
     private $publicMethods = [
-        'index', 
-        'prosesLogin', 
-        'register', 
-        'prosesRegister', 
-        'forgot', 
-        'sendResetLink', 
+        'index',
+        'prosesLogin',
+        'register',
+        'prosesRegister',
+        'forgot',
+        'sendResetLink',
         'reset',           // ← Tambahkan ini
         'processReset',    // ← Dan ini
-        'emailSent'
+        'emailSent',
+        'logout'           // ✅ Fix: Allow logout to be accessed by logged in users
     ];
 
     public function __construct()
     {
         // ✅ FIX: Deteksi method 'reset' dari $_GET langsung
         $requestUri = $_SERVER['REQUEST_URI'] ?? '';
-        
+
         // Jika URL mengandung '/auth/reset', skip session check
         if (strpos($requestUri, '/auth/reset') !== false) {
             error_log("DEBUG: Detected /auth/reset, skipping session check");
             return; // Skip semua pengecekan
         }
-        
+
         // Ambil method yang sedang dipanggil dari URL
         $url = $_GET['url'] ?? '';
         $url = strtok($url, '?');
         $parts = explode('/', trim($url, '/'));
         $currentMethod = $parts[1] ?? 'index';
-        
+
         // Jika sudah login DAN bukan public method, redirect sesuai role
         if (isset($_SESSION['user_id']) && !in_array($currentMethod, $this->publicMethods)) {
             $this->redirectBasedOnRole($_SESSION['role']);
@@ -152,7 +153,7 @@ class Auth extends Controller
             }
 
             $user = $this->model('UserModel')->getUserByEmail($email);
-            
+
             if (!$user) {
                 Flasher::setFlash('Gagal', 'Email tidak ditemukan.', 'danger');
                 header('Location: ' . BASE_URL . '/auth/forgot');
@@ -168,10 +169,10 @@ class Auth extends Controller
 
             // Kirim email
             $resetLink = BASE_URL . '/reset.php?token=' . $token;
-            
+
             try {
                 $mail = new PHPMailer(true);
-                
+
                 // ✅ GMAIL SMTP CONFIGURATION (dari .env)
                 $mail->isSMTP();
                 $mail->Host = getenv('SMTP_HOST');
@@ -190,11 +191,11 @@ class Auth extends Controller
                 $mail->AltBody = "Halo {$user['nama']},\n\nKlik link berikut untuk reset password Anda:\n$resetLink\n\nLink berlaku 1 jam.";
 
                 $mail->send();
-                
+
                 Flasher::setFlash('Berhasil', 'Link reset telah dikirim ke email Anda.', 'success');
                 header('Location: ' . BASE_URL . '/auth/emailSent');
                 exit;
-                
+
             } catch (Exception $e) {
                 error_log("PHPMailer Error: {$mail->ErrorInfo}");
                 Flasher::setFlash('Gagal', 'Gagal mengirim email. Coba lagi nanti.', 'danger');
@@ -212,7 +213,7 @@ class Auth extends Controller
         $data['judul'] = 'Email Terkirim';
         $this->view('auth/email-sent', $data);
     }
-    
+
     // ✅ METHOD RESET YANG DIPERBAIKI
     public function reset()
     {
@@ -226,7 +227,7 @@ class Auth extends Controller
 
         // Cek token di database
         $user = $this->model('UserModel')->getUserByResetToken($token);
-        
+
         if (!$user || strtotime($user['reset_token_expire']) < time()) {
             Flasher::setFlash('Gagal', 'Token tidak valid atau sudah kadaluarsa.', 'danger');
             header('Location: ' . BASE_URL . '/auth');
@@ -276,8 +277,8 @@ class Auth extends Controller
     }
 
     private function getResetEmailTemplate($nama, $resetLink)
-{
-    return "
+    {
+        return "
     <!DOCTYPE html>
     <html>
     <head>
@@ -321,7 +322,7 @@ class Auth extends Controller
     </body>
     </html>
     ";
-}
+    }
 
     private function redirectBasedOnRole($role)
     {
