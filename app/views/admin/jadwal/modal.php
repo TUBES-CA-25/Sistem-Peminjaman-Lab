@@ -76,6 +76,13 @@
         </select>
       </div>
 
+      <!-- Frekuensi -->
+      <div style="margin-bottom:12px;">
+        <label for="scheduleFrekuensi" style="font-weight:900; font-size:13px; color:#334155;">Frekuensi</label>
+        <input id="scheduleFrekuensi" name="frekuensi" type="text" placeholder="Contoh: 1 Minggu Sekali" required
+          style="width:100%; padding:10px; border-radius:10px; border:1px solid #e2e8f0; margin-top:4px;" />
+      </div>
+
       <!-- Kelas -->
       <div style="margin-bottom:18px;">
         <label for="scheduleKelas" style="font-weight:900; font-size:13px; color:#334155;">Kelas</label>

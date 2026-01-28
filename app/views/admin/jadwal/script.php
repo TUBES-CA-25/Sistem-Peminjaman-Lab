@@ -55,7 +55,10 @@
           <span style="font-weight:700; color:#334155;">${item.nama_matakuliah}</span>
         </td>
         <td>
-          <span class="p-badge p-internal">${item.nama_kelas}</span>
+          <span style="font-weight:700; color:#334155;">${item.frekuensi || '-'}</span>
+        </td>
+        <td>
+          <span style="font-weight:700; color:#334155;">${item.nama_kelas}</span>
         </td>
         <td style="text-align:center;">
           <div class="d-flex justify-content-center gap-2">
@@ -139,6 +142,7 @@
       document.getElementById('scheduleJamMulai').value = item.jam_mulai;
       document.getElementById('scheduleJamSelesai').value = item.jam_selesai;
       document.getElementById('scheduleMataKuliah').value = item.matakuliah_id;
+      document.getElementById('scheduleFrekuensi').value = item.frekuensi || ''; // Populate Frequency
       document.getElementById('scheduleKelas').value = item.kelas_id;
 
       title.textContent = 'Edit Jadwal Praktikum';
