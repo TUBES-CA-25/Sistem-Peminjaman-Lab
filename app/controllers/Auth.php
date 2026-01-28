@@ -15,27 +15,24 @@ class Auth extends Controller
         'sendResetLink', 
         'reset',           // ← Tambahkan ini
         'processReset',    // ← Dan ini
-        'emailSent'
+        'emailSent',
+        'logout'
     ];
 
     public function __construct()
     {
-        // ✅ FIX: Deteksi method 'reset' dari $_GET langsung
         $requestUri = $_SERVER['REQUEST_URI'] ?? '';
         
-        // Jika URL mengandung '/auth/reset', skip session check
         if (strpos($requestUri, '/auth/reset') !== false) {
-            error_log("DEBUG: Detected /auth/reset, skipping session check");
-            return; // Skip semua pengecekan
+            return;
         }
         
-        // Ambil method yang sedang dipanggil dari URL
         $url = $_GET['url'] ?? '';
         $url = strtok($url, '?');
         $parts = explode('/', trim($url, '/'));
         $currentMethod = $parts[1] ?? 'index';
         
-        // Jika sudah login DAN bukan public method, redirect sesuai role
+        // Sekarang logout akan masuk publicMethods, tidak di-redirect!
         if (isset($_SESSION['user_id']) && !in_array($currentMethod, $this->publicMethods)) {
             $this->redirectBasedOnRole($_SESSION['role']);
             exit;
@@ -128,8 +125,22 @@ class Auth extends Controller
 
     public function logout()
     {
-        session_destroy();
+        // Clear session
         session_unset();
+        
+        // Delete cookie
+        if (isset($_COOKIE[session_name()])) {
+            setcookie(session_name(), '', time() - 3600, '/');
+        }
+        
+        // Destroy
+        session_destroy();
+        
+        // Start new for flash
+        session_start();
+        Flasher::setFlash('Berhasil', 'Anda telah keluar dari sistem.', 'success');
+        
+        // Redirect
         header('Location: ' . BASE_URL . '/auth');
         exit;
     }
