@@ -16,7 +16,7 @@ class JadwalModel
     public function getAll()
     {
         $query = "SELECT j.id, j.lab_id, j.hari, j.jam_mulai, j.jam_selesai, 
-                         j.matakuliah_id, j.kelas_id,
+                         j.matakuliah_id, j.kelas_id, j.frekuensi,
                          r.nama_ruangan as lab_nama,
                          m.nama_matakuliah, m.kode_matakuliah,
                          k.nama_kelas
@@ -34,7 +34,7 @@ class JadwalModel
     public function getByLabAndDay($labId, $hari)
     {
         $query = "SELECT j.id, j.lab_id, j.hari, j.jam_mulai, j.jam_selesai, 
-                         j.matakuliah_id, j.kelas_id,
+                         j.matakuliah_id, j.kelas_id, j.frekuensi,
                          m.nama_matakuliah, k.nama_kelas
                   FROM " . $this->table_name . " j
                   LEFT JOIN matakuliah m ON j.matakuliah_id = m.id
@@ -52,7 +52,7 @@ class JadwalModel
     // Add Method getById (Untuk fitur Edit, sering terlupakan)
     public function getById($id)
     {
-        $this->db->query("SELECT id, lab_id, hari, jam_mulai, jam_selesai, matakuliah_id, kelas_id FROM " . $this->table_name . " WHERE id = :id");
+        $this->db->query("SELECT id, lab_id, hari, jam_mulai, jam_selesai, matakuliah_id, kelas_id, frekuensi FROM " . $this->table_name . " WHERE id = :id");
         $this->db->bind('id', $id);
         return $this->db->single();
     }
@@ -61,9 +61,9 @@ class JadwalModel
     public function create($data)
     {
         $query = "INSERT INTO " . $this->table_name . "
-                  (lab_id, hari, jam_mulai, jam_selesai, matakuliah_id, kelas_id)
+                  (lab_id, hari, jam_mulai, jam_selesai, matakuliah_id, kelas_id, frekuensi)
                   VALUES
-                  (:lab_id, :hari, :jam_mulai, :jam_selesai, :matakuliah_id, :kelas_id)";
+                  (:lab_id, :hari, :jam_mulai, :jam_selesai, :matakuliah_id, :kelas_id, :frekuensi)";
 
         $this->db->query($query);
 
@@ -73,6 +73,7 @@ class JadwalModel
         $this->db->bind('jam_selesai', $data['jam_selesai']);
         $this->db->bind('matakuliah_id', $data['matakuliah_id']);
         $this->db->bind('kelas_id', $data['kelas_id']);
+        $this->db->bind('frekuensi', $data['frekuensi']);
 
         $this->db->execute();
 
@@ -84,7 +85,7 @@ class JadwalModel
     {
         $query = "UPDATE " . $this->table_name . "
                   SET lab_id=:lab_id, hari=:hari, jam_mulai=:jam_mulai, jam_selesai=:jam_selesai,
-                      matakuliah_id=:matakuliah_id, kelas_id=:kelas_id
+                      matakuliah_id=:matakuliah_id, kelas_id=:kelas_id, frekuensi=:frekuensi
                   WHERE id=:id";
 
         $this->db->query($query);
@@ -96,6 +97,7 @@ class JadwalModel
         $this->db->bind('jam_selesai', $data['jam_selesai']);
         $this->db->bind('matakuliah_id', $data['matakuliah_id']);
         $this->db->bind('kelas_id', $data['kelas_id']);
+        $this->db->bind('frekuensi', $data['frekuensi']);
 
         $this->db->execute();
 

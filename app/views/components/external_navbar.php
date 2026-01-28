@@ -1,8 +1,17 @@
-<nav class="navbar navbar-expand-lg bg-white border-bottom sticky-top">
-  <div class="container-fluid px-4">
-    <a class="navbar-brand fw-bold text-primary fs-4" href="<?= BASE_URL; ?>">
-      <img src="<?= BASE_URL; ?>/public/storage/images/logo-iclabs.png" alt="ICLABS Logo" height="40">
-      ICLABS
+<nav class="navbar">
+    <a href="<?= BASE_URL ?>/external" class="navbar-brand">
+        <img src="<?= BASE_URL ?>/public/storage/images/logo-iclabs.png" alt="Logo ICLABS" height="40" style="vertical-align: middle; margin-right: 8px;">
+        
+        ICLABS <span class="admin-badge" style="background: #dcfce7; color: #059669;">External</span>
     </a>
-  </div>
+
+    <div class="navbar-menu">
+        <!-- Sign Out Button: Visible on Desktop, Hidden on Mobile -->
+        <a href="<?= BASE_URL ?>/auth/logout" class="btn-signout d-none d-md-block">Sign Out</a>
+        
+        <!-- Hamburger Button: Visible on Mobile, Hidden on Desktop -->
+        <button id="mobileNavbarToggle" class="d-md-none navbar-hamburger">
+            <i class="fas fa-bars"></i>
+        </button>
+    </div>
 </nav>

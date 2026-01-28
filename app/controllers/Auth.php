@@ -65,6 +65,14 @@ class Auth extends Controller
                     $_SESSION['nama'] = $user['nama'];
                     $_SESSION['role'] = $user['role'];
 
+                    // Ambil Tahun Ajaran Aktif
+                    $activeYear = $this->model('TahunAjaranModel')->getActive();
+                    if ($activeYear) {
+                        $_SESSION['tahun_ajaran'] = $activeYear['nama'];
+                    } else {
+                        $_SESSION['tahun_ajaran'] = '-'; // Default jika tidak ada
+                    }
+
                     $this->redirectBasedOnRole($user['role']);
                 } else {
                     Flasher::setFlash('Gagal', 'Password salah.', 'danger');

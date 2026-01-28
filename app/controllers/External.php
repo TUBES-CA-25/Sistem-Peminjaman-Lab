@@ -36,7 +36,7 @@ class External extends Controller
 
         $data['active_page'] = 'external';
 
-        $this->view('components/header_external', $data);
+        $this->view('components/external_header', $data);
         $this->view('components/external_navbar', $data);
         $this->view('external/index', $data);
     }
@@ -51,7 +51,7 @@ class External extends Controller
         $data['judul'] = 'Detail Pengajuan';
         $data['peminjaman'] = $this->model('PengajuanModel')->getById($id);
 
-        $this->view('components/header_external', $data);
+        $this->view('components/external_header', $data);
         $this->view('components/external_navbar', $data);
         $this->view('external/detail', $data);
         $this->view('components/footer');
@@ -63,7 +63,7 @@ class External extends Controller
         // Tambahkan data user juga disini jika halaman ini dipakai terpisah
         $data['user'] = $this->model('UserModel')->getUserById($_SESSION['user_id']);
 
-        $this->view('components/header_external', $data);
+        $this->view('components/external_header', $data);
         $this->view('components/external_navbar', $data);
         $this->view('external/form_pengajuan', $data);
         $this->view('components/footer');
@@ -209,7 +209,7 @@ class External extends Controller
         $data['active_menu'] = 'profile'; // Untuk sidebar active state
         $data['user'] = $this->model('UserModel')->getUserById($_SESSION['user_id']);
 
-        $this->view('components/header_external', $data);
+        $this->view('components/external_header', $data);
         $this->view('components/external_navbar', $data);
         $this->view('external/profile', $data);
     }
