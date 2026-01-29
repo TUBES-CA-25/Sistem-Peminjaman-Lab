@@ -1,3 +1,4 @@
+<?php $active_page = $data['active_page'] ?? ''; ?>
 <!-- Sidebar Overlay -->
 <div id="sidebarOverlay" class="sidebar-overlay"></div>
 
@@ -39,44 +40,35 @@
                     <span>Data Peminjaman</span>
                 </a>
             </li>
-
-            <!-- Mobile Only Logout -->
-            <li class="sidebar-item mobile-only"
-                style="margin-top: 20px; border-top: 1px solid #eee; padding-top: 10px;">
-                <a href="<?= BASE_URL ?>/auth/logout" class="sidebar-link" style="color: #ef4444;">
-                    <i class="fas fa-sign-out-alt sidebar-icon"></i>
-                    <span>Keluar</span>
-                </a>
-            </li>
         </ul>
     </aside>
 
     <main class="main-content">
 
-
-
         <script>
             document.addEventListener("DOMContentLoaded", function () {
-                // Target the hamburger button that was added to internal_navbar.php
                 const toggleBtn = document.getElementById('mobileNavbarToggle');
-
                 const closeBtn = document.getElementById('mobileSidebarClose');
                 const overlay = document.getElementById('sidebarOverlay');
                 const sidebar = document.getElementById('internalSidebar');
 
-                function openSidebar() {
-                    if (sidebar) sidebar.classList.add('active');
-                    if (overlay) overlay.classList.add('active');
-                    document.body.style.overflow = 'hidden'; // Prevent scroll body
+                function toggleSidebar() {
+                    sidebar.classList.toggle('active');
+                    overlay.classList.toggle('active');
+                    if (sidebar.classList.contains('active')) {
+                        document.body.style.overflow = 'hidden';
+                    } else {
+                        document.body.style.overflow = '';
+                    }
                 }
 
                 function closeSidebar() {
-                    if (sidebar) sidebar.classList.remove('active');
-                    if (overlay) overlay.classList.remove('active');
+                    sidebar.classList.remove('active');
+                    overlay.classList.remove('active');
                     document.body.style.overflow = '';
                 }
 
-                if (toggleBtn) toggleBtn.addEventListener('click', openSidebar);
+                if (toggleBtn) toggleBtn.addEventListener('click', toggleSidebar);
                 if (closeBtn) closeBtn.addEventListener('click', closeSidebar);
                 if (overlay) overlay.addEventListener('click', closeSidebar);
             });
