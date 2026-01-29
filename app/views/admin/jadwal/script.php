@@ -26,42 +26,43 @@
     const schedules = <?= json_encode($data['schedules']); ?>;
 
     // ===== RENDER TABLE =====
+    // ===== RENDER TABLE =====
     function renderTable() {
       const tbody = document.getElementById('jadwalTableBody');
 
-      if (schedules.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:40px; color:#94a3b8;">Belum ada jadwal praktikum. Klik tombol "Tambah Jadwal Baru" untuk membuat jadwal.</td></tr>';
-        return;
-      }
-
+      if (!tbody) return;
       tbody.innerHTML = '';
 
       schedules.forEach(item => {
         const tr = document.createElement('tr');
 
         tr.innerHTML = `
-        <td>
-          <span style="font-weight:900; color:#0f172a;">${HARI_LIST[item.hari]}</span>
+        <td class="px-4 fw-bold text-dark">
+          ${HARI_LIST[item.hari]}
+        </td>
+        <td class="fw-bold text-dark">
+          ${LABS[item.lab_id] || item.lab_id}
         </td>
         <td>
-          <span style="font-weight:800; color:#1F45AC;">${LABS[item.lab_id] || item.lab_id}</span>
-        </td>
-        <td>
-          <div class="p-dt">
-            <div class="p-time"><i class="far fa-clock"></i> ${item.jam_mulai.substring(0, 5)} - ${item.jam_selesai.substring(0, 5)}</div>
+          <div class="small">
+             <span class="fw-bold text-secondary"><i class="far fa-clock me-1"></i></span> ${item.jam_mulai.substring(0, 5)} - ${item.jam_selesai.substring(0, 5)}
           </div>
         </td>
-        <td>
-          <span style="font-weight:700; color:#334155;">${item.nama_matakuliah}</span>
+        <td class="fw-bold text-dark">
+          ${item.nama_matakuliah}
         </td>
         <td>
-          <span style="font-weight:700; color:#334155;">${item.frekuensi || '-'}</span>
+          <span class="badge bg-secondary-subtle text-secondary-emphasis border">
+             ${item.frekuensi || 'Mingguan'}
+          </span>
         </td>
         <td>
-          <span style="font-weight:700; color:#334155;">${item.nama_kelas}</span>
+           <span class="badge bg-warning-subtle text-warning-emphasis rounded-pill px-3">
+             ${item.nama_kelas}
+           </span>
         </td>
-        <td style="text-align:center;">
-          <div class="d-flex justify-content-center gap-2">
+        <td class="text-end px-4">
+          <div class="d-flex justify-content-end gap-2">
             <button type="button" class="btn btn-sm btn-primary fw-bold" title="Edit" onclick="editJadwal(${item.id})">
               <i class="fas fa-edit"></i>
             </button>
@@ -74,6 +75,17 @@
 
         tbody.appendChild(tr);
       });
+
+      // Init Simple DataTables
+      if (typeof simpleDatatables !== 'undefined') {
+        const tableEl = document.getElementById('jadwalTable');
+        if (tableEl) {
+          if (window.jadwalTableInstance) {
+            window.jadwalTableInstance.destroy();
+          }
+          window.jadwalTableInstance = new simpleDatatables.DataTable(tableEl, { perPage: 10, perPageSelect: [10, 20, 50] });
+        }
+      }
     }
 
     // ===== MODAL FUNCTIONS =====

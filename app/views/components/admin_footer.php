@@ -6,7 +6,7 @@
 <script>
     // Auto-Initialize SimpleDataTables for tables with class 'datatable' or specific IDs
     document.addEventListener('DOMContentLoaded', () => {
-        const tables = ['#usersTable', '#pengajuanTable', '#pTable']; // List of tables to paginize
+        const tables = ['#usersTable', '#pengajuanTable', '#pTable', '#jurusanTable', '#kelasTable', '#mataKuliahTable']; // List of tables to paginize
 
         tables.forEach(selector => {
             const el = document.querySelector(selector);

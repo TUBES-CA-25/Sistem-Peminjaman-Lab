@@ -9,7 +9,7 @@
         </span>
     </div>
     <div class="table-responsive">
-        <table class="table table-hover align-middle mb-0">
+        <table class="table table-hover align-middle mb-0" id="jurusanTable">
             <thead class="table-light text-secondary">
                 <tr>
                     <th class="px-4 py-3 border-0 rounded-start" width="5%">No</th>
@@ -33,7 +33,7 @@
                                 <?= htmlspecialchars($row['nama_jurusan']) ?>
                             </td>
                             <td>
-                                <span class="badge bg-primary-subtle text-primary rounded-pill px-3">
+                                <span class="badge bg-primary-subtle text-primary-emphasis rounded-pill px-3">
                                     <?= htmlspecialchars($row['singkatan']) ?>
                                 </span>
                             </td>

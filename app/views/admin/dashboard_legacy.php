@@ -39,6 +39,11 @@ switch ($page) {
         $controller = new Pengajuan();
         $controller->index();
         exit;
+    case 'jadwal':
+        require_once __DIR__ . '/../../../controllers/Jadwal.php';
+        $controller = new Jadwal();
+        $controller->index();
+        exit;
     case 'peminjaman':
         // UPDATED: Mengarah ke struktur modular peminjaman
         $content_file = __DIR__ . '/peminjaman/index.php';
