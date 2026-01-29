@@ -12,3 +12,7 @@ SMTP_USERNAME=your-email@gmail.com
 SMTP_PASSWORD=your-16-digit-app-password
 SMTP_FROM_EMAIL=your-email@gmail.com
 SMTP_FROM_NAME=ICLABS - Peminjaman Lab
+
+# Konfigurasi Fonnte & Admin
+FONNTE_TOKEN=TOKEN_PANJANG_ANDA_DISINI
+WA_ADMIN=0821xxxxxxxx
