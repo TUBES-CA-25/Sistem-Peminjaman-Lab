@@ -23,22 +23,34 @@ class Pengajuan extends Controller
         // Load View Admin
         // Pastikan Anda sudah punya admin_sidebar, admin_navbar, dll
         $this->view('components/admin_head', $data);
-        $this->view('components/admin_sidebar', $data);
         $this->view('components/admin_navbar', $data);
+        $this->view('components/admin_sidebar', $data);
         $this->view('admin/pengajuan/index', $data); // Ini memuat folder views/admin/pengajuan/
         $this->view('components/admin_footer');
     }
 
     // Method Khusus Admin: Update Status & Tanggal
-    // Ini yang dipanggil oleh form di modal.php Admin
     public function updateAdmin()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             // Validasi ID
             if (empty($_POST['id'])) {
-                echo "<script>alert('Error: ID tidak ditemukan.'); window.history.back();</script>";
-                return;
+                Flasher::setFlash('Error!', 'ID tidak ditemukan', 'danger');
+                header('Location: ' . BASE_URL . '/pengajuan');
+                exit;
+            }
+
+            // --- [LANGKAH 1] AMBIL DATA USER DULU ---
+            // Kita butuh Nomor HP & Nama user yang mengajukan untuk kirim WA
+            // Pastikan method getById ada di Model Anda
+            $dataLama = $this->model('PengajuanModel')->getById($_POST['id']);
+
+            // Cek apakah data ditemukan
+            if (!$dataLama) {
+                Flasher::setFlash('Data Tidak Ditemukan!', 'Data pengajuan tidak ditemukan di database', 'danger');
+                header('Location: ' . BASE_URL . '/pengajuan');
+                exit;
             }
 
             // Tangkap Data dari Form Admin
@@ -47,24 +59,56 @@ class Pengajuan extends Controller
                 'tgl_mulai' => $_POST['tgl_mulai'],
                 'tgl_selesai' => $_POST['tgl_selesai'],
                 'status' => $_POST['status'],
-                // Ambil alasan hanya jika status Ditolak
                 'alasan_penolakan' => ($_POST['status'] == 'Ditolak') ? $_POST['alasan_penolakan'] : null
             ];
 
-            // Panggil Model (Pastikan method updatePengajuanAdmin ada di Model)
+            // Panggil Model Update
             if ($this->model('PengajuanModel')->updatePengajuanAdmin($data) > 0) {
-                // Berhasil
-                echo "<script>
-                        alert('✅ Berhasil! Data pengajuan telah diperbarui.');
-                        window.location.href='" . BASE_URL . "/pengajuan';
-                      </script>";
+
+                // --- [LANGKAH 2] LOGIKA PESAN WA DINAMIS ---
+                $nomorUser = $dataLama['telepon']; // Pastikan kolom di DB bernama 'telepon'
+                $namaUser = $dataLama['nama_lengkap'];
+                $kegiatan = $dataLama['nama_kegiatan'];
+                $statusBaru = $_POST['status'];
+
+                $pesanWA = ""; // Inisialisasi pesan
+
+                // Atur Pesan Berdasarkan Status
+                if ($statusBaru == 'Disetujui') {
+                    $pesanWA = "*✅ PENGAJUAN DISETUJUI*\n\n";
+                    $pesanWA .= "Halo kak *$namaUser*,\n";
+                    $pesanWA .= "Kabar gembira! Pengajuan kegiatan *$kegiatan* telah DISETUJUI oleh Admin.\n\n";
+                    $pesanWA .= "📅 Jadwal: " . $_POST['tgl_mulai'] . " s.d " . $_POST['tgl_selesai'] . "\n";
+                    $pesanWA .= "Mohon hadir 15 menit sebelum kegiatan dimulai.\n";
+
+                } elseif ($statusBaru == 'Ditolak') {
+                    $pesanWA = "*❌ PENGAJUAN DITOLAK*\n\n";
+                    $pesanWA .= "Halo kak *$namaUser*,\n";
+                    $pesanWA .= "Mohon maaf, pengajuan kegiatan *$kegiatan* belum dapat kami terima.\n\n";
+                    $pesanWA .= "⚠️ *Alasan:* " . $_POST['alasan_penolakan'] . "\n\n";
+                    $pesanWA .= "Silakan perbaiki proposal dan ajukan kembali jika memungkinkan.\n";
+
+                } elseif ($statusBaru == 'Menunggu Interview') {
+                    $pesanWA = "*📋 PANGGILAN INTERVIEW*\n\n";
+                    $pesanWA .= "Halo kak *$namaUser*,\n";
+                    $pesanWA .= "Berkas proposal *$kegiatan* sudah kami terima.\n\n";
+                    $pesanWA .= "Langkah selanjutnya adalah *Interview/Wawancara*. Mohon segera temui Kepala Lab/Admin di ruangan untuk verifikasi berkas.\n";
+                }
+
+                // --- [LANGKAH 3] KIRIM WA JIKA ADA PESAN ---
+                if ($pesanWA != "") {
+                    $this->kirimPesanFonnte($nomorUser, $pesanWA);
+                }
+
+                // Set Flash Message Sukses
+                Flasher::setFlash('Berhasil!', 'Status pengajuan telah diperbarui & Notifikasi WhatsApp terkirim', 'success');
+                header('Location: ' . BASE_URL . '/pengajuan');
                 exit;
+
             } else {
                 // Tidak ada perubahan / Gagal
-                echo "<script>
-                        alert('ℹ️ Data disimpan (Tidak ada perubahan detil).');
-                        window.location.href='" . BASE_URL . "/pengajuan';
-                      </script>";
+                Flasher::setFlash('Informasi', 'Data disimpan (Tidak ada perubahan)', 'info');
+                header('Location: ' . BASE_URL . '/pengajuan');
                 exit;
             }
         }
@@ -228,5 +272,36 @@ class Pengajuan extends Controller
         </html>
         <?php
         exit;
+    }
+
+
+    private function kirimPesanFonnte($target, $pesan)
+    {
+        $token = FONNTE_TOKEN;
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'https://api.fonnte.com/send',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS => array(
+                'target' => $target,
+                'message' => $pesan,
+                'countryCode' => '62',
+            ),
+            CURLOPT_HTTPHEADER => array(
+                "Authorization: $token"
+            ),
+        ));
+
+        $response = curl_exec($curl);
+        curl_close($curl);
+
+        return $response;
     }
 }

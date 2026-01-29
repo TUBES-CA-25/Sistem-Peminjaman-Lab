@@ -9,17 +9,23 @@
 <?php else: ?>
 
     <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+        <div class="card-header bg-white border-bottom py-3 d-flex justify-content-between align-items-center">
+            <h5 class="mb-0 fw-bold text-dark">Daftar Pengajuan</h5>
+            <span class="badge bg-secondary-subtle text-dark rounded-pill px-3">Total:
+                <?= count($data['pengajuan']) ?>
+            </span>
+        </div>
         <div class="table-responsive">
-            <table class="table table-hover table-borderless align-middle mb-0" style="min-width: 800px;">
-                <thead class="bg-light border-bottom">
+            <table class="table table-hover align-middle mb-0" id="pengajuanTable" style="min-width: 800px;">
+                <thead class="table-light text-secondary">
                     <tr>
-                        <th width="5%" class="text-center py-3 text-secondary text-uppercase small fw-bold">No</th>
-                        <th width="20%" class="py-3 text-secondary text-uppercase small fw-bold ps-4">Pemohon</th>
-                        <th width="25%" class="py-3 text-secondary text-uppercase small fw-bold">Kegiatan</th>
-                        <th width="20%" class="py-3 text-secondary text-uppercase small fw-bold">Waktu</th>
-                        <th width="10%" class="text-center py-3 text-secondary text-uppercase small fw-bold">Proposal</th>
-                        <th width="10%" class="text-center py-3 text-secondary text-uppercase small fw-bold">Status</th>
-                        <th width="10%" class="text-end py-3 text-secondary text-uppercase small fw-bold pe-4">Aksi</th>
+                        <th width="5%" class="px-3 py-3 border-0 rounded-start fw-bold">No</th>
+                        <th width="20%" class="py-3 border-0 fw-bold">Pemohon</th>
+                        <th width="25%" class="py-3 border-0 fw-bold">Kegiatan</th>
+                        <th width="20%" class="py-3 border-0 fw-bold">Waktu</th>
+                        <th width="10%" class="text-center py-3 border-0 fw-bold">Proposal</th>
+                        <th width="10%" class="text-center py-3 border-0 fw-bold">Status</th>
+                        <th width="10%" class="text-end px-3 py-3 border-0 rounded-end fw-bold">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>

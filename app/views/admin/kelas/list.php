@@ -18,35 +18,41 @@
 
 <!-- TABLE SECTION -->
 <div class="card border-0 shadow-sm mb-4">
-    <div class="card-body p-4">
-        <div class="table-responsive">
-            <table class="table table-hover align-middle" id="dataTable" width="100%" cellspacing="0">
-                <thead>
+    <div class="card-header bg-white border-bottom py-3 d-flex justify-content-between align-items-center">
+        <h5 class="mb-0 fw-bold text-dark">Daftar Kelas</h5>
+        <span class="badge bg-secondary-subtle text-dark rounded-pill px-3">Total: <?= count($data['kelas']) ?></span>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0" id="kelasTable" width="100%" cellspacing="0">
+            <thead class="table-light text-secondary">
+                <tr>
+                    <th class="px-4 py-3 border-0 rounded-start">No</th>
+                    <th class="py-3 border-0">Nama Kelas</th>
+                    <th class="py-3 border-0">Jurusan</th>
+                    <th class="py-3 border-0">Angkatan</th>
+                    <th class="px-4 py-3 border-0 text-end rounded-end">Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php $no = 1;
+                foreach ($data['kelas'] as $row): ?>
                     <tr>
-                        <th>No</th>
-                        <th>Nama Kelas</th>
-                        <th>Jurusan</th>
-                        <th>Angkatan</th>
-                        <th>Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php $no = 1;
-                    foreach ($data['kelas'] as $row): ?>
-                        <tr>
-                            <td>
-                                <?= $no++ ?>
-                            </td>
-                            <td>
-                                <?= htmlspecialchars($row['nama_kelas']) ?>
-                            </td>
-                            <td>
+                        <td class="px-4 fw-bold text-secondary">
+                            <?= $no++ ?>
+                        </td>
+                        <td class="fw-bold text-dark">
+                            <?= htmlspecialchars($row['nama_kelas']) ?>
+                        </td>
+                        <td>
+                            <span class="badge bg-info-subtle text-info-emphasis rounded-pill px-3">
                                 <?= htmlspecialchars($row['nama_jurusan'] ?? '-') ?>
-                            </td>
-                            <td>
-                                <?= htmlspecialchars($row['angkatan'] ?? '-') ?>
-                            </td>
-                            <td>
+                            </span>
+                        </td>
+                        <td class="text-secondary">
+                            <?= htmlspecialchars($row['angkatan'] ?? '-') ?>
+                        </td>
+                        <td class="text-end px-4">
+                            <div class="d-flex justify-content-end gap-2">
                                 <button class="btn btn-sm btn-primary fw-bold btn-edit" data-id="<?= $row['id'] ?>"
                                     data-nama="<?= htmlspecialchars($row['nama_kelas']) ?>"
                                     data-jurusan="<?= $row['jurusan_id'] ?>"
@@ -57,11 +63,11 @@
                                 <button onclick="hapusKelas(<?= $row['id'] ?>)" class="btn btn-sm btn-danger fw-bold">
                                     <i class="fas fa-trash"></i>
                                 </button>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-        </div>
+                            </div>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
     </div>
 </div>
