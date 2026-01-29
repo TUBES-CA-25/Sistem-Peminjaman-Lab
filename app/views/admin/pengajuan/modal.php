@@ -79,7 +79,7 @@
 
                     <div class="mt-4">
                         <a href="#" id="view_proposal" target="_blank"
-                           class="btn btn-dark w-100 py-2 rounded-pill shadow-sm">
+                            class="btn btn-dark w-100 py-2 rounded-pill shadow-sm">
                             <i class="fas fa-file-pdf me-2"></i> Download Proposal
                         </a>
                     </div>
@@ -123,6 +123,13 @@
                             Update Status
                         </label>
 
+                        <div class="input-group shadow-sm">
+                            <span class="input-group-text bg-white text-muted border-end-0">
+                                <i class="bi bi-list-task"></i>
+                            </span>
+                            <select name="status" id="edit_status_select"
+                                class="form-select form-select-lg border-start-0 ps-0 focus-ring-primary"
+                                style="font-weight:200;" onchange="toggleAlasanAdmin()">
                         <select name="status" id="edit_status_select"
                                 class="form-select form-select-lg"
                                 onchange="toggleAlasanAdmin()">
@@ -153,9 +160,8 @@
                         <label class="form-label fw-bold small text-danger">
                             Alasan Penolakan
                         </label>
-                        <textarea name="alasan_penolakan" id="edit_alasan" rows="3"
-                                  class="form-control border-danger"
-                                  placeholder="Wajib diisi jika pengajuan ditolak..."></textarea>
+                        <textarea name="alasan_penolakan" id="edit_alasan" rows="3" class="form-control border-danger"
+                            placeholder="Wajib diisi jika pengajuan ditolak..."></textarea>
                     </div>
 
                     <hr class="border-secondary-subtle mb-4">
@@ -166,27 +172,22 @@
                             <label class="form-label fw-bold small text-uppercase">
                                 Tanggal Mulai
                             </label>
-                            <input type="date" class="form-control"
-                                   name="tgl_mulai" id="edit_mulai" required>
+                            <input type="date" class="form-control" name="tgl_mulai" id="edit_mulai" required>
                         </div>
                         <div class="col-md-6">
                             <label class="form-label fw-bold small text-uppercase">
                                 Tanggal Selesai
                             </label>
-                            <input type="date" class="form-control"
-                                   name="tgl_selesai" id="edit_selesai" required>
+                            <input type="date" class="form-control" name="tgl_selesai" id="edit_selesai" required>
                         </div>
                     </div>
 
                     <!-- Action -->
                     <div class="d-flex justify-content-end gap-2">
-                        <button type="button"
-                                class="btn btn-light border"
-                                data-bs-dismiss="modal">
+                        <button type="button" class="btn btn-light border" data-bs-dismiss="modal">
                             Batal
                         </button>
-                        <button type="submit"
-                                class="btn btn-warning fw-bold px-4">
+                        <button type="submit" class="btn btn-warning fw-bold px-4">
                             <i class="bi bi-check-circle-fill me-1"></i>
                             Simpan Perubahan
                         </button>
@@ -198,4 +199,3 @@
         </div>
     </div>
 </div>
-

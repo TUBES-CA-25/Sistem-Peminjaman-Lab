@@ -19,11 +19,6 @@ switch ($page) {
         $controller = new User();
         $controller->index();
         exit;
-    case 'tahun_ajaran':
-        require_once __DIR__ . '/../../../controllers/TahunAjaran.php';
-        $controller = new TahunAjaran();
-        $controller->index();
-        exit;
     case 'jurusan':
         require_once __DIR__ . '/../../../controllers/Jurusan.php';
         $controller = new Jurusan();
@@ -37,6 +32,16 @@ switch ($page) {
     case 'matakuliah':
         require_once __DIR__ . '/../../../controllers/Matakuliah.php';
         $controller = new Matakuliah();
+        $controller->index();
+        exit;
+    case 'pengajuan':
+        require_once __DIR__ . '/../../../controllers/Pengajuan.php';
+        $controller = new Pengajuan();
+        $controller->index();
+        exit;
+    case 'jadwal':
+        require_once __DIR__ . '/../../../controllers/Jadwal.php';
+        $controller = new Jadwal();
         $controller->index();
         exit;
     case 'peminjaman':
