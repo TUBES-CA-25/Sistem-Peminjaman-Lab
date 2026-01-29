@@ -175,73 +175,99 @@ const PeminjamanApp = (function () {
     const UI = {
         renderTable: () => {
             const tbody = document.getElementById('pTableBody');
+            const totalEl = document.getElementById('totalBookings');
             if (!tbody) return;
             tbody.innerHTML = '';
 
-            Data.bookings.forEach((item) => {
+            if (totalEl) totalEl.innerText = `Total: ${Data.bookings.length}`;
+
+            Data.bookings.forEach((item, index) => {
                 const tr = document.createElement('tr');
+                tr.className = 'border-bottom';
+
+                // 1. Column Pemohon (User)
+                // Match Users/Pengajuan style: Name (Bold Dark), Email (Muted with icon), Status/Role (Small Primary)
                 const peminjamHTML = `
-            <div class="p-user-name">${item.name}</div>
-            <div class="p-user-email">${item.email}</div>
-            <div class="p-user-instansi">${item.instansi}</div>
-            <div class="p-user-role ${item.role === 'eksternal' ? 'p-role-eksternal' : item.role === 'internal' ? 'p-role-internal' : 'p-role-admin'}">${item.role}</div>
+            <div class="fw-bold text-dark">${item.name}</div>
+            <div class="small text-muted"><i class="fas fa-envelope me-1"></i> ${item.email}</div>
+            <div class="small text-primary fw-bold mt-1">${item.instansi}</div>
           `;
 
-                let statusClass = 'p-status-aktif';
+                // 2. Column Status Badge
+                let badgeClass = 'bg-secondary';
                 const statusLower = item.statusPeminjaman.toLowerCase();
-                if (statusLower.includes('menunggu')) statusClass = 'p-status-nonaktif';
-                else if (statusLower.includes('tergeser')) statusClass = 'p-status-tergeser';
-                else if (statusLower.includes('ditolak')) statusClass = 'p-status-nonaktif';
+                if (statusLower.includes('disetujui') || statusLower === 'aktif') badgeClass = 'bg-success-subtle text-success';
+                else if (statusLower.includes('menunggu')) badgeClass = 'bg-warning-subtle text-warning';
+                else if (statusLower.includes('tergeser')) badgeClass = 'bg-danger-subtle text-danger';
+                else if (statusLower.includes('ditolak') || statusLower === 'nonaktif') badgeClass = 'bg-danger-subtle text-danger';
 
-                const tipeClass = item.tipe.toLowerCase() === 'eksternal' ? 'p-eksternal' : (item.tipe.toLowerCase() === 'internal' ? 'p-internal' : 'p-admin');
+                // 3. Column Tipe Badge
+                let tipeBadgeClass = 'bg-secondary';
+                if (item.tipe.toLowerCase() === 'eksternal') tipeBadgeClass = 'bg-primary-subtle text-primary';
+                else if (item.tipe.toLowerCase() === 'internal') tipeBadgeClass = 'bg-warning-subtle text-dark';
+                else if (item.tipe.toLowerCase() === 'admin') tipeBadgeClass = 'bg-dark-subtle text-dark';
 
+                // 4. Action Buttons
                 let actionButtons = '';
                 const id = item.id;
 
                 if (item.role === 'internal') {
+                    // Internal: Only Delete usually
                     actionButtons = `
-              <button type="button" class="p-act p-del" title="Hapus" onclick="PeminjamanApp.Actions.delete(${id})">
-                  <i class="fas fa-times"></i>
+              <button type="button" class="btn btn-sm btn-danger fw-bold shadow-sm" title="Hapus" onclick="PeminjamanApp.Actions.delete(${id})">
+                  <i class="fas fa-trash"></i>
               </button>
             `;
                 } else {
-                    // Eksternal or Admin
+                    // Eksternal/Admin: Edit, Approve, Delete
+                    // Disable Approve if already Approved
+                    const isApproved = (item.statusPeminjaman === 'Disetujui');
+                    const approveBtn = isApproved
+                        ? `<button type="button" class="btn btn-sm btn-secondary fw-bold shadow-sm disabled" title="Sudah Disetujui" disabled><i class="fas fa-check"></i></button>`
+                        : `<button type="button" class="btn btn-sm btn-success fw-bold shadow-sm" title="Approve" onclick="PeminjamanApp.Actions.approve(${id})"><i class="fas fa-check"></i></button>`;
+
                     actionButtons = `
-              <button type="button" class="p-act p-edit" title="Edit" onclick="PeminjamanApp.Actions.openExternalEdit(${id})">
+              <button type="button" class="btn btn-sm btn-primary fw-bold shadow-sm me-1" title="Edit" onclick="PeminjamanApp.Actions.openExternalEdit(${id})">
                   <i class="fas fa-edit"></i>
               </button>
-              <button type="button" class="p-act p-check" title="Approve" onclick="PeminjamanApp.Actions.approve(${id})">
-                  <i class="fas fa-check"></i>
-              </button>
-              <button type="button" class="p-act p-del" title="Hapus" onclick="PeminjamanApp.Actions.delete(${id})">
-                  <i class="fas fa-times"></i>
+              ${approveBtn}
+              <button type="button" class="btn btn-sm btn-danger fw-bold shadow-sm ms-1" title="Hapus" onclick="PeminjamanApp.Actions.delete(${id})">
+                  <i class="fas fa-trash"></i>
               </button>
             `;
                 }
 
-                if (item.statusPeminjaman === 'Disetujui') {
-                    actionButtons = actionButtons.replace('title="Approve"', 'title="Approve" disabled style="opacity:0.3;cursor:default;"');
-                }
-
                 tr.innerHTML = `
-            <td>${peminjamHTML}</td>
-            <td>${item.lab}</td>
+            <td class="ps-4">${peminjamHTML}</td>
+            <td class="fw-bold text-dark">${item.lab}</td>
             <td>
-            <div class="p-dt">
-                <div class="p-date"><i class="far fa-calendar"></i> ${item.tanggal}</div>
-                <div class="p-time"><i class="far fa-clock"></i> ${item.waktuMulai} - ${item.waktuSelesai}</div>
-            </div>
+                <div class="small">
+                    <div class="mb-1"><span class="text-primary fw-bold"><i class="far fa-calendar me-1"></i></span> ${item.tanggal}</div>
+                    <div><span class="text-secondary fw-bold"><i class="far fa-clock me-1"></i></span> ${item.waktuMulai} - ${item.waktuSelesai}</div>
+                </div>
             </td>
-            <td><span class="p-badge ${statusClass}">${item.statusPeminjaman}</span></td>
-            <td><span class="p-badge-tipe ${tipeClass}">${item.tipe}</span></td>
-            <td style="text-align:right;">
-            <div class="p-actions">
-                ${actionButtons}
-            </div>
+            <td><span class="badge rounded-pill ${badgeClass}">${item.statusPeminjaman}</span></td>
+            <td><span class="badge rounded-pill ${tipeBadgeClass}">${item.tipe}</span></td>
+            <td class="text-end px-4">
+                <div class="d-flex justify-content-end align-items-center">
+                    ${actionButtons}
+                </div>
             </td>
           `;
                 tbody.appendChild(tr);
             });
+
+            // Init Simple DataTables for dynamic content
+            if (typeof simpleDatatables !== 'undefined') {
+                const tableEl = document.getElementById('pTable');
+                if (tableEl) {
+                    // Destroy if existing instance to prevent duplication on re-render
+                    if (window.pTableInstance) {
+                        window.pTableInstance.destroy();
+                    }
+                    window.pTableInstance = new simpleDatatables.DataTable(tableEl, { perPage: 10, perPageSelect: [10, 20, 50] });
+                }
+            }
         },
 
         renderSchedule: () => {
