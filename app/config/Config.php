@@ -61,3 +61,6 @@ foreach ($requiredEnvVars as $var) {
 if (!empty($missingVars)) {
     die('❌ ERROR: Missing required environment variables in .env file: ' . implode(', ', $missingVars));
 }
+
+define('FONNTE_TOKEN', getenv('FONNTE_TOKEN'));
+define('WA_ADMIN_UTAMA', getenv('WA_ADMIN'));

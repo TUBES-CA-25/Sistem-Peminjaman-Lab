@@ -15,6 +15,11 @@
     </div>
 </div>
 
+<!-- Flash Message -->
+<div class="mb-3">
+    <?php Flasher::flash(); ?>
+</div>
+
 <div class="card border-0 shadow-sm mb-4">
     <div class="card-body p-0">
         <?php include 'list.php'; ?>

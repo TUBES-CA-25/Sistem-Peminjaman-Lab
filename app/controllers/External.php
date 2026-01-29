@@ -84,21 +84,32 @@ class External extends Controller
 
             // 2. Susun Data
             $data = [
-                // PERBAIKAN: Masukkan User ID agar data terhubung ke akun
-                'user_id' => $_SESSION['user_id'],
-
-                'nama_lengkap' => $_POST['nama'],
-                'email' => $_POST['email'],
-                'telepon' => $_POST['telepon'],
+                'user_id'        => $_SESSION['user_id'],
+                'nama_lengkap'   => $_POST['nama'],
+                'email'          => $_POST['email'],
+                'telepon'        => $_POST['telepon'],
                 'jumlah_peserta' => $_POST['jumlah_peserta'],
-                'nama_kegiatan' => $_POST['nama_kegiatan'],
-                'tgl_mulai' => $_POST['tgl_mulai'],
-                'tgl_selesai' => $_POST['tgl_selesai'],
-                'file_proposal' => $file_proposal
+                'nama_kegiatan'  => $_POST['nama_kegiatan'],
+                'tgl_mulai'      => $_POST['tgl_mulai'],
+                'tgl_selesai'    => $_POST['tgl_selesai'],
+                'file_proposal'  => $file_proposal
             ];
 
             // 3. Kirim ke Model
             if ($this->model('PengajuanModel')->tambahPengajuan($data) > 0) {
+                $nomorAdmin = WA_ADMIN_UTAMA;
+                // Susun Pesan
+                $pesan  = "*🔔 PENGAJUAN BARU MASUK*\n\n";
+                $pesan .= "Halo Admin, ada pengajuan peminjaman baru:\n";
+                $pesan .= "👤 Nama: " . $_POST['nama'] . "\n";
+                $pesan .= "📞 WA: " . $_POST['telepon'] . "\n";
+                $pesan .= "📅 Tgl: " . $_POST['tgl_mulai'] . " s/d " . $_POST['tgl_selesai'] . "\n";
+                $pesan .= "📝 Kegiatan: " . $_POST['nama_kegiatan'] . "\n\n";
+                $pesan .= "Mohon cek dashboard untuk verifikasi.";
+
+                // Eksekusi kirim pesan
+                $this->kirimPesanFonnte($nomorAdmin, $pesan);
+                
                 Flasher::setFlash('Berhasil', 'Pengajuan berhasil dikirim.', 'success');
                 header('Location: ' . BASE_URL . '/external');
                 exit;
@@ -246,5 +257,36 @@ class External extends Controller
         session_destroy();
         header('Location: ' . BASE_URL . '/auth');
         exit;
+    }
+
+    private function kirimPesanFonnte($target, $pesan)
+    {
+        $token = FONNTE_TOKEN; 
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+          CURLOPT_URL => 'https://api.fonnte.com/send',
+          CURLOPT_RETURNTRANSFER => true,
+          CURLOPT_ENCODING => '',
+          CURLOPT_MAXREDIRS => 10,
+          CURLOPT_TIMEOUT => 0, 
+          CURLOPT_FOLLOWLOCATION => true,
+          CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+          CURLOPT_CUSTOMREQUEST => 'POST',
+          CURLOPT_POSTFIELDS => array(
+            'target' => $target,
+            'message' => $pesan,
+            'countryCode' => '62',
+          ),
+          CURLOPT_HTTPHEADER => array(
+            "Authorization: $token"
+          ),
+        ));
+
+        $response = curl_exec($curl);
+        curl_close($curl);
+        
+        return $response;
     }
 }
