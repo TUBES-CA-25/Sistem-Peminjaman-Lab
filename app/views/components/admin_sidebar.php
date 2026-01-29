@@ -51,13 +51,7 @@
         <div class="sidebar-header" style="margin-top: 2rem;">MENU LAINNYA</div>
 
         <ul class="sidebar-menu">
-            <li class="sidebar-item">
-                <a href="<?= BASE_URL ?>/tahun_ajaran"
-                    class="sidebar-link <?= ($active_page === 'tahun_ajaran') ? 'active' : ''; ?>">
-                    <i class="fas fa-calendar-alt sidebar-icon"></i>
-                    <span>Tahun Ajaran</span>
-                </a>
-            </li>
+
             <li class="sidebar-item">
                 <a href="<?= BASE_URL ?>/jurusan"
                     class="sidebar-link <?= ($active_page === 'jurusan') ? 'active' : ''; ?>">

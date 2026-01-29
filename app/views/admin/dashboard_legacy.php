@@ -19,11 +19,6 @@ switch ($page) {
         $controller = new User();
         $controller->index();
         exit;
-    case 'tahun_ajaran':
-        require_once __DIR__ . '/../../../controllers/TahunAjaran.php';
-        $controller = new TahunAjaran();
-        $controller->index();
-        exit;
     case 'jurusan':
         require_once __DIR__ . '/../../../controllers/Jurusan.php';
         $controller = new Jurusan();
