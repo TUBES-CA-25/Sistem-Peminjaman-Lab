@@ -36,8 +36,9 @@ class Pengajuan extends Controller
 
             // Validasi ID
             if (empty($_POST['id'])) {
-                echo "<script>alert('Error: ID tidak ditemukan.'); window.history.back();</script>";
-                return;
+                Flasher::setFlash('Error!', 'ID tidak ditemukan', 'danger');
+                header('Location: ' . BASE_URL . '/pengajuan');
+                exit;
             }
 
             // --- [LANGKAH 1] AMBIL DATA USER DULU ---
@@ -47,8 +48,9 @@ class Pengajuan extends Controller
             
             // Cek apakah data ditemukan
             if (!$dataLama) {
-                echo "<script>alert('Data tidak ditemukan di database.'); window.history.back();</script>";
-                return;
+                Flasher::setFlash('Data Tidak Ditemukan!', 'Data pengajuan tidak ditemukan di database', 'danger');
+                header('Location: ' . BASE_URL . '/pengajuan');
+                exit;
             }
 
             // Tangkap Data dari Form Admin
@@ -98,19 +100,15 @@ class Pengajuan extends Controller
                     $this->kirimPesanFonnte($nomorUser, $pesanWA);
                 }
 
-                // Redirect Sukses
-                echo "<script>
-                        alert('✅ Berhasil! Status diperbarui & Notifikasi WA terkirim.');
-                        window.location.href='" . BASE_URL . "/pengajuan';
-                      </script>";
+                // Set Flash Message Sukses
+                Flasher::setFlash('Berhasil!', 'Status pengajuan telah diperbarui & Notifikasi WhatsApp terkirim', 'success');
+                header('Location: ' . BASE_URL . '/pengajuan');
                 exit;
 
             } else {
                 // Tidak ada perubahan / Gagal
-                echo "<script>
-                        alert('ℹ️ Data disimpan (Tidak ada perubahan detil).');
-                        window.location.href='" . BASE_URL . "/pengajuan';
-                      </script>";
+                Flasher::setFlash('Informasi', 'Data disimpan (Tidak ada perubahan)', 'info');
+                header('Location: ' . BASE_URL . '/pengajuan');
                 exit;
             }
         }
