@@ -45,8 +45,6 @@
                             <option value="">Pilih Status</option>
                             <option value="Dosen">Dosen</option>
                             <option value="Asisten">Asisten</option>
-                            <option value="Mahasiswa">Mahasiswa</option>
-                            <option value="Staff">Staff</option>
                         </select>
                     </div>
 

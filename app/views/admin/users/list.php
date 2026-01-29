@@ -40,8 +40,8 @@
                             <?php
                             $badgeClass = match ($u['role']) {
                                 'external' => 'bg-primary-subtle text-primary',
-                                'internal' => 'bg-success-subtle text-success',
-                                'admin' => 'bg-warning-subtle text-warning',
+                                'internal' => 'bg-warning-subtle text-dark',
+                                'admin' => 'bg-dark-subtle text-dark',
                                 default => 'bg-secondary'
                             };
                             ?>
@@ -61,16 +61,16 @@
                                 </button>
 
                                 <?php /* 
-                              <form action="<?= BASE_URL ?>/user" method="POST"
-                                  onsubmit="return confirm('Hapus pengguna ini?');">
-                                  <input type="hidden" name="action" value="delete">
-                                  <input type="hidden" name="id" value="<?= $u['id'] ?>">
-                                  <button type="submit"
-                                      class="btn btn-sm btn-danger fw-bold d-flex align-items-center gap-1">
-                                      <i class="fas fa-trash"></i> <span class="d-none d-lg-inline">Hapus</span>
-                                  </button>
-                              </form> 
-                              */ ?>
+                          <form action="<?= BASE_URL ?>/user" method="POST"
+                              onsubmit="return confirm('Hapus pengguna ini?');">
+                              <input type="hidden" name="action" value="delete">
+                              <input type="hidden" name="id" value="<?= $u['id'] ?>">
+                              <button type="submit"
+                                  class="btn btn-sm btn-danger fw-bold d-flex align-items-center gap-1">
+                                  <i class="fas fa-trash"></i> <span class="d-none d-lg-inline">Hapus</span>
+                              </button>
+                          </form> 
+                          */ ?>
                                 <button type="button" onclick="hapusUser(<?= $u['id'] ?>)"
                                     class="btn btn-sm btn-danger fw-bold d-flex align-items-center gap-1">
                                     <i class="fas fa-trash"></i> <span class="d-none d-lg-inline">Hapus</span>

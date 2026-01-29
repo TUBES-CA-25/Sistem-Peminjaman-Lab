@@ -23,8 +23,8 @@ class Pengajuan extends Controller
         // Load View Admin
         // Pastikan Anda sudah punya admin_sidebar, admin_navbar, dll
         $this->view('components/admin_head', $data);
-        $this->view('components/admin_sidebar', $data);
         $this->view('components/admin_navbar', $data);
+        $this->view('components/admin_sidebar', $data);
         $this->view('admin/pengajuan/index', $data); // Ini memuat folder views/admin/pengajuan/
         $this->view('components/admin_footer');
     }
@@ -45,7 +45,7 @@ class Pengajuan extends Controller
             // Kita butuh Nomor HP & Nama user yang mengajukan untuk kirim WA
             // Pastikan method getById ada di Model Anda
             $dataLama = $this->model('PengajuanModel')->getById($_POST['id']);
-            
+
             // Cek apakah data ditemukan
             if (!$dataLama) {
                 Flasher::setFlash('Data Tidak Ditemukan!', 'Data pengajuan tidak ditemukan di database', 'danger');
@@ -64,32 +64,32 @@ class Pengajuan extends Controller
 
             // Panggil Model Update
             if ($this->model('PengajuanModel')->updatePengajuanAdmin($data) > 0) {
-                
+
                 // --- [LANGKAH 2] LOGIKA PESAN WA DINAMIS ---
-                $nomorUser  = $dataLama['telepon']; // Pastikan kolom di DB bernama 'telepon'
-                $namaUser   = $dataLama['nama_lengkap'];
-                $kegiatan   = $dataLama['nama_kegiatan'];
+                $nomorUser = $dataLama['telepon']; // Pastikan kolom di DB bernama 'telepon'
+                $namaUser = $dataLama['nama_lengkap'];
+                $kegiatan = $dataLama['nama_kegiatan'];
                 $statusBaru = $_POST['status'];
-                
+
                 $pesanWA = ""; // Inisialisasi pesan
 
                 // Atur Pesan Berdasarkan Status
                 if ($statusBaru == 'Disetujui') {
-                    $pesanWA  = "*✅ PENGAJUAN DISETUJUI*\n\n";
+                    $pesanWA = "*✅ PENGAJUAN DISETUJUI*\n\n";
                     $pesanWA .= "Halo kak *$namaUser*,\n";
                     $pesanWA .= "Kabar gembira! Pengajuan kegiatan *$kegiatan* telah DISETUJUI oleh Admin.\n\n";
                     $pesanWA .= "📅 Jadwal: " . $_POST['tgl_mulai'] . " s.d " . $_POST['tgl_selesai'] . "\n";
                     $pesanWA .= "Mohon hadir 15 menit sebelum kegiatan dimulai.\n";
-                
+
                 } elseif ($statusBaru == 'Ditolak') {
-                    $pesanWA  = "*❌ PENGAJUAN DITOLAK*\n\n";
+                    $pesanWA = "*❌ PENGAJUAN DITOLAK*\n\n";
                     $pesanWA .= "Halo kak *$namaUser*,\n";
                     $pesanWA .= "Mohon maaf, pengajuan kegiatan *$kegiatan* belum dapat kami terima.\n\n";
                     $pesanWA .= "⚠️ *Alasan:* " . $_POST['alasan_penolakan'] . "\n\n";
                     $pesanWA .= "Silakan perbaiki proposal dan ajukan kembali jika memungkinkan.\n";
 
                 } elseif ($statusBaru == 'Menunggu Interview') {
-                    $pesanWA  = "*📋 PANGGILAN INTERVIEW*\n\n";
+                    $pesanWA = "*📋 PANGGILAN INTERVIEW*\n\n";
                     $pesanWA .= "Halo kak *$namaUser*,\n";
                     $pesanWA .= "Berkas proposal *$kegiatan* sudah kami terima.\n\n";
                     $pesanWA .= "Langkah selanjutnya adalah *Interview/Wawancara*. Mohon segera temui Kepala Lab/Admin di ruangan untuk verifikasi berkas.\n";
@@ -281,27 +281,27 @@ class Pengajuan extends Controller
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-          CURLOPT_URL => 'https://api.fonnte.com/send',
-          CURLOPT_RETURNTRANSFER => true,
-          CURLOPT_ENCODING => '',
-          CURLOPT_MAXREDIRS => 10,
-          CURLOPT_TIMEOUT => 0,
-          CURLOPT_FOLLOWLOCATION => true,
-          CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-          CURLOPT_CUSTOMREQUEST => 'POST',
-          CURLOPT_POSTFIELDS => array(
-            'target' => $target,
-            'message' => $pesan,
-            'countryCode' => '62', 
-          ),
-          CURLOPT_HTTPHEADER => array(
-            "Authorization: $token"
-          ),
+            CURLOPT_URL => 'https://api.fonnte.com/send',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS => array(
+                'target' => $target,
+                'message' => $pesan,
+                'countryCode' => '62',
+            ),
+            CURLOPT_HTTPHEADER => array(
+                "Authorization: $token"
+            ),
         ));
 
         $response = curl_exec($curl);
         curl_close($curl);
-        
+
         return $response;
     }
 }
