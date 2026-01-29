@@ -67,12 +67,43 @@ function toggleAlasanAdmin() {
 
     if (statusEl && box && txt) {
         const status = statusEl.value;
+        
+        // Toggle alasan penolakan
         if (status === 'Ditolak') {
             box.style.display = 'block';
             txt.setAttribute('required', 'required');
         } else {
             box.style.display = 'none';
             txt.removeAttribute('required');
+        }
+
+        // Dynamic border and background color based on status
+        statusEl.classList.remove('status-warning', 'status-info', 'status-success', 'status-danger');
+        
+        switch(status) {
+            case 'Menunggu Konfirmasi':
+                statusEl.classList.add('status-warning');
+                statusEl.style.borderColor = '#f59e0b';
+                statusEl.style.backgroundColor = '#fffbeb';
+                break;
+            case 'Menunggu Interview':
+                statusEl.classList.add('status-info');
+                statusEl.style.borderColor = '#3b82f6';
+                statusEl.style.backgroundColor = '#eff6ff';
+                break;
+            case 'Disetujui':
+                statusEl.classList.add('status-success');
+                statusEl.style.borderColor = '#10b981';
+                statusEl.style.backgroundColor = '#f0fdf4';
+                break;
+            case 'Ditolak':
+                statusEl.classList.add('status-danger');
+                statusEl.style.borderColor = '#ef4444';
+                statusEl.style.backgroundColor = '#fef2f2';
+                break;
+            default:
+                statusEl.style.borderColor = '#e2e8f0';
+                statusEl.style.backgroundColor = '#ffffff';
         }
     }
 }

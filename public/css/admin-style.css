@@ -10,6 +10,119 @@ body {
     background-color: #f8f9fa;
 }
 
+/* ========================================== */
+/* MODAL FIX - Remove Anomaly Boxes */
+/* ========================================== */
+
+/* Remove all list styles and potential anomalies in modals */
+.modal *,
+.modal *::before,
+.modal *::after {
+    list-style: none !important;
+    list-style-type: none !important;
+}
+
+/* Ensure all headings in modal are block elements */
+.modal h1, .modal h2, .modal h3, .modal h4, .modal h5, .modal h6 {
+    display: block !important;
+    list-style: none !important;
+    list-style-type: none !important;
+}
+
+/* Remove any potential checkbox or radio styling */
+.modal input[type="checkbox"]:not(:checked):not([class*="form-check"]),
+.modal input[type="radio"]:not(:checked):not([class*="form-check"]) {
+    display: none !important;
+}
+
+/* ========================================== */
+/* CUSTOM STATUS DROPDOWN STYLING */
+/* ========================================== */
+
+/* Status Select Dropdown */
+#edit_status_select {
+    font-weight: 600 !important;
+    font-size: 1rem;
+    padding: 14px 18px;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    background-color: #ffffff;
+    color: #1e293b;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    width: 100%;
+}
+
+#edit_status_select:hover {
+    border-color: #cbd5e1;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    transform: translateY(-1px);
+}
+
+#edit_status_select:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15), 0 4px 12px rgba(0, 0, 0, 0.1);
+    background-color: #f8fafc;
+}
+
+/* Option Colors - Dynamic based on status */
+#edit_status_select option {
+    padding: 12px;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+/* Menunggu Konfirmasi - Yellow/Warning */
+#edit_status_select option[value="Menunggu Konfirmasi"] {
+    background-color: #fef3c7;
+    color: #92400e;
+}
+
+/* Menunggu Interview - Blue/Info */
+#edit_status_select option[value="Menunggu Interview"] {
+    background-color: #dbeafe;
+    color: #1e40af;
+}
+
+/* Disetujui - Green/Success */
+#edit_status_select option[value="Disetujui"] {
+    background-color: #d1fae5;
+    color: #065f46;
+}
+
+/* Ditolak - Red/Danger */
+#edit_status_select option[value="Ditolak"] {
+    background-color: #fee2e2;
+    color: #991b1b;
+}
+
+/* Dynamic Status Classes */
+#edit_status_select.status-warning {
+    border-color: #f59e0b !important;
+    background-color: #fffbeb !important;
+    color: #92400e !important;
+}
+
+#edit_status_select.status-info {
+    border-color: #3b82f6 !important;
+    background-color: #eff6ff !important;
+    color: #1e40af !important;
+}
+
+#edit_status_select.status-success {
+    border-color: #10b981 !important;
+    background-color: #f0fdf4 !important;
+    color: #065f46 !important;
+}
+
+#edit_status_select.status-danger {
+    border-color: #ef4444 !important;
+    background-color: #fef2f2 !important;
+    color: #991b1b !important;
+}
+
 /* Navbar Styles */
 .navbar {
     background: #fff;
@@ -839,6 +952,39 @@ body {
     transform: translateY(-2px);
     /* Efek naik sedikit saat hover */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Button View - Blue */
+.btn-view {
+    background-color: #e7f1ff;
+    color: #0d6efd;
+}
+
+.btn-view:hover {
+    background-color: #0d6efd;
+    color: white;
+}
+
+/* Button Edit - Yellow */
+.btn-edit {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.btn-edit:hover {
+    background-color: #ffc107;
+    color: #000;
+}
+
+/* Button Delete - Red */
+.btn-delete {
+    background-color: #f8d7da;
+    color: #842029;
+}
+
+.btn-delete:hover {
+    background-color: #dc3545;
+    color: white;
 }
 
 /* Custom button styles removed to use standard Bootstrap classes */
