@@ -123,13 +123,6 @@
                             Update Status
                         </label>
 
-                        <div class="input-group shadow-sm">
-                            <span class="input-group-text bg-white text-muted border-end-0">
-                                <i class="bi bi-list-task"></i>
-                            </span>
-                            <select name="status" id="edit_status_select"
-                                class="form-select form-select-lg border-start-0 ps-0 focus-ring-primary"
-                                style="font-weight:200;" onchange="toggleAlasanAdmin()">
                         <select name="status" id="edit_status_select"
                                 class="form-select form-select-lg"
                                 onchange="toggleAlasanAdmin()">
