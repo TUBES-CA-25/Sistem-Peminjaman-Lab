@@ -151,37 +151,6 @@ body {
     }
 }
 
-/* Custom Components & Utilities */
-.bg-gradient-primary-custom {
-    background: linear-gradient(135deg, #122E4F 0%, #1F45AC 100%);
-}
-
-.table-hover tbody tr:hover {
-    background-color: #f8fafc;
-}
-
-/* Card Transitions */
-.lab-card {
-    transition: transform 0.3s, box-shadow 0.3s;
-}
-
-.lab-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
-}
-
-/* Upload Area */
-.upload-area {
-    border: 2px dashed #dee2e6;
-    transition: all 0.3s;
-}
-
-.upload-area:hover,
-.upload-area.dragover {
-    border-color: #0d6efd;
-    background-color: #f8f9fa;
-}
-
 /* ===================================== */
 /* PEMINJAMAN MODULE STYLES */
 /* ===================================== */
