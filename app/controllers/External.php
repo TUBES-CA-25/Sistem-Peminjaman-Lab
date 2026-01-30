@@ -4,20 +4,18 @@ class External extends Controller
 {
     public function __construct()
     {
-        // Pastikan session aktif & user sudah login
+        // Proteksi dengan Error 401 & 403
         if (!isset($_SESSION['user_id'])) {
-            header('Location: ' . BASE_URL . '/auth');
+            // Belum login → Error 401
+            http_response_code(401);
+            require_once __DIR__ . '/../views/errors/401.php';
             exit;
         }
 
-        // Proteksi: Hanya role 'external' yang boleh masuk sini
         if ($_SESSION['role'] !== 'external') {
-            // Redirect ke halaman masing-masing jika salah kamar
-            if ($_SESSION['role'] == 'admin') {
-                header('Location: ' . BASE_URL . '/admin');
-            } elseif ($_SESSION['role'] == 'internal') {
-                header('Location: ' . BASE_URL . '/internal');
-            }
+            // Sudah login tapi bukan external → Error 403
+            http_response_code(403);
+            require_once __DIR__ . '/../views/errors/403.php';
             exit;
         }
     }

@@ -24,6 +24,10 @@ class App
             } elseif (file_exists(__DIR__ . '/../controllers/' . ucfirst($url[0]) . '.php')) {
                 $this->controller = ucfirst($url[0]);
                 unset($url[0]);
+            } else {
+                // ✅ TAMBAHAN BARU: Redirect ke 404 jika controller tidak ditemukan
+                $this->show404();
+                return;
             }
         }
 
@@ -35,6 +39,10 @@ class App
             if (method_exists($this->controller, $url[1])) {
                 $this->method = $url[1];
                 unset($url[1]);
+            } else {
+                // ✅ TAMBAHAN BARU: Redirect ke 404 jika method tidak ditemukan
+                $this->show404();
+                return;
             }
         }
 
@@ -75,5 +83,22 @@ class App
         }
 
         return [];
+    }
+
+    /**
+     * ✅ METHOD BARU: Handle 404 Error
+     */
+    private function show404()
+    {
+        http_response_code(404);
+        
+        // Load 404 page
+        if (file_exists(__DIR__ . '/../views/errors/404.php')) {
+            require_once __DIR__ . '/../views/errors/404.php';
+        } else {
+            // Fallback jika file 404.php tidak ada
+            echo '<h1>404 - Page Not Found</h1>';
+        }
+        exit;
     }
 }
