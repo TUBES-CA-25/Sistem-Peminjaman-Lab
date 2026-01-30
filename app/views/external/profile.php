@@ -2,110 +2,142 @@
 
 <?php include __DIR__ . '/../components/external_sidebar.php'; ?>
 
-    <div class="container-fluid px-4">
-        <div class="hero-bg rounded-3" style="margin-top: 0px; margin-bottom: 20px;">
-            <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
-                <div class="text-white">
-                    <h2 class="fw-bold mb-1">Profil Saya</h2>
-                    <p class="opacity-75 mb-0">Kelola informasi akun dan keamanan Anda di sini.</p>
-                </div>
-            </div>
+<div class="container-fluid px-4" style="margin-top: 20px;">
+    <!-- Flash Message -->
+    <div class="row">
+        <div class="col-12">
+            <?php Flasher::flash(); ?>
         </div>
     </div>
 
-        <div class="container-fluid px-4">
-            
-            <div class="row mt-3">
-                <div class="col-12">
-                    <?php Flasher::flash(); ?>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-12">
-                    <div class="dashboard-card mt-3 p-4 bg-white rounded shadow-sm">
-                        
-                        <form action="<?= BASE_URL; ?>/external/prosesUpdateProfile" method="POST" id="formProfile">
-                            
-                            <div class="row">
-                                <div class="col-md-4 text-center border-end">
-                                    <div class="py-3">
-                                        <div class="avatar-profile">
-                                            <?= strtoupper(substr($data['user']['nama'], 0, 1)); ?>
-                                        </div>
-                                        <h5 class="fw-bold text-dark"><?= $data['user']['nama']; ?></h5>
-                                        <p class="text-muted small mb-4"><?= $data['user']['email']; ?></p>
-                                        
-                                        <button type="button" id="btnEdit" class="btn btn-primary w-75 fw-bold mb-2">
-                                            <i class="bi bi-pencil-square me-2"></i>Edit Profil
-                                        </button>
-
-                                        <div id="actionButtons" class="d-none justify-content-center gap-2">
-                                            <button type="submit" class="btn btn-success fw-bold">
-                                                <i class="bi bi-check-lg"></i> Simpan
-                                            </button>
-                                            <button type="button" id="btnCancel" class="btn btn-outline-danger fw-bold">
-                                                Batal
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-8 ps-md-5">
-                                    
-                                    <h6 class="fw-bold text-primary mb-3">DATA DIRI</h6>
-                                    
-                                    <div class="mb-3">
-                                        <label class="form-label small fw-bold text-secondary">NAMA LENGKAP</label>
-                                        <input type="text" class="form-control" name="nama" id="inputNama" 
-                                               value="<?= $data['user']['nama']; ?>" readonly required>
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <label class="form-label small fw-bold text-secondary">NOMOR TELEPON / WA</label>
-                                        <input type="text" class="form-control" name="telepon" id="inputTelepon" 
-                                               value="<?= $data['user']['telepon']; ?>" readonly required>
-                                    </div>
-
-                                    <hr class="my-4">
-
-                                    <h6 class="fw-bold text-primary mb-3">LOGIN & KEAMANAN</h6>
-
-                                    <div class="mb-3">
-                                        <label class="form-label small fw-bold text-secondary">ALAMAT EMAIL</label>
-                                        <input type="email" class="form-control" name="email" id="inputEmail" 
-                                               value="<?= $data['user']['email']; ?>" readonly required>
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <label class="form-label small fw-bold text-secondary">PASSWORD BARU</label>
-                                        <input type="password" class="form-control" name="password_baru" id="inputPassword" 
-                                               placeholder="******" readonly>
-                                        <div class="form-text fst-italic">
-                                            *Biarkan kosong jika tidak ingin mengubah password.
-                                        </div>
-                                    </div>
-                                    
-                                    <input type="hidden" id="originalNama" value="<?= $data['user']['nama']; ?>">
-                                    <input type="hidden" id="originalTelepon" value="<?= $data['user']['telepon']; ?>">
-                                    <input type="hidden" id="originalEmail" value="<?= $data['user']['email']; ?>">
-
-                                </div>
+    <!-- Profile Card with Cover -->
+    <div class="row">
+        <div class="col-12">
+            <div class="profile-card-modern">
+                <!-- Cover Gradient -->
+                <div class="profile-cover">
+                    <div class="cover-gradient">
+                        <div class="profile-cover-content">
+                            <div class="profile-cover-icon">
+                                <i class="fas fa-user-circle"></i>
                             </div>
-                        </form>
-
+                            <div class="profile-cover-text">
+                                <h1 class="profile-cover-title">Profil Saya</h1>
+                                <p class="profile-cover-subtitle">Kelola informasi akun dan preferensi Anda</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
+
+                <!-- Avatar Overlap -->
+                <div class="profile-avatar-section">
+                    <div class="avatar-wrapper">
+                        <div class="avatar-large">
+                            <?= strtoupper(substr($user['nama'], 0, 1)); ?>
+                        </div>
+                        <div class="avatar-badge">
+                            <i class="fas fa-user-circle"></i> External User
+                        </div>
+                    </div>
+                    <div class="profile-header-info">
+                        <h3 class="profile-name"><?= $user['nama']; ?></h3>
+                        <p class="profile-email"><i class="fas fa-envelope me-2"></i><?= $user['email']; ?></p>
+                        <p class="profile-member-since"><i class="fas fa-calendar-alt me-2"></i>Member sejak <?= date('F Y', strtotime($user['created_at'] ?? 'now')); ?></p>
+                    </div>
+                </div>
+
+                <!-- Form Section -->
+                <form action="<?= BASE_URL; ?>/external/prosesUpdateProfile" method="POST" id="formProfile">
+                    <div class="row g-4 mt-3">
+                        <!-- Data Diri Card -->
+                        <div class="col-md-6">
+                            <div class="info-card">
+                                <div class="info-card-header">
+                                    <i class="fas fa-user-edit"></i>
+                                    <h5>Data Diri</h5>
+                                </div>
+                                <div class="info-card-body">
+                                    <div class="form-group-modern mb-3">
+                                        <label class="form-label-modern">
+                                            <i class="fas fa-user"></i> Nama Lengkap
+                                        </label>
+                                        <input type="text" class="form-control-modern" name="nama" id="inputNama" 
+                                               value="<?= $user['nama']; ?>" readonly required>
+                                    </div>
+
+                                    <div class="form-group-modern mb-3">
+                                        <label class="form-label-modern">
+                                            <i class="fas fa-phone"></i> Nomor Telepon / WA
+                                        </label>
+                                        <input type="text" class="form-control-modern" name="telepon" id="inputTelepon" 
+                                               value="<?= $user['telepon']; ?>" readonly required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Login & Keamanan Card -->
+                        <div class="col-md-6">
+                            <div class="info-card">
+                                <div class="info-card-header">
+                                    <i class="fas fa-shield-alt"></i>
+                                    <h5>Login & Keamanan</h5>
+                                </div>
+                                <div class="info-card-body">
+                                    <div class="form-group-modern mb-3">
+                                        <label class="form-label-modern">
+                                            <i class="fas fa-envelope"></i> Alamat Email
+                                        </label>
+                                        <input type="email" class="form-control-modern" name="email" id="inputEmail" 
+                                               value="<?= $user['email']; ?>" readonly required>
+                                    </div>
+
+                                    <div class="form-group-modern mb-3">
+                                        <label class="form-label-modern">
+                                            <i class="fas fa-lock"></i> Password Baru
+                                        </label>
+                                        <input type="password" class="form-control-modern" name="password_baru" id="inputPassword" 
+                                               placeholder="Biarkan kosong jika tidak ingin mengubah" readonly>
+                                        <div class="form-hint">
+                                            <i class="fas fa-info-circle"></i> Kosongkan jika tidak ingin mengubah password
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="profile-actions mt-4">
+                        <button type="button" id="btnEdit" class="btn-modern btn-primary-modern">
+                            <i class="fas fa-edit me-2"></i>Edit Profil
+                        </button>
+                        <div id="actionButtons" class="d-none">
+                            <button type="submit" class="btn-modern btn-success-modern">
+                                <i class="fas fa-check me-2"></i>Simpan Perubahan
+                            </button>
+                            <button type="button" id="btnCancel" class="btn-modern btn-cancel-modern">
+                                <i class="fas fa-times me-2"></i>Batal
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Hidden Fields -->
+                    <input type="hidden" id="originalNama" value="<?= $user['nama']; ?>">
+                    <input type="hidden" id="originalTelepon" value="<?= $user['telepon']; ?>">
+                    <input type="hidden" id="originalEmail" value="<?= $user['email']; ?>">
+                </form>
             </div>
         </div>
-
-
-    </main>
+    </div>
 </div>
 
+</main>
+</div>
 
-
+<!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         const btnEdit = document.getElementById('btnEdit');
@@ -127,23 +159,29 @@
 
         // MODE EDIT
         btnEdit.addEventListener('click', function() {
-            inputs.forEach(input => input.removeAttribute('readonly'));
+            inputs.forEach(input => {
+                input.removeAttribute('readonly');
+                input.classList.add('editing');
+            });
             inputs[0].focus();
             
             btnEdit.classList.add('d-none');
             actionButtons.classList.remove('d-none');
-            actionButtons.classList.add('d-flex');
+            actionButtons.classList.add('d-flex', 'gap-2');
         });
 
         // MODE BATAL
         btnCancel.addEventListener('click', function() {
-            inputs.forEach(input => input.setAttribute('readonly', true));
+            inputs.forEach(input => {
+                input.setAttribute('readonly', true);
+                input.classList.remove('editing');
+            });
             
             // Reset ke data asli
             inputs[0].value = originalData.nama;
             inputs[1].value = originalData.telepon;
             inputs[2].value = originalData.email;
-            inputs[3].value = ''; // Password kosong
+            inputs[3].value = '';
 
             actionButtons.classList.add('d-none');
             actionButtons.classList.remove('d-flex');
@@ -151,35 +189,3 @@
         });
     });
 </script>
-
-<!-- Bootstrap JS Bundle -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-<style>
-    .avatar-profile {
-        width: 100px;
-        height: 100px;
-        background: linear-gradient(135deg, #0d6efd, #0a58ca);
-        color: white;
-        font-size: 2.5rem;
-        font-weight: bold;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 50%;
-        margin: 0 auto 15px auto;
-        box-shadow: 0 4px 10px rgba(13, 110, 253, 0.3);
-    }
-    /* Style input saat mode baca (readonly) */
-    .form-control:read-only {
-        background-color: #f8f9fa;
-        border: 1px solid #dee2e6;
-        color: #6c757d;
-    }
-    /* Style input saat mode edit */
-    .form-control:not(:read-only) {
-        background-color: #fff;
-        border-color: #0d6efd;
-        box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.15);
-    }
-</style>
