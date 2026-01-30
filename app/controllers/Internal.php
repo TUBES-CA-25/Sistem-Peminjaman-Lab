@@ -22,8 +22,17 @@ class Internal extends Controller
         $this->peminjamanModel = $this->model('PeminjamanModel');
 
         // Proteksi Halaman Internal
-        if (!isset($_SESSION['user_id']) || $_SESSION['role'] != 'internal') {
-            header('Location: ' . BASE_URL . '/auth/login');
+        if (!isset($_SESSION['user_id'])) {
+            // Belum login → Error 401
+            http_response_code(401);
+            require_once __DIR__ . '/../views/errors/401.php';
+            exit;
+        }
+
+        if ($_SESSION['role'] !== 'internal') {
+            // Sudah login tapi bukan internal → Error 403
+            http_response_code(403);
+            require_once __DIR__ . '/../views/errors/403.php';
             exit;
         }
     }
