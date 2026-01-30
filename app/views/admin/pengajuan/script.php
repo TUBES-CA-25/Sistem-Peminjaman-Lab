@@ -30,7 +30,7 @@
             if (data.proposal && data.proposal !== '#') {
                 btnProposal.href = data.proposal;
                 btnProposal.classList.remove('disabled', 'btn-secondary');
-                btnProposal.classList.add('btn-dark'); // Sesuaikan warna tombol baru
+                btnProposal.classList.add('btn-dark');
                 btnProposal.innerHTML = '<i class="fas fa-file-pdf me-2"></i> Download Proposal';
             } else {
                 btnProposal.href = '#';
@@ -41,13 +41,12 @@
             }
         }
 
-        // ===== ALASAN PENOLAKAN (MODIFIED FOR DIV) =====
+        // ===== ALASAN PENOLAKAN =====
         const rowAlasan = document.getElementById('row_view_alasan');
         const txtAlasan = document.getElementById('view_alasan');
 
         if (rowAlasan && txtAlasan) {
             if (data.status === 'Ditolak') {
-                // PERUBAHAN: Gunakan 'block' karena bukan tabel lagi
                 rowAlasan.style.display = 'block';
                 txtAlasan.innerText = data.alasan ?? '-';
             } else {
@@ -66,12 +65,43 @@
 
         if (statusEl && box && txt) {
             const status = statusEl.value;
+            
+            // Toggle alasan penolakan
             if (status === 'Ditolak') {
                 box.style.display = 'block';
                 txt.setAttribute('required', 'required');
             } else {
                 box.style.display = 'none';
                 txt.removeAttribute('required');
+            }
+
+            // Dynamic border and background color based on status
+            statusEl.classList.remove('status-warning', 'status-info', 'status-success', 'status-danger');
+            
+            switch(status) {
+                case 'Menunggu Konfirmasi':
+                    statusEl.classList.add('status-warning');
+                    statusEl.style.borderColor = '#f59e0b';
+                    statusEl.style.backgroundColor = '#fffbeb';
+                    break;
+                case 'Menunggu Interview':
+                    statusEl.classList.add('status-info');
+                    statusEl.style.borderColor = '#3b82f6';
+                    statusEl.style.backgroundColor = '#eff6ff';
+                    break;
+                case 'Disetujui':
+                    statusEl.classList.add('status-success');
+                    statusEl.style.borderColor = '#10b981';
+                    statusEl.style.backgroundColor = '#f0fdf4';
+                    break;
+                case 'Ditolak':
+                    statusEl.classList.add('status-danger');
+                    statusEl.style.borderColor = '#ef4444';
+                    statusEl.style.backgroundColor = '#fef2f2';
+                    break;
+                default:
+                    statusEl.style.borderColor = '#e2e8f0';
+                    statusEl.style.backgroundColor = '#ffffff';
             }
         }
     }

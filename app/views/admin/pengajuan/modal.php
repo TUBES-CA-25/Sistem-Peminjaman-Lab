@@ -118,36 +118,32 @@
 
                     <!-- Update Status -->
                     <div class="mb-4">
-                        <label class="form-label fw-bold small text-uppercase text-dark mb-2">
+                        <label class="form-label fw-bold small text-uppercase text-dark mb-3">
                             <i class="bi bi-patch-check-fill text-primary me-1"></i>
                             Update Status
                         </label>
 
-                        <div class="input-group shadow-sm">
-                            <span class="input-group-text bg-white text-muted border-end-0">
-                                <i class="bi bi-list-task"></i>
-                            </span>
-                            <select name="status" id="edit_status_select"
-                                class="form-select form-select-lg border-start-0 ps-0 focus-ring-primary"
-                                style="font-weight:200;" onchange="toggleAlasanAdmin()">
+                        <select name="status" id="edit_status_select"
+                                class="form-select form-select-lg"
+                                onchange="toggleAlasanAdmin()">
 
-                                <option value="Menunggu Konfirmasi" class="text-warning">
-                                    ⏳ Menunggu Konfirmasi
-                                </option>
-                                <option value="Menunggu Interview" class="text-info">
-                                    📋 Menunggu Interview
-                                </option>
-                                <option value="Disetujui" class="text-success">
-                                    ✅ Disetujui
-                                </option>
-                                <option value="Ditolak" class="text-danger">
-                                    ❌ Ditolak
-                                </option>
+                            <option value="Menunggu Konfirmasi">
+                                ⏳ Menunggu Konfirmasi
+                            </option>
+                            <option value="Menunggu Interview">
+                                📋 Menunggu Interview
+                            </option>
+                            <option value="Disetujui">
+                                ✅ Disetujui
+                            </option>
+                            <option value="Ditolak">
+                                ❌ Ditolak
+                            </option>
 
-                            </select>
-                        </div>
+                        </select>
 
-                        <div class="form-text small text-muted mt-1">
+                        <div class="form-text small text-muted mt-2">
+                            <i class="bi bi-info-circle me-1"></i>
                             Pilih status terbaru untuk pengajuan ini.
                         </div>
                     </div>

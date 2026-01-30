@@ -4,6 +4,9 @@ class Controller
 {
     public function view($view, $data = [])
     {
+        // Extract array menjadi variabel
+        extract($data);
+        
         require_once __DIR__ . '/../views/' . $view . '.php';
     }
 
