@@ -126,6 +126,7 @@ nav.navbar.navbar-expand.fixed-top {
     min-height: calc(100vh - 70px);
 }
 
+/* Sidebar Styles */
 .sidebar {
     width: 280px;
     background: #fff;
@@ -136,7 +137,6 @@ nav.navbar.navbar-expand.fixed-top {
     top: 70px;
     bottom: 0;
     overflow-y: auto;
-    z-index: 999;
 }
 
 .sidebar-header {
@@ -150,8 +150,6 @@ nav.navbar.navbar-expand.fixed-top {
 
 .sidebar-menu {
     list-style: none;
-    padding: 0;
-    margin: 0;
 }
 
 .sidebar-item {
