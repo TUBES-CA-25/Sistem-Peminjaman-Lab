@@ -13,8 +13,8 @@ class Auth extends Controller
         'prosesRegister',
         'forgot',
         'sendResetLink',
-        'reset',           // ← Tambahkan ini
-        'processReset',    // ← Dan ini
+        'reset',          
+        'processReset',    
         'emailSent',
         'logout'
     ];
@@ -94,6 +94,13 @@ class Auth extends Controller
 
             if ($this->model('UserModel')->getUserByEmail($email)) {
                 Flasher::setFlash('Gagal', 'Email sudah terdaftar. Silakan login.', 'danger');
+                header('Location: ' . BASE_URL . '/auth/register');
+                exit;
+            }
+
+            // Validasi panjang password minimal 6 karakter
+            if (strlen($password) < 6) {
+                Flasher::setFlash('Gagal', 'Password minimal 6 karakter.', 'danger');
                 header('Location: ' . BASE_URL . '/auth/register');
                 exit;
             }
@@ -259,8 +266,23 @@ class Auth extends Controller
             $password = $_POST['password'] ?? '';
             $confirm = $_POST['password_confirm'] ?? '';
 
-            if (empty($token) || empty($password) || $password !== $confirm) {
-                Flasher::setFlash('Gagal', 'Data tidak valid atau password tidak cocok.', 'danger');
+            // Validasi password kosong
+            if (empty($token) || empty($password)) {
+                Flasher::setFlash('Gagal', 'Token dan password wajib diisi.', 'danger');
+                header('Location: ' . BASE_URL . '/auth/reset?token=' . $token);
+                exit;
+            }
+
+            // Validasi panjang password minimal 6 karakter
+            if (strlen($password) < 6) {
+                Flasher::setFlash('Gagal', 'Password minimal 6 karakter.', 'danger');
+                header('Location: ' . BASE_URL . '/auth/reset?token=' . $token);
+                exit;
+            }
+
+            // Validasi konfirmasi password
+            if ($password !== $confirm) {
+                Flasher::setFlash('Gagal', 'Konfirmasi password tidak sesuai.', 'danger');
                 header('Location: ' . BASE_URL . '/auth/reset?token=' . $token);
                 exit;
             }

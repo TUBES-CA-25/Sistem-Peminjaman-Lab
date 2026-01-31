@@ -30,7 +30,7 @@
             if (data.proposal && data.proposal !== '#') {
                 btnProposal.href = data.proposal;
                 btnProposal.classList.remove('disabled', 'btn-secondary');
-                btnProposal.classList.add('btn-dark'); // Sesuaikan warna tombol baru
+                btnProposal.classList.add('btn-dark');
                 btnProposal.innerHTML = '<i class="fas fa-file-pdf me-2"></i> Download Proposal';
             } else {
                 btnProposal.href = '#';
@@ -41,13 +41,12 @@
             }
         }
 
-        // ===== ALASAN PENOLAKAN (MODIFIED FOR DIV) =====
+        // ===== ALASAN PENOLAKAN =====
         const rowAlasan = document.getElementById('row_view_alasan');
         const txtAlasan = document.getElementById('view_alasan');
 
         if (rowAlasan && txtAlasan) {
             if (data.status === 'Ditolak') {
-                // PERUBAHAN: Gunakan 'block' karena bukan tabel lagi
                 rowAlasan.style.display = 'block';
                 txtAlasan.innerText = data.alasan ?? '-';
             } else {
@@ -66,6 +65,18 @@
 
         if (statusEl && box && txt) {
             const status = statusEl.value;
+
+            // Toggle alasan penolakan
+            if (status === 'Ditolak') {
+                box.style.display = 'block';
+                txt.setAttribute('required', 'required');
+            } else {
+                box.style.display = 'none';
+                txt.removeAttribute('required');
+            }
+
+            // Dynamic border and background color based on status
+            // Toggle alasan penolakan
             if (status === 'Ditolak') {
                 box.style.display = 'block';
                 txt.setAttribute('required', 'required');

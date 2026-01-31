@@ -32,8 +32,6 @@ class External extends Controller
         // FIXED: Pass user_id untuk filter
         $data['riwayat'] = $this->model('PengajuanModel')->getRiwayat($_SESSION['user_id']);
 
-        $data['active_page'] = 'external';
-
         $this->view('components/external_header', $data);
         $this->view('components/external_navbar', $data);
         $this->view('external/index', $data);

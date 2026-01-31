@@ -6,10 +6,10 @@
     </a>
 
     <div class="navbar-menu">
-        <!-- Sign Out Button: Visible on Desktop, Hidden on Mobile -->
+        <!-- Sign Out Button -->
         <a href="<?= BASE_URL ?>/auth/logout" class="btn-signout d-none d-md-block">Sign Out</a>
         
-        <!-- Hamburger Button: Visible on Mobile, Hidden on Desktop -->
+        <!-- Hamburger Button: Mobile only -->
         <button id="mobileNavbarToggle" class="d-md-none navbar-hamburger">
             <i class="fas fa-bars"></i>
         </button>

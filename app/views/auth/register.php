@@ -232,13 +232,14 @@
                     <div class="mb-3">
                         <label class="small text-white-50">Password</label>
                         <input type="password" name="password" class="form-control" placeholder="Buat password"
-                            required>
+                            minlength="6" title="Password minimal 6 karakter" required>
+                        <small class="text-white-50 opacity-75">Minimal 6 karakter</small>
                     </div>
 
                     <div class="mb-4">
                         <label class="small text-white-50">Konfirmasi Password</label>
                         <input type="password" name="confirm_password" class="form-control"
-                            placeholder="Ulangi password" required>
+                            placeholder="Ulangi password" minlength="6" required>
                     </div>
 
                     <button type="submit" class="btn btn-register w-100">

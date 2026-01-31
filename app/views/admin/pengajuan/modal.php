@@ -93,12 +93,12 @@
 
 <!-- MODAL EDIT -->
 <div class="modal fade" id="modalEdit" tabindex="-1">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content border-0 shadow-lg">
 
             <!-- Header -->
-            <div class="modal-header bg-warning bg-opacity-10">
-                <h5 class="modal-title fw-bold text-dark">
+            <div class="modal-header">
+                <h5 class="modal-title fw-bold">
                     <i class="bi bi-pencil-square me-2"></i>Proses Pengajuan
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
@@ -110,45 +110,23 @@
 
                     <input type="hidden" name="id" id="edit_id">
 
-                    <!-- Info -->
-                    <div class="alert alert-light border small text-muted mb-4">
-                        <i class="bi bi-info-circle me-1"></i>
-                        Admin dapat memperbarui status pengajuan serta menyesuaikan jadwal kegiatan.
-                    </div>
 
                     <!-- Update Status -->
                     <div class="mb-4">
                         <label class="form-label fw-bold small text-uppercase text-dark mb-2">
-                            <i class="bi bi-patch-check-fill text-primary me-1"></i>
-                            Update Status
+                            <i class="bi bi-patch-check-fill text-primary me-1"></i> UPDATE STATUS
                         </label>
 
-                        <div class="input-group shadow-sm">
-                            <span class="input-group-text bg-white text-muted border-end-0">
-                                <i class="bi bi-list-task"></i>
-                            </span>
-                            <select name="status" id="edit_status_select"
-                                class="form-select form-select-lg border-start-0 ps-0 focus-ring-primary"
-                                style="font-weight:200;" onchange="toggleAlasanAdmin()">
+                        <select name="status" id="edit_status_select" class="form-select shadow-sm fw-bold text-dark"
+                            onchange="toggleAlasanAdmin()" style="cursor: pointer;">
+                            <option value="Menunggu Konfirmasi">Menunggu Konfirmasi</option>
+                            <option value="Menunggu Interview">Menunggu Interview</option>
+                            <option value="Disetujui">Disetujui</option>
+                            <option value="Ditolak">Ditolak</option>
+                        </select>
 
-                                <option value="Menunggu Konfirmasi" class="text-warning">
-                                    ⏳ Menunggu Konfirmasi
-                                </option>
-                                <option value="Menunggu Interview" class="text-info">
-                                    📋 Menunggu Interview
-                                </option>
-                                <option value="Disetujui" class="text-success">
-                                    ✅ Disetujui
-                                </option>
-                                <option value="Ditolak" class="text-danger">
-                                    ❌ Ditolak
-                                </option>
-
-                            </select>
-                        </div>
-
-                        <div class="form-text small text-muted mt-1">
-                            Pilih status terbaru untuk pengajuan ini.
+                        <div class="form-text small text-muted mt-2 ps-1">
+                            <i class="bi bi-info-circle me-1"></i> Pilih status terbaru untuk memproses pengajuan ini.
                         </div>
                     </div>
 
@@ -184,7 +162,7 @@
                         <button type="button" class="btn btn-light border" data-bs-dismiss="modal">
                             Batal
                         </button>
-                        <button type="submit" class="btn btn-warning fw-bold px-4">
+                        <button type="submit" class="btn btn-primary fw-bold px-4">
                             <i class="bi bi-check-circle-fill me-1"></i>
                             Simpan Perubahan
                         </button>
