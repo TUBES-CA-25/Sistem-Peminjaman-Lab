@@ -112,13 +112,13 @@
 
                             <td class="text-end pe-4">
                                 <div class="d-flex justify-content-end gap-2">
-                                    <button class="btn btn-sm btn-primary text-white fw-bold d-flex align-items-center gap-1"
+                                    <button class="btn-icon btn-view"
                                         data-item="<?= $dataJSON; ?>" onclick="openDetailModal(this)" title="Lihat Detail">
-                                        <i class="fas fa-eye"></i> <span class="d-none d-lg-inline">Detail</span>
+                                        <i class="fas fa-eye"></i>
                                     </button>
-                                    <button class="btn btn-sm btn-warning fw-bold d-flex align-items-center gap-1"
+                                    <button class="btn-icon btn-edit"
                                         data-item="<?= $dataJSON; ?>" onclick="openEditModal(this)" title="Proses Status">
-                                        <i class="fas fa-edit"></i> <span class="d-none d-lg-inline">Proses</span>
+                                        <i class="fas fa-edit"></i>
                                     </button>
                                 </div>
                             </td>

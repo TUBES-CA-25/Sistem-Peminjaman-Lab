@@ -846,37 +846,43 @@ body {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-/* Styling untuk tombol view */
+/* Styling untuk tombol view agar senada */
 .btn-view {
-    background-color: #e7f1ff;
-    color: #0d6efd;
+    background-color: #eff6ff !important;
+    color: #2563eb !important;
+    border: 1.5px solid #dbeafe !important; /* Border biru sangat muda agar soft */
 }
 
 .btn-view:hover {
-    background-color: #0d6efd;
-    color: white;
+    background-color: #2563eb !important;
+    border-color: #2563eb !important;
+    color: white !important;
 }
 
-/* Styling untuk tombol edit */
+/* Styling untuk tombol edit sesuai permintaan (Tanpa Border Biru) */
 .btn-edit {
-    background-color: #fff3cd;
-    color: #856404;
+    background-color: #fffbeb !important; /* Cream/Kuning muda */
+    color: #856404 !important; /* Gold/Brown icon */
+    border: 1.5px solid #fef3c7 !important; /* Border cream senada agar rapi */
 }
 
 .btn-edit:hover {
-    background-color: #ffc107;
-    color: #000;
+    background-color: #fef3c7 !important;
+    border-color: #fde68a !important;
+    transform: translateY(-2px);
 }
 
-/* Styling untuk tombol delete */
+/* Styling untuk tombol delete sesuai gambar referensi */
 .btn-delete {
-    background-color: #f8d7da;
-    color: #842029;
+    background-color: #dc3545 !important; /* Solid Red */
+    color: #ffffff !important; /* White icon */
+    border: 1.5px solid #dc3545 !important;
 }
 
 .btn-delete:hover {
-    background-color: #dc3545;
-    color: white;
+    background-color: #bb2d3b !important;
+    border-color: #bb2d3b !important;
+    transform: translateY(-2px);
 }
 
 /* Agar ikon di dalam tombol pas di tengah */
