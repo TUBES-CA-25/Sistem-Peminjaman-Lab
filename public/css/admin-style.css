@@ -842,7 +842,38 @@ body {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-/* Custom button styles removed to use standard Bootstrap classes */
+/* Styling untuk tombol view */
+.btn-view {
+    background-color: #e7f1ff;
+    color: #0d6efd;
+}
+
+.btn-view:hover {
+    background-color: #0d6efd;
+    color: white;
+}
+
+/* Styling untuk tombol edit */
+.btn-edit {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.btn-edit:hover {
+    background-color: #ffc107;
+    color: #000;
+}
+
+/* Styling untuk tombol delete */
+.btn-delete {
+    background-color: #f8d7da;
+    color: #842029;
+}
+
+.btn-delete:hover {
+    background-color: #dc3545;
+    color: white;
+}
 
 /* Agar ikon di dalam tombol pas di tengah */
 .btn-icon i {
