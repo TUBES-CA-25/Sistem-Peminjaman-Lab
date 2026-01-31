@@ -20,7 +20,7 @@
                     <th class="py-3 border-0">Singkatan</th>
                     <th class="py-3 border-0">Smt / SKS</th>
                     <th class="py-3 border-0">Jurusan</th>
-                    <th class="px-4 py-3 border-0 text-end rounded-end">Aksi</th>
+                    <th class="px-4 py-3 border-0 text-end rounded-end" data-sortable="false">Aksi</th>
                 </tr>
             </thead>
             <tbody>
@@ -53,7 +53,7 @@
                         </td>
                         <td class="text-end px-4">
                             <div class="d-flex justify-content-end gap-2">
-                                <button class="btn btn-sm btn-primary fw-bold btn-edit" data-id="<?= $row['id'] ?>"
+                                <button class="btn-icon btn-edit btn-edit" data-id="<?= $row['id'] ?>"
                                     data-nama="<?= htmlspecialchars($row['nama_matakuliah']) ?>"
                                     data-kode="<?= htmlspecialchars($row['kode_matakuliah']) ?>"
                                     data-singkatan="<?= htmlspecialchars($row['singkatan'] ?? '') ?>"
@@ -63,7 +63,7 @@
                                     data-bs-target="#editModal">
                                     <i class="fas fa-edit"></i>
                                 </button>
-                                <button onclick="hapusMatakuliah(<?= $row['id'] ?>)" class="btn btn-sm btn-danger fw-bold">
+                                <button onclick="hapusMatakuliah(<?= $row['id'] ?>)" class="btn-icon btn-delete">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </div>

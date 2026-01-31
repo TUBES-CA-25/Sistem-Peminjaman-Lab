@@ -212,19 +212,26 @@ const PeminjamanApp = (function () {
                 const id = item.id;
 
                 if (item.role === 'internal') {
-                    // Internal: Only Delete usually
+                    // Internal: Only Delete biasanya
                     actionButtons = `
-              <button type="button" class="btn btn-sm btn-danger fw-bold shadow-sm" title="Hapus" onclick="PeminjamanApp.Actions.delete(${id})">
+              <button type="button" class="btn-icon btn-delete" title="Hapus" onclick="PeminjamanApp.Actions.delete(${id})">
                   <i class="fas fa-trash"></i>
               </button>
             `;
                 } else {
-                    // Eksternal/Admin: Edit, Delete (Approve removed as it is auto-approved)
+                    // Eksternal/Admin: Edit, Approve, Delete
+                    // Disable Approve if already Approved
+                    const isApproved = (item.statusPeminjaman === 'Disetujui');
+                    const approveBtn = isApproved
+                        ? `<button type="button" class="btn-icon btn-view disabled" title="Sudah Disetujui" disabled><i class="fas fa-check"></i></button>`
+                        : `<button type="button" class="btn-icon btn-view" title="Approve" onclick="PeminjamanApp.Actions.approve(${id})"><i class="fas fa-check"></i></button>`;
+
                     actionButtons = `
-              <button type="button" class="btn btn-sm btn-primary fw-bold shadow-sm me-1" title="Edit" onclick="PeminjamanApp.Actions.openExternalEdit(${id})">
+              <button type="button" class="btn-icon btn-edit" title="Edit" onclick="PeminjamanApp.Actions.openExternalEdit(${id})">
                   <i class="fas fa-edit"></i>
               </button>
-              <button type="button" class="btn btn-sm btn-danger fw-bold shadow-sm ms-1" title="Hapus" onclick="PeminjamanApp.Actions.delete(${id})">
+              ${approveBtn}
+              <button type="button" class="btn-icon btn-delete" title="Hapus" onclick="PeminjamanApp.Actions.delete(${id})">
                   <i class="fas fa-trash"></i>
               </button>
             `;

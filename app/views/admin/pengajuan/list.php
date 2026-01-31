@@ -25,7 +25,7 @@
                         <th width="20%" class="py-3 border-0 fw-bold">Waktu</th>
                         <th width="10%" class="text-center py-3 border-0 fw-bold">Proposal</th>
                         <th width="10%" class="text-center py-3 border-0 fw-bold">Status</th>
-                        <th width="10%" class="py-3 border-0 rounded-end fw-bold">Aksi</th>
+                        <th width="10%" class="text-end px-3 py-3 border-0 rounded-end fw-bold" data-sortable="false">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -91,28 +91,34 @@
 
                             <td class="text-center">
                                 <?php
-                                $badgeClass = 'bs-warning';
-                                if ($row['status'] == 'Disetujui')
-                                    $badgeClass = 'bs-success';
-                                elseif ($row['status'] == 'Ditolak')
-                                    $badgeClass = 'bs-danger';
-                                elseif ($row['status'] == 'Menunggu Interview')
-                                    $badgeClass = 'bs-info';
+                                $badgeClass = 'bg-warning text-dark bg-opacity-25';
+                                $iconStatus = 'bi-hourglass-split';
+
+                                if ($row['status'] == 'Disetujui') {
+                                    $badgeClass = 'bg-success text-success bg-opacity-10';
+                                    $iconStatus = 'bi-check-circle-fill';
+                                } elseif ($row['status'] == 'Ditolak') {
+                                    $badgeClass = 'bg-danger text-danger bg-opacity-10';
+                                    $iconStatus = 'bi-x-circle-fill';
+                                } elseif ($row['status'] == 'Menunggu Interview') {
+                                    $badgeClass = 'bg-info text-info bg-opacity-10';
+                                    $iconStatus = 'bi-mic-fill';
+                                }
                                 ?>
-                                <span class="badge-status <?= $badgeClass; ?>">
-                                    <?= $row['status']; ?>
+                                <span class="badge <?= $badgeClass; ?> rounded-pill px-3 py-2 d-inline-flex align-items-center gap-2">
+                                    <i class="bi <?= $iconStatus; ?>"></i> <?= $row['status']; ?>
                                 </span>
                             </td>
 
-                            <td>
-                                <div class="d-flex gap-2">
-                                    <button class="btn btn-sm btn-primary text-white fw-bold d-flex align-items-center gap-1"
+                            <td class="text-end pe-4">
+                                <div class="d-flex justify-content-end gap-2">
+                                    <button class="btn-icon btn-view"
                                         data-item="<?= $dataJSON; ?>" onclick="openDetailModal(this)" title="Lihat Detail">
-                                        <i class="fas fa-eye"></i> <span class="d-none d-lg-inline">Detail</span>
+                                        <i class="fas fa-eye"></i>
                                     </button>
-                                    <button class="btn btn-sm btn-warning fw-bold d-flex align-items-center gap-1"
+                                    <button class="btn-icon btn-edit"
                                         data-item="<?= $dataJSON; ?>" onclick="openEditModal(this)" title="Proses Status">
-                                        <i class="fas fa-edit"></i> <span class="d-none d-lg-inline">Proses</span>
+                                        <i class="fas fa-edit"></i>
                                     </button>
                                 </div>
                             </td>

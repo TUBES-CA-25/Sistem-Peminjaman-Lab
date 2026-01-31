@@ -203,7 +203,6 @@ class External extends Controller
     }
 
 
-    // Method untuk menampilkan halaman profile
     public function profile()
     {
         // Cek login
