@@ -91,16 +91,22 @@
 
                             <td class="text-center">
                                 <?php
-                                $badgeClass = 'bs-warning';
-                                if ($row['status'] == 'Disetujui')
-                                    $badgeClass = 'bs-success';
-                                elseif ($row['status'] == 'Ditolak')
-                                    $badgeClass = 'bs-danger';
-                                elseif ($row['status'] == 'Menunggu Interview')
-                                    $badgeClass = 'bs-info';
+                                $badgeClass = 'bg-warning text-dark bg-opacity-25';
+                                $iconStatus = 'bi-hourglass-split';
+
+                                if ($row['status'] == 'Disetujui') {
+                                    $badgeClass = 'bg-success text-success bg-opacity-10';
+                                    $iconStatus = 'bi-check-circle-fill';
+                                } elseif ($row['status'] == 'Ditolak') {
+                                    $badgeClass = 'bg-danger text-danger bg-opacity-10';
+                                    $iconStatus = 'bi-x-circle-fill';
+                                } elseif ($row['status'] == 'Menunggu Interview') {
+                                    $badgeClass = 'bg-info text-info bg-opacity-10';
+                                    $iconStatus = 'bi-mic-fill';
+                                }
                                 ?>
-                                <span class="badge-status <?= $badgeClass; ?>">
-                                    <?= $row['status']; ?>
+                                <span class="badge <?= $badgeClass; ?> rounded-pill px-3 py-2 d-inline-flex align-items-center gap-2">
+                                    <i class="bi <?= $iconStatus; ?>"></i> <?= $row['status']; ?>
                                 </span>
                             </td>
 
