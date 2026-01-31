@@ -18,7 +18,7 @@
                     <th class="py-3 border-0">Status</th>
                     <th class="py-3 border-0">Role</th>
                     <th class="py-3 border-0">Nomor HP</th>
-                    <th class="px-4 py-3 border-0 text-end rounded-end">Aksi</th>
+                    <th class="px-4 py-3 border-0 text-end rounded-end" data-sortable="false">Aksi</th>
                 </tr>
             </thead>
             <tbody>
@@ -54,10 +54,10 @@
                         </td>
                         <td class="text-end px-4">
                             <div class="d-flex justify-content-end gap-2">
-                                <button class="btn btn-sm btn-primary fw-bold d-flex align-items-center gap-1"
+                                <button class="btn-icon btn-edit"
                                     data-bs-toggle="modal" data-bs-target="#userModal"
                                     onclick='prepareModal("edit", <?= htmlspecialchars(json_encode($u), ENT_QUOTES, "UTF-8") ?>)'>
-                                    <i class="fas fa-edit"></i> <span class="d-none d-lg-inline">Edit</span>
+                                    <i class="fas fa-edit"></i>
                                 </button>
 
                                 <?php /* 
@@ -72,8 +72,8 @@
                           </form> 
                           */ ?>
                                 <button type="button" onclick="hapusUser(<?= $u['id'] ?>)"
-                                    class="btn btn-sm btn-danger fw-bold d-flex align-items-center gap-1">
-                                    <i class="fas fa-trash"></i> <span class="d-none d-lg-inline">Hapus</span>
+                                    class="btn-icon btn-delete">
+                                    <i class="fas fa-trash"></i>
                                 </button>
                             </div>
                         </td>
