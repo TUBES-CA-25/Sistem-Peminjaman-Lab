@@ -11,7 +11,8 @@
     <table class="table table-hover align-middle mb-0" id="pTable">
       <thead class="table-light text-secondary">
         <tr>
-          <th class="px-4 py-3 border-0 rounded-start fw-bold">Peminjam</th>
+          <th class="px-4 py-3 border-0 rounded-start fw-bold" style="width: 50px;">No</th>
+          <th class="px-4 py-3 border-0 fw-bold">Peminjam</th>
           <th class="py-3 border-0 fw-bold">Lab</th>
           <th class="py-3 border-0 fw-bold">Tanggal & Waktu</th>
           <th class="py-3 border-0 fw-bold">Status</th>
