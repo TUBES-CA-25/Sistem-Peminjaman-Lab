@@ -17,6 +17,9 @@
 </div>
 
 <div class="container-fluid px-4">
+    <!-- Notification -->
+    <?php Flasher::flash(); ?>
+
     <div class="row">
         <div class="col-12">
             <div class="dashboard-card mt-4">
