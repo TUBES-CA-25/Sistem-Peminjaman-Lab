@@ -18,7 +18,7 @@
           <th class="py-3 border-0">Mata Kuliah</th>
           <th class="py-3 border-0">Frekuensi</th>
           <th class="py-3 border-0">Kelas</th>
-          <th class="px-4 py-3 border-0 text-end rounded-end">Aksi</th>
+          <th class="px-4 py-3 border-0 text-end rounded-end" data-sortable="false">Aksi</th>
         </tr>
       </thead>
       <tbody id="jadwalTableBody">

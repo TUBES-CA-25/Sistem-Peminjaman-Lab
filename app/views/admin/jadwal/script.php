@@ -63,10 +63,10 @@
         </td>
         <td class="text-end px-4">
           <div class="d-flex justify-content-end gap-2">
-            <button type="button" class="btn btn-sm btn-primary fw-bold" title="Edit" onclick="editJadwal(${item.id})">
+            <button type="button" class="btn-icon btn-edit" title="Edit" onclick="editJadwal(${item.id})">
               <i class="fas fa-edit"></i>
             </button>
-            <button type="button" class="btn btn-sm btn-danger fw-bold" title="Hapus" onclick="hapusJadwal(${item.id})">
+            <button type="button" class="btn-icon btn-delete" title="Hapus" onclick="hapusJadwal(${item.id})">
               <i class="fas fa-trash"></i>
             </button>
           </div>
