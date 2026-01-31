@@ -168,20 +168,21 @@
            Let's stick to 'eksternal' or maybe 'admin' if better? 
            User said: "jadi peminjaman khusus external", so 'eksternal' is safer. -->
 
-      <!-- Nama Instansi / Kegiatan -->
+      <!-- Nama Peminjam (previously Instansi) -->
       <div style="margin-bottom:12px;">
-        <label for="instansiKegiatan" style="font-weight:900; font-size:13px; color:#334155;">Nama Instansi /
-          Kegiatan</label>
+        <label for="instansiKegiatan" style="font-weight:900; font-size:13px; color:#334155;">Nama Peminjam /
+          Instansi</label>
         <input type="text" id="instansiKegiatan" name="instansiKegiatan" required
-          placeholder="Contoh: Kegiatan UKM / Instansi Luar"
+          placeholder="Contoh: BEM / Hima / Nama Orang"
           style="width:100%; padding:10px; border-radius:10px; border:1px solid #e2e8f0; margin-top:4px;" />
       </div>
 
-      <!-- Catatan Opsional -->
+      <!-- Nama Kegiatan (previously Catatan) -->
       <div style="margin-bottom:20px;">
-        <label for="catatanOpsional" style="font-weight:900; font-size:13px; color:#334155;">Catatan (opsional)</label>
-        <textarea id="catatanOpsional" name="catatanOpsional" rows="3" placeholder="Catatan tambahan..."
-          style="width:100%; padding:10px; border-radius:10px; border:1px solid #e2e8f0; margin-top:4px; resize:none;"></textarea>
+        <label for="catatanOpsional" style="font-weight:900; font-size:13px; color:#334155;">Nama Kegiatan</label>
+        <input type="text" id="catatanOpsional" name="catatanOpsional" required
+          placeholder="Contoh: Rapat Tahunan / Seminar"
+          style="width:100%; padding:10px; border-radius:10px; border:1px solid #e2e8f0; margin-top:4px;" />
       </div>
 
       <!-- Lab Times Table -->

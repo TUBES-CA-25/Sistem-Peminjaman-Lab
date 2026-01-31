@@ -114,7 +114,7 @@ const PeminjamanApp = (function () {
                     ...item,
                     start: item.waktuMulai,
                     end: item.waktuSelesai,
-                    title: item.instansi || item.name
+                    title: (item.instansi ? item.instansi + ' - ' : '') + item.name
                 }));
         },
 
@@ -189,7 +189,7 @@ const PeminjamanApp = (function () {
                 // Match Users/Pengajuan style: Name (Bold Dark), Email (Muted with icon), Status/Role (Small Primary)
                 const peminjamHTML = `
             <div class="fw-bold text-dark">${item.name}</div>
-            <div class="small text-muted"><i class="fas fa-envelope me-1"></i> ${item.email}</div>
+            
             <div class="small text-primary fw-bold mt-1">${item.instansi}</div>
           `;
 
@@ -231,6 +231,7 @@ const PeminjamanApp = (function () {
                 }
 
                 tr.innerHTML = `
+            <td class="ps-4 fw-bold">${index + 1}</td>
             <td class="ps-4">${peminjamHTML}</td>
             <td class="fw-bold text-dark">${item.lab}</td>
             <td>
@@ -537,10 +538,12 @@ const PeminjamanApp = (function () {
             // --- Core Logic ---
             let tanggalMulai = form.externalTanggalMulai.value;
             let tanggalSelesai = form.externalTanggalSelesai.value;
-            let instansi = form.instansiKegiatan.value.trim();
+            let namaPeminjam = form.instansiKegiatan.value.trim(); // Input: Nama Peminjam / Instansi
+            let namaKegiatan = form.catatanOpsional.value.trim();  // Input: Nama Kegiatan (Previously Catatan)
 
             if (tanggalMulai > tanggalSelesai) { Utils.showError('Tanggal Mulai melebihi Tanggal Selesai'); return false; }
-            if (!instansi) { Utils.showError('Instansi/Kegiatan wajib diisi'); return false; }
+            if (!namaPeminjam) { Utils.showError('Nama Peminjam wajib diisi'); return false; }
+            if (!namaKegiatan) { Utils.showError('Nama Kegiatan wajib diisi'); return false; }
 
             let labsToBook = [];
             Data.labs.forEach(lab => {
@@ -570,8 +573,8 @@ const PeminjamanApp = (function () {
                     labsToBook.forEach(l => {
                         requestItems.push({
                             tanggal: d, lab: l.labId, jamMulai: l.mulai, jamSelesai: l.selesai,
-                            kegiatan: instansi, catatan: form.catatanOpsional.value,
-                            tipe: form.tipe.value, nama_peminjam: instansi
+                            kegiatan: namaKegiatan,
+                            tipe: form.tipe.value, nama_peminjam: namaPeminjam
                         });
                     });
                     curr.setDate(curr.getDate() + 1);

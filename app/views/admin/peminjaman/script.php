@@ -28,7 +28,7 @@
     window.PeminjamanData.bookings.push({
       id: "<?= $booking['id'] ?>",
       name: "<?= $booking['nama_peminjam'] ?: ($booking['user_nama'] ?? '-') ?>",
-      email: "<?= $booking['user_email'] ?? '-' ?>",
+      // email: "<?= $booking['user_email'] ?? '-' ?>",
       instansi: "<?= $booking['kegiatan'] ?>",
       role: "<?= $booking['tipe'] ?>",
       tanggal: "<?= $booking['tanggal'] ?? $booking['tanggal_peminjaman'] ?? '' ?>",

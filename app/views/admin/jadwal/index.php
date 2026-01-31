@@ -26,17 +26,6 @@
   </div>
 </div>
 
-<!-- INFO BOX -->
-<div class="p-info">
-  <i class="fas fa-info-circle"></i>
-  <div>
-    <div class="p-info-title">Tentang Jadwal Praktikum Tetap</div>
-    <div class="p-info-text">
-      Jadwal praktikum tetap adalah jadwal rutin yang berulang setiap minggu.
-      Jadwal ini akan otomatis terblokir saat pembuatan peminjaman laboratorium.
-    </div>
-  </div>
-</div>
 
 <!-- TABLE SECTION -->
 <?php include 'list.php'; ?>
