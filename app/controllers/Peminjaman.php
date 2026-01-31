@@ -147,8 +147,7 @@ class Peminjaman extends Controller
                 'nama_peminjam' => $_POST['nama_peminjam'] ?? '-',
                 'kegiatan' => $_POST['kegiatan'] ?? '-', // Instansi/Kegiatan
                 'tipe' => $tipe,
-                'status' => $status,
-                'catatan' => $_POST['catatan'] ?? ''
+                'status' => $status
             ];
 
             if ($action === 'create') {
@@ -175,8 +174,7 @@ class Peminjaman extends Controller
                     'jam_mulai' => $jamMulai,
                     'jam_selesai' => $jamSelesai,
                     'nama_peminjam' => $_POST['nama_peminjam'] ?? '-',
-                    'kegiatan' => $_POST['kegiatan'] ?? '-',
-                    'catatan' => $_POST['catatan'] ?? ''
+                    'kegiatan' => $_POST['kegiatan'] ?? '-'
                 ];
 
                 if ($peminjamanModel->update($id, $updateData)) {
