@@ -798,13 +798,32 @@ body {
     border-radius: 8px;
     /* Sudut melengkung */
     border: none;
-    transition: all 0.2s ease-in-out;
-    cursor: pointer;
-    font-size: 0.85rem;
-    margin: 0 2px;
-    /* Jarak antar tombol */
-    text-decoration: none;
-    /* Hilangkan garis bawah jika tag <a> */
+}
+
+/* Force Hide Sorting Icons on Last Column (Aksi) */
+.datatable-table thead th:last-child button::before,
+.datatable-table thead th:last-child button::after,
+.datatable-table thead th:last-child .datatable-sorter::before,
+.datatable-table thead th:last-child .datatable-sorter::after {
+    display: none !important;
+    content: none !important;
+}
+
+/* Ensure Action Column Header is Left Aligned like others, but still no sort pointer */
+.datatable-table thead th:last-child {
+    text-align: left !important;
+    pointer-events: none !important;
+    cursor: default !important;
+}
+
+
+transition: all 0.2s ease-in-out;
+cursor: pointer;
+font-size: 0.85rem;
+margin: 0 2px;
+/* Jarak antar tombol */
+text-decoration: none;
+/* Hilangkan garis bawah jika tag <a> */
 }
 
 /* Efek Hover umum */

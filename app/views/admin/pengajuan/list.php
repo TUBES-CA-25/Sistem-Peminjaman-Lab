@@ -25,7 +25,7 @@
                         <th width="20%" class="py-3 border-0 fw-bold">Waktu</th>
                         <th width="10%" class="text-center py-3 border-0 fw-bold">Proposal</th>
                         <th width="10%" class="text-center py-3 border-0 fw-bold">Status</th>
-                        <th width="10%" class="text-end px-3 py-3 border-0 rounded-end fw-bold">Aksi</th>
+                        <th width="10%" class="py-3 border-0 rounded-end fw-bold">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -104,8 +104,8 @@
                                 </span>
                             </td>
 
-                            <td class="text-end pe-4">
-                                <div class="d-flex justify-content-end gap-2">
+                            <td>
+                                <div class="d-flex gap-2">
                                     <button class="btn btn-sm btn-primary text-white fw-bold d-flex align-items-center gap-1"
                                         data-item="<?= $dataJSON; ?>" onclick="openDetailModal(this)" title="Lihat Detail">
                                         <i class="fas fa-eye"></i> <span class="d-none d-lg-inline">Detail</span>

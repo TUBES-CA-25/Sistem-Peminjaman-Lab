@@ -14,7 +14,11 @@
                 // Check if it's pTable (dynamic) - wait for render?
                 // For static tables (Users, Pengajuan), init immediately.
                 if (selector !== '#pTable') {
-                    new simpleDatatables.DataTable(el, { perPage: 10, perPageSelect: [10, 20, 50] });
+                    new simpleDatatables.DataTable(el, {
+                        perPage: 10,
+                        perPageSelect: [10, 20, 50],
+                        columns: [{ select: -1, sortable: false }]
+                    });
                 }
             }
         });

@@ -16,7 +16,7 @@
           <th class="py-3 border-0 fw-bold">Tanggal & Waktu</th>
           <th class="py-3 border-0 fw-bold">Status</th>
           <th class="py-3 border-0 fw-bold">Tipe</th>
-          <th class="text-end px-4 py-3 border-0 rounded-end fw-bold">Aksi</th>
+          <th class="py-3 border-0 rounded-end fw-bold">Aksi</th>
         </tr>
       </thead>
       <tbody id="pTableBody">
