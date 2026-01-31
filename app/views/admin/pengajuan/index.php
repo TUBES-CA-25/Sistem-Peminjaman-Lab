@@ -7,9 +7,9 @@
         </div>
         <div>
             <a href="<?= BASE_URL; ?>/pengajuan/export" target="_blank"
-                class="btn btn-light fw-bold d-flex align-items-center gap-2 shadow-sm text-success">
-                <i class="fas fa-file-excel"></i>
-                Export ke Excel
+                class="btn btn-outline-light fw-bold d-flex align-items-center gap-2 shadow-sm">
+                <i class="fas fa-download"></i>
+                Export Laporan
             </a>
         </div>
     </div>

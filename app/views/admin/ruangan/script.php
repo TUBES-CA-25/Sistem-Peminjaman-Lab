@@ -29,10 +29,10 @@
             const reader = new FileReader();
             reader.onload = function (e) {
                 $('previewImg').src = e.target.result;
+                $('fileName').textContent = file.name;
                 $('imagePreview').style.display = 'block';
                 $('uploadPlaceholder').style.display = 'none';
                 $('changePhotoBtn').style.display = 'block';
-                // $('labImage').value = e.target.result; // No longer needed for file upload
             };
             reader.readAsDataURL(file);
         }
@@ -70,6 +70,7 @@
             $('changePhotoBtn').style.display = 'none';
             $('labImageFile').value = '';
             $('labImage').value = '';
+            $('fileName').textContent = '';
         }
 
         // Open Modal Logic
@@ -98,7 +99,18 @@
                 $('labImageFile').required = false;
 
                 if (data.gambar) {
-                    $('previewImg').src = data.gambar;
+                    let imgSrc = data.gambar;
+                    // Replicate PHP logic for image path
+                    if (imgSrc.startsWith('/')) {
+                        imgSrc = '<?= BASE_URL ?>' + imgSrc;
+                    } else if (imgSrc.startsWith('public/')) {
+                        imgSrc = '<?= BASE_URL ?>/' + imgSrc;
+                    } else {
+                        imgSrc = '<?= BASE_URL ?>/public/storage/images/' + imgSrc;
+                    }
+
+                    $('previewImg').src = imgSrc;
+                    $('fileName').textContent = data.gambar.split('/').pop(); // Show filename from path
                     $('imagePreview').style.display = 'block';
                     $('uploadPlaceholder').style.display = 'none';
                     $('changePhotoBtn').style.display = 'block';
