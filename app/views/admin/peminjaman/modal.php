@@ -180,8 +180,7 @@
       <!-- Nama Kegiatan (previously Catatan) -->
       <div style="margin-bottom:20px;">
         <label for="catatanOpsional" style="font-weight:900; font-size:13px; color:#334155;">Nama Kegiatan</label>
-        <input type="text" id="catatanOpsional" name="catatanOpsional" required
-          placeholder="Contoh: Rapat Tahunan / Seminar"
+        <input type="text" id="namaKegiatan" name="namaKegiatan" required placeholder="Contoh: Rapat Tahunan / Seminar"
           style="width:100%; padding:10px; border-radius:10px; border:1px solid #e2e8f0; margin-top:4px;" />
       </div>
 

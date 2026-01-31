@@ -24,23 +24,27 @@
     window.PeminjamanData.labs.push({ key: "<?= $lab['id'] ?>", name: "<?= $lab['nama_ruangan'] ?>" });
   <?php endforeach; ?>
 
-  <?php foreach ($data['bookings'] as $booking): ?>
-    window.PeminjamanData.bookings.push({
-      id: "<?= $booking['id'] ?>",
-      name: "<?= $booking['nama_peminjam'] ?: ($booking['user_nama'] ?? '-') ?>",
-      // email: "<?= $booking['user_email'] ?? '-' ?>",
-      instansi: "<?= $booking['kegiatan'] ?>",
-      role: "<?= $booking['tipe'] ?>",
-      tanggal: "<?= $booking['tanggal'] ?? $booking['tanggal_peminjaman'] ?? '' ?>",
-      status: "<?= $booking['status'] == 'menunggu' ? 'nonaktif' : 'aktif' ?>",
-      lab: "<?= $booking['lab_nama'] ?>",
-      labId: "<?= $booking['lab_id'] ?>",
-      waktuMulai: "<?= substr($booking['jam_mulai'], 0, 5) ?>",
-      waktuSelesai: "<?= substr($booking['jam_selesai'], 0, 5) ?>",
-      statusPeminjaman: "<?= ucfirst($booking['status']) ?>",
-      tipe: "<?= ucfirst($booking['tipe']) ?>"
-    });
-  <?php endforeach; ?>
+  <?php
+  $jsBookings = [];
+  foreach ($data['bookings'] as $booking) {
+    $jsBookings[] = [
+      'id' => $booking['id'],
+      'name' => $booking['nama_peminjam'] ?: ($booking['user_nama'] ?? '-'),
+      'instansi' => $booking['kegiatan'], // Kegiatan maps to Instansi
+      'role' => $booking['tipe'],
+      'tanggal' => $booking['tanggal'] ?? $booking['tanggal_peminjaman'] ?? '',
+      'status' => $booking['status'] == 'menunggu' ? 'nonaktif' : 'aktif',
+      'lab' => $booking['lab_nama'],
+      'labId' => $booking['lab_id'],
+      'waktuMulai' => substr($booking['jam_mulai'], 0, 5),
+      'waktuSelesai' => substr($booking['jam_selesai'], 0, 5),
+      'statusPeminjaman' => ucfirst($booking['status']),
+      'tipe' => ucfirst($booking['tipe'])
+    ];
+  }
+  ?>
+  window.PeminjamanData.bookings = <?= json_encode($jsBookings); ?>;
+  console.log('DEBUG: PeminjamanData.bookings', window.PeminjamanData.bookings);
 
   const rawFixed = <?= json_encode($data['fixed_schedules']); ?>;
 

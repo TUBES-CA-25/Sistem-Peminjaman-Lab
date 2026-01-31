@@ -381,6 +381,7 @@ const PeminjamanApp = (function () {
 
             pExternalForm.reset();
 
+            // Hidden Inputs
             let actionInput = pExternalForm.elements['action'];
             if (!actionInput) {
                 actionInput = document.createElement('input'); actionInput.type = 'hidden'; actionInput.name = 'action'; pExternalForm.appendChild(actionInput);
@@ -391,23 +392,69 @@ const PeminjamanApp = (function () {
             if (!idInput) {
                 idInput = document.createElement('input'); idInput.type = 'hidden'; idInput.name = 'id'; pExternalForm.appendChild(idInput);
             }
-            idInput.value = item.id;
+            idInput.value = item.id; // Primary ID (clicked one)
 
             document.getElementById('pExternalModalTitle').textContent = 'Edit Peminjaman';
             document.getElementById('btnSaveExternal').textContent = 'Update Peminjaman';
 
             document.getElementById('externalTanggalMulai').value = item.tanggal_peminjaman;
             document.getElementById('externalTanggalSelesai').value = item.tanggal_peminjaman;
-            document.getElementById('instansiKegiatan').value = item.kegiatan || item.nama_peminjam || '';
-            document.getElementById('catatanOpsional').value = item.catatan || '';
+            document.getElementById('instansiKegiatan').value = item.nama_peminjam || '';
+            document.getElementById('namaKegiatan').value = item.kegiatan || '';
             pExternalForm.elements['tipe'].value = item.tipe || 'eksternal';
+
+            // --- GROUP DETECTION LOGIC ---
+            // Find other bookings with same Date, Name, and Activity (Kegiatan)
+            // Note: item.nama_peminjam and item.kegiatan come from fetch response.
+            // Data.bookings comes from script.php injection.
+            // We need to match loose equality or exact strings.
+            const targetDate = item.tanggal_peminjaman;
+            const targetName = (item.nama_peminjam || '').trim().toLowerCase();
+            const targetActivity = (item.kegiatan || '').trim().toLowerCase();
+
+            const siblingBookings = Data.bookings.filter(b =>
+                b.tanggal === targetDate &&
+                (b.name || '').trim().toLowerCase() === targetName &&
+                (b.instansi || '').trim().toLowerCase() === targetActivity
+            );
+
+            // Create a map of LabID -> BookingID for existing siblings
+            // This allows us to know which lab has which ID so we can update it.
+            const existingLabMap = {};
+            siblingBookings.forEach(b => {
+                existingLabMap[b.labId] = b.id;
+            });
+
+            // Allow override of the specific item clicked (fetched via AJAX might have more details)
+            existingLabMap[item.lab_id] = item.id;
+
+            // Store this map in the form for saveExternal to use
+            pExternalForm.dataset.existingLabMap = JSON.stringify(existingLabMap);
+            // -----------------------------
 
             externalLabTimesBody.innerHTML = '';
             Data.labs.forEach(lab => {
-                const isActive = (lab.key == item.lab_id);
+                const existingId = existingLabMap[lab.key];
+                const isActive = !!existingId;
                 const checkedAttr = isActive ? 'checked' : '';
-                const jamMulai = isActive ? item.jam_mulai.substring(0, 5) : '07:00';
-                const jamSelesai = isActive ? item.jam_selesai.substring(0, 5) : '12:00';
+
+                // If active, try to find the specific time for THAT lab from siblings
+                // item is just the clicked one. We need time for THIS lab.
+                let jamMulai = '07:00';
+                let jamSelesai = '12:00';
+
+                if (isActive) {
+                    if (lab.key == item.lab_id) {
+                        jamMulai = item.jam_mulai.substring(0, 5);
+                        jamSelesai = item.jam_selesai.substring(0, 5);
+                    } else {
+                        const sibling = siblingBookings.find(sb => sb.labId == lab.key);
+                        if (sibling) {
+                            jamMulai = sibling.waktuMulai;
+                            jamSelesai = sibling.waktuSelesai;
+                        }
+                    }
+                }
 
                 const html = `
             <tr>
@@ -423,9 +470,8 @@ const PeminjamanApp = (function () {
         }
     };
 
-    // =========================================
-    // 5. ACTIONS & HANDLERS
-    // =========================================
+    // ... ACTIONS ...
+
     const Actions = {
         approve: function (id) {
             Utils.showConfirm('Approve Booking?', `Setujui peminjaman ID ${id}?`)
@@ -450,7 +496,7 @@ const PeminjamanApp = (function () {
         },
 
         delete: function (id) {
-            Utils.showConfirm('Hapus Booking?', `Anda yakin ingin menghapus data ID ${id}?`, 'Ya, Hapus!')
+            Utils.showConfirm('Hapus Booking?', `Anda yakin ingin menghapus data?`, 'Ya, Hapus!')
                 .then((result) => {
                     if (result.isConfirmed) {
                         const formData = new FormData();
@@ -524,7 +570,7 @@ const PeminjamanApp = (function () {
                         Utils.showSuccess('Peminjaman Internal berhasil disimpan!');
                         setTimeout(() => window.location.reload(), 1500);
                     } else {
-                        Utils.showError('Gagal: ' + (data.message || 'Stot tidak tersedia'));
+                        Utils.showError('Gagal: ' + (data.message || 'Slot tidak tersedia'));
                     }
                 })
                 .catch(e => Utils.showError('Error: ' + e.message));
@@ -538,21 +584,39 @@ const PeminjamanApp = (function () {
             // --- Core Logic ---
             let tanggalMulai = form.externalTanggalMulai.value;
             let tanggalSelesai = form.externalTanggalSelesai.value;
-            let namaPeminjam = form.instansiKegiatan.value.trim(); // Input: Nama Peminjam / Instansi
-            let namaKegiatan = form.catatanOpsional.value.trim();  // Input: Nama Kegiatan (Previously Catatan)
+            let namaPeminjam = form.instansiKegiatan.value.trim();
+            let namaKegiatan = form.namaKegiatan.value.trim();
 
             if (tanggalMulai > tanggalSelesai) { Utils.showError('Tanggal Mulai melebihi Tanggal Selesai'); return false; }
             if (!namaPeminjam) { Utils.showError('Nama Peminjam wajib diisi'); return false; }
             if (!namaKegiatan) { Utils.showError('Nama Kegiatan wajib diisi'); return false; }
 
+            // Retrieve Existing Map (for Updates/Deletes)
+            const existingLabMap = form.dataset.existingLabMap ? JSON.parse(form.dataset.existingLabMap) : {};
+            const action = form.elements['action']?.value || 'create';
+
+            // Collect active labs to book (Update or Create)
             let labsToBook = [];
             Data.labs.forEach(lab => {
                 const aktif = form[`aktif_${lab.key}`].checked;
+                const jamMulai = form[`mulai_${lab.key}`].value;
+                const jamSelesai = form[`selesai_${lab.key}`].value;
+
+                // VALIDASI JAM OPERASIONAL CLIENT-SIDE
                 if (aktif) {
+                    if (jamMulai < "07:00" || jamSelesai > "18:20") {
+                        Utils.showError(`Lab ${lab.name}: Jam harus 07:00 - 18:20`);
+                        throw new Error('Validation Error'); // Stop processing
+                    }
+                    if (jamMulai >= jamSelesai) {
+                        Utils.showError(`Lab ${lab.name}: Jam mulai harus < selesai`);
+                        throw new Error('Validation Error');
+                    }
+
                     labsToBook.push({
                         labId: lab.key,
-                        mulai: form[`mulai_${lab.key}`].value,
-                        selesai: form[`selesai_${lab.key}`].value
+                        mulai: jamMulai,
+                        selesai: jamSelesai
                     });
                 }
             });
@@ -564,6 +628,24 @@ const PeminjamanApp = (function () {
                 let curr = new Date(tanggalMulai + 'T00:00:00');
                 let end = new Date(tanggalSelesai + 'T00:00:00');
 
+                // 1. Identify Deletions (Unchecked labs that were previously part of the group)
+                // Only relevant if action is 'update' and we have a map
+                const processedLabIds = labsToBook.map(l => l.labId.toString());
+                const idsToDelete = [];
+                if (action === 'update') {
+                    for (const [labId, bookingId] of Object.entries(existingLabMap)) {
+                        if (!processedLabIds.includes(labId.toString())) {
+                            idsToDelete.push(bookingId);
+                        }
+                    }
+                }
+
+                // 2. Prepare Create/Update Requests
+                // Note: Multi-day range update logic is tricky. 
+                // Simplification for Group Edit: We primarily support single-day group updates for now as per UI.
+                // If user selects range, we generate new for other days.
+                // For the FIRST day (Equal to tanggalMulai), we use the existing IDs.
+
                 while (curr <= end) {
                     const y = curr.getFullYear();
                     const m = String(curr.getMonth() + 1).padStart(2, '0');
@@ -571,7 +653,22 @@ const PeminjamanApp = (function () {
                     const d = `${y}-${m}-${dt}`;
 
                     labsToBook.forEach(l => {
+                        let itemAction = 'create';
+                        let itemId = '';
+
+                        // If Date matches original (we assume user edits same day mostly) logic:
+                        // Check if this Lab has an existing ID in our map
+                        // AND we are on the first day of the selected range (if range used)
+                        // OR if the system assumes 1-day booking mostly.
+                        // Let's assume matches if Lab ID exists in the map.
+                        if (existingLabMap[l.labId] && d === tanggalMulai) { // Only map ID if date matches start
+                            itemAction = 'update';
+                            itemId = existingLabMap[l.labId];
+                        }
+
                         requestItems.push({
+                            realAction: itemAction,
+                            id: itemId,
                             tanggal: d, lab: l.labId, jamMulai: l.mulai, jamSelesai: l.selesai,
                             kegiatan: namaKegiatan,
                             tipe: form.tipe.value, nama_peminjam: namaPeminjam
@@ -582,11 +679,22 @@ const PeminjamanApp = (function () {
 
                 const send = (item, override) => {
                     const fd = new FormData();
-                    fd.append('action', form.elements['action']?.value || 'create');
-                    fd.append('id', form.elements['id']?.value || '');
+                    // Use the per-item action/id calculated above
+                    fd.append('action', item.realAction);
+                    if (item.realAction === 'update' || item.realAction === 'delete') fd.append('id', item.id);
+
                     fd.append('ajax', '1');
                     if (override) fd.append('override', '1');
-                    for (let k in item) fd.append(k, item[k]);
+
+                    if (item.realAction !== 'delete') {
+                        fd.append('lab', item.lab);
+                        fd.append('tanggal', item.tanggal);
+                        fd.append('jamMulai', item.jamMulai);
+                        fd.append('jamSelesai', item.jamSelesai);
+                        fd.append('kegiatan', item.kegiatan);
+                        fd.append('tipe', item.tipe);
+                        fd.append('nama_peminjam', item.nama_peminjam);
+                    }
 
                     return fetch(Config.baseUrl + '/peminjaman', { method: 'POST', body: fd })
                         .then(r => r.json())
@@ -594,7 +702,13 @@ const PeminjamanApp = (function () {
                         .catch(e => ({ item, success: false, message: 'Conn Error' }));
                 };
 
-                // 1. Send all
+                // 2.5 Execute Deletions First
+                if (idsToDelete.length > 0) {
+                    const deleteReqs = idsToDelete.map(delId => ({ realAction: 'delete', id: delId }));
+                    await Promise.all(deleteReqs.map(i => send(i, false)));
+                }
+
+                // 3. Send all Create/Updates
                 const results = await Promise.all(requestItems.map(i => send(i, false)));
                 const failures = results.filter(r => !r.success);
 
@@ -624,13 +738,16 @@ const PeminjamanApp = (function () {
                             }
                         });
                 } else {
-                    // Show specific error from first failure if available
                     const msg = failures[0]?.message || `Gagal ${failures.length} booking. Cek validasi.`;
                     Utils.showError(msg);
-                    // Do NOT reload, so user can fix the input
                 }
             };
-            processBooking();
+
+            try {
+                processBooking();
+            } catch (err) {
+                // Validation error caught here
+            }
             return false;
         },
 
