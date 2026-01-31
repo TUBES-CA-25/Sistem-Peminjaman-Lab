@@ -39,14 +39,12 @@
                             </td>
                             <td class="text-end px-4">
                                 <div class="d-flex justify-content-end gap-2">
-                                    <button class="btn-icon btn-edit" data-bs-toggle="modal"
-                                        data-bs-target="#jurusanModal"
+                                    <button class="btn-icon btn-edit" data-bs-toggle="modal" data-bs-target="#jurusanModal"
                                         onclick='prepareModal("edit", <?= htmlspecialchars(json_encode($row), ENT_QUOTES, "UTF-8") ?>)'>
                                         <i class="fas fa-edit"></i>
                                     </button>
 
-                                    <button type="button" onclick="hapusJurusan(<?= $row['id'] ?>)"
-                                        class="btn-icon btn-delete">
+                                    <button type="button" onclick="hapusJurusan(<?= $row['id'] ?>)" class="btn-icon btn-delete">
                                         <i class="fas fa-trash"></i>
                                     </button>
                                 </div>

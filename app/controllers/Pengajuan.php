@@ -5,10 +5,17 @@ class Pengajuan extends Controller
     public function __construct()
     {
         // Pastikan Session Login Admin aktif di sini
-        // if (!isset($_SESSION['user_id']) || $_SESSION['role'] != 'admin') {
-        //     header('Location: ' . BASE_URL . '/login');
-        //     exit;
-        // }
+        if (!isset($_SESSION['user_id'])) {
+            http_response_code(401);
+            require_once __DIR__ . '/../views/errors/401.php';
+            exit;
+        }
+
+        if ($_SESSION['role'] !== 'admin') {
+            http_response_code(403);
+            require_once __DIR__ . '/../views/errors/403.php';
+            exit;
+        }
     }
 
     // Halaman Utama Admin Pengajuan (index)

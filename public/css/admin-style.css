@@ -830,6 +830,29 @@ body {
     border-radius: 8px;
     /* Sudut melengkung */
     border: none;
+}
+
+/* Force Hide Sorting Icons on Last Column (Aksi) */
+.datatable-table thead th:last-child button::before,
+.datatable-table thead th:last-child button::after,
+.datatable-table thead th:last-child .datatable-sorter::before,
+.datatable-table thead th:last-child .datatable-sorter::after {
+    display: none !important;
+    content: none !important;
+}
+
+/* Ensure Action Column Header is Left Aligned like others, but still no sort pointer */
+/* Ensure Action Column Header is aligned properly */
+.datatable-table thead th:last-child {
+    text-align: right !important;
+    pointer-events: none !important;
+    cursor: default !important;
+    width: 100px !important;
+    /* Prevent excessive width */
+}
+
+
+.btn-icon {
     transition: all 0.2s ease-in-out;
     cursor: pointer;
     font-size: 0.85rem;
@@ -850,7 +873,8 @@ body {
 .btn-view {
     background-color: #eff6ff !important;
     color: #2563eb !important;
-    border: 1.5px solid #dbeafe !important; /* Border biru sangat muda agar soft */
+    border: 1.5px solid #dbeafe !important;
+    /* Border biru sangat muda agar soft */
 }
 
 .btn-view:hover {
@@ -861,9 +885,12 @@ body {
 
 /* Styling untuk tombol edit sesuai permintaan (Tanpa Border Biru) */
 .btn-edit {
-    background-color: #fffbeb !important; /* Cream/Kuning muda */
-    color: #856404 !important; /* Gold/Brown icon */
-    border: 1.5px solid #fef3c7 !important; /* Border cream senada agar rapi */
+    background-color: #fffbeb !important;
+    /* Cream/Kuning muda */
+    color: #856404 !important;
+    /* Gold/Brown icon */
+    border: 1.5px solid #fef3c7 !important;
+    /* Border cream senada agar rapi */
 }
 
 .btn-edit:hover {
@@ -874,8 +901,10 @@ body {
 
 /* Styling untuk tombol delete sesuai gambar referensi */
 .btn-delete {
-    background-color: #dc3545 !important; /* Solid Red */
-    color: #ffffff !important; /* White icon */
+    background-color: #dc3545 !important;
+    /* Solid Red */
+    color: #ffffff !important;
+    /* White icon */
     border: 1.5px solid #dc3545 !important;
 }
 
@@ -893,12 +922,13 @@ body {
 
 /* Fix Jarak Ikon Sorting pada DataTables */
 .datatable-sorter {
-    padding-right: 25px !important; /* Memberi ruang untuk ikon */
+    padding-right: 25px !important;
+    /* Memberi ruang untuk ikon */
     position: relative;
 }
 
 /* Mengatur posisi ikon agar presisi di kanan */
-.datatable-sorter::after, 
+.datatable-sorter::after,
 .datatable-sorter::before {
     right: 5px !important;
 }
