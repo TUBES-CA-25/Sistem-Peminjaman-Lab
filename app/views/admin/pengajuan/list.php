@@ -25,7 +25,7 @@
                         <th width="20%" class="py-3 border-0 fw-bold">Waktu</th>
                         <th width="10%" class="text-center py-3 border-0 fw-bold">Proposal</th>
                         <th width="10%" class="text-center py-3 border-0 fw-bold">Status</th>
-                        <th width="10%" class="text-end px-3 py-3 border-0 rounded-end fw-bold">Aksi</th>
+                        <th width="10%" class="text-end px-3 py-3 border-0 rounded-end fw-bold" data-sortable="false">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>

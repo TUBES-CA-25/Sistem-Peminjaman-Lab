@@ -884,3 +884,21 @@ body {
     pointer-events: none;
     /* Agar klik ikon tetap terhitung klik tombol */
 }
+
+/* Fix Jarak Ikon Sorting pada DataTables */
+.datatable-sorter {
+    padding-right: 25px !important; /* Memberi ruang untuk ikon */
+    position: relative;
+}
+
+/* Mengatur posisi ikon agar presisi di kanan */
+.datatable-sorter::after, 
+.datatable-sorter::before {
+    right: 5px !important;
+}
+
+/* Menambah padding khusus untuk kolom No di header agar tidak sesak */
+th[data-sortable="true"] {
+    white-space: nowrap;
+    min-width: 60px;
+}

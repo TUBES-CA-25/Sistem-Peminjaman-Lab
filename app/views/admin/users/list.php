@@ -18,7 +18,7 @@
                     <th class="py-3 border-0">Status</th>
                     <th class="py-3 border-0">Role</th>
                     <th class="py-3 border-0">Nomor HP</th>
-                    <th class="px-4 py-3 border-0 text-end rounded-end">Aksi</th>
+                    <th class="px-4 py-3 border-0 text-end rounded-end" data-sortable="false">Aksi</th>
                 </tr>
             </thead>
             <tbody>

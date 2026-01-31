@@ -15,7 +15,7 @@
                     <th class="px-4 py-3 border-0 rounded-start" width="5%">No</th>
                     <th class="py-3 border-0">Nama Jurusan</th>
                     <th class="py-3 border-0">Singkatan</th>
-                    <th class="px-4 py-3 border-0 text-end rounded-end" width="15%">Aksi</th>
+                    <th class="px-4 py-3 border-0 text-end rounded-end" width="15%" data-sortable="false">Aksi</th>
                 </tr>
             </thead>
             <tbody>

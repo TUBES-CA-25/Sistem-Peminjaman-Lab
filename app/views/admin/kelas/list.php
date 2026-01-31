@@ -30,7 +30,7 @@
                     <th class="py-3 border-0">Nama Kelas</th>
                     <th class="py-3 border-0">Jurusan</th>
                     <th class="py-3 border-0">Angkatan</th>
-                    <th class="px-4 py-3 border-0 text-end rounded-end">Aksi</th>
+                    <th class="px-4 py-3 border-0 text-end rounded-end" data-sortable="false">Aksi</th>
                 </tr>
             </thead>
             <tbody>

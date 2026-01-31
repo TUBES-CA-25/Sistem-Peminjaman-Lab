@@ -20,7 +20,7 @@
                     <th class="py-3 border-0">Singkatan</th>
                     <th class="py-3 border-0">Smt / SKS</th>
                     <th class="py-3 border-0">Jurusan</th>
-                    <th class="px-4 py-3 border-0 text-end rounded-end">Aksi</th>
+                    <th class="px-4 py-3 border-0 text-end rounded-end" data-sortable="false">Aksi</th>
                 </tr>
             </thead>
             <tbody>
