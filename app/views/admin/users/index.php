@@ -51,16 +51,7 @@ $users = $data['users'] ?? [];
                 </div>
             </div>
 
-            <!-- Search -->
-            <div class="col-md ms-auto">
-                <div class="input-group">
-                    <span class="input-group-text bg-white border-end-0 text-muted ps-3">
-                        <i class="fas fa-search"></i>
-                    </span>
-                    <input type="text" id="searchInput" class="form-control border-start-0 ps-0"
-                        placeholder="Cari nama / email / posisi...">
-                </div>
-            </div>
+
         </div>
     </div>
 </div>

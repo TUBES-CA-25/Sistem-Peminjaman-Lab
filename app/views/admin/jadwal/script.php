@@ -25,75 +25,6 @@
     // Use data from Controller
     const schedules = <?= json_encode($data['schedules']); ?>;
 
-    // ===== RENDER TABLE =====
-    // ===== RENDER TABLE =====
-    function renderTable() {
-      const tbody = document.getElementById('jadwalTableBody');
-
-      if (!tbody) return;
-      tbody.innerHTML = '';
-
-      schedules.forEach(item => {
-        const tr = document.createElement('tr');
-
-        tr.innerHTML = `
-        <td class="px-4 fw-bold text-secondary">
-          ${HARI_LIST[item.hari]}
-        </td>
-        <td class="fw-bold text-dark">
-          ${LABS[item.lab_id] || item.lab_id}
-        </td>
-        <td>
-          <div class="small">
-             <span class="fw-bold text-secondary"><i class="far fa-clock me-1"></i></span> ${item.jam_mulai.substring(0, 5)} - ${item.jam_selesai.substring(0, 5)}
-          </div>
-        </td>
-        <td class="fw-bold text-dark">
-          ${item.nama_matakuliah}
-        </td>
-        <td>
-          <span class="badge bg-secondary-subtle text-secondary-emphasis border">
-             ${item.frekuensi || 'Mingguan'}
-          </span>
-        </td>
-        <td>
-           <span class="badge bg-warning-subtle text-warning-emphasis rounded-pill px-3">
-             ${item.nama_kelas}
-           </span>
-        </td>
-        <td class="text-end px-4">
-          <div class="d-flex justify-content-end gap-2">
-            <button type="button" class="btn-icon btn-edit" title="Edit" onclick="editJadwal(${item.id})">
-              <i class="fas fa-edit"></i>
-            </button>
-            <button type="button" class="btn-icon btn-delete" title="Hapus" onclick="hapusJadwal(${item.id})">
-              <i class="fas fa-trash"></i>
-            </button>
-          </div>
-        </td>
-      `;
-
-        tbody.appendChild(tr);
-      });
-
-      // Init Simple DataTables
-      if (typeof simpleDatatables !== 'undefined') {
-        const tableEl = document.getElementById('jadwalTable');
-        if (tableEl) {
-          if (window.jadwalTableInstance) {
-            window.jadwalTableInstance.destroy();
-          }
-          window.jadwalTableInstance = new simpleDatatables.DataTable(tableEl, {
-            perPage: 10,
-            perPageSelect: [10, 20, 50],
-            columns: [{ select: -1, sortable: false }]
-          });
-        }
-      } else {
-        console.error('Simple DataTables library not loaded');
-      }
-    }
-
     // ===== MODAL FUNCTIONS =====
     // Expose global functions needed by buttons
     window.openScheduleModal = function () {
@@ -232,8 +163,6 @@
         showConfirmButton: false
       });
     };
-
-    renderTable();
 
     // Event listener for modal click
     document.getElementById('pScheduleModal')?.addEventListener('click', e => {

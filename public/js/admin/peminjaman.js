@@ -219,18 +219,11 @@ const PeminjamanApp = (function () {
               </button>
             `;
                 } else {
-                    // Eksternal/Admin: Edit, Approve, Delete
-                    // Disable Approve if already Approved
-                    const isApproved = (item.statusPeminjaman === 'Disetujui');
-                    const approveBtn = isApproved
-                        ? `<button type="button" class="btn-icon btn-view disabled" title="Sudah Disetujui" disabled><i class="fas fa-check"></i></button>`
-                        : `<button type="button" class="btn-icon btn-view" title="Approve" onclick="PeminjamanApp.Actions.approve(${id})"><i class="fas fa-check"></i></button>`;
-
+                    // Eksternal/Admin: Edit, Delete (Approve removed as per request)
                     actionButtons = `
               <button type="button" class="btn-icon btn-edit" title="Edit" onclick="PeminjamanApp.Actions.openExternalEdit(${id})">
                   <i class="fas fa-edit"></i>
               </button>
-              ${approveBtn}
               <button type="button" class="btn-icon btn-delete" title="Hapus" onclick="PeminjamanApp.Actions.delete(${id})">
                   <i class="fas fa-trash"></i>
               </button>
@@ -515,7 +508,7 @@ const PeminjamanApp = (function () {
             const bookingDateTime = new Date(tanggal + 'T' + jamMulai);
             const now = new Date();
             if (bookingDateTime < now) {
-                Utils.showError('Gagal: Waktu booking sudah terlewat. Mohon pilih waktu di masa depan.');
+                Utils.showError('Gagal: Waktu booking sudah terlewat. Mohon pilih waktu yang valid.');
                 return false;
             }
             // -------------------------
@@ -628,8 +621,10 @@ const PeminjamanApp = (function () {
                             }
                         });
                 } else {
-                    Utils.showError(`Gagal ${failures.length} booking. Cek validasi/konflik.`);
-                    setTimeout(() => window.location.reload(), 1500);
+                    // Show specific error from first failure if available
+                    const msg = failures[0]?.message || `Gagal ${failures.length} booking. Cek validasi.`;
+                    Utils.showError(msg);
+                    // Do NOT reload, so user can fix the input
                 }
             };
             processBooking();

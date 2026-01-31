@@ -64,3 +64,6 @@ if (!empty($missingVars)) {
 
 define('FONNTE_TOKEN', getenv('FONNTE_TOKEN'));
 define('WA_ADMIN_UTAMA', getenv('WA_ADMIN'));
+
+// Set Global Timezone
+date_default_timezone_set('Asia/Makassar');

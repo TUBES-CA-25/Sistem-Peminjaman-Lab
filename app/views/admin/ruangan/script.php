@@ -2,6 +2,8 @@
 // app/views/pages/admin/ruangan/script.php
 ?>
 <script>
+    const BASE_URL = "<?= BASE_URL ?>";
+
     document.addEventListener('DOMContentLoaded', function () {
         // Initialize Modal AFTER Bootstrap is loaded
         const labModalEl = document.getElementById('labModal');
@@ -98,7 +100,15 @@
                 $('labImageFile').required = false;
 
                 if (data.gambar) {
-                    $('previewImg').src = data.gambar;
+                    let imgSrc = '';
+                    if (data.gambar.startsWith('/')) {
+                        imgSrc = BASE_URL + data.gambar;
+                    } else if (data.gambar.startsWith('public/')) {
+                        imgSrc = BASE_URL + '/' + data.gambar;
+                    } else {
+                        imgSrc = BASE_URL + '/public/storage/images/' + data.gambar;
+                    }
+                    $('previewImg').src = imgSrc;
                     $('imagePreview').style.display = 'block';
                     $('uploadPlaceholder').style.display = 'none';
                     $('changePhotoBtn').style.display = 'block';
