@@ -35,9 +35,6 @@
                         <div class="avatar-large">
                             <?= strtoupper(substr($user['nama'], 0, 1)); ?>
                         </div>
-                        <div class="avatar-badge">
-                            <i class="fas fa-user-circle"></i> External User
-                        </div>
                     </div>
                     <div class="profile-header-info">
                         <h3 class="profile-name"><?= $user['nama']; ?></h3>

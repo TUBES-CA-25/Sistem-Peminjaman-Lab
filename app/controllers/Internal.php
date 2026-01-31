@@ -165,10 +165,13 @@ class Internal extends Controller
         }
 
         $result = $peminjamanModel->update($input['id'], [
-            'tanggal' => $input['tanggal'],
-            'jam_mulai' => $input['jam_mulai'],
-            'jam_selesai' => $input['jam_selesai'],
-            'keterangan' => $input['keterangan']
+            'lab_id'         => $peminjaman['lab_id'],
+            'tanggal'        => $input['tanggal'],
+            'jam_mulai'      => $input['jam_mulai'],
+            'jam_selesai'    => $input['jam_selesai'],
+            'nama_peminjam'  => $peminjaman['nama_peminjam'],
+            'kegiatan'       => $input['keterangan'],
+            'catatan'        => $peminjaman['catatan'] ?? ''
         ]);
 
         echo json_encode(['success' => $result]);
