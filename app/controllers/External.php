@@ -167,12 +167,12 @@ class External extends Controller
             return false;
         }
 
-        $ekstensiValid = ['pdf', 'doc', 'docx'];
+        $ekstensiValid = ['pdf'];
         $ekstensiFile = explode('.', $namaFile);
         $ekstensiFile = strtolower(end($ekstensiFile));
 
         if (!in_array($ekstensiFile, $ekstensiValid)) {
-            echo "<script>alert('Format file tidak valid! Gunakan PDF/DOC/DOCX');</script>";
+            echo "<script>alert('Format file tidak valid! Gunakan file PDF');</script>";
             return false;
         }
 

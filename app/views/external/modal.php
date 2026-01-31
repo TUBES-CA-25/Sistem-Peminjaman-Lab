@@ -61,7 +61,7 @@
                         <div class="mb-4">
                             <label class="form-label fw-bold small text-dark">Upload Proposal (PDF)</label>
                             <input type="file" class="form-control" name="proposal" accept=".pdf" required>
-                            <div class="form-text small text-muted">Maksimal ukuran file 3MB. Format wajib PDF.</div>
+                            <div class="form-text small text-muted">Maksimal ukuran file 5MB. Format wajib PDF.</div>
                         </div>
 
                         <div class="d-grid">
@@ -145,9 +145,9 @@
                         <div class="alert alert-success d-flex gap-3 align-items-start">
                             <i class="bi bi-check-circle-fill fs-4"></i>
                             <div>
-                                <strong>Selamat! Peminjaman ruangan Anda telah disetujui.</strong><br>
-                                Jadwal telah dibuatkan. Silakan datang 15 menit sebelum kegiatan.
-                            </div>
+                                <strong>Selamat! Peminjaman ruangan Anda berhasil disetujui.</strong><br>
+                                Jadwal telah ditentukan. Mohon datang 30 menit lebih awal sebelum kegiatan berlangsung.
+                            </div>  
                         </div>
                     </div>
 
@@ -156,8 +156,8 @@
                         <div class="alert alert-warning d-flex gap-3 align-items-start">
                             <i class="bi bi-hourglass-split fs-4"></i>
                             <div>
-                                <strong>Pengajuan sedang diperiksa Admin.</strong><br>
-                                Admin akan mengecek berkas proposal Anda terlebih dahulu.
+                                <strong>Pengajuan Anda sedang ditinjau oleh Admin.</strong><br>
+                                Mohon menunggu, Admin akan memverifikasi berkas proposal Anda terlebih dahulu.
                             </div>
                         </div>
                     </div>
@@ -167,8 +167,8 @@
                         <div class="alert alert-info d-flex gap-3 align-items-start">
                             <i class="bi bi-people-fill fs-4"></i>
                             <div>
-                                <strong>Lolos Berkas! Silakan Lanjut Interview.</strong><br>
-                                Harap temui Kepala Lab di Ruang Admin untuk verifikasi akhir.
+                                <strong>Selamat, berkas Anda telah lolos! Silakan melanjutkan ke tahap Interview.</strong><br>
+                                Mohon menemui Laboran di Ruang Laboratory Service Room, Lantai 2 Fikom UMI untuk verifikasi akhir.
                             </div>
                         </div>
                     </div>
@@ -178,7 +178,7 @@
                         <div class="alert alert-danger d-flex gap-3 align-items-start">
                             <i class="bi bi-x-circle-fill fs-4"></i>
                             <div>
-                                <strong>Mohon Maaf, pengajuan Anda ditolak.</strong><br>
+                                <strong>Kami telah meninjau proposal Anda. Mohon maaf, pengajuan tersebut belum dapat kami terima.</strong><br>
                                 Alasan: <span id="text_alasan" class="fw-bold"></span>
                             </div>
                         </div>
@@ -226,7 +226,7 @@
                         <i class="bi bi-exclamation-triangle-fill fs-3"></i>
                         <div>
                             <strong>Perhatian Penting</strong><br>
-                            Harap tiba 30 menit sebelum jadwal. Bawa kartu identitas & surat resmi.
+                            Harap tiba 15 menit sebelum jadwal. Bawa kartu identitas & Hard File Proposal.
                         </div>
                     </div>
                 </div>
