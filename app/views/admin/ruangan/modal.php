@@ -21,16 +21,19 @@
                         <label class="form-label fw-bold small text-dark">Foto Ruangan <span
                                 class="text-danger">*</span></label>
                         <div id="uploadArea"
-                            class="upload-area p-5 text-center rounded-3 position-relative cursor-pointer"
+                            class="upload-area text-center rounded-3 position-relative cursor-pointer overflow-hidden"
+                            style="min-height: 250px; background: #f8f9fa; display: flex; align-items: center; justify-content: center;"
                             onclick="document.getElementById('labImageFile').click()">
 
-                            <div id="imagePreview" style="display: none;">
-                                <img id="previewImg" src="" alt="preview" class="img-fluid rounded mb-3"
-                                    style="max-height: 250px;">
-                                <p id="fileName" class="small text-muted mb-0"></p>
+                            <div id="imagePreview" style="display: none; width: 100%; height: 100%;">
+                                <img id="previewImg" src="" alt="preview" class="img-fluid w-100"
+                                    style="height: 300px; object-fit: cover;">
+                                <div class="position-absolute bottom-0 start-0 w-100 p-2 bg-dark bg-opacity-50 text-white">
+                                    <p id="fileName" class="small mb-0"></p>
+                                </div>
                             </div>
 
-                            <div id="uploadPlaceholder">
+                            <div id="uploadPlaceholder" class="p-5">
                                 <i class="fas fa-cloud-upload-alt display-4 text-secondary mb-3 opacity-25"></i>
                                 <p class="fw-medium text-dark mb-1">Klik untuk upload atau drag & drop</p>
                                 <p class="small text-muted mb-0">PNG, JPG, JPEG (Max. 5MB)</p>
@@ -41,7 +44,7 @@
                             <input type="hidden" name="existing_gambar" id="labImage">
 
                             <button type="button" id="changePhotoBtn"
-                                class="btn btn-sm btn-dark position-absolute top-0 end-0 m-3" style="display:none;"
+                                class="btn btn-sm btn-dark position-absolute top-0 end-0 m-3 shadow" style="display:none;"
                                 onclick="event.stopPropagation(); document.getElementById('labImageFile').click();">
                                 <i class="fas fa-edit me-1"></i> Ubah
                             </button>
