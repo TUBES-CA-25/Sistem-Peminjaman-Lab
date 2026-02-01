@@ -14,7 +14,7 @@ class UserModel
     // Ambil 1 user berdasarkan ID
     public function getUserById($id)
     {
-        $this->db->query("SELECT id, nama, email, password, telepon, role, status FROM " . $this->table . " WHERE id = :id");
+        $this->db->query("SELECT id, nama, email, password, telepon, role, status, foto, created_at FROM " . $this->table . " WHERE id = :id");
         $this->db->bind('id', $id);
         return $this->db->single();
     }
@@ -29,14 +29,16 @@ class UserModel
                         nama = :nama, 
                         email = :email, 
                         telepon = :telepon, 
-                        password = :password 
+                        password = :password,
+                        foto = :foto 
                       WHERE id = :id";
         } else {
             // Jika tidak ganti password
             $query = "UPDATE " . $this->table . " SET 
                         nama = :nama, 
                         email = :email, 
-                        telepon = :telepon 
+                        telepon = :telepon,
+                        foto = :foto
                       WHERE id = :id";
         }
 
@@ -44,6 +46,7 @@ class UserModel
         $this->db->bind('nama', $data['nama']);
         $this->db->bind('email', $data['email']);
         $this->db->bind('telepon', $data['telepon']);
+        $this->db->bind('foto', $data['foto']);
         $this->db->bind('id', $data['id']);
 
         if (!empty($data['password'])) {

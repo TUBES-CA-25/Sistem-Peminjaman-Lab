@@ -202,6 +202,46 @@ class External extends Controller
         }
     }
 
+    // --- HELPER UPLOAD FOTO ---
+    private function uploadFoto($file)
+    {
+        $namaFile = $file['name'];
+        $ukuranFile = $file['size'];
+        $error = $file['error'];
+        $tmpName = $file['tmp_name'];
+
+        if ($error === 4) {
+            return false;
+        }
+
+        $ekstensiValid = ['jpg', 'jpeg', 'png'];
+        $ekstensiFile = explode('.', $namaFile);
+        $ekstensiFile = strtolower(end($ekstensiFile));
+
+        if (!in_array($ekstensiFile, $ekstensiValid)) {
+            echo "<script>alert('Format file tidak valid! Gunakan JPG/JPEG/PNG');</script>";
+            return false;
+        }
+
+        if ($ukuranFile > 2097152) { // 2MB
+            echo "<script>alert('Ukuran file terlalu besar (Max 2MB).');</script>";
+            return false;
+        }
+
+        $namaFileBaru = 'profile_' . $_SESSION['user_id'] . '_' . time() . '.' . $ekstensiFile;
+        $targetDir = __DIR__ . '/../../public/storage/uploads/profile/';
+
+        if (!file_exists($targetDir)) {
+            mkdir($targetDir, 0755, true);
+        }
+
+        if (move_uploaded_file($tmpName, $targetDir . $namaFileBaru)) {
+            return $namaFileBaru;
+        } else {
+            return false;
+        }
+    }
+
 
     public function profile()
     {
@@ -225,12 +265,48 @@ class External extends Controller
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
+            // Handle Foto Upload
+            $userLama = $this->model('UserModel')->getUserById($_SESSION['user_id']);
+            $foto = $userLama['foto']; // Default pakai yang lama
+
+            if (!empty($_POST['cropped_image'])) {
+                // Handle Cropped Image (Base64)
+                $data_uri = $_POST['cropped_image'];
+                $encoded_image = explode(",", $data_uri)[1];
+                $decoded_image = base64_decode($encoded_image);
+                
+                $namaFileBaru = 'profile_' . $_SESSION['user_id'] . '_' . time() . '.jpg';
+                $targetDir = __DIR__ . '/../../public/storage/uploads/profile/';
+                
+                if (!file_exists($targetDir)) {
+                    mkdir($targetDir, 0755, true);
+                }
+                
+                if (file_put_contents($targetDir . $namaFileBaru, $decoded_image)) {
+                    // Hapus foto lama jika ada
+                    if ($foto && file_exists($targetDir . $foto)) {
+                        unlink($targetDir . $foto);
+                    }
+                    $foto = $namaFileBaru;
+                }
+            } elseif ($_FILES['foto']['error'] !== 4) { // Jika ada file diupload langsung (fallback)
+                $fotoBaru = $this->uploadFoto($_FILES['foto']);
+                if ($fotoBaru) {
+                    // Hapus foto lama jika ada
+                    if ($foto && file_exists(__DIR__ . '/../../public/storage/uploads/profile/' . $foto)) {
+                        unlink(__DIR__ . '/../../public/storage/uploads/profile/' . $foto);
+                    }
+                    $foto = $fotoBaru;
+                }
+            }
+
             $data = [
                 'id' => $_SESSION['user_id'],
                 'nama' => $_POST['nama'],
                 'email' => $_POST['email'],
                 'telepon' => $_POST['telepon'],
-                'password' => $_POST['password_baru']
+                'password' => $_POST['password_baru'],
+                'foto' => $foto
             ];
 
             if ($this->model('UserModel')->updateUserProfile($data) > 0) {
