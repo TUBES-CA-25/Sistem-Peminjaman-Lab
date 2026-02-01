@@ -197,7 +197,21 @@ class Peminjaman extends Controller
 
         } elseif ($action === 'delete') {
             $id = $_POST['id'] ?? 0;
+
+            // Get info before delete to restore overlapping bookings
+            $item = $peminjamanModel->getById($id);
+
             if ($peminjamanModel->delete($id)) {
+                // Restore "Tergeser" bookings if any
+                if ($item) {
+                    $peminjamanModel->restoreShiftedBookings(
+                        $item['lab_id'],
+                        $item['tanggal_peminjaman'],
+                        $item['jam_mulai'],
+                        $item['jam_selesai']
+                    );
+                }
+
                 if ($isAjax) {
                     echo json_encode(['success' => true]);
                     exit;

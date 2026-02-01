@@ -61,10 +61,18 @@ class Matakuliah extends Controller
                 'jurusan_id' => $_POST['jurusan_id']
             ];
 
-            if ($this->matakuliahModel->create($data)) {
-                header("Location: " . BASE_URL . "/matakuliah?status=success&msg=Mata Kuliah berhasil ditambahkan");
-            } else {
-                header("Location: " . BASE_URL . "/matakuliah?status=error&msg=Gagal menambahkan mata kuliah");
+            try {
+                if ($this->matakuliahModel->create($data)) {
+                    header("Location: " . BASE_URL . "/matakuliah?status=success&msg=Mata Kuliah berhasil ditambahkan");
+                } else {
+                    header("Location: " . BASE_URL . "/matakuliah?status=error&msg=Gagal menambahkan mata kuliah");
+                }
+            } catch (PDOException $e) {
+                if ($e->getCode() == '23000') {
+                    header("Location: " . BASE_URL . "/matakuliah?status=error&msg=Gagal: Kode Mata Kuliah sudah ada!");
+                } else {
+                    header("Location: " . BASE_URL . "/matakuliah?status=error&msg=Error Database: " . $e->getMessage());
+                }
             }
         }
     }
@@ -82,10 +90,18 @@ class Matakuliah extends Controller
                 'jurusan_id' => $_POST['jurusan_id']
             ];
 
-            if ($this->matakuliahModel->update($id, $data)) {
-                header("Location: " . BASE_URL . "/matakuliah?status=success&msg=Mata Kuliah berhasil diupdate");
-            } else {
-                header("Location: " . BASE_URL . "/matakuliah?status=error&msg=Gagal update mata kuliah");
+            try {
+                if ($this->matakuliahModel->update($id, $data)) {
+                    header("Location: " . BASE_URL . "/matakuliah?status=success&msg=Mata Kuliah berhasil diupdate");
+                } else {
+                    header("Location: " . BASE_URL . "/matakuliah?status=success&msg=Data disimpan (Tidak ada perubahan)");
+                }
+            } catch (PDOException $e) {
+                if ($e->getCode() == '23000') {
+                    header("Location: " . BASE_URL . "/matakuliah?status=error&msg=Gagal: Kode Mata Kuliah sudah ada!");
+                } else {
+                    header("Location: " . BASE_URL . "/matakuliah?status=error&msg=Error Database: " . $e->getMessage());
+                }
             }
         }
     }
