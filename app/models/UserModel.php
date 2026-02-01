@@ -143,7 +143,7 @@ class UserModel
     // LOGIN: Cari user berdasarkan email
     public function getUserByEmail($email)
     {
-        $this->db->query("SELECT id, nama, email, password, role FROM " . $this->table . " WHERE email = :email");
+        $this->db->query("SELECT id, nama, email, password, role, telepon FROM " . $this->table . " WHERE email = :email");
         $this->db->bind('email', $email);
         return $this->db->single();
     }
