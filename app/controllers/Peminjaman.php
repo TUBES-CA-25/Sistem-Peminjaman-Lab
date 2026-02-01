@@ -147,8 +147,7 @@ class Peminjaman extends Controller
                 'nama_peminjam' => $_POST['nama_peminjam'] ?? '-',
                 'kegiatan' => $_POST['kegiatan'] ?? '-', // Instansi/Kegiatan
                 'tipe' => $tipe,
-                'status' => $status,
-                'catatan' => $_POST['catatan'] ?? ''
+                'status' => $status
             ];
 
             if ($action === 'create') {
@@ -175,8 +174,7 @@ class Peminjaman extends Controller
                     'jam_mulai' => $jamMulai,
                     'jam_selesai' => $jamSelesai,
                     'nama_peminjam' => $_POST['nama_peminjam'] ?? '-',
-                    'kegiatan' => $_POST['kegiatan'] ?? '-',
-                    'catatan' => $_POST['catatan'] ?? ''
+                    'kegiatan' => $_POST['kegiatan'] ?? '-'
                 ];
 
                 if ($peminjamanModel->update($id, $updateData)) {
@@ -199,7 +197,21 @@ class Peminjaman extends Controller
 
         } elseif ($action === 'delete') {
             $id = $_POST['id'] ?? 0;
+
+            // Get info before delete to restore overlapping bookings
+            $item = $peminjamanModel->getById($id);
+
             if ($peminjamanModel->delete($id)) {
+                // Restore "Tergeser" bookings if any
+                if ($item) {
+                    $peminjamanModel->restoreShiftedBookings(
+                        $item['lab_id'],
+                        $item['tanggal_peminjaman'],
+                        $item['jam_mulai'],
+                        $item['jam_selesai']
+                    );
+                }
+
                 if ($isAjax) {
                     echo json_encode(['success' => true]);
                     exit;

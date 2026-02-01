@@ -18,17 +18,21 @@ $matakuliah = $data['matakuliah'] ?? [];
 </div>
 
 <!-- NOTIFICATION -->
+<!-- NOTIFICATION (Swal) -->
 <?php if (isset($_GET['status']) && isset($_GET['msg'])): ?>
-    <?php
-    $alertClass = $_GET['status'] == 'success' ? 'alert-success' : 'alert-danger';
-    $icon = $_GET['status'] == 'success' ? 'fa-check-circle' : 'fa-exclamation-circle';
-    ?>
-    <div class="alert <?= $alertClass ?> alert-dismissible fade show shadow-sm border-0 mb-4" role="alert">
-        <i class="fas <?= $icon ?> me-2"></i> <strong>
-            <?= htmlspecialchars($_GET['msg']) ?>
-        </strong>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            Swal.fire({
+                icon: '<?= $_GET['status'] == 'success' ? 'success' : 'error' ?>',
+                title: '<?= $_GET['status'] == 'success' ? 'Berhasil!' : 'Gagal!' ?>',
+                text: '<?= htmlspecialchars($_GET['msg']) ?>',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'OK'
+            });
+            // Clean URL
+            window.history.replaceState({}, document.title, window.location.pathname);
+        });
+    </script>
 <?php endif; ?>
 
 <!-- LIST TABLE -->
