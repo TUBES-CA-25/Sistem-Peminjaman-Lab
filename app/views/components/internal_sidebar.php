@@ -40,6 +40,14 @@
                     <span>Data Peminjaman</span>
                 </a>
             </li>
+
+            <li class="sidebar-item">
+                <a href="<?= BASE_URL ?>/internal/profile"
+                    class="sidebar-link <?= ($active_page === 'profile') ? 'active' : ''; ?>">
+                    <i class="fas fa-user-circle sidebar-icon"></i>
+                    <span>Profil</span>
+                </a>
+            </li>
         </ul>
     </aside>
 

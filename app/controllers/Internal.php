@@ -7,20 +7,21 @@
  * User internal bisa booking lab langsung tanpa perlu approval admin.
  * 
  * @author System
- * @version 1.0
+ * @version 2.0 (Refactored to use Services)
  */
 class Internal extends Controller
 {
-    private $ruanganModel;
-    private $jadwalModel;
-    private $peminjamanModel;
+    /** @var string Jam buka laboratorium */
+    private const JAM_BUKA_LAB = '07:00';
+    
+    /** @var string Jam tutup laboratorium */
+    private const JAM_TUTUP_LAB = '18:20';
+
+    private $bookingService;
+    private $waService;
 
     public function __construct()
     {
-        $this->ruanganModel = $this->model('RuanganModel');
-        $this->jadwalModel = $this->model('JadwalModel');
-        $this->peminjamanModel = $this->model('PeminjamanModel');
-
         // Proteksi Halaman Internal
         if (!isset($_SESSION['user_id'])) {
             // Belum login → Error 401
@@ -35,6 +36,10 @@ class Internal extends Controller
             require_once __DIR__ . '/../views/errors/403.php';
             exit;
         }
+
+        // Load Services
+        $this->bookingService = $this->service('BookingService');
+        $this->waService = $this->service('WhatsAppService');
     }
 
     /**
@@ -51,20 +56,9 @@ class Internal extends Controller
      */
     public function booking()
     {
-        $data = $this->getCommonScheduleData('booking');
+        $data = $this->bookingService->getCommonScheduleData('booking');
         $data['judul'] = 'Booking Laboratorium';
-        $data['active_page'] = 'booking';
-
-        // Ambil tanggal yang dipilih dari URL parameter (default: hari ini)
-        $selectedDate = $_GET['date'] ?? date('Y-m-d');
-        $data['selected_date'] = $selectedDate;
-        $data['selected_day'] = $this->getDayName($selectedDate);
-
-        // Siapkan data untuk view
-        $data['labs'] = $this->getLabsData();
-        $data['jadwal_tetap'] = $this->getFilteredSchedules($selectedDate);
-        $data['peminjaman'] = $this->getBookingsInRange($selectedDate);
-
+        
         // Ambil data user yang sedang login untuk auto-fill form
         $userId = $_SESSION['user_id'] ?? null;
         if ($userId) {
@@ -87,7 +81,7 @@ class Internal extends Controller
      */
     public function jadwal()
     {
-        $data = $this->getCommonScheduleData('dashboard');
+        $data = $this->bookingService->getCommonScheduleData('dashboard');
         $data['judul'] = 'Dashboard Internal';
 
         $this->view('components/internal_head', $data);
@@ -98,23 +92,6 @@ class Internal extends Controller
     }
 
     /**
-     * Helper untuk mengambil data jadwal yang umum digunakan di beberapa halaman
-     */
-    private function getCommonScheduleData($activePage)
-    {
-        $selectedDate = $_GET['date'] ?? date('Y-m-d');
-
-        return [
-            'active_page' => $activePage,
-            'selected_date' => $selectedDate,
-            'selected_day' => $this->getDayName($selectedDate),
-            'labs' => $this->getLabsData(),
-            'jadwal_tetap' => $this->getFilteredSchedules($selectedDate),
-            'peminjaman' => $this->getBookingsInRange($selectedDate)
-        ];
-    }
-
-    /**
      * Halaman Data Peminjaman - History peminjaman user yang login
      */
     public function history()
@@ -122,12 +99,10 @@ class Internal extends Controller
         $data['judul'] = 'Data Peminjaman Saya';
         $data['active_page'] = 'history';
 
-        // Ambil peminjaman milik user yang login (internal)
-        $peminjamanModel = $this->model('PeminjamanModel');
         $userId = $_SESSION['user_id'] ?? null;
 
         if ($userId) {
-            $data['peminjaman'] = $peminjamanModel->getByUserId($userId);
+            $data['peminjaman'] = $this->bookingService->getBookingByUserId($userId);
         } else {
             $data['peminjaman'] = [];
         }
@@ -155,16 +130,14 @@ class Internal extends Controller
             return;
         }
 
-        $peminjamanModel = $this->model('PeminjamanModel');
-
         // Verify ownership
-        $peminjaman = $peminjamanModel->getById($input['id']);
+        $peminjaman = $this->bookingService->getBookingById($input['id']);
         if (!$peminjaman || $peminjaman['user_id'] != $userId) {
             echo json_encode(['success' => false, 'message' => 'Tidak diizinkan']);
             return;
         }
 
-        $result = $peminjamanModel->update($input['id'], [
+        $result = $this->bookingService->updateBooking($input['id'], [
             'lab_id'         => $peminjaman['lab_id'],
             'tanggal'        => $input['tanggal'],
             'jam_mulai'      => $input['jam_mulai'],
@@ -192,167 +165,19 @@ class Internal extends Controller
             return;
         }
 
-        $peminjamanModel = $this->model('PeminjamanModel');
-
         // Verify ownership
-        $peminjaman = $peminjamanModel->getById($input['id']);
+        $peminjaman = $this->bookingService->getBookingById($input['id']);
         if (!$peminjaman || $peminjaman['user_id'] != $userId) {
             echo json_encode(['success' => false, 'message' => 'Tidak diizinkan']);
             return;
         }
 
-        $result = $peminjamanModel->delete($input['id']);
+        $result = $this->bookingService->deleteBooking($input['id']);
         echo json_encode(['success' => $result]);
-    }
-
-
-    /**
-     * Ambil semua data lab dengan format yang sudah ditransformasi
-     * 
-     * Transform struktur database jadi format yang friendly untuk frontend.
-     * Handle ekstraksi nama file gambar untuk ditampilkan dengan benar.
-     * 
-     * @return array Array berisi data lab
-     */
-    private function getLabsData()
-    {
-        $labs = [];
-
-        foreach ($this->ruanganModel->getAll() as $ruangan) {
-            $labs[] = [
-                'id' => $ruangan['id'],
-                'name' => $ruangan['nama_ruangan'],
-                'short_name' => $ruangan['nama_ruangan'],
-                'capacity' => $ruangan['kapasitas'],
-                'pic' => $ruangan['pic'],
-                'image' => $this->extractImageFilename($ruangan['gambar']),
-            ];
-        }
-
-        return $labs;
-    }
-
-    /**
-     * Ambil jadwal yang difilter berdasarkan hari dari tanggal yang dipilih
-     * 
-     * Hanya return jadwal yang terjadi di hari yang dipilih (misal: hanya jadwal Senin jika tanggalnya Senin).
-     * Optimasi ini mengurangi pemrosesan data yang tidak perlu.
-     * 
-     * @param string $date Tanggal dalam format Y-m-d
-     * @return array Array berisi jadwal yang sudah difilter
-     */
-    private function getFilteredSchedules($date)
-    {
-        $dayName = strtolower($this->getDayName($date));
-        $schedules = [];
-
-        foreach ($this->jadwalModel->getAll() as $jadwal) {
-            // Hanya include jadwal untuk hari yang dipilih
-            if (strtolower($jadwal['hari']) === $dayName) {
-                $schedules[] = [
-                    'lab_id' => $jadwal['lab_id'],
-                    'hari' => ucfirst($dayName),
-                    'jam_mulai' => substr($jadwal['jam_mulai'], 0, 5),    // Format: HH:MM
-                    'jam_selesai' => substr($jadwal['jam_selesai'], 0, 5), // Format: HH:MM
-                    'kelas' => $jadwal['nama_kelas'],
-                    'matkul' => $jadwal['nama_matakuliah']
-                ];
-            }
-        }
-
-        return $schedules;
-    }
-
-    /**
-     * Ambil peminjaman dalam rentang tanggal (±7 hari)
-     * 
-     * Hanya fetch booking yang approved dalam window 2 minggu centered di tanggal yang dipilih.
-     * Optimasi ini mencegah loading semua historical bookings.
-     * 
-     * @param string $selectedDate Tanggal tengah dalam format Y-m-d
-     * @return array Array berisi booking dalam range
-     */
-    private function getBookingsInRange($selectedDate)
-    {
-        // Hitung rentang tanggal (±7 hari untuk tampilan kalender)
-        $startDate = date('Y-m-d', strtotime($selectedDate . ' -7 days'));
-        $endDate = date('Y-m-d', strtotime($selectedDate . ' +7 days'));
-
-        $bookings = [];
-
-        foreach ($this->peminjamanModel->getAll() as $peminjaman) {
-            // Skip if required fields are missing
-            if (!isset($peminjaman['tanggal']) || !isset($peminjaman['lab_id'])) {
-                continue;
-            }
-
-            $bookingDate = $peminjaman['tanggal']; // Using alias from model
-
-            // Filter: hanya booking yang disetujui (yang tergeser disembunyikan sesuai permintaan)
-            $isApproved = ($peminjaman['status'] ?? '') === 'disetujui';
-            $isInRange = $bookingDate >= $startDate && $bookingDate <= $endDate;
-
-            if ($isApproved && $isInRange) {
-                $bookings[] = [
-                    'lab_id' => $peminjaman['lab_id'],
-                    'tanggal' => $bookingDate,
-                    'jam_mulai' => substr($peminjaman['jam_mulai'] ?? '00:00:00', 0, 5),
-                    'jam_selesai' => substr($peminjaman['jam_selesai'] ?? '00:00:00', 0, 5),
-                    'type' => $peminjaman['tipe'] ?? 'internal',
-                    'keterangan' => $peminjaman['kegiatan'] ?? '',
-                    'peminjam' => $peminjaman['nama_peminjam'] ?? 'Unknown'
-                ];
-            }
-        }
-
-        return $bookings;
-    }
-
-    /**
-     * Ekstrak nama file gambar dari berbagai format
-     * 
-     * Handle multiple format data gambar:
-     * - Base64 encoded images (dari admin panel) → return default
-     * - File paths (dari seeder) → ekstrak filename
-     * - Empty values → return default
-     * 
-     * @param string $gambar Data gambar (base64, path, atau filename)
-     * @return string Nama file gambar untuk ditampilkan
-     */
-    private function extractImageFilename($gambar)
-    {
-        // Case 1: Value kosong
-        if (empty($gambar)) {
-            return 'StartUp.jpg';
-        }
-
-        // Case 2: Data Base64 (dari upload admin)
-        if (strpos($gambar, 'data:image') === 0) {
-            return 'StartUp.jpg';
-        }
-
-        // Case 3: Sudah proper path (public/storage/... atau /public/uploads/...)
-        // Handles both with and without leading slash
-        if (strpos($gambar, '/public/') === 0 || strpos($gambar, 'public/') === 0 || strpos($gambar, 'storage/') === 0) {
-            return $gambar;
-        }
-
-        // Case 4: Hanya filename (dari seeder)
-        if (strpos($gambar, '/') === false && strpos($gambar, '\\') === false) {
-            return $gambar;
-        }
-
-        // Case 5: Full path - ekstrak filename saja
-        return basename($gambar);
     }
 
     /**
      * Submit booking (AJAX endpoint)
-     * 
-     * Handle form submission booking via AJAX.
-     * Validasi input, cek konflik, dan simpan ke database.
-     * 
-     * @return void Output JSON response
      */
     public function submitBooking()
     {
@@ -374,22 +199,22 @@ class Internal extends Controller
             'namaKegiatan' => $_POST['namaKegiatan'] ?? ''
         ];
 
-        // Validasi input
-        $validation = $this->validateBookingInput($formData);
+        // Validasi input via Service
+        $validation = $this->bookingService->validateBookingInput($formData);
         if (!$validation['valid']) {
             echo json_encode(['success' => false, 'message' => $validation['message']]);
             return;
         }
 
         // Cari ID lab berdasarkan nama
-        $labId = $this->getLabIdByName($formData['labName']);
+        $labId = $this->bookingService->getLabIdByName($formData['labName']);
         if (!$labId) {
             echo json_encode(['success' => false, 'message' => 'Laboratorium tidak ditemukan']);
             return;
         }
 
         // Cek konflik dengan jadwal tetap (recurring schedules)
-        $scheduleConflict = $this->checkScheduleConflict(
+        $scheduleConflict = $this->bookingService->checkScheduleConflict(
             $labId,
             $formData['tanggal'],
             $formData['jamMulai'],
@@ -401,37 +226,31 @@ class Internal extends Controller
             return;
         }
 
-        // Cek konflik dengan booking yang sudah ada
+        // Cek konflik dengan booking yang sudah ada dan validasi waktu
         try {
             // VALIDASI: Cek apakah waktu sudah lewat
             $currentDateTime = time();
             $requestedStart = strtotime($formData['tanggal'] . ' ' . $formData['jamMulai']);
 
             if ($requestedStart < $currentDateTime) {
-                echo json_encode([
-                    'success' => false,
-                    'message' => 'Tidak dapat melakukan booking untuk waktu yang sudah terlewati.'
-                ]);
+                echo json_encode(['success' => false, 'message' => 'Tidak dapat melakukan booking untuk waktu yang sudah terlewati.']);
                 return;
             }
 
-            // VALIDASI: Jam Operasional (07:00 - 18:20)
+            // VALIDASI: Jam Operasional
             $startCheck = substr($formData['jamMulai'], 0, 5);
             $endCheck = substr($formData['jamSelesai'], 0, 5);
 
-            if ($startCheck < '07:00' || $endCheck > '18:20') {
+            if ($startCheck < self::JAM_BUKA_LAB || $endCheck > self::JAM_TUTUP_LAB) {
                 echo json_encode([
-                    'success' => false,
-                    'message' => 'Peminjaman hanya diperbolehkan pada jam operasional lab (07:00 - 18:20).'
+                    'success' => false, 
+                    'message' => 'Peminjaman hanya diperbolehkan pada jam operasional lab (' . self::JAM_BUKA_LAB . ' - ' . self::JAM_TUTUP_LAB . ').'
                 ]);
                 return;
             }
 
-            if ($this->peminjamanModel->checkConflict($labId, $formData['tanggal'], $formData['jamMulai'], $formData['jamSelesai'])) {
-                echo json_encode([
-                    'success' => false,
-                    'message' => 'Waktu yang dipilih sudah dibooking oleh user lain'
-                ]);
+            if ($this->bookingService->checkBookingConflict($labId, $formData['tanggal'], $formData['jamMulai'], $formData['jamSelesai'])) {
+                echo json_encode(['success' => false, 'message' => 'Waktu yang dipilih sudah dibooking oleh user lain']);
                 return;
             }
 
@@ -450,7 +269,51 @@ class Internal extends Controller
             ];
 
             // Simpan ke database
-            if ($this->peminjamanModel->create($bookingData)) {
+            if ($this->bookingService->createBooking($bookingData)) {
+                
+                // ========== FITUR BARU: NOTIFIKASI WHATSAPP UNTUK DOSEN ==========
+                try {
+                    // Cek user Dosen
+                    $userModel = $this->model('UserModel');
+                    $currentUser = $userModel->getUserById($_SESSION['user_id']);
+                    
+                    if (isset($currentUser['status']) && $currentUser['status'] === 'Dosen') {
+                        // Logic Get Target Number
+                        $labInfo = $this->bookingService->getLabById($labId);
+                        $targetNumber = null;
+                        
+                        if (!empty($labInfo['email_pic'])) {
+                            $koordinator = $userModel->getUserByEmail($labInfo['email_pic']);
+                            if ($koordinator && !empty($koordinator['telepon'])) {
+                                $targetNumber = $koordinator['telepon'];
+                            }
+                        }
+                        
+                        if (empty($targetNumber)) {
+                            $targetNumber = getenv('WA_ADMIN') ?: ($_ENV['WA_ADMIN'] ?? '');
+                        }
+                        
+                        if (!empty($targetNumber)) {
+                            $tanggal = date('d F Y', strtotime($formData['tanggal']));
+                            $pesan  = "📢 *NOTIFIKASI BOOKING LABORATORIUM*\n\n" .
+                                      "Seorang dosen telah melakukan booking:\n\n" .
+                                      "👤 *Nama:* " . $formData['namaPeminjam'] . "\n" .
+                                      "🏛️ *Laboratorium:* " . $formData['labName'] . "\n" .
+                                      "📅 *Tanggal:* " . $tanggal . "\n" .
+                                      "🕐 *Waktu:* " . $formData['jamMulai'] . " - " . $formData['jamSelesai'] . " WIB\n" .
+                                      "📝 *Kegiatan:* " . $formData['namaKegiatan'] . "\n\n" .
+                                      "✅ *Status:* Disetujui Otomatis\n\n" .
+                                      "_Silakan Segera Persiapkan Ruangan yang di pinjam._\n" .
+                                      "_Sistem Peminjaman Lab ICLABS_";
+                            
+                            // Send via Service
+                            $this->waService->kirimPesanFonnte($targetNumber, $pesan);
+                        }
+                    }
+                } catch (Exception $e) {
+                    // Ignore errors
+                }
+                
                 echo json_encode([
                     'success' => true,
                     'message' => 'Booking berhasil! Status: Disetujui'
@@ -470,106 +333,6 @@ class Internal extends Controller
     }
 
     /**
-     * Validasi input form booking
-     * 
-     * Cek field yang required dan integritas data dasar.
-     * 
-     * @param array $data Data dari form
-     * @return array ['valid' => bool, 'message' => string]
-     */
-    private function validateBookingInput($data)
-    {
-        // Cek field yang required
-        if (
-            empty($data['tanggal']) || empty($data['labName']) ||
-            empty($data['jamMulai']) || empty($data['jamSelesai'])
-        ) {
-            return ['valid' => false, 'message' => 'Data tidak lengkap'];
-        }
-
-        if (empty($data['namaPeminjam']) || empty($data['namaKegiatan'])) {
-            return ['valid' => false, 'message' => 'Nama peminjam dan nama kegiatan wajib diisi'];
-        }
-
-        return ['valid' => true, 'message' => ''];
-    }
-
-    /**
-     * Cari ID lab berdasarkan nama lab
-     * 
-     * @param string $labName Nama lab yang dicari
-     * @return int|null ID lab atau null jika tidak ditemukan
-     */
-    private function getLabIdByName($labName)
-    {
-        $labs = $this->ruanganModel->getAll();
-
-        foreach ($labs as $lab) {
-            if ($lab['nama_ruangan'] === $labName) {
-                return $lab['id'];
-            }
-        }
-
-        return null;
-    }
-
-    /**
-     * Cek konflik dengan jadwal tetap (recurring schedules)
-     * 
-     * Return error message jika ada konflik, null jika tidak ada.
-     * 
-     * @param int $labId ID lab
-     * @param string $date Tanggal booking
-     * @param string $startTime Jam mulai (HH:MM)
-     * @param string $endTime Jam selesai (HH:MM)
-     * @return string|null Error message atau null
-     */
-    private function checkScheduleConflict($labId, $date, $startTime, $endTime)
-    {
-        $dayName = $this->getDayName($date);
-        $schedules = $this->jadwalModel->getByLabAndDay($labId, strtolower($dayName));
-
-        foreach ($schedules as $jadwal) {
-            $jadwalStart = substr($jadwal['jam_mulai'], 0, 5);
-            $jadwalEnd = substr($jadwal['jam_selesai'], 0, 5);
-
-            // Cek time overlap: (start < jadwal_end) DAN (end > jadwal_start)
-            if ($startTime < $jadwalEnd && $endTime > $jadwalStart) {
-                $matkul = $jadwal['nama_matakuliah'] ?? 'Praktikum';
-                return "Bentrok dengan jadwal praktikum: {$matkul} ({$jadwalStart}-{$jadwalEnd})";
-            }
-        }
-
-        return null;
-    }
-
-    /**
-     * Dapatkan nama hari dalam bahasa Indonesia dari tanggal
-     * 
-     * Convert nama hari dari English ke Indonesian.
-     * Contoh: "Monday" → "Senin"
-     * 
-     * @param string $date Tanggal dalam format Y-m-d
-     * @return string Nama hari dalam bahasa Indonesia
-     */
-    private function getDayName($date)
-    {
-        $days = [
-            'Sunday' => 'Minggu',
-            'Monday' => 'Senin',
-            'Tuesday' => 'Selasa',
-            'Wednesday' => 'Rabu',
-            'Thursday' => 'Kamis',
-            'Friday' => 'Jumat',
-            'Saturday' => 'Sabtu'
-        ];
-
-        $dayEnglish = date('l', strtotime($date));
-        return $days[$dayEnglish] ?? $dayEnglish;
-    }
-
-
-    /**
      * Endpoint AJAX untuk mengambil slot jadwal lab tertentu pada tanggal tertentu
      */
     public function getLabSlots()
@@ -583,21 +346,20 @@ class Internal extends Controller
             return;
         }
 
-        // Include helpers
+        // Include helpers (Existing legacy helper, we might want to refactor this later or move to service)
+        // Since `getLabSlots` seems to rely on global functions from `helpers.php`, I will keep this include 
+        // BUT I must ensure `helpers.php` doesn't conflict. 
+        // The previous code had: include_once __DIR__ . '/../views/internal/booking/helpers.php';
+        // This file likely contains `getSlotKosong` and `getSortedSlots`.
         include_once __DIR__ . '/../views/internal/booking/helpers.php';
 
         // 1. Ambil data lab info (untuk nama lab di tombol booking)
-        $ruangan = $this->ruanganModel->getAll();
-        $labName = '';
-        foreach ($ruangan as $r) {
-            if ($r['id'] == $labId) {
-                $labName = $r['nama_ruangan'];
-                break;
-            }
-        }
+        // Using Service now
+        $labInfo = $this->bookingService->getLabById($labId);
+        $labName = $labInfo['nama_ruangan'] ?? '';
 
         // 2. Ambil Jadwal Tetap
-        $jadwalTetapRaw = $this->getFilteredSchedules($date);
+        $jadwalTetapRaw = $this->bookingService->getFilteredSchedules($date);
         $jadwalLab = [];
         foreach ($jadwalTetapRaw as $j) {
             if ($j['lab_id'] == $labId) {
@@ -606,7 +368,7 @@ class Internal extends Controller
         }
 
         // 3. Ambil Peminjaman
-        $peminjamanRaw = $this->getBookingsInRange($date);
+        $peminjamanRaw = $this->bookingService->getBookingsInRange($date);
         $peminjamanLab = [];
         foreach ($peminjamanRaw as $p) {
             if ($p['lab_id'] == $labId && $p['tanggal'] == $date) {
@@ -614,7 +376,7 @@ class Internal extends Controller
             }
         }
 
-        // 4. Hitung Slot Kosong & Sort
+        // 4. Hitung Slot Kosong & Sort (Using helpers included above)
         $slotKosong = getSlotKosong($jadwalLab, $peminjamanLab);
         $sortedSlots = getSortedSlots($jadwalLab, $peminjamanLab, $slotKosong);
 
@@ -626,5 +388,54 @@ class Internal extends Controller
         ];
 
         $this->view('internal/booking/ajax_slots', $data);
+    }
+
+    /**
+     * Halaman Profil User
+     */
+    public function profile()
+    {
+        $data['judul'] = 'Profil Saya';
+        $data['active_page'] = 'profile'; 
+
+        // Ambil data user
+        $userModel = $this->model('UserModel');
+        $data['user'] = $userModel->getUserById($_SESSION['user_id']);
+
+        $this->view('components/internal_head', $data);
+        $this->view('components/internal_navbar', $data);
+        $this->view('components/internal_sidebar', $data);
+        $this->view('internal/profile/index', $data);
+        $this->view('components/internal_footer');
+    }
+
+    /**
+     * Proses Update Profil User
+     */
+    public function prosesUpdateProfile()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            
+            $data = [
+                'id' => $_SESSION['user_id'],
+                'nama' => $_POST['nama'],
+                'email' => $_POST['email'],
+                'telepon' => $_POST['telepon'],
+                'password' => $_POST['password_baru']
+            ];
+
+            $userModel = $this->model('UserModel');
+            
+            if ($userModel->updateUserProfile($data) > 0) {
+                // Update session nama jika berubah
+                $_SESSION['nama'] = $data['nama'];
+                Flasher::setFlash('Berhasil', 'Profil berhasil diperbarui.', 'success');
+            } else {
+                Flasher::setFlash('Info', 'Tidak ada perubahan data.', 'warning');
+            }
+
+            header('Location: ' . BASE_URL . '/internal/profile');
+            exit;
+        }
     }
 }
