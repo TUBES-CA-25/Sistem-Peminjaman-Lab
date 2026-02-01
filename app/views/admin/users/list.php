@@ -54,25 +54,23 @@
                         </td>
                         <td class="text-end px-4">
                             <div class="d-flex justify-content-end gap-2">
-                                <button class="btn-icon btn-edit"
-                                    data-bs-toggle="modal" data-bs-target="#userModal"
+                                <button class="btn-icon btn-edit" data-bs-toggle="modal" data-bs-target="#userModal"
                                     onclick='prepareModal("edit", <?= htmlspecialchars(json_encode($u), ENT_QUOTES, "UTF-8") ?>)'>
                                     <i class="fas fa-edit"></i>
                                 </button>
 
                                 <?php /* 
-                          <form action="<?= BASE_URL ?>/user" method="POST"
-                              onsubmit="return confirm('Hapus pengguna ini?');">
-                              <input type="hidden" name="action" value="delete">
-                              <input type="hidden" name="id" value="<?= $u['id'] ?>">
-                              <button type="submit"
-                                  class="btn btn-sm btn-danger fw-bold d-flex align-items-center gap-1">
-                                  <i class="fas fa-trash"></i> <span class="d-none d-lg-inline">Hapus</span>
-                              </button>
-                          </form> 
-                          */ ?>
-                                <button type="button" onclick="hapusUser(<?= $u['id'] ?>)"
-                                    class="btn-icon btn-delete">
+                    <form action="<?= BASE_URL ?>/user" method="POST"
+                        onsubmit="return confirm('Hapus pengguna ini?');">
+                        <input type="hidden" name="action" value="delete">
+                        <input type="hidden" name="id" value="<?= $u['id'] ?>">
+                        <button type="submit"
+                            class="btn btn-sm btn-danger fw-bold d-flex align-items-center gap-1">
+                            <i class="fas fa-trash"></i> <span class="d-none d-lg-inline">Hapus</span>
+                        </button>
+                    </form> 
+                    */ ?>
+                                <button type="button" onclick="hapusUser(<?= $u['id'] ?>)" class="btn-icon btn-delete">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </div>

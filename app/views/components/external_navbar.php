@@ -1,8 +1,7 @@
 <nav class="navbar">
     <a href="<?= BASE_URL ?>/external" class="navbar-brand">
-        <img src="<?= BASE_URL ?>/public/storage/images/logo-iclabs.png" alt="Logo ICLABS" height="40" style="vertical-align: middle; margin-right: 8px;">
-        
-        ICLABS <span class="admin-badge" style="background: #dcfce7; color: #059669;">External</span>
+        <img src="<?= BASE_URL ?>/public/storage/images/logo-iclabs.png" alt="Logo ICLABS" height="40" style="vertical-align: middle; margin-right: 8px;"> 
+        ICLABS 
     </a>
 
     <div class="navbar-menu">

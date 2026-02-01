@@ -18,7 +18,7 @@ class PeminjamanModel
         $query = "SELECT p.id, p.user_id, p.lab_id, 
                          p.tanggal_peminjaman as tanggal, 
                          p.jam_mulai, p.jam_selesai, 
-                         p.nama_peminjam, p.kegiatan, p.tipe, p.status, p.catatan,
+                         p.nama_peminjam, p.kegiatan, p.tipe, p.status,
                          r.nama_ruangan as lab_nama, u.nama as user_nama, u.email as user_email
                   FROM " . $this->table_name . " p
                   LEFT JOIN ruangan r ON p.lab_id = r.id
@@ -33,7 +33,7 @@ class PeminjamanModel
     public function getById($id)
     {
         $query = "SELECT p.id, p.user_id, p.lab_id, p.tanggal_peminjaman, p.jam_mulai, p.jam_selesai, 
-                         p.nama_peminjam, p.kegiatan, p.tipe, p.status, p.catatan,
+                         p.nama_peminjam, p.kegiatan, p.tipe, p.status,
                          r.nama_ruangan as lab_nama, u.nama as user_nama, u.email as user_email
                   FROM " . $this->table_name . " p
                   LEFT JOIN ruangan r ON p.lab_id = r.id
@@ -51,17 +51,16 @@ class PeminjamanModel
     {
         $query = "INSERT INTO " . $this->table_name . "
                   (user_id, lab_id, tanggal_peminjaman, jam_mulai, jam_selesai, 
-                   nama_peminjam, kegiatan, tipe, status, catatan)
+                   nama_peminjam, kegiatan, tipe, status)
                   VALUES
                   (:user_id, :lab_id, :tanggal, :jam_mulai, :jam_selesai, 
-                   :nama_peminjam, :kegiatan, :tipe, :status, :catatan)";
+                   :nama_peminjam, :kegiatan, :tipe, :status)";
 
         $this->db->query($query);
 
         // Sanitize (Opsional)
         $data['nama_peminjam'] = htmlspecialchars(strip_tags($data['nama_peminjam']));
         $data['kegiatan'] = htmlspecialchars(strip_tags($data['kegiatan']));
-        $data['catatan'] = htmlspecialchars(strip_tags($data['catatan'] ?? ''));
 
         // Bind Data
         $this->db->bind('user_id', $data['user_id']);
@@ -73,7 +72,6 @@ class PeminjamanModel
         $this->db->bind('kegiatan', $data['kegiatan']);
         $this->db->bind('tipe', $data['tipe']);
         $this->db->bind('status', $data['status']);
-        $this->db->bind('catatan', $data['catatan']);
 
         $this->db->execute();
 
@@ -112,7 +110,7 @@ class PeminjamanModel
     {
         $query = "SELECT p.id, p.user_id, p.lab_id, p.tanggal_peminjaman as tanggal, 
                          p.jam_mulai, p.jam_selesai, p.nama_peminjam, p.kegiatan as keterangan, 
-                         p.tipe, p.status, p.catatan,
+                         p.tipe, p.status,
                          r.nama_ruangan
                   FROM " . $this->table_name . " p
                   LEFT JOIN ruangan r ON p.lab_id = r.id
@@ -134,8 +132,7 @@ class PeminjamanModel
                   jam_mulai = :jam_mulai,
                   jam_selesai = :jam_selesai,
                   nama_peminjam = :nama_peminjam,
-                  kegiatan = :kegiatan,
-                  catatan = :catatan
+                  kegiatan = :kegiatan
                   WHERE id = :id";
 
         $this->db->query($query);
@@ -145,7 +142,6 @@ class PeminjamanModel
         $this->db->bind('jam_selesai', $data['jam_selesai']);
         $this->db->bind('nama_peminjam', htmlspecialchars(strip_tags($data['nama_peminjam'])));
         $this->db->bind('kegiatan', htmlspecialchars(strip_tags($data['kegiatan'])));
-        $this->db->bind('catatan', htmlspecialchars(strip_tags($data['catatan'] ?? '')));
         $this->db->bind('id', $id);
 
         $this->db->execute();
@@ -228,6 +224,28 @@ class PeminjamanModel
                   WHERE lab_id = :lab_id 
                   AND tanggal_peminjaman = :tanggal
                   AND status NOT IN ('ditolak', 'tergeser')
+                  AND jam_mulai < :end 
+                  AND jam_selesai > :start";
+
+        $this->db->query($query);
+        $this->db->bind('lab_id', $labId);
+        $this->db->bind('tanggal', $tanggal);
+        $this->db->bind('start', $start);
+        $this->db->bind('end', $end);
+
+        $this->db->execute();
+        return $this->db->rowCount();
+    }
+
+    // Restore Shifted Bookings (When overriding booking is deleted)
+    // Ubah status 'tergeser' kembali ke 'disetujui'
+    public function restoreShiftedBookings($labId, $tanggal, $start, $end)
+    {
+        $query = "UPDATE " . $this->table_name . " 
+                  SET status = 'disetujui'
+                  WHERE lab_id = :lab_id 
+                  AND tanggal_peminjaman = :tanggal
+                  AND status = 'tergeser'
                   AND jam_mulai < :end 
                   AND jam_selesai > :start";
 

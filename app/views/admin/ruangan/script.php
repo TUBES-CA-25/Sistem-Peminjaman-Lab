@@ -2,6 +2,8 @@
 // app/views/pages/admin/ruangan/script.php
 ?>
 <script>
+    const BASE_URL = "<?= BASE_URL ?>";
+
     document.addEventListener('DOMContentLoaded', function () {
         // Initialize Modal AFTER Bootstrap is loaded
         const labModalEl = document.getElementById('labModal');

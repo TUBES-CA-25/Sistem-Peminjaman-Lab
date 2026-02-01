@@ -25,7 +25,7 @@
                         <?php
                         // --- DATA PASSING ---
                         // Menggunakan options JSON_HEX agar aman saat dimasukkan ke onclick HTML
-                        $pathProposal = BASE_URL . '/public/uploads/' . $item['file_proposal'];
+                        $pathProposal = BASE_URL . '/public/storage/uploads/proposals/' . $item['file_proposal'];
                         
                         $dataLengkap = [
                             'id' => $item['id'],

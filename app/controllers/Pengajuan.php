@@ -5,10 +5,17 @@ class Pengajuan extends Controller
     public function __construct()
     {
         // Pastikan Session Login Admin aktif di sini
-        // if (!isset($_SESSION['user_id']) || $_SESSION['role'] != 'admin') {
-        //     header('Location: ' . BASE_URL . '/login');
-        //     exit;
-        // }
+        if (!isset($_SESSION['user_id'])) {
+            http_response_code(401);
+            require_once __DIR__ . '/../views/errors/401.php';
+            exit;
+        }
+
+        if ($_SESSION['role'] !== 'admin') {
+            http_response_code(403);
+            require_once __DIR__ . '/../views/errors/403.php';
+            exit;
+        }
     }
 
     // Halaman Utama Admin Pengajuan (index)
@@ -75,24 +82,36 @@ class Pengajuan extends Controller
 
                 // Atur Pesan Berdasarkan Status
                 if ($statusBaru == 'Disetujui') {
-                    $pesanWA = "*✅ PENGAJUAN DISETUJUI*\n\n";
-                    $pesanWA .= "Halo kak *$namaUser*,\n";
-                    $pesanWA .= "Kabar gembira! Pengajuan kegiatan *$kegiatan* telah DISETUJUI oleh Admin.\n\n";
-                    $pesanWA .= "📅 Jadwal: " . $_POST['tgl_mulai'] . " s.d " . $_POST['tgl_selesai'] . "\n";
-                    $pesanWA .= "Mohon hadir 15 menit sebelum kegiatan dimulai.\n";
+                    $tglMulai = date('d F Y', strtotime($_POST['tgl_mulai']));
+                    $tglSelesai = date('d F Y', strtotime($_POST['tgl_selesai']));
+
+                    $pesanWA = "*✅ Pengajuan Disetujui*\n\n";
+                    $pesanWA .= "Yth. Sdr/i *$namaUser*,\n\n";
+                    $pesanWA .= "Pengajuan peminjaman laboratorium untuk kegiatan *$kegiatan* telah *disetujui* oleh Admin.\n\n";
+                    $pesanWA .= "📅 *Jadwal Peminjaman:*\n";
+                    $pesanWA .= "Mulai : $tglMulai\n";
+                    $pesanWA .= "Selesai : $tglSelesai\n\n";
+                    $pesanWA .= "Mohon hadir 15 menit sebelum kegiatan dimulai untuk persiapan.\n\n";
+                    $pesanWA .= "Terima kasih telah menggunakan layanan Peminjaman ICLABS.\n";
+                    $pesanWA .= "— *ICLABS, Laboratorium Terpadu Fakultas Ilmu Komputer, UMI*";
 
                 } elseif ($statusBaru == 'Ditolak') {
-                    $pesanWA = "*❌ PENGAJUAN DITOLAK*\n\n";
-                    $pesanWA .= "Halo kak *$namaUser*,\n";
-                    $pesanWA .= "Mohon maaf, pengajuan kegiatan *$kegiatan* belum dapat kami terima.\n\n";
-                    $pesanWA .= "⚠️ *Alasan:* " . $_POST['alasan_penolakan'] . "\n\n";
-                    $pesanWA .= "Silakan perbaiki proposal dan ajukan kembali jika memungkinkan.\n";
+                    $pesanWA = "*❌ Pengajuan Ditolak*\n\n";
+                    $pesanWA .= "Yth. Sdr/i *$namaUser*,\n\n";
+                    $pesanWA .= "Mohon maaf, pengajuan peminjaman laboratorium untuk kegiatan *$kegiatan* tidak dapat kami setujui pada saat ini.\n\n";
+                    $pesanWA .= "⚠️ *Alasan Penolakan:*\n" . $_POST['alasan_penolakan'] . "\n\n";
+                    $pesanWA .= "Jika Anda ingin mengajukan kembali, silakan perbaiki sesuai catatan di atas dan lakukan pengajuan ulang melalui sistem.\n\n";
+                    $pesanWA .= "Terima kasih atas pengertian Anda.\n";
+                    $pesanWA .= "— *ICLABS, Laboratorium Terpadu Fakultas Ilmu Komputer, UMI*";
 
                 } elseif ($statusBaru == 'Menunggu Interview') {
-                    $pesanWA = "*📋 PANGGILAN INTERVIEW*\n\n";
-                    $pesanWA .= "Halo kak *$namaUser*,\n";
-                    $pesanWA .= "Berkas proposal *$kegiatan* sudah kami terima.\n\n";
-                    $pesanWA .= "Langkah selanjutnya adalah *Interview/Wawancara*. Mohon segera temui Kepala Lab/Admin di ruangan untuk verifikasi berkas.\n";
+                    $pesanWA = "*📋 Panggilan Wawancara*\n\n";
+                    $pesanWA .= "Yth. Sdr/i *$namaUser*,\n\n";
+                    $pesanWA .= "Terima kasih, proposal untuk kegiatan *$kegiatan* telah kami terima.\n\n";
+                    $pesanWA .= "Sebagai langkah selanjutnya, Anda akan menjalani *wawancara/verifikasi berkas* bersama Kepala Lab.\n";
+                    $pesanWA .= "Mohon segera hubungi Admin atau datang langsung ke ruangan untuk mengatur jadwal wawancara.\n\n";
+                    $pesanWA .= "Terima kasih atas kerja sama Anda.\n";
+                    $pesanWA .= "— *ICLABS, Laboratorium Terpadu Fakultas Ilmu Komputer, UMI*";
                 }
 
                 // --- [LANGKAH 3] KIRIM WA JIKA ADA PESAN ---
