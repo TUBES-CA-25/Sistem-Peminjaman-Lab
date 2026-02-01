@@ -236,4 +236,26 @@ class PeminjamanModel
         $this->db->execute();
         return $this->db->rowCount();
     }
+
+    // Restore Shifted Bookings (When overriding booking is deleted)
+    // Ubah status 'tergeser' kembali ke 'disetujui'
+    public function restoreShiftedBookings($labId, $tanggal, $start, $end)
+    {
+        $query = "UPDATE " . $this->table_name . " 
+                  SET status = 'disetujui'
+                  WHERE lab_id = :lab_id 
+                  AND tanggal_peminjaman = :tanggal
+                  AND status = 'tergeser'
+                  AND jam_mulai < :end 
+                  AND jam_selesai > :start";
+
+        $this->db->query($query);
+        $this->db->bind('lab_id', $labId);
+        $this->db->bind('tanggal', $tanggal);
+        $this->db->bind('start', $start);
+        $this->db->bind('end', $end);
+
+        $this->db->execute();
+        return $this->db->rowCount();
+    }
 }
