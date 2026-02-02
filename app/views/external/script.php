@@ -90,18 +90,24 @@
             }
 
             // Reset Tampilan Alert Status (Sembunyikan semua dulu)
-            document.querySelectorAll('.detail-section').forEach(el => el.style.display = 'none');
+            document.querySelectorAll('.detail-section').forEach(el => {
+                el.style.setProperty('display', 'none', 'important');
+                el.classList.remove('d-flex');
+            });
 
             // Tampilkan Alert sesuai Status
             if (data.status === 'Disetujui') {
                 document.getElementById('view_success').style.display = 'block';
-                const footerWarning = document.getElementById('warning_footer');
-                if(footerWarning) footerWarning.style.display = 'flex';
             } else if (data.status === 'Ditolak') {
                 document.getElementById('view_reject').style.display = 'block';
                 document.getElementById('text_alasan').innerText = data.alasan;
             } else if (data.status === 'Menunggu Interview') {
                 document.getElementById('view_interview').style.display = 'block';
+                const footerWarning = document.getElementById('warning_footer');
+                if(footerWarning) {
+                    footerWarning.style.setProperty('display', 'flex', 'important');
+                    footerWarning.classList.add('d-flex');
+                }
             } else {
                 // Default: Menunggu Konfirmasi
                 document.getElementById('view_wait').style.display = 'block';
