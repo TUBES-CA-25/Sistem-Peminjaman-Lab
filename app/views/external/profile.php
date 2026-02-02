@@ -121,16 +121,16 @@
                     <!-- Action Buttons -->
                     <div class="profile-actions mt-4">
                         <button type="button" id="btnEdit" class="btn-modern btn-primary-modern">
-                            <i class="fas fa-edit me-2"></i>Edit Profil
+                            <i class="fas fa-edit"></i>Edit Profil
                         </button>
                         <div id="actionButtons" class="d-none">
                             <button type="submit" class="btn-modern btn-success-modern" id="btnSubmitProfile">
-                                <i class="fas fa-check me-2 icon-default"></i>
+                                <i class="fas fa-check icon-default"></i>
                                 <span class="spinner-border spinner-border-sm d-none me-2" role="status" aria-hidden="true"></span>
                                 <span class="btn-text">Simpan Perubahan</span>
                             </button>
                             <button type="button" id="btnCancel" class="btn-modern btn-cancel-modern">
-                                <i class="fas fa-times me-2"></i>Batal
+                                <i class="fas fa-times"></i>Batal
                             </button>
                         </div>
                     </div>

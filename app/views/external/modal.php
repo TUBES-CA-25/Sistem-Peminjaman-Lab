@@ -36,7 +36,7 @@
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label fw-bold small text-dark">Jumlah Peserta</label>
-                                <input type="number" class="form-control" name="jumlah_peserta" placeholder="Contoh: 30" required>
+                                <input type="number" class="form-control" name="jumlah_peserta" placeholder="Contoh: 30" min="0" oninput="this.value = this.value.replace(/[^0-9]/g, ''); if(this.value.length > 1) this.value = this.value.replace(/^0+/, '0').replace(/^0([1-9])/, '$1');" onkeydown="if(['e','E','+','-','.'].includes(event.key)) event.preventDefault();" required>
                             </div>
                         </div>
 
@@ -102,7 +102,7 @@
 
                         <div class="mb-3">
                             <label class="form-label fw-bold small text-uppercase">Jumlah Peserta</label>
-                            <input type="number" class="form-control" name="jumlah_peserta" id="edit_peserta" required>
+                            <input type="number" class="form-control" name="jumlah_peserta" id="edit_peserta" min="0" oninput="this.value = this.value.replace(/[^0-9]/g, ''); if(this.value.length > 1) this.value = this.value.replace(/^0+/, '0').replace(/^0([1-9])/, '$1');" onkeydown="if(['e','E','+','-','.'].includes(event.key)) event.preventDefault();" required>
                         </div>
 
                         <div class="row mb-4">
