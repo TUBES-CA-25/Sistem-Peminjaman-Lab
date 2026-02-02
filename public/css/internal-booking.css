@@ -13,7 +13,7 @@
 }
 
 .p-hero-custom {
-  background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+  background: linear-gradient(135deg, #122e4f 0%, #1f45ac 100%);
   padding: 2.5rem;
   border-radius: 20px;
   margin-bottom: 2rem;
@@ -448,7 +448,7 @@
   border-radius: 12px;
   padding: 16px;
   border: 1px solid #e2e8f0;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   transition: all 0.3s ease;
 }
 
@@ -722,233 +722,232 @@
 }
 
 @media (min-width: 769px) {
-
-    .sidebar-header-mobile,
-    .mobile-only {
-        display: none;
-    }
+  .sidebar-header-mobile,
+  .mobile-only {
+    display: none;
+  }
 }
 
 /* Dark Mode Support for Internal Booking */
 [data-theme="dark"] .hero-section-internal {
-    background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
-    box-shadow: inset 0 -30px 60px rgba(0,0,0,0.3);
+  background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+  box-shadow: inset 0 -30px 60px rgba(0, 0, 0, 0.3);
 }
 
 [data-theme="dark"] .p-lab-card {
-    background: var(--bg-card);
-    border-color: var(--border-color);
+  background: var(--bg-card);
+  border-color: var(--border-color);
 }
 
 [data-theme="dark"] .p-lab-card h3 {
-    color: var(--text-main);
-    border-color: var(--border-color);
+  color: var(--text-main);
+  border-color: var(--border-color);
 }
 
 [data-theme="dark"] .lab-card {
-    background: var(--bg-card);
-    border-color: var(--border-color);
+  background: var(--bg-card);
+  border-color: var(--border-color);
 }
 
 [data-theme="dark"] .lab-card-body {
-    background: var(--bg-card);
+  background: var(--bg-card);
 }
 
 [data-theme="dark"] .lab-name {
-    color: var(--text-main);
+  color: var(--text-main);
 }
 
 [data-theme="dark"] .lab-info {
-    color: var(--text-muted);
+  color: var(--text-muted);
 }
 
 [data-theme="dark"] .lab-image {
-    background: #0f172a;
-    opacity: 0.8;
+  background: #0f172a;
+  opacity: 0.8;
 }
 
 /* Slot Dark Mode Adjustments */
 [data-theme="dark"] .p-slot {
-    background: rgba(255, 255, 255, 0.02) !important;
-    border-color: rgba(255, 255, 255, 0.1) !important;
+  background: rgba(255, 255, 255, 0.02) !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
 }
 
 [data-theme="dark"] .p-slot.available {
-    background: rgba(255, 255, 255, 0.02) !important;
-    border: 2px dashed rgba(255, 255, 255, 0.1) !important;
-    color: var(--text-muted) !important;
+  background: rgba(255, 255, 255, 0.02) !important;
+  border: 2px dashed rgba(255, 255, 255, 0.1) !important;
+  color: var(--text-muted) !important;
 }
 
 [data-theme="dark"] .p-slot.available:hover {
-    background: var(--accent-blue) !important;
-    border-style: solid !important;
-    color: #000 !important;
+  background: var(--accent-blue) !important;
+  border-style: solid !important;
+  color: #000 !important;
 }
 
 [data-theme="dark"] .p-slot.read-only {
-    background: rgba(255, 255, 255, 0.01) !important;
-    border: 2px dashed rgba(255, 255, 255, 0.05) !important;
-    color: rgba(255, 255, 255, 0.2) !important;
+  background: rgba(255, 255, 255, 0.01) !important;
+  border: 2px dashed rgba(255, 255, 255, 0.05) !important;
+  color: rgba(255, 255, 255, 0.2) !important;
 }
 
 [data-theme="dark"] .p-slot.praktikum {
-    background: rgba(56, 189, 248, 0.1) !important;
-    border-color: #38BDF8 !important;
-    color: #38BDF8 !important;
-    border-style: solid !important;
+  background: rgba(56, 189, 248, 0.1) !important;
+  border-color: #38bdf8 !important;
+  color: #38bdf8 !important;
+  border-style: solid !important;
 }
 
 [data-theme="dark"] .p-slot-label {
-    color: inherit !important;
+  color: inherit !important;
 }
 
 [data-theme="dark"] .p-slot-sub {
-    color: inherit !important;
-    opacity: 0.7 !important;
+  color: inherit !important;
+  opacity: 0.7 !important;
 }
 
 /* Table Dark Mode */
 [data-theme="dark"] .p-table-wrap {
-    background: var(--bg-card);
-    border-color: var(--border-color);
+  background: var(--bg-card);
+  border-color: var(--border-color);
 }
 
 [data-theme="dark"] .p-table th {
-    background: rgba(255, 255, 255, 0.05);
-    color: var(--text-main);
-    border-color: var(--border-color);
-    font-weight: 800;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-main);
+  border-color: var(--border-color);
+  font-weight: 800;
 }
 
 [data-theme="dark"] .p-table td {
-    border-color: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.05);
 }
 
 [data-theme="dark"] .p-date {
-    color: var(--text-main);
+  color: var(--text-main);
 }
 
 [data-theme="dark"] .p-time {
-    color: var(--text-muted);
+  color: var(--text-muted);
 }
 
 [data-theme="dark"] .p-lab-name {
-    color: var(--text-main);
+  color: var(--text-main);
 }
 
 [data-theme="dark"] .p-keterangan {
-    color: var(--text-muted);
+  color: var(--text-muted);
 }
 
 [data-theme="dark"] .p-status-done {
-    color: var(--text-muted);
-    opacity: 0.6;
+  color: var(--text-muted);
+  opacity: 0.6;
 }
 
 [data-theme="dark"] .p-empty-state {
-    background: var(--bg-card);
-    border-color: var(--border-color);
-    color: var(--text-muted);
+  background: var(--bg-card);
+  border-color: var(--border-color);
+  color: var(--text-muted);
 }
 
 [data-theme="dark"] .p-mobile-card {
-    background: var(--bg-card);
-    border-color: var(--border-color);
+  background: var(--bg-card);
+  border-color: var(--border-color);
 }
 
 [data-theme="dark"] .p-mobile-info {
-    color: var(--text-muted);
+  color: var(--text-muted);
 }
 
 [data-theme="dark"] .p-mobile-keterangan {
-    background: rgba(255, 255, 255, 0.03);
-    color: var(--text-muted);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--text-muted);
 }
 
 [data-theme="dark"] .p-mobile-card-footer {
-    border-color: var(--border-color);
+  border-color: var(--border-color);
 }
 
 [data-theme="dark"] .p-status-aktif {
-    background: rgba(16, 185, 129, 0.1) !important;
-    color: #10b981 !important;
-    border: 1px solid rgba(16, 185, 129, 0.2);
+  background: rgba(16, 185, 129, 0.1) !important;
+  color: #10b981 !important;
+  border: 1px solid rgba(16, 185, 129, 0.2);
 }
 [data-theme="dark"] .p-status-nonaktif {
-    background: rgba(239, 68, 68, 0.1) !important;
-    color: #f87171 !important;
-    border: 1px solid rgba(239, 68, 68, 0.2);
+  background: rgba(239, 68, 68, 0.1) !important;
+  color: #f87171 !important;
+  border: 1px solid rgba(239, 68, 68, 0.2);
 }
 [data-theme="dark"] .p-status-tergeser {
-    background: rgba(236, 72, 153, 0.1) !important;
-    color: #f472b6 !important;
-    border: 1px solid rgba(236, 72, 153, 0.2);
+  background: rgba(236, 72, 153, 0.1) !important;
+  color: #f472b6 !important;
+  border: 1px solid rgba(236, 72, 153, 0.2);
 }
 
 /* Actions & Buttons in Dark Mode */
 [data-theme="dark"] .p-edit {
-    background: rgba(56, 189, 248, 0.1);
-    color: #38bdf8;
-    border-color: rgba(56, 189, 248, 0.2);
+  background: rgba(56, 189, 248, 0.1);
+  color: #38bdf8;
+  border-color: rgba(56, 189, 248, 0.2);
 }
 
 [data-theme="dark"] .p-del {
-    background: rgba(248, 113, 113, 0.1);
-    color: #f87171;
-    border-color: rgba(248, 113, 113, 0.2);
+  background: rgba(248, 113, 113, 0.1);
+  color: #f87171;
+  border-color: rgba(248, 113, 113, 0.2);
 }
 
 [data-theme="dark"] .p-edit:hover {
-    background: #38bdf8;
-    color: #080A0F;
+  background: #38bdf8;
+  color: #080a0f;
 }
 
 [data-theme="dark"] .p-del:hover {
-    background: #f87171;
-    color: #fff;
+  background: #f87171;
+  color: #fff;
 }
 
 /* Modals Dark Mode */
 [data-theme="dark"] .p-modal-card {
-    background: var(--bg-card);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--bg-card);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 [data-theme="dark"] .p-modal-head {
-    border-color: var(--border-color);
+  border-color: var(--border-color);
 }
 
 [data-theme="dark"] .p-x {
-    background: rgba(255, 255, 255, 0.05);
-    color: var(--text-main);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-main);
 }
 
 /* Forms & Inputs Dark Mode */
 [data-theme="dark"] .p-date-picker input {
-    background: var(--bg-body);
-    border-color: var(--border-color);
-    color: var(--text-main);
+  background: var(--bg-body);
+  border-color: var(--border-color);
+  color: var(--text-main);
 }
 
 [data-theme="dark"] .p-date-picker label {
-    color: var(--text-main);
+  color: var(--text-main);
 }
 
 /* Mobile Sidebar Dark Mode */
 [data-theme="dark"] .sidebar {
-    background: var(--bg-sidebar);
+  background: var(--bg-sidebar);
 }
 
 [data-theme="dark"] .sidebar-header-mobile {
-    border-color: var(--border-color);
-    color: var(--accent-blue);
+  border-color: var(--border-color);
+  color: var(--accent-blue);
 }
 
 [data-theme="dark"] .close-btn {
-    color: var(--text-main);
+  color: var(--text-main);
 }
 
 /* Legend Consistency with Admin */
 [data-theme="dark"] .p-legend {
-    background: rgba(0, 0, 0, 0.2);
+  background: rgba(0, 0, 0, 0.2);
 }
