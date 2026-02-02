@@ -5,7 +5,7 @@
 
             <!-- Header -->
             <div class="modal-body p-0">
-                <div class="d-flex align-items-center justify-content-between px-4 py-3 bg-light border-bottom">
+                <div class="d-flex align-items-center justify-content-between px-4 py-3 border-bottom-0">
                     <h5 class="modal-title fw-bold text-dark mb-0">
                         <i class="fas fa-info-circle me-2 text-primary"></i>
                         Detail Pengajuan
@@ -28,34 +28,33 @@
                     <i class="fas fa-list-ul me-2"></i>Informasi Peminjam
                 </h6>
 
-                <div class="bg-light p-4 rounded-3 border">
-
-                    <div class="row mb-2 border-bottom pb-2">
+                <div class="p-4 rounded-4 border-0">
+                    <div class="row mb-3 border-bottom border-secondary-subtle pb-2 info-row">
                         <div class="col-4 fw-bold text-secondary">Nama Pemohon</div>
                         <div class="col-8 fw-bold text-dark" id="view_nama"></div>
                     </div>
 
-                    <div class="row mb-2 border-bottom pb-2">
+                    <div class="row mb-3 border-bottom border-secondary-subtle pb-2 info-row">
                         <div class="col-4 fw-bold text-secondary">Email</div>
                         <div class="col-8 text-dark" id="view_email"></div>
                     </div>
 
-                    <div class="row mb-2 border-bottom pb-2">
+                    <div class="row mb-3 border-bottom border-secondary-subtle pb-2 info-row">
                         <div class="col-4 fw-bold text-secondary">No. Telepon</div>
                         <div class="col-8 text-dark font-monospace" id="view_telepon"></div>
                     </div>
 
-                    <div class="row mb-2 border-bottom pb-2">
+                    <div class="row mb-3 border-bottom border-secondary-subtle pb-2 info-row">
                         <div class="col-4 fw-bold text-secondary">Nama Kegiatan</div>
                         <div class="col-8 fw-bold text-primary" id="view_kegiatan"></div>
                     </div>
 
-                    <div class="row mb-2 border-bottom pb-2">
+                    <div class="row mb-3 border-bottom border-secondary-subtle pb-2 info-row">
                         <div class="col-4 fw-bold text-secondary">Jumlah Peserta</div>
                         <div class="col-8 text-dark" id="view_peserta"></div>
                     </div>
 
-                    <div class="row mb-2 border-bottom pb-2">
+                    <div class="row mb-3 border-bottom border-secondary-subtle pb-2 info-row">
                         <div class="col-4 fw-bold text-secondary">Waktu Pelaksanaan</div>
                         <div class="col-8">
                             <span class="badge bg-primary me-2">
@@ -67,7 +66,7 @@
                         </div>
                     </div>
 
-                    <div class="row mb-2">
+                    <div class="row mb-0">
                         <div class="col-4 fw-bold text-secondary">Status Terkini</div>
                         <div class="col-8 fw-bold" id="view_status"></div>
                     </div>

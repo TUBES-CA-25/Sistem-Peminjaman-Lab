@@ -6,7 +6,7 @@
 <div id="pScheduleModal" class="p-modal">
   <div class="p-modal-card" style="max-width:600px;">
     <div class="p-modal-head">
-      <h2 style="margin:0; font-size:20px; font-weight:900; color:#0f172a;" id="scheduleModalTitle">Tambah Jadwal
+      <h2 style="margin:0; font-size:20px; font-weight:900;" id="scheduleModalTitle" class="text-dark">Tambah Jadwal
         Praktikum Tetap</h2>
       <button type="button" class="p-x" onclick="closeScheduleModal()">&times;</button>
     </div>
@@ -20,9 +20,9 @@
 
       <!-- Hari -->
       <div style="margin-bottom:12px;">
-        <label for="scheduleHari" style="font-weight:900; font-size:13px; color:#334155;">Hari</label>
-        <select id="scheduleHari" name="hari" required
-          style="width:100%; padding:10px; border-radius:10px; border:1px solid #e2e8f0; margin-top:4px;">
+        <label for="scheduleHari" style="font-weight:900; font-size:13px;" class="text-muted">Hari</label>
+        <select id="scheduleHari" name="hari" required class="form-control"
+          style="width:100%; padding:10px; border-radius:10px; margin-top:4px;">
           <option value="">Pilih Hari</option>
           <option value="senin">Senin</option>
           <option value="selasa">Selasa</option>
@@ -36,9 +36,9 @@
 
       <!-- Laboratorium -->
       <div style="margin-bottom:12px;">
-        <label for="scheduleLab" style="font-weight:900; font-size:13px; color:#334155;">Laboratorium</label>
-        <select id="scheduleLab" name="lab" required
-          style="width:100%; padding:10px; border-radius:10px; border:1px solid #e2e8f0; margin-top:4px;">
+        <label for="scheduleLab" style="font-weight:900; font-size:13px;" class="text-muted">Laboratorium</label>
+        <select id="scheduleLab" name="lab" required class="form-control"
+          style="width:100%; padding:10px; border-radius:10px; margin-top:4px;">
           <option value="">Pilih Lab</option>
           <?php if (!empty($data['labs'])): ?>
             <?php foreach ($data['labs'] as $lab): ?>
@@ -51,22 +51,22 @@
       <!-- Jam Mulai & Selesai -->
       <div style="display:flex; gap:12px; margin-bottom:12px;">
         <div style="flex:1;">
-          <label for="scheduleJamMulai" style="font-weight:900; font-size:13px; color:#334155;">Jam Mulai</label>
-          <input id="scheduleJamMulai" name="jamMulai" type="time" required step="60"
-            style="width:100%; padding:10px; border-radius:10px; border:1px solid #e2e8f0; margin-top:4px;" />
+          <label for="scheduleJamMulai" style="font-weight:900; font-size:13px;" class="text-muted">Jam Mulai</label>
+          <input id="scheduleJamMulai" name="jamMulai" type="time" required step="60" class="form-control"
+            style="width:100%; padding:10px; border-radius:10px; margin-top:4px;" />
         </div>
         <div style="flex:1;">
-          <label for="scheduleJamSelesai" style="font-weight:900; font-size:13px; color:#334155;">Jam Selesai</label>
-          <input id="scheduleJamSelesai" name="jamSelesai" type="time" required step="60"
-            style="width:100%; padding:10px; border-radius:10px; border:1px solid #e2e8f0; margin-top:4px;" />
+          <label for="scheduleJamSelesai" style="font-weight:900; font-size:13px;" class="text-muted">Jam Selesai</label>
+          <input id="scheduleJamSelesai" name="jamSelesai" type="time" required step="60" class="form-control"
+            style="width:100%; padding:10px; border-radius:10px; margin-top:4px;" />
         </div>
       </div>
 
       <!-- Mata Kuliah -->
       <div style="margin-bottom:12px;">
-        <label for="scheduleMataKuliah" style="font-weight:900; font-size:13px; color:#334155;">Mata Kuliah</label>
-        <select id="scheduleMataKuliah" name="mataKuliah" required
-          style="width:100%; padding:10px; border-radius:10px; border:1px solid #e2e8f0; margin-top:4px;">
+        <label for="scheduleMataKuliah" style="font-weight:900; font-size:13px;" class="text-muted">Mata Kuliah</label>
+        <select id="scheduleMataKuliah" name="mataKuliah" required class="form-control"
+          style="width:100%; padding:10px; border-radius:10px; margin-top:4px;">
           <option value="">Pilih Mata Kuliah</option>
           <?php if (!empty($data['matakuliah'])): ?>
             <?php foreach ($data['matakuliah'] as $mk): ?>
@@ -78,16 +78,16 @@
 
       <!-- Frekuensi -->
       <div style="margin-bottom:12px;">
-        <label for="scheduleFrekuensi" style="font-weight:900; font-size:13px; color:#334155;">Frekuensi</label>
-        <input id="scheduleFrekuensi" name="frekuensi" type="text" placeholder="Contoh: 1 Minggu Sekali" required
-          style="width:100%; padding:10px; border-radius:10px; border:1px solid #e2e8f0; margin-top:4px;" />
+        <label for="scheduleFrekuensi" style="font-weight:900; font-size:13px;" class="text-muted">Frekuensi</label>
+        <input id="scheduleFrekuensi" name="frekuensi" type="text" placeholder="Contoh: 1 Minggu Sekali" required class="form-control"
+          style="width:100%; padding:10px; border-radius:10px; margin-top:4px;" />
       </div>
 
       <!-- Kelas -->
       <div style="margin-bottom:18px;">
-        <label for="scheduleKelas" style="font-weight:900; font-size:13px; color:#334155;">Kelas</label>
-        <select id="scheduleKelas" name="kelas" required
-          style="width:100%; padding:10px; border-radius:10px; border:1px solid #e2e8f0; margin-top:4px;">
+        <label for="scheduleKelas" style="font-weight:900; font-size:13px;" class="text-muted">Kelas</label>
+        <select id="scheduleKelas" name="kelas" required class="form-control"
+          style="width:100%; padding:10px; border-radius:10px; margin-top:4px;">
           <option value="">Pilih Kelas</option>
           <?php if (!empty($data['kelas'])): ?>
             <?php foreach ($data['kelas'] as $kls): ?>
@@ -101,11 +101,8 @@
 
       <!-- Action Buttons -->
       <div style="text-align:right; display:flex; justify-content:flex-end; gap:10px;">
-        <button type="button" onclick="closeScheduleModal()"
-          style="padding:10px 20px; border-radius:10px; border:1px solid #ccc; background:#f9fafb; cursor:pointer; font-weight:700;">Batal</button>
-        <button type="submit"
-          style="padding:10px 20px; border-radius:10px; border:none; background:#1F45AC; color:#fff; font-weight:900; cursor:pointer;">Simpan
-          Jadwal</button>
+        <button type="button" onclick="closeScheduleModal()" class="btn btn-cancel-modern">Batal</button>
+        <button type="submit" class="btn btn-primary-modern">Simpan Jadwal</button>
       </div>
     </form>
   </div>
