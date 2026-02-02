@@ -42,7 +42,7 @@
             </li>
         </ul>
 
-        <div class="sidebar-header" style="margin-top: 2rem;">AKUN</div>
+        <div class="sidebar-header" style="margin-top: 2rem;">PROFIL</div>
 
         <ul class="sidebar-menu">
             <li class="sidebar-item">
