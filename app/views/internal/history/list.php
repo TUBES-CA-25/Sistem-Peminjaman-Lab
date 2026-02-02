@@ -27,7 +27,7 @@
         <?php foreach ($data['peminjaman'] as $p): ?>
         <tr data-id="<?= $p['id'] ?>">
           <td>
-            <span style="font-weight: 700; color: #0f172a;"><?= htmlspecialchars($p['nama_ruangan']) ?></span>
+            <span class="p-lab-name"><?= htmlspecialchars($p['nama_ruangan']) ?></span>
           </td>
           <td>
             <div class="p-dt">
@@ -36,7 +36,7 @@
             </div>
           </td>
           <td>
-            <span style="color: #475569;"><?= htmlspecialchars($p['keterangan']) ?></span>
+            <span class="p-keterangan"><?= htmlspecialchars($p['keterangan']) ?></span>
           </td>
           <td>
             <?php 
@@ -71,7 +71,7 @@
                   <i class="fas fa-trash"></i>
                 </button>
               <?php else: ?>
-                <span style="color: #94a3b8; font-size: 0.85rem; font-style: italic;">Selesai</span>
+                <span class="p-status-done">Selesai</span>
               <?php endif; ?>
             </div>
           </td>
@@ -85,19 +85,19 @@
 <!-- MOBILE CARD VIEW (Hidden on Desktop) -->
 <div class="d-md-none">
     <?php if (empty($data['peminjaman'])): ?>
-        <div style="text-align: center; padding: 40px; color: #64748b; background: white; border-radius: 12px; border: 1px solid #e2e8f0;">
-          <i class="fas fa-inbox" style="font-size: 48px; margin-bottom: 16px; display: block;"></i>
+        <div class="p-empty-state">
+          <i class="fas fa-inbox"></i>
           Belum ada riwayat
         </div>
     <?php else: ?>
-        <div style="display: flex; flex-direction: column; gap: 16px;">
+        <div class="p-mobile-list">
             <?php foreach ($data['peminjaman'] as $p): ?>
-            <div style="background: white; border-radius: 12px; padding: 16px; border: 1px solid #e2e8f0; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
-                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px;">
+            <div class="p-mobile-card">
+                <div class="p-mobile-card-header">
                     <div>
-                        <div style="font-weight: 800; color: #0f172a; font-size: 1.1rem;margin-bottom: 4px;"><?= htmlspecialchars($p['nama_ruangan']) ?></div>
-                        <div style="font-size: 0.9rem; color: #64748b;"><i class="far fa-calendar"></i> <?= date('d M Y', strtotime($p['tanggal'])) ?></div>
-                        <div style="font-size: 0.9rem; color: #64748b;"><i class="far fa-clock"></i> <?= $p['jam_mulai'] ?> - <?= $p['jam_selesai'] ?></div>
+                        <div class="p-lab-name"><?= htmlspecialchars($p['nama_ruangan']) ?></div>
+                        <div class="p-mobile-info"><i class="far fa-calendar"></i> <?= date('d M Y', strtotime($p['tanggal'])) ?></div>
+                        <div class="p-mobile-info"><i class="far fa-clock"></i> <?= $p['jam_mulai'] ?> - <?= $p['jam_selesai'] ?></div>
                     </div>
                     <?php 
                       $statusClass = 'p-status-nonaktif';
@@ -113,14 +113,14 @@
                         $statusText = 'Tergeser';
                       }
                     ?>
-                    <span class="p-badge <?= $statusClass ?>" style="font-size: 0.75rem;"><?= $statusText ?></span>
+                    <span class="p-badge <?= $statusClass ?>"><?= $statusText ?></span>
                 </div>
                 
-                <div style="background: #f8fafc; padding: 10px; border-radius: 8px; font-size: 0.9rem; color: #475569; margin-bottom: 12px;">
+                <div class="p-mobile-keterangan">
                     <?= htmlspecialchars($p['keterangan']) ?>
                 </div>
                 
-                <div style="display: flex; justify-content: flex-end; pt-2; border-top: 1px solid #f1f5f9; padding-top: 12px;">
+                <div class="p-mobile-card-footer">
                      <?php 
                         $waktuSelesai = strtotime($p['tanggal'] . ' ' . $p['jam_selesai']);
                         $isExpired = $waktuSelesai < time();
@@ -135,7 +135,7 @@
                             </button>
                         </div>
                       <?php else: ?>
-                        <span style="color: #94a3b8; font-size: 0.85rem; font-style: italic;"><i class="fas fa-check-circle"></i> Selesai</span>
+                        <span class="p-status-done"><i class="fas fa-check-circle"></i> Selesai</span>
                       <?php endif; ?>
                 </div>
             </div>
