@@ -40,7 +40,11 @@
                     <span>Data Peminjaman</span>
                 </a>
             </li>
+        </ul>
 
+        <div class="sidebar-header" style="margin-top: auto; padding-top: 2rem;">AKUN</div>
+
+        <ul class="sidebar-menu">
             <li class="sidebar-item">
                 <a href="<?= BASE_URL ?>/internal/profile"
                     class="sidebar-link <?= ($active_page === 'profile') ? 'active' : ''; ?>">

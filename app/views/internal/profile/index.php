@@ -1,5 +1,6 @@
-<link rel="stylesheet" href="<?= BASE_URL; ?>/public/css/external.css">
-<!-- Note: Internal still uses external.css for this modern card style since it's shared logic -->
+<link rel="stylesheet" href="<?= BASE_URL; ?>/public/css/internal-profile.css?v=<?= time(); ?>">
+<!-- Cropper.js CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css">
 
 <div class="container-fluid px-4" style="margin-top: 20px;">
     <!-- Flash Message -->
@@ -31,8 +32,20 @@
                 <!-- Avatar Overlap -->
                 <div class="profile-avatar-section">
                     <div class="avatar-wrapper">
-                        <div class="avatar-large">
-                            <?= strtoupper(substr($user['nama'], 0, 1)); ?>
+                        <div class="avatar-large" id="profileAvatar">
+                            <?php if (!empty($user['foto']) && file_exists('public/storage/uploads/profile/' . $user['foto'])): ?>
+                                <img src="<?= BASE_URL; ?>/public/storage/uploads/profile/<?= $user['foto']; ?>" alt="Profile">
+                            <?php else: ?>
+                                <span><?= strtoupper(substr($user['nama'] ?? 'U', 0, 1)); ?></span>
+                            <?php endif; ?>
+                        </div>
+                        
+                        <!-- Mini Edit Button for Avatar -->
+                        <div class="avatar-edit-badge d-none" id="avatarEditBadge">
+                            <label for="inputFoto" class="mb-0 cursor-pointer">
+                                <i class="fas fa-camera"></i>
+                            </label>
+                            <input type="file" name="foto" id="inputFoto" class="d-none" accept="image/*">
                         </div>
                     </div>
                     <div class="profile-header-info">
@@ -43,7 +56,7 @@
                 </div>
 
                 <!-- Form Section -->
-                <form action="<?= BASE_URL; ?>/internal/prosesUpdateProfile" method="POST" id="formProfile">
+                <form action="<?= BASE_URL; ?>/internal/prosesUpdateProfile" method="POST" id="formProfile" enctype="multipart/form-data">
                     <div class="row g-4 mt-3">
                         <!-- Data Diri Card -->
                         <div class="col-md-6">
@@ -109,8 +122,10 @@
                             <i class="fas fa-edit me-2"></i>Edit Profil
                         </button>
                         <div id="actionButtons" class="d-none">
-                            <button type="submit" class="btn-modern btn-success-modern">
-                                <i class="fas fa-check me-2"></i>Simpan Perubahan
+                            <button type="submit" class="btn-modern btn-success-modern" id="btnSubmitProfile">
+                                <i class="fas fa-check me-2 icon-default"></i>
+                                <span class="spinner-border spinner-border-sm d-none me-2" role="status" aria-hidden="true"></span>
+                                <span class="btn-text">Simpan Perubahan</span>
                             </button>
                             <button type="button" id="btnCancel" class="btn-modern btn-cancel-modern">
                                 <i class="fas fa-times me-2"></i>Batal
@@ -122,66 +137,41 @@
                     <input type="hidden" id="originalNama" value="<?= $user['nama']; ?>">
                     <input type="hidden" id="originalTelepon" value="<?= $user['telepon']; ?>">
                     <input type="hidden" id="originalEmail" value="<?= $user['email']; ?>">
+                    <input type="hidden" name="cropped_image" id="croppedImageInput">
                 </form>
             </div>
         </div>
     </div>
 </div>
 
-</main>
+<!-- Modal Cropper -->
+<div class="modal fade" id="cropperModal" tabindex="-1" aria-labelledby="cropperModalLabel" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="cropperModalLabel">Atur Foto Profil</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="img-container">
+                    <img id="imageToCrop" src="" alt="Picture" style="max-width: 100%;">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                <button type="button" class="btn btn-primary" id="btnCrop">
+                    <span class="spinner-border spinner-border-sm d-none me-2" role="status" aria-hidden="true"></span>
+                    <span class="btn-text">Potong & Simpan</span>
+                </button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Cropper.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
 
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const btnEdit = document.getElementById('btnEdit');
-        const btnCancel = document.getElementById('btnCancel');
-        const actionButtons = document.getElementById('actionButtons');
-        
-        const inputs = [
-            document.getElementById('inputNama'),
-            document.getElementById('inputTelepon'),
-            document.getElementById('inputEmail'),
-            document.getElementById('inputPassword')
-        ];
-
-        const originalData = {
-            nama: document.getElementById('originalNama').value,
-            telepon: document.getElementById('originalTelepon').value,
-            email: document.getElementById('originalEmail').value
-        };
-
-        // MODE EDIT
-        btnEdit.addEventListener('click', function() {
-            inputs.forEach(input => {
-                input.removeAttribute('readonly');
-                input.classList.add('editing');
-            });
-            inputs[0].focus();
-            
-            btnEdit.classList.add('d-none');
-            actionButtons.classList.remove('d-none');
-            actionButtons.classList.add('d-flex', 'gap-2');
-        });
-
-        // MODE BATAL
-        btnCancel.addEventListener('click', function() {
-            inputs.forEach(input => {
-                input.setAttribute('readonly', true);
-                input.classList.remove('editing');
-            });
-            
-            // Reset ke data asli
-            inputs[0].value = originalData.nama;
-            inputs[1].value = originalData.telepon;
-            inputs[2].value = originalData.email;
-            inputs[3].value = '';
-
-            actionButtons.classList.add('d-none');
-            actionButtons.classList.remove('d-flex');
-            btnEdit.classList.remove('d-none');
-        });
-    });
-</script>
+<!-- Custom Profile Logic -->
+<?php include __DIR__ . '/script.php'; ?>
