@@ -79,13 +79,27 @@
         }
 
         @keyframes logoFloat {
-            0%, 100% { transform: translate(-50%, -50%) translateZ(140px) rotateX(0deg) rotateY(0deg); }
-            50% { transform: translate(-50%, -50%) translateZ(200px) rotateX(20deg) rotateY(-20deg); }
+
+            0%,
+            100% {
+                transform: translate(-50%, -50%) translateZ(140px) rotateX(0deg) rotateY(0deg);
+            }
+
+            50% {
+                transform: translate(-50%, -50%) translateZ(200px) rotateX(20deg) rotateY(-20deg);
+            }
         }
 
         @keyframes logoGlow {
-            0%, 100% { filter: drop-shadow(0 50px 100px rgba(0, 0, 0, .95)) drop-shadow(0 0 50px rgba(59, 130, 246, .65)) drop-shadow(0 0 100px rgba(34, 211, 238, .45)); }
-            50% { filter: drop-shadow(0 70px 140px rgba(0, 0, 0, 1)) drop-shadow(0 0 80px rgba(59, 130, 246, .9)) drop-shadow(0 0 150px rgba(34, 211, 238, .6)); }
+
+            0%,
+            100% {
+                filter: drop-shadow(0 50px 100px rgba(0, 0, 0, .95)) drop-shadow(0 0 50px rgba(59, 130, 246, .65)) drop-shadow(0 0 100px rgba(34, 211, 238, .45));
+            }
+
+            50% {
+                filter: drop-shadow(0 70px 140px rgba(0, 0, 0, 1)) drop-shadow(0 0 80px rgba(59, 130, 246, .9)) drop-shadow(0 0 150px rgba(34, 211, 238, .6));
+            }
         }
 
         .image-caption {
@@ -96,15 +110,22 @@
             color: white;
         }
 
-        .image-caption h3 { font-weight: 900; }
-        .image-caption p { opacity: .85; }
+        .image-caption h3 {
+            font-weight: 900;
+        }
+
+        .image-caption p {
+            opacity: .85;
+        }
 
         .auth-form {
             padding: 70px 60px;
             color: white;
         }
 
-        .auth-form h2 { font-weight: 900; }
+        .auth-form h2 {
+            font-weight: 900;
+        }
 
         .otp-inputs {
             display: flex;
@@ -159,8 +180,14 @@
             font-weight: 700;
         }
 
-        .resend-link:hover { text-decoration: underline; }
-        .resend-link.disabled { color: rgba(255, 255, 255, .3); pointer-events: none; }
+        .resend-link:hover {
+            text-decoration: underline;
+        }
+
+        .resend-link.disabled {
+            color: rgba(255, 255, 255, .3);
+            pointer-events: none;
+        }
 
         .alert {
             background: rgba(25, 135, 84, 0.2);
@@ -169,7 +196,7 @@
             border-radius: 12px;
             margin-bottom: 20px;
         }
-        
+
         .alert-danger {
             background: rgba(220, 53, 69, 0.2);
             border: 1px solid rgba(220, 53, 69, 0.5);
@@ -177,8 +204,13 @@
         }
 
         @media(max-width:900px) {
-            .auth-box { grid-template-columns: 1fr; }
-            .auth-image { display: none; }
+            .auth-box {
+                grid-template-columns: 1fr;
+            }
+
+            .auth-image {
+                display: none;
+            }
         }
     </style>
 </head>
@@ -191,7 +223,7 @@
             <div class="auth-image">
                 <img src="<?= BASE_URL ?>/public/storage/images/CV.jpg" class="bg" alt="Laboratorium">
                 <div class="logo-3d">
-                    <img src="<?= BASE_URL ?>/public/storage/images/logo-iclabs.svg" alt="Logo">
+                    <img src="<?= BASE_URL ?>/public/storage/images/logo-iclabs.png" alt="Logo">
                 </div>
                 <div class="image-caption">
                     <h3>Peminjaman Laboratorium</h3>
@@ -203,7 +235,8 @@
                 <div class="mb-4">
                     <i class="fas fa-envelope-open-text fa-3x text-info mb-3"></i>
                     <h2>Verifikasi Akun</h2>
-                    <p class="text-white-50">Kami telah mengirimkan 6 digit kode OTP ke email <br><strong><?= $data['email']; ?></strong></p>
+                    <p class="text-white-50">Kami telah mengirimkan 6 digit kode OTP ke email
+                        <br><strong><?= $data['email']; ?></strong></p>
                 </div>
 
                 <?php Flasher::flash(); ?>
@@ -211,7 +244,7 @@
                 <form action="<?= BASE_URL; ?>/auth/prosesVerify" method="POST" id="otpForm">
                     <input type="hidden" name="email" value="<?= $data['email']; ?>">
                     <input type="hidden" name="otp" id="otpFull">
-                    
+
                     <div class="otp-inputs">
                         <input type="text" class="otp-field" maxlength="1" pattern="\d*" inputmode="numeric">
                         <input type="text" class="otp-field" maxlength="1" pattern="\d*" inputmode="numeric">
@@ -222,13 +255,14 @@
                     </div>
 
                     <button type="submit" class="btn btn-verify w-100 mb-3" id="btnVerify">
-                        <span class="spinner-border spinner-border-sm d-none me-2" role="status" aria-hidden="true"></span>
+                        <span class="spinner-border spinner-border-sm d-none me-2" role="status"
+                            aria-hidden="true"></span>
                         <span class="btn-text">Verifikasi</span>
                     </button>
                 </form>
 
                 <div class="resend-text text-center mt-3">
-                    Tidak menerima kode? 
+                    Tidak menerima kode?
                     <span id="timerText">Kirim ulang dalam <span id="timer" class="fw-bold">60</span> detik</span>
                     <a href="<?= BASE_URL; ?>/auth/resendOTP" id="resendBtn" class="resend-link d-none">Kirim Ulang</a>
                 </div>
@@ -289,7 +323,7 @@
                 const btn = document.getElementById('btnVerify');
                 const spinner = btn.querySelector('.spinner-border');
                 const btnText = btn.querySelector('.btn-text');
-                
+
                 btn.disabled = true;
                 spinner.classList.remove('d-none');
                 btnText.textContent = 'Memverifikasi...';

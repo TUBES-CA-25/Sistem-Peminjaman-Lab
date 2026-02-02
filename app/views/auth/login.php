@@ -196,7 +196,7 @@
                 <img src="<?= BASE_URL ?>/public/storage/images/CV.jpg" class="bg" alt="Laboratorium">
 
                 <div class="logo-3d">
-                    <img src="<?= BASE_URL ?>/public/storage/images/logo-iclabs.svg" alt="Logo">
+                    <img src="<?= BASE_URL ?>/public/storage/images/logo-iclabs.png" alt="Logo">
                 </div>
 
                 <div class="image-caption">
@@ -235,7 +235,8 @@
                     </div>
 
                     <button type="submit" class="btn btn-login w-100" id="btnLogin">
-                        <span class="spinner-border spinner-border-sm d-none me-2" role="status" aria-hidden="true"></span>
+                        <span class="spinner-border spinner-border-sm d-none me-2" role="status"
+                            aria-hidden="true"></span>
                         <span class="btn-text">Masuk</span>
                     </button>
                 </form>
@@ -250,11 +251,11 @@
     </div>
 
     <script>
-        document.querySelector('form').addEventListener('submit', function() {
+        document.querySelector('form').addEventListener('submit', function () {
             const btn = document.getElementById('btnLogin');
             const spinner = btn.querySelector('.spinner-border');
             const btnText = btn.querySelector('.btn-text');
-            
+
             btn.disabled = true;
             spinner.classList.remove('d-none');
             btnText.textContent = 'Memproses...';

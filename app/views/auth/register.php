@@ -193,7 +193,7 @@
             <div class="auth-image">
                 <img src="<?= BASE_URL ?>/public/storage/images/CV.jpg" class="bg" alt="Laboratorium">
                 <div class="logo-3d">
-                    <img src="<?= BASE_URL ?>/public/storage/images/logo-iclabs.svg" alt="Logo">
+                    <img src="<?= BASE_URL ?>/public/storage/images/logo-iclabs.png" alt="Logo">
                 </div>
                 <div class="image-caption">
                     <h3>Peminjaman Laboratorium</h3>
@@ -243,7 +243,8 @@
                     </div>
 
                     <button type="submit" class="btn btn-register w-100" id="btnRegister">
-                        <span class="spinner-border spinner-border-sm d-none me-2" role="status" aria-hidden="true"></span>
+                        <span class="spinner-border spinner-border-sm d-none me-2" role="status"
+                            aria-hidden="true"></span>
                         <span class="btn-text">Daftar</span>
                     </button>
                 </form>
@@ -260,11 +261,11 @@
     </div>
 
     <script>
-        document.querySelector('form').addEventListener('submit', function() {
+        document.querySelector('form').addEventListener('submit', function () {
             const btn = document.getElementById('btnRegister');
             const spinner = btn.querySelector('.spinner-border');
             const btnText = btn.querySelector('.btn-text');
-            
+
             btn.disabled = true;
             spinner.classList.remove('d-none');
             btnText.textContent = 'Memproses...';

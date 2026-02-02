@@ -3,29 +3,29 @@
 
 <head>
     <script>
-        (function() {
+        (function () {
             const savedTheme = localStorage.getItem('theme') || 'auto';
             const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
             const themeToApply = savedTheme === 'auto' ? systemTheme : savedTheme;
             document.documentElement.setAttribute('data-theme', themeToApply);
         })();
 
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const themeButtons = document.querySelectorAll('[data-theme-value]');
             const activeIcon = document.querySelector('.theme-icon-active');
 
             const updateIcon = (theme) => {
                 if (!activeIcon) return;
-                activeIcon.className = 'theme-icon-active bi ' + 
-                    (theme === 'light' ? 'bi-sun-fill' : 
-                     theme === 'dark' ? 'bi-moon-stars-fill' : 'bi-circle-half');
+                activeIcon.className = 'theme-icon-active bi ' +
+                    (theme === 'light' ? 'bi-sun-fill' :
+                        theme === 'dark' ? 'bi-moon-stars-fill' : 'bi-circle-half');
             };
 
             const applyTheme = (theme) => {
-                const themeToApply = theme === 'auto' ? 
-                    (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : 
+                const themeToApply = theme === 'auto' ?
+                    (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') :
                     theme;
-                
+
                 document.documentElement.setAttribute('data-theme', themeToApply);
                 localStorage.setItem('theme', theme);
                 updateIcon(theme);
@@ -51,7 +51,7 @@
     </script>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <link rel="icon" type="image/png" href="<?= BASE_URL ?>/public/storage/images/logo-iclabs.svg">
+    <link rel="icon" type="image/png" href="<?= BASE_URL ?>/public/storage/images/logo-iclabs.png">
     <title>ICLABS - Dashboard External</title>
 
     <!-- Bootstrap 5 -->
