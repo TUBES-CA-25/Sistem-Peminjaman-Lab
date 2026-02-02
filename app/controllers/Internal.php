@@ -17,7 +17,7 @@ class Internal extends Controller
 {
     /** @var string Jam buka laboratorium */
     private const JAM_BUKA_LAB = '07:00';
-    
+
     /** @var string Jam tutup laboratorium */
     private const JAM_TUTUP_LAB = '18:20';
 
@@ -26,6 +26,9 @@ class Internal extends Controller
 
     /** @var WhatsAppService Service untuk notifikasi WA */
     private $waService;
+
+    /** @var UserService Service untuk manajemen user */
+    private $userService;
 
     /**
      * Constructor
@@ -52,6 +55,7 @@ class Internal extends Controller
         // 3. Load Services Dependency Injection
         $this->bookingService = $this->service('BookingService');
         $this->waService = $this->service('WhatsAppService');
+        $this->userService = $this->service('UserService');
     }
 
     /**
@@ -74,7 +78,7 @@ class Internal extends Controller
     {
         $data = $this->bookingService->getCommonScheduleData('booking');
         $data['judul'] = 'Booking Laboratorium';
-        
+
         // Ambil data user saat ini untuk auto-fill form booking
         $userId = $_SESSION['user_id'] ?? null;
         if ($userId) {
@@ -159,13 +163,13 @@ class Internal extends Controller
         }
 
         $result = $this->bookingService->updateBooking($input['id'], [
-            'lab_id'         => $peminjaman['lab_id'],
-            'tanggal'        => $input['tanggal'],
-            'jam_mulai'      => $input['jam_mulai'],
-            'jam_selesai'    => $input['jam_selesai'],
-            'nama_peminjam'  => $peminjaman['nama_peminjam'],
-            'kegiatan'       => $input['keterangan'],
-            'catatan'        => $peminjaman['catatan'] ?? ''
+            'lab_id' => $peminjaman['lab_id'],
+            'tanggal' => $input['tanggal'],
+            'jam_mulai' => $input['jam_mulai'],
+            'jam_selesai' => $input['jam_selesai'],
+            'nama_peminjam' => $peminjaman['nama_peminjam'],
+            'kegiatan' => $input['keterangan'],
+            'catatan' => $peminjaman['catatan'] ?? ''
         ]);
 
         echo json_encode(['success' => $result]);
@@ -217,10 +221,10 @@ class Internal extends Controller
 
         // 2. Ambil Input Data
         $formData = [
-            'tanggal'      => $_POST['tanggal'] ?? '',
-            'labName'      => $_POST['lab'] ?? '',
-            'jamMulai'     => $_POST['jamMulai'] ?? '',
-            'jamSelesai'   => $_POST['jamSelesai'] ?? '',
+            'tanggal' => $_POST['tanggal'] ?? '',
+            'labName' => $_POST['lab'] ?? '',
+            'jamMulai' => $_POST['jamMulai'] ?? '',
+            'jamSelesai' => $_POST['jamSelesai'] ?? '',
             'namaPeminjam' => $_POST['namaPeminjam'] ?? '',
             'namaKegiatan' => $_POST['namaKegiatan'] ?? ''
         ];
@@ -254,7 +258,7 @@ class Internal extends Controller
 
         try {
             // 6. Validasi Waktu
-            
+
             // a. Cek apakah waktu sudah lewat (Backdate protection)
             $currentDateTime = time();
             $requestedStart = strtotime($formData['tanggal'] . ' ' . $formData['jamMulai']);
@@ -270,7 +274,7 @@ class Internal extends Controller
 
             if ($startCheck < self::JAM_BUKA_LAB || $endCheck > self::JAM_TUTUP_LAB) {
                 echo json_encode([
-                    'success' => false, 
+                    'success' => false,
                     'message' => 'Peminjaman hanya diperbolehkan pada jam operasional (' . self::JAM_BUKA_LAB . ' - ' . self::JAM_TUTUP_LAB . ').'
                 ]);
                 return;
@@ -284,24 +288,24 @@ class Internal extends Controller
 
             // 7. Persiapan Data Insert
             $bookingData = [
-                'user_id'            => $_SESSION['user_id'] ?? null,
-                'lab_id'             => $labId,
+                'user_id' => $_SESSION['user_id'] ?? null,
+                'lab_id' => $labId,
                 'tanggal_peminjaman' => $formData['tanggal'],
-                'jam_mulai'          => $formData['jamMulai'],
-                'jam_selesai'        => $formData['jamSelesai'],
-                'nama_peminjam'      => $formData['namaPeminjam'],
-                'kegiatan'           => $formData['namaKegiatan'],
-                'tipe'               => 'internal',
-                'status'             => 'disetujui',  // AUTO-APPROVE untuk Internal
-                'catatan'            => ''
+                'jam_mulai' => $formData['jamMulai'],
+                'jam_selesai' => $formData['jamSelesai'],
+                'nama_peminjam' => $formData['namaPeminjam'],
+                'kegiatan' => $formData['namaKegiatan'],
+                'tipe' => 'internal',
+                'status' => 'disetujui',  // AUTO-APPROVE untuk Internal
+                'catatan' => ''
             ];
 
             // 8. Simpan ke Database
             if ($this->bookingService->createBooking($bookingData)) {
-                
+
                 // 9. Kirim Notifikasi WhatsApp (Jika user adalah Dosen)
                 $this->sendWhatsappNotificationIfNeeded($labId, $formData);
-                
+
                 echo json_encode([
                     'success' => true,
                     'message' => 'Booking berhasil! Status: Disetujui'
@@ -345,13 +349,13 @@ class Internal extends Controller
 
         // 2. Ambil Jadwal Tetap (Praktikum)
         $jadwalTetapRaw = $this->bookingService->getFilteredSchedules($date);
-        $jadwalLab = array_filter($jadwalTetapRaw, function($j) use ($labId) {
+        $jadwalLab = array_filter($jadwalTetapRaw, function ($j) use ($labId) {
             return $j['lab_id'] == $labId;
         });
 
         // 3. Ambil Booking Aktif
         $peminjamanRaw = $this->bookingService->getBookingsInRange($date);
-        $peminjamanLab = array_filter($peminjamanRaw, function($p) use ($labId, $date) {
+        $peminjamanLab = array_filter($peminjamanRaw, function ($p) use ($labId, $date) {
             return $p['lab_id'] == $labId && $p['tanggal'] == $date;
         });
 
@@ -377,7 +381,7 @@ class Internal extends Controller
     public function profile()
     {
         $data['judul'] = 'Profil Saya';
-        $data['active_page'] = 'profile'; 
+        $data['active_page'] = 'profile';
 
         $userModel = $this->model('UserModel');
         $data['user'] = $userModel->getUserById($_SESSION['user_id']);
@@ -389,64 +393,13 @@ class Internal extends Controller
         $this->view('components/internal_footer');
     }
 
-    /**
-     * Helper: Upload Foto Profil
-     * 
-     * Menangani validasi dan upload file gambar ke server.
-     * 
-     * @param array $file Array $_FILES
-     * @return string|false Nama file baru jika sukses, false jika gagal
-     */
-    private function uploadFoto($file)
-    {
-        $namaFile = $file['name'];
-        $ukuranFile = $file['size'];
-        $error = $file['error'];
-        $tmpName = $file['tmp_name'];
 
-        // Cek apakah ada file yang diupload (Error 4 = No file uploaded)
-        if ($error === 4) {
-            return false;
-        }
-
-        // Validasi Ekstensi
-        $ekstensiValid = ['jpg', 'jpeg', 'png'];
-        $ekstensiFile = explode('.', $namaFile);
-        $ekstensiFile = strtolower(end($ekstensiFile));
-
-        if (!in_array($ekstensiFile, $ekstensiValid)) {
-            Flasher::setFlash('Gagal', 'Format file tidak valid! Gunakan JPG/JPEG/PNG', 'danger');
-            return false;
-        }
-
-        // Validasi Ukuran (Max 2MB)
-        if ($ukuranFile > 2 * 1024 * 1024) { 
-            Flasher::setFlash('Gagal', 'Ukuran file terlalu besar (Max 2MB).', 'danger');
-            return false;
-        }
-
-        // Generate Nama File Unik
-        $namaFileBaru = 'profile_' . $_SESSION['user_id'] . '_' . time() . '.' . $ekstensiFile;
-        $targetDir = __DIR__ . '/../../public/storage/uploads/profile/';
-
-        // Buat folder jika belum ada
-        if (!file_exists($targetDir)) {
-            mkdir($targetDir, 0755, true);
-        }
-
-        // Pindahkan file
-        if (move_uploaded_file($tmpName, $targetDir . $namaFileBaru)) {
-            return $namaFileBaru;
-        } else {
-            return false;
-        }
-    }
 
     /**
      * Proses Update Profil
      * 
      * Menerima submisi form profil, menangani upload foto (base64/file),
-     * dan update database.
+     * dan update database via UserService.
      */
     public function prosesUpdateProfile()
     {
@@ -455,63 +408,19 @@ class Internal extends Controller
             exit;
         }
 
-        $userModel = $this->model('UserModel');
-        $userLama = $userModel->getUserById($_SESSION['user_id']);
-        $foto = $userLama['foto']; // Default gunakan foto lama
+        $userId = $_SESSION['user_id'];
+        $input = $_POST;
+        $files = $_FILES;
 
-        // A. Handle Foto Upload
-        if (!empty($_POST['cropped_image'])) {
-            // Case 1: Upload via Cropper (Base64)
-            $data_uri = $_POST['cropped_image'];
-            $encoded_image = explode(",", $data_uri)[1];
-            $decoded_image = base64_decode($encoded_image);
-            
-            $namaFileBaru = 'profile_' . $_SESSION['user_id'] . '_' . time() . '.jpg';
-            $targetDir = __DIR__ . '/../../public/storage/uploads/profile/';
-            
-            if (!file_exists($targetDir)) {
-                mkdir($targetDir, 0755, true);
-            }
-            
-            if (file_put_contents($targetDir . $namaFileBaru, $decoded_image)) {
-                // Hapus foto lama untuk menghemat storage
-                if ($foto && file_exists($targetDir . $foto)) {
-                    unlink($targetDir . $foto);
-                }
-                $foto = $namaFileBaru;
-            }
-        } elseif (isset($_FILES['foto']) && $_FILES['foto']['error'] !== 4) { 
-            // Case 2: Upload File Biasa (Fallback)
-            $fotoBaru = $this->uploadFoto($_FILES['foto']);
-            if ($fotoBaru) {
-                if ($foto && file_exists(__DIR__ . '/../../public/storage/uploads/profile/' . $foto)) {
-                    unlink(__DIR__ . '/../../public/storage/uploads/profile/' . $foto);
-                }
-                $foto = $fotoBaru;
-            }
-        }
+        $result = $this->userService->updateProfile($userId, $input, $files);
 
-        // B. Update Data User
-        $data = [
-            'id' => $_SESSION['user_id'],
-            'nama' => $_POST['nama'],
-            'email' => $_POST['email'],
-            'telepon' => $_POST['telepon'],
-            'password' => $_POST['password_baru'],
-            'foto' => $foto
-        ];
-        
-        if ($userModel->updateUserProfile($data) > 0) {
-            $_SESSION['nama'] = $data['nama']; // Update session nama biar langsung berubah di navbar
-            Flasher::setFlash('Berhasil', 'Profil berhasil diperbarui.', 'success');
+        if ($result['success']) {
+            if (isset($result['data']['nama'])) {
+                $_SESSION['nama'] = $result['data']['nama']; // Update session nama
+            }
+            Flasher::setFlash('Berhasil', $result['message'], 'success');
         } else {
-            // Jika tidak ada perubahan row, bisa jadi user cuma klik simpan tanpa ubah data, 
-            // atau foto diupload tapi nama/email sama. Kita cek apakah foto berubah.
-            if ($foto !== $userLama['foto']) {
-                 Flasher::setFlash('Berhasil', 'Foto profil berhasil diperbarui.', 'success');
-            } else {
-                 Flasher::setFlash('Info', 'Tidak ada perubahan data.', 'warning');
-            }
+            Flasher::setFlash('Gagal', $result['message'], 'danger');
         }
 
         header('Location: ' . BASE_URL . '/internal/profile');
@@ -528,12 +437,12 @@ class Internal extends Controller
         try {
             $userModel = $this->model('UserModel');
             $currentUser = $userModel->getUserById($_SESSION['user_id']);
-            
+
             // Cek apakah user adalah Dosen
             if (isset($currentUser['status']) && $currentUser['status'] === 'Dosen') {
                 $labInfo = $this->bookingService->getLabById($labId);
                 $targetNumber = null;
-                
+
                 // Prioritas 1: PIC Lab
                 if (!empty($labInfo['email_pic'])) {
                     $koordinator = $userModel->getUserByEmail($labInfo['email_pic']);
@@ -541,25 +450,25 @@ class Internal extends Controller
                         $targetNumber = $koordinator['telepon'];
                     }
                 }
-                
+
                 // Prioritas 2: Admin Utama (Environment Variable)
                 if (empty($targetNumber)) {
                     $targetNumber = getenv('WA_ADMIN') ?: ($_ENV['WA_ADMIN'] ?? '');
                 }
-                
+
                 if (!empty($targetNumber)) {
                     $tanggal = date('d F Y', strtotime($formData['tanggal']));
-                    $pesan  = "📢 *NOTIFIKASI BOOKING LABORATORIUM*\n\n" .
-                              "Seorang dosen telah melakukan booking:\n\n" .
-                              "👤 *Nama:* " . $formData['namaPeminjam'] . "\n" .
-                              "🏛️ *Laboratorium:* " . $formData['labName'] . "\n" .
-                              "📅 *Tanggal:* " . $tanggal . "\n" .
-                              "🕐 *Waktu:* " . $formData['jamMulai'] . " - " . $formData['jamSelesai'] . " WIB\n" .
-                              "📝 *Kegiatan:* " . $formData['namaKegiatan'] . "\n\n" .
-                              "✅ *Status:* Disetujui Otomatis\n\n" .
-                              "_Silakan Segera Persiapkan Ruangan yang dipinjam._\n" .
-                              "_Sistem Peminjaman Lab ICLABS_";
-                    
+                    $pesan = "📢 *NOTIFIKASI BOOKING LABORATORIUM*\n\n" .
+                        "Seorang dosen telah melakukan booking:\n\n" .
+                        "👤 *Nama:* " . $formData['namaPeminjam'] . "\n" .
+                        "🏛️ *Laboratorium:* " . $formData['labName'] . "\n" .
+                        "📅 *Tanggal:* " . $tanggal . "\n" .
+                        "🕐 *Waktu:* " . $formData['jamMulai'] . " - " . $formData['jamSelesai'] . " WIB\n" .
+                        "📝 *Kegiatan:* " . $formData['namaKegiatan'] . "\n\n" .
+                        "✅ *Status:* Disetujui Otomatis\n\n" .
+                        "_Silakan Segera Persiapkan Ruangan yang dipinjam._\n" .
+                        "_Sistem Peminjaman Lab ICLABS_";
+
                     $this->waService->kirimPesanFonnte($targetNumber, $pesan);
                 }
             }

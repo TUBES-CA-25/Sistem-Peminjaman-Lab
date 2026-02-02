@@ -73,7 +73,7 @@ class UserModel
     // 4. Ambil Semua User (Untuk Admin)
     public function getAll()
     {
-        $this->db->query("SELECT id, nama, email, role, status, telepon FROM " . $this->table . " ORDER BY id DESC");
+        $this->db->query("SELECT id, nama, email, role, status, telepon, foto, created_at FROM " . $this->table . " ORDER BY id DESC");
         return $this->db->resultSet();
     }
 
@@ -146,7 +146,7 @@ class UserModel
     // LOGIN: Cari user berdasarkan email
     public function getUserByEmail($email)
     {
-        $this->db->query("SELECT id, nama, email, password, role, is_verified FROM " . $this->table . " WHERE email = :email");
+        $this->db->query("SELECT id, nama, email, password, role, telepon, is_verified FROM " . $this->table . " WHERE email = :email");
         $this->db->bind('email', $email);
         return $this->db->single();
     }
