@@ -70,7 +70,7 @@
             </td>
             <td>
               <div class="d-flex gap-2">
-                <button type="button" class="btn btn-sm btn-primary fw-bold" title="Edit"
+                <button type="button" class="btn btn-sm btn-edit fw-bold" title="Edit"
                   onclick="editJadwal(<?= $item['id'] ?>)">
                   <i class="fas fa-edit"></i>
                 </button>

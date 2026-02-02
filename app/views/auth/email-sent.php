@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <title>Cek Email Anda | Peminjaman Lab</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <link rel="icon" type="image/png" href="<?= BASE_URL ?>/public/storage/images/logo-iclabs.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
@@ -61,10 +61,13 @@
         }
 
         @keyframes pulse {
-            0%, 100% {
+
+            0%,
+            100% {
                 transform: scale(1);
                 box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4);
             }
+
             50% {
                 transform: scale(1.05);
                 box-shadow: 0 0 0 15px rgba(59, 130, 246, 0);
@@ -195,7 +198,7 @@
         <div class="warning-box">
             <i class="bi bi-exclamation-triangle-fill"></i>
             <small class="text-white-50">
-                Tidak menerima email? Cek folder <strong class="text-white">Spam/Junk</strong> Anda. 
+                Tidak menerima email? Cek folder <strong class="text-white">Spam/Junk</strong> Anda.
                 Link akan kadaluarsa dalam <strong class="text-white">1 jam</strong>.
             </small>
         </div>

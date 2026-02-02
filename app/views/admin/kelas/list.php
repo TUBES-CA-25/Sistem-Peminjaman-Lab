@@ -53,7 +53,7 @@
                         </td>
                         <td class="text-end px-4">
                             <div class="d-flex justify-content-end gap-2">
-                                <button class="btn-icon btn-edit btn-edit" data-id="<?= $row['id'] ?>"
+                                <button class="btn-icon btn-edit" data-id="<?= $row['id'] ?>"
                                     data-nama="<?= htmlspecialchars($row['nama_kelas']) ?>"
                                     data-jurusan="<?= $row['jurusan_id'] ?>"
                                     data-angkatan="<?= htmlspecialchars($row['angkatan']) ?>" data-bs-toggle="modal"
