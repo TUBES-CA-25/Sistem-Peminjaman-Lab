@@ -53,7 +53,7 @@
                         </td>
                         <td class="text-end px-4">
                             <div class="d-flex justify-content-end gap-2">
-                                <button class="btn-icon btn-edit btn-edit" data-id="<?= $row['id'] ?>"
+                                <button class="btn-icon btn-edit" data-id="<?= $row['id'] ?>"
                                     data-nama="<?= htmlspecialchars($row['nama_matakuliah']) ?>"
                                     data-kode="<?= htmlspecialchars($row['kode_matakuliah']) ?>"
                                     data-singkatan="<?= htmlspecialchars($row['singkatan'] ?? '') ?>"

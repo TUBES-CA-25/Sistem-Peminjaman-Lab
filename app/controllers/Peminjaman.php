@@ -42,7 +42,6 @@ class Peminjaman extends Controller
             'active_page' => 'peminjaman',
             'bookings' => $peminjamanModel->getAll(),
             'labs' => $ruanganModel->getAll(),
-            // We might need raw schedule data for JS to handle frontend conflict checks too
             'fixed_schedules' => $jadwalModel->getAll()
         ];
 
@@ -61,29 +60,14 @@ class Peminjaman extends Controller
         $isAjax = isset($_POST['ajax']) && $_POST['ajax'] == '1';
 
         if ($action === 'create' || $action === 'update') {
-            // Mapping fields
-            $tanggal = $_POST['tanggal'] ?? ''; // Format YYYY-MM-DD
+            $tanggal = $_POST['tanggal'] ?? '';
             $labId = $_POST['lab'] ?? '';
             $jamMulai = $_POST['jamMulai'] ?? '';
             $jamSelesai = $_POST['jamSelesai'] ?? '';
-            $tipe = $_POST['tipe'] ?? 'eksternal'; // internal / eksternal
+            $tipe = $_POST['tipe'] ?? 'eksternal';
             $id = $_POST['id'] ?? null;
 
-            // Logic:
-            // - Internal: Check conflict. If safe -> status = disetujui.
-            // - External (Admin Input): No check needed (force) or simple check. Admin usually forces.
-            //   But requirements say "admin adds schedule", implying admin has authority.
-            //   Let's check conflict anyway to warn, or just allow.
-            //   For NOW, we enforce conflict check for INTERNAL only or BOTH?
-            //   User said: "internal... langsung acc selagi tidak bertabrakan... user external... admin yang akan menambahkan"
-            //   So Admin adding External means it IS Approved.
-            // Let's do conflict check for SAFETY for everyone.
 
-            // ===== VALIDASI TAMBAHAN REQUESTED =====
-            // Peminjaman Internal di Admin (atau semua via Admin) harus ikut aturan jam operasional dan tidak boleh backdate.
-            // Requirement: "peminjaman internal di admin itu Hanya bisa booking pukul 07:00 - 18:20 dan jadwal tidak bisa booking jika jam nya sudah lewat"
-
-            // 1. Cek Jam Operasional
             $startCheck = substr($jamMulai, 0, 5);
             $endCheck = substr($jamSelesai, 0, 5);
             if ($startCheck < '07:00' || $endCheck > '18:20') {
@@ -95,8 +79,6 @@ class Peminjaman extends Controller
                 exit;
             }
 
-            // 2. Cek Backdate (Waktu lampau)
-            // Hanya cek jika ini CREATE baru atau UPDATE tanggal/jam
             $bookingTimestamp = strtotime($tanggal . ' ' . $jamMulai);
             if ($bookingTimestamp < time()) {
                 if ($isAjax) {
@@ -115,8 +97,7 @@ class Peminjaman extends Controller
             // Check Conflict with Other Bookings
             $isBookingConflict = $peminjamanModel->checkConflict($labId, $tanggal, $jamMulai, $jamSelesai, ($action == 'update' ? $id : null));
 
-            // Only block if conflicting with another BOOKING.
-            // Fixed Schedule conflict is allowed (Admin overrides -> "Jadwal Tergeser")
+
             if ($isBookingConflict) {
                 // Check if Override is requested
                 $override = $_POST['override'] ?? false;

@@ -155,15 +155,16 @@ class UserModel
     public function tambahUser($data)
     {
         $query = "INSERT INTO " . $this->table . " 
-                    (nama, email, password, role, telepon, verification_code, is_verified)
+                    (nama, email, password, role, status, telepon, verification_code, is_verified)
                   VALUES
-                    (:nama, :email, :password, :role, :telepon, :code, 0)";
+                    (:nama, :email, :password, :role, :status, :telepon, :code, 0)";
 
         $this->db->query($query);
         $this->db->bind('nama', $data['nama']);
         $this->db->bind('email', $data['email']);
         $this->db->bind('password', $data['password']);
         $this->db->bind('role', 'external');
+        $this->db->bind('status', 'Umum'); // Default status for self-registered external users
         $this->db->bind('telepon', $data['telepon']);
         $this->db->bind('code', $data['verification_code']);
 
