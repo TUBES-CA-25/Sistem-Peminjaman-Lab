@@ -1035,10 +1035,8 @@ nav.navbar.navbar-expand.fixed-top {
     padding: 0 40px 30px;
     margin-top: -80px;
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: 20px;
+    align-items: flex-end;
+    gap: 30px;
 }
 
 .avatar-wrapper {
@@ -1104,13 +1102,11 @@ nav.navbar.navbar-expand.fixed-top {
     color: var(--text-main);
     margin: 0 0 10px 0;
     letter-spacing: -0.5px;
-    text-transform: uppercase;
 }
 
 .profile-email, .profile-member-since {
     display: flex;
     align-items: center;
-    justify-content: center;
     gap: 8px;
 }
 
@@ -1703,6 +1699,10 @@ nav.navbar.navbar-expand.fixed-top {
         align-items: center !important;
         text-align: center !important;
         margin-top: -60px !important;
+    }
+
+    .profile-email, .profile-member-since {
+        justify-content: center !important;
     }
 
     .avatar-large {
