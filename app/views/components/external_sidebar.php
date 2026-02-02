@@ -15,8 +15,8 @@
             <li class="sidebar-item">
                 <a href="<?= BASE_URL ?>/external"
                     class="sidebar-link <?= (isset($active_menu) && $active_menu === 'dashboard') ? 'active' : ''; ?>">
-                    <i class="fas fa-tachometer-alt sidebar-icon"></i>
-                    <span>Dashboard</span>
+                    <i class="fas fa-clipboard-list sidebar-icon"></i>
+                    <span>Pusat Pengajuan</span>
                 </a>
             </li>
 
