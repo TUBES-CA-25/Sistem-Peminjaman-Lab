@@ -30,7 +30,7 @@
         <div class="container">
             <!-- Navbar Brand -->
             <a class="navbar-brand d-flex align-items-center gap-2" href="<?= BASE_URL ?>">
-                <img src="<?= BASE_URL ?>/public/storage/images/logo-iclabs.svg" alt="Logo ICLABS">
+                <img src="<?= BASE_URL ?>/public/storage/images/logo-iclabs.png" alt="Logo ICLABS">
                 <span class="font-display">ICLABS</span>
             </a>
             <!-- <span class="font-display">ICLABS</span> -->
