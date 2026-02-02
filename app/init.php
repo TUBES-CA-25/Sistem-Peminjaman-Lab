@@ -20,6 +20,8 @@ require_once 'core/Controller.php';
 // Ubah dari 'config/Database.php' menjadi 'core/Database.php'
 require_once 'core/Database.php';
 require_once 'core/Flasher.php';
+require_once 'core/Mailer.php';
+require_once 'core/ScheduleHelper.php';
 
 // autoload Composer
 require_once __DIR__ . '/../vendor/autoload.php';

@@ -1,36 +1,28 @@
 <?php
 
-/**
- * Internal Controller
- * 
- * Menghandle fitur booking laboratorium untuk user internal.
- * User internal bisa booking lab langsung tanpa perlu approval admin.
- * 
- * @author System
- * @version 1.0
- */
+
 class Internal extends Controller
 {
     private $ruanganModel;
     private $jadwalModel;
     private $peminjamanModel;
+    private $scheduleHelper;
 
     public function __construct()
     {
         $this->ruanganModel = $this->model('RuanganModel');
         $this->jadwalModel = $this->model('JadwalModel');
         $this->peminjamanModel = $this->model('PeminjamanModel');
+        $this->scheduleHelper = new ScheduleHelper();
 
         // Proteksi Halaman Internal
         if (!isset($_SESSION['user_id'])) {
-            // Belum login → Error 401
             http_response_code(401);
             require_once __DIR__ . '/../views/errors/401.php';
             exit;
         }
 
         if ($_SESSION['role'] !== 'internal') {
-            // Sudah login tapi bukan internal → Error 403
             http_response_code(403);
             require_once __DIR__ . '/../views/errors/403.php';
             exit;
@@ -58,12 +50,12 @@ class Internal extends Controller
         // Ambil tanggal yang dipilih dari URL parameter (default: hari ini)
         $selectedDate = $_GET['date'] ?? date('Y-m-d');
         $data['selected_date'] = $selectedDate;
-        $data['selected_day'] = $this->getDayName($selectedDate);
+        $data['selected_day'] = $this->scheduleHelper->getDayName($selectedDate);
 
         // Siapkan data untuk view
-        $data['labs'] = $this->getLabsData();
-        $data['jadwal_tetap'] = $this->getFilteredSchedules($selectedDate);
-        $data['peminjaman'] = $this->getBookingsInRange($selectedDate);
+        $data['labs'] = $this->scheduleHelper->getLabsData($this->ruanganModel);
+        $data['jadwal_tetap'] = $this->scheduleHelper->getFilteredSchedules($this->jadwalModel, $selectedDate);
+        $data['peminjaman'] = $this->scheduleHelper->getBookingsInRange($this->peminjamanModel, $selectedDate);
 
         // Ambil data user yang sedang login untuk auto-fill form
         $userId = $_SESSION['user_id'] ?? null;
@@ -107,10 +99,10 @@ class Internal extends Controller
         return [
             'active_page' => $activePage,
             'selected_date' => $selectedDate,
-            'selected_day' => $this->getDayName($selectedDate),
-            'labs' => $this->getLabsData(),
-            'jadwal_tetap' => $this->getFilteredSchedules($selectedDate),
-            'peminjaman' => $this->getBookingsInRange($selectedDate)
+            'selected_day' => $this->scheduleHelper->getDayName($selectedDate),
+            'labs' => $this->scheduleHelper->getLabsData($this->ruanganModel),
+            'jadwal_tetap' => $this->scheduleHelper->getFilteredSchedules($this->jadwalModel, $selectedDate),
+            'peminjaman' => $this->scheduleHelper->getBookingsInRange($this->peminjamanModel, $selectedDate)
         ];
     }
 
@@ -165,13 +157,13 @@ class Internal extends Controller
         }
 
         $result = $peminjamanModel->update($input['id'], [
-            'lab_id'         => $peminjaman['lab_id'],
-            'tanggal'        => $input['tanggal'],
-            'jam_mulai'      => $input['jam_mulai'],
-            'jam_selesai'    => $input['jam_selesai'],
-            'nama_peminjam'  => $peminjaman['nama_peminjam'],
-            'kegiatan'       => $input['keterangan'],
-            'catatan'        => $peminjaman['catatan'] ?? ''
+            'lab_id' => $peminjaman['lab_id'],
+            'tanggal' => $input['tanggal'],
+            'jam_mulai' => $input['jam_mulai'],
+            'jam_selesai' => $input['jam_selesai'],
+            'nama_peminjam' => $peminjaman['nama_peminjam'],
+            'kegiatan' => $input['keterangan'],
+            'catatan' => $peminjaman['catatan'] ?? ''
         ]);
 
         echo json_encode(['success' => $result]);
@@ -207,152 +199,7 @@ class Internal extends Controller
 
 
     /**
-     * Ambil semua data lab dengan format yang sudah ditransformasi
-     * 
-     * Transform struktur database jadi format yang friendly untuk frontend.
-     * Handle ekstraksi nama file gambar untuk ditampilkan dengan benar.
-     * 
-     * @return array Array berisi data lab
-     */
-    private function getLabsData()
-    {
-        $labs = [];
-
-        foreach ($this->ruanganModel->getAll() as $ruangan) {
-            $labs[] = [
-                'id' => $ruangan['id'],
-                'name' => $ruangan['nama_ruangan'],
-                'short_name' => $ruangan['nama_ruangan'],
-                'capacity' => $ruangan['kapasitas'],
-                'pic' => $ruangan['pic'],
-                'image' => $this->extractImageFilename($ruangan['gambar']),
-            ];
-        }
-
-        return $labs;
-    }
-
-    /**
-     * Ambil jadwal yang difilter berdasarkan hari dari tanggal yang dipilih
-     * 
-     * Hanya return jadwal yang terjadi di hari yang dipilih (misal: hanya jadwal Senin jika tanggalnya Senin).
-     * Optimasi ini mengurangi pemrosesan data yang tidak perlu.
-     * 
-     * @param string $date Tanggal dalam format Y-m-d
-     * @return array Array berisi jadwal yang sudah difilter
-     */
-    private function getFilteredSchedules($date)
-    {
-        $dayName = strtolower($this->getDayName($date));
-        $schedules = [];
-
-        foreach ($this->jadwalModel->getAll() as $jadwal) {
-            // Hanya include jadwal untuk hari yang dipilih
-            if (strtolower($jadwal['hari']) === $dayName) {
-                $schedules[] = [
-                    'lab_id' => $jadwal['lab_id'],
-                    'hari' => ucfirst($dayName),
-                    'jam_mulai' => substr($jadwal['jam_mulai'], 0, 5),    // Format: HH:MM
-                    'jam_selesai' => substr($jadwal['jam_selesai'], 0, 5), // Format: HH:MM
-                    'kelas' => $jadwal['nama_kelas'],
-                    'matkul' => $jadwal['nama_matakuliah']
-                ];
-            }
-        }
-
-        return $schedules;
-    }
-
-    /**
-     * Ambil peminjaman dalam rentang tanggal (±7 hari)
-     * 
-     * Hanya fetch booking yang approved dalam window 2 minggu centered di tanggal yang dipilih.
-     * Optimasi ini mencegah loading semua historical bookings.
-     * 
-     * @param string $selectedDate Tanggal tengah dalam format Y-m-d
-     * @return array Array berisi booking dalam range
-     */
-    private function getBookingsInRange($selectedDate)
-    {
-        // Hitung rentang tanggal (±7 hari untuk tampilan kalender)
-        $startDate = date('Y-m-d', strtotime($selectedDate . ' -7 days'));
-        $endDate = date('Y-m-d', strtotime($selectedDate . ' +7 days'));
-
-        $bookings = [];
-
-        foreach ($this->peminjamanModel->getAll() as $peminjaman) {
-            // Skip if required fields are missing
-            if (!isset($peminjaman['tanggal']) || !isset($peminjaman['lab_id'])) {
-                continue;
-            }
-
-            $bookingDate = $peminjaman['tanggal']; // Using alias from model
-
-            // Filter: hanya booking yang disetujui (yang tergeser disembunyikan sesuai permintaan)
-            $isApproved = ($peminjaman['status'] ?? '') === 'disetujui';
-            $isInRange = $bookingDate >= $startDate && $bookingDate <= $endDate;
-
-            if ($isApproved && $isInRange) {
-                $bookings[] = [
-                    'lab_id' => $peminjaman['lab_id'],
-                    'tanggal' => $bookingDate,
-                    'jam_mulai' => substr($peminjaman['jam_mulai'] ?? '00:00:00', 0, 5),
-                    'jam_selesai' => substr($peminjaman['jam_selesai'] ?? '00:00:00', 0, 5),
-                    'type' => $peminjaman['tipe'] ?? 'internal',
-                    'keterangan' => $peminjaman['kegiatan'] ?? '',
-                    'peminjam' => $peminjaman['nama_peminjam'] ?? 'Unknown'
-                ];
-            }
-        }
-
-        return $bookings;
-    }
-
-    /**
-     * Ekstrak nama file gambar dari berbagai format
-     * 
-     * Handle multiple format data gambar:
-     * - Base64 encoded images (dari admin panel) → return default
-     * - File paths (dari seeder) → ekstrak filename
-     * - Empty values → return default
-     * 
-     * @param string $gambar Data gambar (base64, path, atau filename)
-     * @return string Nama file gambar untuk ditampilkan
-     */
-    private function extractImageFilename($gambar)
-    {
-        // Case 1: Value kosong
-        if (empty($gambar)) {
-            return 'StartUp.jpg';
-        }
-
-        // Case 2: Data Base64 (dari upload admin)
-        if (strpos($gambar, 'data:image') === 0) {
-            return 'StartUp.jpg';
-        }
-
-        // Case 3: Sudah proper path (public/storage/... atau /public/uploads/...)
-        // Handles both with and without leading slash
-        if (strpos($gambar, '/public/') === 0 || strpos($gambar, 'public/') === 0 || strpos($gambar, 'storage/') === 0) {
-            return $gambar;
-        }
-
-        // Case 4: Hanya filename (dari seeder)
-        if (strpos($gambar, '/') === false && strpos($gambar, '\\') === false) {
-            return $gambar;
-        }
-
-        // Case 5: Full path - ekstrak filename saja
-        return basename($gambar);
-    }
-
-    /**
      * Submit booking (AJAX endpoint)
-     * 
-     * Handle form submission booking via AJAX.
-     * Validasi input, cek konflik, dan simpan ke database.
-     * 
-     * @return void Output JSON response
      */
     public function submitBooking()
     {
@@ -374,8 +221,8 @@ class Internal extends Controller
             'namaKegiatan' => $_POST['namaKegiatan'] ?? ''
         ];
 
-        // Validasi input
-        $validation = $this->validateBookingInput($formData);
+        // Validasi input via Helper
+        $validation = $this->scheduleHelper->validateBookingInput($formData);
         if (!$validation['valid']) {
             echo json_encode(['success' => false, 'message' => $validation['message']]);
             return;
@@ -388,8 +235,9 @@ class Internal extends Controller
             return;
         }
 
-        // Cek konflik dengan jadwal tetap (recurring schedules)
-        $scheduleConflict = $this->checkScheduleConflict(
+        // Cek konflik dengan jadwal tetap via Helper
+        $scheduleConflict = $this->scheduleHelper->checkScheduleConflict(
+            $this->jadwalModel,
             $labId,
             $formData['tanggal'],
             $formData['jamMulai'],
@@ -470,35 +318,7 @@ class Internal extends Controller
     }
 
     /**
-     * Validasi input form booking
-     * 
-     * Cek field yang required dan integritas data dasar.
-     * 
-     * @param array $data Data dari form
-     * @return array ['valid' => bool, 'message' => string]
-     */
-    private function validateBookingInput($data)
-    {
-        // Cek field yang required
-        if (
-            empty($data['tanggal']) || empty($data['labName']) ||
-            empty($data['jamMulai']) || empty($data['jamSelesai'])
-        ) {
-            return ['valid' => false, 'message' => 'Data tidak lengkap'];
-        }
-
-        if (empty($data['namaPeminjam']) || empty($data['namaKegiatan'])) {
-            return ['valid' => false, 'message' => 'Nama peminjam dan nama kegiatan wajib diisi'];
-        }
-
-        return ['valid' => true, 'message' => ''];
-    }
-
-    /**
      * Cari ID lab berdasarkan nama lab
-     * 
-     * @param string $labName Nama lab yang dicari
-     * @return int|null ID lab atau null jika tidak ditemukan
      */
     private function getLabIdByName($labName)
     {
@@ -512,62 +332,6 @@ class Internal extends Controller
 
         return null;
     }
-
-    /**
-     * Cek konflik dengan jadwal tetap (recurring schedules)
-     * 
-     * Return error message jika ada konflik, null jika tidak ada.
-     * 
-     * @param int $labId ID lab
-     * @param string $date Tanggal booking
-     * @param string $startTime Jam mulai (HH:MM)
-     * @param string $endTime Jam selesai (HH:MM)
-     * @return string|null Error message atau null
-     */
-    private function checkScheduleConflict($labId, $date, $startTime, $endTime)
-    {
-        $dayName = $this->getDayName($date);
-        $schedules = $this->jadwalModel->getByLabAndDay($labId, strtolower($dayName));
-
-        foreach ($schedules as $jadwal) {
-            $jadwalStart = substr($jadwal['jam_mulai'], 0, 5);
-            $jadwalEnd = substr($jadwal['jam_selesai'], 0, 5);
-
-            // Cek time overlap: (start < jadwal_end) DAN (end > jadwal_start)
-            if ($startTime < $jadwalEnd && $endTime > $jadwalStart) {
-                $matkul = $jadwal['nama_matakuliah'] ?? 'Praktikum';
-                return "Bentrok dengan jadwal praktikum: {$matkul} ({$jadwalStart}-{$jadwalEnd})";
-            }
-        }
-
-        return null;
-    }
-
-    /**
-     * Dapatkan nama hari dalam bahasa Indonesia dari tanggal
-     * 
-     * Convert nama hari dari English ke Indonesian.
-     * Contoh: "Monday" → "Senin"
-     * 
-     * @param string $date Tanggal dalam format Y-m-d
-     * @return string Nama hari dalam bahasa Indonesia
-     */
-    private function getDayName($date)
-    {
-        $days = [
-            'Sunday' => 'Minggu',
-            'Monday' => 'Senin',
-            'Tuesday' => 'Selasa',
-            'Wednesday' => 'Rabu',
-            'Thursday' => 'Kamis',
-            'Friday' => 'Jumat',
-            'Saturday' => 'Sabtu'
-        ];
-
-        $dayEnglish = date('l', strtotime($date));
-        return $days[$dayEnglish] ?? $dayEnglish;
-    }
-
 
     /**
      * Endpoint AJAX untuk mengambil slot jadwal lab tertentu pada tanggal tertentu
@@ -596,8 +360,8 @@ class Internal extends Controller
             }
         }
 
-        // 2. Ambil Jadwal Tetap
-        $jadwalTetapRaw = $this->getFilteredSchedules($date);
+        // 2. Ambil Jadwal Tetap via Helper
+        $jadwalTetapRaw = $this->scheduleHelper->getFilteredSchedules($this->jadwalModel, $date);
         $jadwalLab = [];
         foreach ($jadwalTetapRaw as $j) {
             if ($j['lab_id'] == $labId) {
@@ -605,8 +369,8 @@ class Internal extends Controller
             }
         }
 
-        // 3. Ambil Peminjaman
-        $peminjamanRaw = $this->getBookingsInRange($date);
+        // 3. Ambil Peminjaman via Helper
+        $peminjamanRaw = $this->scheduleHelper->getBookingsInRange($this->peminjamanModel, $date);
         $peminjamanLab = [];
         foreach ($peminjamanRaw as $p) {
             if ($p['lab_id'] == $labId && $p['tanggal'] == $date) {
@@ -614,7 +378,7 @@ class Internal extends Controller
             }
         }
 
-        // 4. Hitung Slot Kosong & Sort
+        // 4. Hitung Slot Kosong & Sort (Masih pakai helper.php lama untuk logika gap)
         $slotKosong = getSlotKosong($jadwalLab, $peminjamanLab);
         $sortedSlots = getSortedSlots($jadwalLab, $peminjamanLab, $slotKosong);
 
