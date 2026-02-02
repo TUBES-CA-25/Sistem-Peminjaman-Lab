@@ -112,17 +112,17 @@
                 statusGroup.style.display = 'block';
                 posisi.required = true;
                 posisi.value = data.status;
-                
+
                 // Internal: Phone Not Required
                 telepon.required = false;
-                if(telReq) telReq.style.display = 'none';
+                if (telReq) telReq.style.display = 'none';
             } else {
                 statusGroup.style.display = 'none';
                 posisi.required = false;
-                
+
                 // External: Phone Required
                 telepon.required = true;
-                if(telReq) telReq.style.display = 'inline';
+                if (telReq) telReq.style.display = 'inline';
             }
 
             pass.required = false;
@@ -154,4 +154,39 @@
         });
     }
 
+    window.showDetail = function (data) {
+        // 1. Set Foto
+        const img = document.getElementById('dFoto');
+        if (data.foto) {
+            // Cek path apakah diawali 'profile_' (berarti di uploads/profile)
+            // Atau bisa kita asumsikan semua upload baru masuk ke storage/uploads/profile
+            // Hati-hati path nya
+            img.src = '<?= BASE_URL ?>/public/storage/uploads/profile/' + data.foto;
+        } else {
+            img.src = '<?= BASE_URL ?>/public/storage/images/default-profile.svg';
+        }
+
+        // Error handling gambar (fallback)
+        img.onerror = function () {
+            this.src = '<?= BASE_URL ?>/public/storage/images/default-profile.svg';
+        };
+
+        // 2. Set Text Info
+        document.getElementById('dNama').textContent = data.nama || '-';
+        document.getElementById('dEmail').textContent = data.email || '-';
+        document.getElementById('dTelepon').textContent = data.telepon || data.nomor_hp || '-';
+
+        // 3. Format Role & Status
+        document.getElementById('dRole').textContent = data.role ? data.role.toUpperCase() : '-';
+        document.getElementById('dStatus').textContent = data.status || '-';
+
+        // 4. Format Tanggal
+        if (data.created_at) {
+            const date = new Date(data.created_at);
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('dJoined').textContent = date.toLocaleDateString('id-ID', options);
+        } else {
+            document.getElementById('dJoined').textContent = '-';
+        }
+    }
 </script>

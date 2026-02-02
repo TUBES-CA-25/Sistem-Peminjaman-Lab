@@ -1,7 +1,6 @@
 <?php
 
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
+
 
 class Auth extends Controller
 {
@@ -134,7 +133,8 @@ class Auth extends Controller
 
             if ($this->model('UserModel')->tambahUser($data) > 0) {
                 // Kirim OTP via Email
-                if ($this->sendOTPEmail($email, $_POST['nama'], $otp)) {
+                $mailer = new Mailer();
+                if ($mailer->sendOTPEmail($email, $_POST['nama'], $otp)) {
                     $_SESSION['temp_email'] = $email;
                     Flasher::setFlash('Berhasil', 'Akun berhasil dibuat. Silakan cek email Anda untuk kode verifikasi.', 'success');
                     header('Location: ' . BASE_URL . '/auth/verify');
@@ -194,7 +194,8 @@ class Auth extends Controller
                 $otp = str_pad(rand(0, 999999), 6, '0', STR_PAD_LEFT);
                 $this->model('UserModel')->updateVerificationCode($email, $otp);
 
-                if ($this->sendOTPEmail($email, $user['nama'], $otp)) {
+                $mailer = new Mailer();
+                if ($mailer->sendOTPEmail($email, $user['nama'], $otp)) {
                     Flasher::setFlash('Berhasil', 'Kode OTP baru telah dikirim ke email Anda.', 'success');
                 } else {
                     Flasher::setFlash('Gagal', 'Gagal mengirim email.', 'danger');
@@ -205,67 +206,7 @@ class Auth extends Controller
         exit;
     }
 
-    private function sendOTPEmail($email, $nama, $otp)
-    {
-        try {
-            $mail = new PHPMailer(true);
-            $mail->isSMTP();
-            $mail->Host = getenv('SMTP_HOST');
-            $mail->SMTPAuth = true;
-            $mail->Username = getenv('SMTP_USERNAME');
-            $mail->Password = getenv('SMTP_PASSWORD');
-            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-            $mail->Port = getenv('SMTP_PORT');
 
-            $mail->setFrom(getenv('SMTP_FROM_EMAIL'), getenv('SMTP_FROM_NAME'));
-            $mail->addAddress($email, $nama);
-
-            $mail->isHTML(true);
-            $mail->Subject = 'Kode Verifikasi Akun - ICLABS';
-            $mail->Body = $this->getOTPEmailTemplate($nama, $otp);
-            $mail->AltBody = "Halo $nama, kode verifikasi Anda adalah: $otp";
-
-            return $mail->send();
-        } catch (Exception $e) {
-            error_log("OTP Mail Error: " . $e->getMessage());
-            return false;
-        }
-    }
-
-    private function getOTPEmailTemplate($nama, $otp)
-    {
-        return "
-        <!DOCTYPE html>
-        <html>
-        <head>
-            <meta charset='UTF-8'>
-            <style>
-                body { font-family: 'Inter', sans-serif; background-color: #f8fafc; margin: 0; padding: 0; }
-                .container { max-width: 600px; margin: 40px auto; background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
-                .header { background: linear-gradient(135deg, #1e3a8a, #1F45AC); color: white; padding: 40px 20px; text-align: center; }
-                .content { padding: 40px; text-align: center; color: #334155; }
-                .otp-box { background: #f1f5f9; padding: 20px; border-radius: 12px; font-size: 32px; font-weight: bold; letter-spacing: 12px; color: #1e3a8a; margin: 30px 0; border: 2px dashed #cbd5e1; }
-                .footer { background: #f8fafc; padding: 20px; text-align: center; color: #64748b; font-size: 12px; border-top: 1px solid #e2e8f0; }
-            </style>
-        </head>
-        <body>
-            <div class='container'>
-                <div class='header'>
-                    <h1 style='margin:0;'>🔐 Verifikasi Akun</h1>
-                </div>
-                <div class='content'>
-                    <p>Halo <strong>$nama</strong>,</p>
-                    <p>Terima kasih telah mendaftar di <strong>ICLABS</strong>. Silakan masukkan kode verifikasi berikut untuk mengaktifkan akun Anda:</p>
-                    <div class='otp-box'>$otp</div>
-                    <p style='font-size: 14px; color: #64748b;'>Kode ini berlaku selama 15 menit. Jika Anda tidak merasa mendaftar, abaikan email ini.</p>
-                </div>
-                <div class='footer'>
-                    <p>&copy; 2026 Tim ICLABS. All Rights Reserved.</p>
-                </div>
-            </div>
-        </body>
-        </html>";
-    }
 
     public function logout()
     {

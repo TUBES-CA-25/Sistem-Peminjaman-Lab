@@ -20,6 +20,9 @@ class RuanganModel
     }
 
     // Get Single Data
+    /**
+     * @return array|false
+     */
     public function getById($id)
     {
         $this->db->query("SELECT id, nama_ruangan, kapasitas, pic, email_pic, gambar FROM " . $this->table_name . " WHERE id = :id");
