@@ -1,19 +1,55 @@
 /* =========================================
-   GLOBAL STYLES
+   THEME VARIABLES & GLOBAL STYLES
    ========================================= */
+:root {
+    /* Light Mode (Default) */
+    --bg-body: #F8FAFC;
+    --bg-navbar: rgba(255, 255, 255, 0.9);
+    --bg-card: #FFFFFF;
+    --text-main: #0F172A;
+    --text-muted: #475569;
+    --border-color: #E2E8F0;
+    --navbar-brand: #0F172A;
+    --hero-bg: linear-gradient(135deg, #0d3b66 0%, #1F45AC 100%);
+}
+
+[data-theme="dark"] {
+    /* Dark Mode - Premium Midnight Palette */
+    --bg-body: #05070A;
+    --bg-navbar: rgba(5, 7, 10, 0.82);
+    --bg-card: #0F1219;
+    --text-main: #F8FAFC;
+    --text-muted: #94A3B8;
+    --border-color: rgba(255, 255, 255, 0.08);
+    --navbar-brand: #F8FAFC;
+    --hero-bg: linear-gradient(135deg, #0F172A 0%, #1E3A8A 100%);
+    --accent-blue: #38BDF8;
+    --glow-color: rgba(56, 189, 248, 0.15);
+}
+
+/* Global Transitions */
+* {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
 body {
     font-family: 'Inter', sans-serif;
     padding-top: 80px;
-    background-color: #F8FAFC;
+    background-color: var(--bg-body);
+    color: var(--text-main);
+    transition: background-color 0.5s ease, color 0.5s ease;
+    -webkit-font-smoothing: antialiased;
 }
 
 /* =========================================
    HEADER / NAVBAR STYLES
    ========================================= */
 .navbar {
-    background-color: rgba(255, 255, 255, 0.9) !important;
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid #e2e8f0;
+    background-color: var(--bg-navbar) !important;
+    backdrop-filter: blur(12px) saturate(180%);
+    -webkit-backdrop-filter: blur(12px) saturate(180%);
+    border-bottom: 1px solid var(--border-color);
+    transition: all 0.4s ease;
 }
 
 .navbar-brand {
@@ -22,7 +58,7 @@ body {
     gap: 10px;
     font-family: 'Inter', sans-serif;
     font-weight: 700;
-    color: #0F172A !important;
+    color: var(--navbar-brand) !important;
 }
 
 .navbar-brand img {
@@ -33,11 +69,43 @@ body {
 
 .nav-link {
     font-weight: 500;
-    color: #475569 !important;
+    color: var(--text-muted) !important;
 }
 
 .nav-link:hover {
     color: #2563EB !important;
+}
+
+.no-caret::after {
+    display: none !important;
+}
+
+.theme-icon-active {
+    font-size: 1.2rem;
+    color: var(--text-main);
+    transition: transform 0.3s ease;
+}
+
+.no-caret:hover .theme-icon-active {
+    transform: rotate(15deg) scale(1.1);
+}
+
+[data-theme="dark"] .dropdown-menu {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+}
+
+[data-theme="dark"] .dropdown-item {
+    color: var(--text-main);
+}
+
+[data-theme="dark"] .dropdown-item:hover {
+    background-color: var(--bg-body);
+    color: #2563EB;
+}
+
+[data-theme="dark"] .dropdown-divider {
+    border-top: 1px solid var(--border-color);
 }
 
 /* =========================================
@@ -80,7 +148,7 @@ body {
 }
 
 .hero-title {
-    color: #1a1a1a;
+    color: var(--text-main);
 }
 
 .hero-subtitle {
@@ -198,4 +266,36 @@ body {
 .card-hover-effect:hover {
     transform: translateY(-5px);
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Premium Primary Button */
+.btn-primary-modern {
+    background: #1F45AC;
+    color: #FFFFFF !important;
+    border: none;
+    font-weight: 700;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    box-shadow: 0 4px 12px rgba(31, 69, 172, 0.2);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.btn-primary-modern:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(31, 69, 172, 0.3);
+    filter: brightness(1.1);
+    color: #FFFFFF !important;
+}
+
+[data-theme="dark"] .btn-primary-modern {
+    background: var(--accent-blue);
+    color: #05070A !important;
+    box-shadow: 0 4px 15px rgba(56, 189, 248, 0.2);
+}
+
+[data-theme="dark"] .btn-primary-modern:hover {
+    box-shadow: 0 8px 25px rgba(56, 189, 248, 0.4);
+    filter: brightness(1.15);
 }
