@@ -438,6 +438,65 @@ nav.navbar.navbar-expand.fixed-top {
     background-color: var(--bg-body);
 }
 
+/* ========================================== */
+/* 4.1 CUSTOM COMPONENTS (ADMIN-LIKE) */
+/* ========================================== */
+
+.bg-gradient-primary-custom {
+    background: linear-gradient(135deg, #002376 0%, #1E40AF 100%) !important;
+    border-radius: 12px !important;
+    color: white !important;
+    border: none !important;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1) !important;
+}
+
+.bg-gradient-primary-custom .btn-light {
+    background: #FFFFFF !important;
+    color: #1E40AF !important;
+    border: none !important;
+    font-weight: 700 !important;
+    border-radius: 8px !important;
+    padding: 0.6rem 1.2rem !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 0.5rem !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1) !important;
+}
+
+.bg-gradient-primary-custom .btn-light:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2) !important;
+    background: #f8fafc !important;
+}
+
+/* Force consistency in Dark Mode */
+[data-theme="dark"] .card.bg-gradient-primary-custom,
+[data-theme="dark"] .bg-gradient-primary-custom {
+    background: linear-gradient(135deg, #002376 0%, #1E40AF 100%) !important;
+    color: white !important;
+}
+
+[data-theme="dark"] .bg-gradient-primary-custom h1,
+[data-theme="dark"] .bg-gradient-primary-custom h2,
+[data-theme="dark"] .bg-gradient-primary-custom h3,
+[data-theme="dark"] .bg-gradient-primary-custom p,
+[data-theme="dark"] .bg-gradient-primary-custom span:not(.text-primary) {
+    color: white !important;
+}
+
+[data-theme="dark"] .bg-gradient-primary-custom .btn-light {
+    background-color: #FFFFFF !important;
+    color: #1E40AF !important;
+}
+
+[data-theme="dark"] .bg-gradient-primary-custom .btn-light i,
+[data-theme="dark"] .bg-gradient-primary-custom .btn-light span {
+    color: #1E40AF !important;
+}
+
 .hero-bg {
     background: var(--hero-bg);
     color: white;
