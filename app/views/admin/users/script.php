@@ -154,13 +154,24 @@
         });
     }
 
+    // Event Delegation for Detail Button
+    document.addEventListener('click', function (e) {
+        if (e.target.closest('.btn-detail')) {
+            const btn = e.target.closest('.btn-detail');
+            const data = JSON.parse(btn.dataset.user);
+            showDetail(data); // Populate data first
+
+            // Show Modal Manually
+            const modalEl = document.getElementById('detailUserModal');
+            const modal = new bootstrap.Modal(modalEl);
+            modal.show();
+        }
+    });
+
     window.showDetail = function (data) {
         // 1. Set Foto
         const img = document.getElementById('dFoto');
         if (data.foto) {
-            // Cek path apakah diawali 'profile_' (berarti di uploads/profile)
-            // Atau bisa kita asumsikan semua upload baru masuk ke storage/uploads/profile
-            // Hati-hati path nya
             img.src = '<?= BASE_URL ?>/public/storage/uploads/profile/' + data.foto;
         } else {
             img.src = '<?= BASE_URL ?>/public/storage/images/default-profile.svg';
@@ -168,6 +179,7 @@
 
         // Error handling gambar (fallback)
         img.onerror = function () {
+            this.onerror = null; // Prevent infinite loop
             this.src = '<?= BASE_URL ?>/public/storage/images/default-profile.svg';
         };
 

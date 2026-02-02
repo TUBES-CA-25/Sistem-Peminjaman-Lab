@@ -13,7 +13,7 @@
             </li>
         </ul>
 
-        <div class="sidebar-header" style="margin-top: 2rem;">PEMINJAMAN</div>
+        <div class="sidebar-header">PEMINJAMAN</div>
 
         <ul class="sidebar-menu">
             <li class="sidebar-item">
@@ -33,7 +33,7 @@
             </li>
         </ul>
 
-        <div class="sidebar-header" style="margin-top: 2rem;">MASTER DATA</div>
+        <div class="sidebar-header">MASTER DATA</div>
 
         <ul class="sidebar-menu">
             <li class="sidebar-item">
@@ -78,6 +78,15 @@
                     <span>Tambah Jadwal</span>
                 </a>
             </li>
+        </ul>
+        <div class="sidebar-header">PROFIL</div>
+        <li class="sidebar-item">
+            <a href="<?= BASE_URL ?>/admin/profile"
+                class="sidebar-link <?= ($active_page === 'profile') ? 'active' : ''; ?>">
+                <i class="fas fa-user-circle sidebar-icon"></i>
+                <span>Profil Saya</span>
+            </a>
+        </li>
         </ul>
     </aside>
 
