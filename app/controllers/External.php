@@ -2,6 +2,12 @@
 
 class External extends Controller
 {
+    /** @var WhatsAppService Service untuk notifikasi WA */
+    private $waService;
+
+    /** @var UserService Service untuk manajemen user */
+    private $userService;
+
     public function __construct()
     {
         // Proteksi dengan Error 401 & 403
@@ -18,6 +24,10 @@ class External extends Controller
             require_once __DIR__ . '/../views/errors/403.php';
             exit;
         }
+
+        // Load Service
+        $this->waService = $this->service('WhatsAppService');
+        $this->userService = $this->service('UserService');
     }
 
     public function index()
@@ -80,22 +90,22 @@ class External extends Controller
 
             // 2. Susun Data
             $data = [
-                'user_id'        => $_SESSION['user_id'],
-                'nama_lengkap'   => $_POST['nama'],
-                'email'          => $_POST['email'],
-                'telepon'        => $_POST['telepon'],
+                'user_id' => $_SESSION['user_id'],
+                'nama_lengkap' => $_POST['nama'],
+                'email' => $_POST['email'],
+                'telepon' => $_POST['telepon'],
                 'jumlah_peserta' => $_POST['jumlah_peserta'],
-                'nama_kegiatan'  => $_POST['nama_kegiatan'],
-                'tgl_mulai'      => $_POST['tgl_mulai'],
-                'tgl_selesai'    => $_POST['tgl_selesai'],
-                'file_proposal'  => $file_proposal
+                'nama_kegiatan' => $_POST['nama_kegiatan'],
+                'tgl_mulai' => $_POST['tgl_mulai'],
+                'tgl_selesai' => $_POST['tgl_selesai'],
+                'file_proposal' => $file_proposal
             ];
 
             // 3. Kirim ke Model
             if ($this->model('PengajuanModel')->tambahPengajuan($data) > 0) {
                 $nomorAdmin = WA_ADMIN_UTAMA;
                 // Susun Pesan
-                $pesan  = "*🔔 PENGAJUAN BARU MASUK*\n\n";
+                $pesan = "*🔔 PENGAJUAN BARU MASUK*\n\n";
                 $pesan .= "Halo Admin, ada pengajuan peminjaman baru:\n";
                 $pesan .= "👤 Nama: " . $_POST['nama'] . "\n";
                 $pesan .= "📞 WA: " . $_POST['telepon'] . "\n";
@@ -104,8 +114,8 @@ class External extends Controller
                 $pesan .= "Mohon cek dashboard untuk verifikasi.";
 
                 // Eksekusi kirim pesan
-                $this->kirimPesanFonnte($nomorAdmin, $pesan);
-                
+                $this->waService->kirimPesanFonnte($nomorAdmin, $pesan);
+
                 Flasher::setFlash('Berhasil', 'Pengajuan berhasil dikirim.', 'success');
                 header('Location: ' . BASE_URL . '/external');
                 exit;
@@ -203,6 +213,8 @@ class External extends Controller
     }
 
 
+
+
     public function profile()
     {
         // Cek login
@@ -224,20 +236,19 @@ class External extends Controller
     public function prosesUpdateProfile()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $userId = $_SESSION['user_id'];
+            $input = $_POST;
+            $files = $_FILES;
 
-            $data = [
-                'id' => $_SESSION['user_id'],
-                'nama' => $_POST['nama'],
-                'email' => $_POST['email'],
-                'telepon' => $_POST['telepon'],
-                'password' => $_POST['password_baru']
-            ];
+            $result = $this->userService->updateProfile($userId, $input, $files);
 
-            if ($this->model('UserModel')->updateUserProfile($data) > 0) {
-                $_SESSION['nama'] = $data['nama'];
-                Flasher::setFlash('Berhasil', 'Profil berhasil diperbarui.', 'success');
+            if ($result['success']) {
+                if (isset($result['data']['nama'])) {
+                    $_SESSION['nama'] = $result['data']['nama'];
+                }
+                Flasher::setFlash('Berhasil', $result['message'], 'success');
             } else {
-                Flasher::setFlash('Info', 'Tidak ada perubahan data.', 'warning');
+                Flasher::setFlash('Gagal', $result['message'], 'danger');
             }
 
             header('Location: ' . BASE_URL . '/external/profile');
@@ -254,34 +265,5 @@ class External extends Controller
         exit;
     }
 
-    private function kirimPesanFonnte($target, $pesan)
-    {
-        $token = FONNTE_TOKEN; 
 
-        $curl = curl_init();
-
-        curl_setopt_array($curl, array(
-          CURLOPT_URL => 'https://api.fonnte.com/send',
-          CURLOPT_RETURNTRANSFER => true,
-          CURLOPT_ENCODING => '',
-          CURLOPT_MAXREDIRS => 10,
-          CURLOPT_TIMEOUT => 0, 
-          CURLOPT_FOLLOWLOCATION => true,
-          CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-          CURLOPT_CUSTOMREQUEST => 'POST',
-          CURLOPT_POSTFIELDS => array(
-            'target' => $target,
-            'message' => $pesan,
-            'countryCode' => '62',
-          ),
-          CURLOPT_HTTPHEADER => array(
-            "Authorization: $token"
-          ),
-        ));
-
-        $response = curl_exec($curl);
-        curl_close($curl);
-        
-        return $response;
-    }
 }

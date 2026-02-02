@@ -1,8 +1,6 @@
-<link rel="stylesheet" href="<?= BASE_URL; ?>/public/css/external.css">
+<link rel="stylesheet" href="<?= BASE_URL; ?>/public/css/internal-profile.css?v=<?= time(); ?>">
 <!-- Cropper.js CSS -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css">
-
-<?php include __DIR__ . '/../components/external_sidebar.php'; ?>
 
 <div class="container-fluid px-4" style="margin-top: 20px;">
     <!-- Flash Message -->
@@ -21,11 +19,11 @@
                     <div class="cover-gradient">
                         <div class="profile-cover-content">
                             <div class="profile-cover-icon">
-                                <i class="fas fa-user-circle"></i>
+                                <i class="fas fa-user-shield"></i>
                             </div>
                             <div class="profile-cover-text">
-                                <h1 class="profile-cover-title">Profil Saya</h1>
-                                <p class="profile-cover-subtitle">Kelola informasi akun dan preferensi Anda</p>
+                                <h1 class="profile-cover-title">Profil Admin</h1>
+                                <p class="profile-cover-subtitle">Kelola informasi akun administrator Anda</p>
                             </div>
                         </div>
                     </div>
@@ -38,7 +36,7 @@
                             <?php if (!empty($user['foto']) && file_exists('public/storage/uploads/profile/' . $user['foto'])): ?>
                                 <img src="<?= BASE_URL; ?>/public/storage/uploads/profile/<?= $user['foto']; ?>" alt="Profile">
                             <?php else: ?>
-                                <span><?= strtoupper(substr($user['nama'] ?? 'U', 0, 1)); ?></span>
+                                <span><?= strtoupper(substr($user['nama'] ?? 'A', 0, 1)); ?></span>
                             <?php endif; ?>
                         </div>
                         
@@ -53,12 +51,12 @@
                     <div class="profile-header-info">
                         <h3 class="profile-name"><?= $user['nama']; ?></h3>
                         <p class="profile-email"><i class="fas fa-envelope me-2"></i><?= $user['email']; ?></p>
-                        <p class="profile-member-since"><i class="fas fa-calendar-alt me-2"></i>Member sejak <?= date('F Y', strtotime($user['created_at'] ?? 'now')); ?></p>
+                        <p class="profile-member-since"><i class="fas fa-shield-alt me-2"></i>Administrator</p>
                     </div>
                 </div>
 
                 <!-- Form Section -->
-                <form action="<?= BASE_URL; ?>/external/prosesUpdateProfile" method="POST" id="formProfile" enctype="multipart/form-data">
+                <form action="<?= BASE_URL; ?>/admin/prosesUpdateProfile" method="POST" id="formProfile" enctype="multipart/form-data">
                     <div class="row g-4 mt-3">
                         <!-- Data Diri Card -->
                         <div class="col-md-6">
@@ -170,169 +168,16 @@
     </div>
 </div>
 
-</main>
-</div>
-
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <!-- Cropper.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
 
+<!-- Custom Profile Logic (Sama dengan Internal, karena strukturnya identical) -->
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const btnEdit = document.getElementById('btnEdit');
-        const btnCancel = document.getElementById('btnCancel');
-        const actionButtons = document.getElementById('actionButtons');
-        
-        const inputs = [
-            document.getElementById('inputNama'),
-            document.getElementById('inputTelepon'),
-            document.getElementById('inputEmail'),
-            document.getElementById('inputPassword')
-        ];
-
-        const originalData = {
-            nama: document.getElementById('originalNama').value,
-            telepon: document.getElementById('originalTelepon').value,
-            email: document.getElementById('originalEmail').value
-        };
-
-        // MODE EDIT
-        btnEdit.addEventListener('click', function() {
-            inputs.forEach(input => {
-                input.removeAttribute('readonly');
-                input.classList.add('editing');
-            });
-            inputs[0].focus();
-            
-            document.getElementById('avatarEditBadge').classList.remove('d-none');
-            
-            btnEdit.classList.add('d-none');
-            actionButtons.classList.remove('d-none');
-            actionButtons.classList.add('d-flex', 'gap-2');
-        });
-
-        // MODE BATAL
-        btnCancel.addEventListener('click', function() {
-            inputs.forEach(input => {
-                input.setAttribute('readonly', true);
-                input.classList.remove('editing');
-            });
-            
-            document.getElementById('avatarEditBadge').classList.add('d-none');
-            
-            // Reset ke data asli
-            inputs[0].value = originalData.nama;
-            inputs[1].value = originalData.telepon;
-            inputs[2].value = originalData.email;
-            inputs[3].value = '';
-
-            actionButtons.classList.add('d-none');
-            actionButtons.classList.remove('d-flex');
-            btnEdit.classList.remove('d-none');
-        });
-
-        // Foto Preview & Cropper
-        const inputFoto = document.getElementById('inputFoto');
-        const avatarWrapper = document.querySelector('.avatar-wrapper');
-        const cropperModal = new bootstrap.Modal(document.getElementById('cropperModal'));
-        const imageToCrop = document.getElementById('imageToCrop');
-        const btnCrop = document.getElementById('btnCrop');
-        const croppedImageInput = document.getElementById('croppedImageInput');
-        let cropper;
-        
-        inputFoto.addEventListener('change', function() {
-            const files = this.files;
-            if (files && files.length > 0) {
-                const file = files[0];
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    imageToCrop.src = e.target.result;
-                    cropperModal.show();
-                };
-                reader.readAsDataURL(file);
-            }
-        });
-
-        const modalEl = document.getElementById('cropperModal');
-        
-        modalEl.addEventListener('shown.bs.modal', function() {
-            cropper = new Cropper(imageToCrop, {
-                aspectRatio: 1,
-                viewMode: 2,
-                autoCropArea: 1,
-                dragMode: 'move',
-                guides: true,
-                center: true,
-                highlight: false,
-                cropBoxMovable: true,
-                cropBoxResizable: true,
-            });
-        });
-
-        modalEl.addEventListener('hidden.bs.modal', function() {
-            if (cropper) {
-                cropper.destroy();
-                cropper = null;
-            }
-        });
-
-        btnCrop.addEventListener('click', function() {
-            if (cropper) {
-                // Show loading on crop button
-                const btn = this;
-                const spinner = btn.querySelector('.spinner-border');
-                const btnText = btn.querySelector('.btn-text');
-                
-                btn.disabled = true;
-                spinner.classList.remove('d-none');
-                btnText.textContent = 'Memproses...';
-
-                setTimeout(() => {
-                    try {
-                        const canvas = cropper.getCroppedCanvas({
-                            width: 500,
-                            height: 500,
-                            imageSmoothingEnabled: true,
-                            imageSmoothingQuality: 'high',
-                        });
-                        
-                        const croppedDataUrl = canvas.toDataURL('image/jpeg', 0.9);
-                        
-                        // Update Preview - Tetap di dalam container avatar-large
-                        const avatarContainer = document.getElementById('profileAvatar');
-                        avatarContainer.innerHTML = `<img src="${croppedDataUrl}" alt="Profile">`;
-                        
-                        // Set to hidden input
-                        croppedImageInput.value = croppedDataUrl;
-                        
-                        cropperModal.hide();
-                    } catch (e) {
-                        console.error(e);
-                        alert('Gagal memproses gambar. Silakan coba lagi.');
-                    } finally {
-                        // Reset button state
-                        btn.disabled = false;
-                        spinner.classList.add('d-none');
-                        btnText.textContent = 'Potong & Simpan';
-                    }
-                }, 100);
-            }
-        });
-
-        // Handle Form Submit Loading
-        const formProfile = document.getElementById('formProfile');
-        const btnSubmit = document.getElementById('btnSubmitProfile');
-        
-        formProfile.addEventListener('submit', function() {
-            const icon = btnSubmit.querySelector('.icon-default');
-            const spinner = btnSubmit.querySelector('.spinner-border');
-            const btnText = btnSubmit.querySelector('.btn-text');
-            
-            btnSubmit.disabled = true;
-            if (icon) icon.classList.add('d-none');
-            spinner.classList.remove('d-none');
-            btnText.textContent = 'Menyimpan...';
-        });
-    });
+    // Kita bisa reuse script.php milik internal, atau copy paste logicnya jika path berbeda.
+    // Tapi karena script.php internal spesifik elemen ID, kita bisa copy paste saja contentnya ke file terpisah
+    // atau include. Untuk simplicity, kita copy paste logic JS yang penting saja.
 </script>
+<?php 
+// Kita include script.php dari Internal saja karena logicnya 100% sama (ID element sama)
+include __DIR__ . '/../../internal/profile/script.php'; 
+?>

@@ -13,18 +13,18 @@
 
         <ul class="sidebar-menu">
             <li class="sidebar-item">
-                <a href="<?= BASE_URL ?>/external/profile"
-                    class="sidebar-link <?= (isset($active_menu) && $active_menu === 'profile') ? 'active' : ''; ?>">
-                    <i class="fas fa-user sidebar-icon"></i>
-                    <span>Profil Saya</span>
-                </a>
-            </li>
-
-            <li class="sidebar-item">
                 <a href="<?= BASE_URL ?>/external"
                     class="sidebar-link <?= (isset($active_menu) && $active_menu === 'dashboard') ? 'active' : ''; ?>">
                     <i class="fas fa-tachometer-alt sidebar-icon"></i>
                     <span>Dashboard</span>
+                </a>
+            </li>
+
+            <li class="sidebar-item">
+                <a href="<?= BASE_URL ?>/external/profile"
+                    class="sidebar-link <?= (isset($active_menu) && $active_menu === 'profile') ? 'active' : ''; ?>">
+                    <i class="fas fa-user sidebar-icon"></i>
+                    <span>Profil Saya</span>
                 </a>
             </li>
 

@@ -41,6 +41,18 @@
                 </a>
             </li>
         </ul>
+
+        <div class="sidebar-header" style="margin-top: auto; padding-top: 2rem;">AKUN</div>
+
+        <ul class="sidebar-menu">
+            <li class="sidebar-item">
+                <a href="<?= BASE_URL ?>/internal/profile"
+                    class="sidebar-link <?= ($active_page === 'profile') ? 'active' : ''; ?>">
+                    <i class="fas fa-user-circle sidebar-icon"></i>
+                    <span>Profil</span>
+                </a>
+            </li>
+        </ul>
     </aside>
 
     <main class="main-content">

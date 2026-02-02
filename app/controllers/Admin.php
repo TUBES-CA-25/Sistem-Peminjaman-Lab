@@ -5,12 +5,14 @@ class Admin extends Controller
     private $ruanganModel;
     private $jadwalModel;
     private $peminjamanModel;
+    private $userService;
 
     public function __construct()
     {
         $this->ruanganModel = $this->model('RuanganModel');
         $this->jadwalModel = $this->model('JadwalModel');
         $this->peminjamanModel = $this->model('PeminjamanModel');
+        $this->userService = $this->service('UserService');
 
         if (!isset($_SESSION['user_id'])) {
             // Belum login → Error 401
@@ -136,6 +138,53 @@ class Admin extends Controller
         }
 
         return $bookings;
+    }
+
+    /**
+     * Halaman Profil Admin
+     */
+    public function profile()
+    {
+        $data['judul'] = 'Profil Saya';
+        $data['active_page'] = 'profile'; // Untuk sidebar active state
+
+        $userModel = $this->model('UserModel');
+        $data['user'] = $userModel->getUserById($_SESSION['user_id']);
+
+        $this->view('components/admin_head', $data);
+        $this->view('components/admin_navbar', $data);
+        $this->view('components/admin_sidebar', $data); // Sidebar butuh active_page
+        $this->view('admin/profile/index', $data);
+        $this->view('components/admin_footer', $data);
+    }
+
+    /**
+     * Proses Update Profil Admin
+     */
+    public function prosesUpdateProfile()
+    {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            header('Location: ' . BASE_URL . '/admin/profile');
+            exit;
+        }
+
+        $userId = $_SESSION['user_id'];
+        $input = $_POST;
+        $files = $_FILES;
+
+        $result = $this->userService->updateProfile($userId, $input, $files);
+
+        if ($result['success']) {
+            if (isset($result['data']['nama'])) {
+                $_SESSION['nama'] = $result['data']['nama']; // Update session nama
+            }
+            Flasher::setFlash('Berhasil', $result['message'], 'success');
+        } else {
+            Flasher::setFlash('Gagal', $result['message'], 'danger');
+        }
+
+        header('Location: ' . BASE_URL . '/admin/profile');
+        exit;
     }
 
     /**
