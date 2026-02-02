@@ -234,7 +234,10 @@
                             class="auth-link-alt small text-white-50 text-decoration-none">Lupa Password?</a>
                     </div>
 
-                    <button type="submit" class="btn btn-login w-100">Masuk</button>
+                    <button type="submit" class="btn btn-login w-100" id="btnLogin">
+                        <span class="spinner-border spinner-border-sm d-none me-2" role="status" aria-hidden="true"></span>
+                        <span class="btn-text">Masuk</span>
+                    </button>
                 </form>
 
                 <p class="small mt-4 text-white-50">
@@ -246,6 +249,17 @@
         </div>
     </div>
 
+    <script>
+        document.querySelector('form').addEventListener('submit', function() {
+            const btn = document.getElementById('btnLogin');
+            const spinner = btn.querySelector('.spinner-border');
+            const btnText = btn.querySelector('.btn-text');
+            
+            btn.disabled = true;
+            spinner.classList.remove('d-none');
+            btnText.textContent = 'Memproses...';
+        });
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
