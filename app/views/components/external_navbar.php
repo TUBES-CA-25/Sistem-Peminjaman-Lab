@@ -1,6 +1,6 @@
 <nav class="navbar">
     <a href="<?= BASE_URL ?>/external" class="navbar-brand">
-        <img src="<?= BASE_URL ?>/public/storage/images/logo-iclabs.png" alt="Logo ICLABS" height="40" style="vertical-align: middle; margin-right: 8px;"> 
+        <img src="<?= BASE_URL ?>/public/storage/images/logo-iclabs.svg" alt="Logo ICLABS" height="40" style="vertical-align: middle; margin-right: 8px;"> 
         ICLABS 
     </a>
 

@@ -5,7 +5,7 @@
             <div class="col-lg-6">
                 <div class="d-flex align-items-center gap-3 mb-3">
                     <!-- Fixed Path -->
-                    <img src="<?= BASE_URL ?>/public/storage/images/logo-iclabs.png" alt="Logo ICLABS"
+                    <img src="<?= BASE_URL ?>/public/storage/images/logo-iclabs.svg" alt="Logo ICLABS"
                         class="footer-logo">
                     <span class="font-display fw-bold h3 mb-0 text-white">ICLABS</span>
                 </div>

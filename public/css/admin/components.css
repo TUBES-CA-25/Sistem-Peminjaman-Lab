@@ -1,0 +1,375 @@
+/* Custom Components & Utilities */
+.bg-gradient-primary-custom {
+    background: linear-gradient(135deg, #122e4f 0%, #1f45ac 100%);
+}
+
+/* Badges */
+.admin-badge {
+    background: #e0e7ff;
+    color: #1f45ac;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.admin-badge-internal {
+    background: #DCFCE7;
+    color: #059669;
+    padding: .25rem .75rem;
+    border-radius: 9999px;
+    font-size: .875rem;
+    font-weight: 500;
+}
+
+/* Sign Out Button */
+.btn-signout {
+    background: #EF4444;
+    color: #fff !important;
+    padding: .5rem 1.25rem;
+    border-radius: 9999px;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.btn-signout:hover {
+    background: #dc2626;
+    color: #fff !important;
+}
+
+/* Table Enhancements */
+.table-hover tbody tr:hover {
+    background-color: rgba(56, 189, 248, 0.03);
+}
+
+/* Upload Area */
+.upload-area {
+    background-color: #F8FAFC;
+    border: 2px dashed var(--border-color);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.upload-area:hover,
+.upload-area.dragover {
+    border-color: var(--accent-blue);
+    background-color: rgba(31, 69, 172, 0.03);
+}
+
+/* Modal Styles */
+.p-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 1050;
+    background: rgba(0, 0, 0, .7);
+    padding: 22px;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(4px);
+}
+
+.p-modal.active {
+    display: flex;
+}
+
+.p-modal-card {
+    width: 95%;
+    max-width: 1400px;
+    max-height: 90vh;
+    overflow: auto;
+    background: var(--bg-card);
+    border-radius: 12px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, .3);
+    animation: pSlide .18s ease-out;
+    border: 1px solid var(--border-color);
+}
+
+@keyframes pSlide {
+    from {
+        transform: translateY(-12px);
+        opacity: 0.7;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.p-modal-head {
+    padding: 18px 22px;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.p-x {
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 10px;
+    background: transparent;
+    font-size: 28px;
+    line-height: 1;
+    color: #94a3b8;
+    cursor: pointer;
+}
+
+.p-x:hover {
+    background: #f1f5f9;
+    color: #475569;
+}
+
+.p-modal-body {
+    padding: 22px;
+}
+
+/* Form Elements in Modal */
+.p-form-head {
+    display: flex;
+    gap: 12px;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    margin-bottom: 18px;
+}
+
+.p-date-picker label {
+    display: block;
+    font-size: 14px;
+    font-weight: 900;
+    color: var(--text-main);
+    margin-bottom: 8px;
+}
+
+.p-date-picker input {
+    padding: 10px 14px;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    font-size: 14px;
+    min-width: 180px;
+    outline: none;
+    background-color: var(--bg-body);
+    color: var(--text-main);
+}
+
+.p-date-picker input:focus {
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 0 3px rgba(56, 189, 248, .12);
+}
+
+/* Base Style untuk tombol ikon */
+.btn-icon {
+    width: 32px;
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    border: none;
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+    font-size: 0.85rem;
+    margin: 0 2px;
+    text-decoration: none;
+}
+
+.btn-icon:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn-icon i {
+    pointer-events: none;
+}
+
+.btn-view {
+    background-color: rgba(31, 69, 172, 0.08) !important;
+    color: var(--accent-blue) !important;
+    border: 1px solid rgba(31, 69, 172, 0.1) !important;
+}
+
+.btn-view:hover {
+    background-color: var(--accent-blue) !important;
+    border-color: var(--accent-blue) !important;
+    color: white !important;
+    box-shadow: 0 0 15px rgba(31, 69, 172, 0.4);
+}
+
+.btn-edit {
+    background-color: rgba(251, 191, 36, 0.1) !important;
+    color: #fbbf24 !important;
+    border: 1px solid rgba(251, 191, 36, 0.2) !important;
+}
+
+.btn-edit:hover {
+    background-color: #fbbf24 !important;
+    border-color: #fbbf24 !important;
+    color: #000 !important;
+    box-shadow: 0 0 15px rgba(251, 191, 36, 0.4);
+}
+
+.btn-delete {
+    background-color: #dc3545 !important;
+    color: #ffffff !important;
+    border: 1.5px solid #dc3545 !important;
+}
+
+.btn-delete:hover {
+    background-color: #bb2d3b !important;
+    border-color: #bb2d3b !important;
+    transform: translateY(-2px);
+}
+
+/* Modern Buttons for Forms */
+.btn-primary-modern {
+    background: var(--accent-blue);
+    color: #FFFFFF !important;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 24px;
+    font-weight: 700;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(31, 69, 172, 0.2);
+}
+
+.btn-primary-modern:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(31, 69, 172, 0.4);
+    filter: brightness(1.1);
+}
+
+.btn-cancel-modern {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-main);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 10px 24px;
+    font-weight: 700;
+    transition: all 0.3s ease;
+}
+
+.btn-cancel-modern:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* Subtle & Soft Dividing Lines for Modal Detail */
+.info-row {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05) !important;
+}
+
+.modal-body .info-row:last-of-type {
+    border-bottom: none !important;
+}
+
+/* Premium SweetAlert2 Theme Overrides */
+.swal2-popup {
+    background-color: var(--bg-card) !important;
+    color: var(--text-main) !important;
+    border-radius: 20px !important;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5) !important;
+}
+
+.swal2-title {
+    color: var(--text-main) !important;
+    font-weight: 700 !important;
+}
+
+.swal2-html-container {
+    color: var(--text-muted) !important;
+}
+
+.swal2-icon.swal2-warning {
+    border-color: #FBBF24 !important;
+    color: #FBBF24 !important;
+}
+
+.swal2-actions button {
+    border-radius: 12px !important;
+    padding: 10px 24px !important;
+    font-weight: 600 !important;
+    transition: all 0.3s ease !important;
+}
+
+.swal2-confirm {
+    background-color: #EF4444 !important;
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3) !important;
+}
+
+.swal2-confirm:hover {
+    background-color: #DC2626 !important;
+    transform: translateY(-2px);
+}
+
+.swal2-cancel {
+    background-color: rgba(255, 255, 255, 0.05) !important;
+    color: var(--text-main) !important;
+    border: 1px solid var(--border-color) !important;
+}
+
+.swal2-cancel:hover {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.swal2-icon.swal2-success {
+    border-color: #10B981 !important;
+}
+
+.swal2-icon.swal2-success [class^='swal2-success-line'] {
+    background-color: #10B981 !important;
+}
+
+.swal2-icon.swal2-success .swal2-success-ring {
+    border: .25em solid rgba(16, 185, 129, .2) !important;
+}
+
+.swal2-icon.swal2-error {
+    border-color: #EF4444 !important;
+}
+
+.swal2-icon.swal2-error [class^='swal2-x-mark-line'] {
+    background-color: #EF4444 !important;
+}
+
+.swal2-footer {
+    border-top: 1px solid var(--border-color) !important;
+    color: var(--text-muted) !important;
+}
+
+.swal2-timer-progress-bar {
+    background: var(--accent-blue) !important;
+}
+
+/* DataTables Styling Overrides */
+/* Fix Jarak Ikon Sorting pada DataTables */
+.datatable-sorter {
+    padding-right: 25px !important;
+    position: relative;
+}
+
+.datatable-sorter::after,
+.datatable-sorter::before {
+    right: 5px !important;
+}
+
+th[data-sortable="true"] {
+    white-space: nowrap;
+    min-width: 60px;
+}
+
+/* Force Hide Sorting Icons on Last Column (Aksi) */
+.datatable-table thead th:last-child button::before,
+.datatable-table thead th:last-child button::after,
+.datatable-table thead th:last-child .datatable-sorter::before,
+.datatable-table thead th:last-child .datatable-sorter::after {
+    display: none !important;
+    content: none !important;
+}
+
+/* Ensure Action Column Header is aligned properly */
+.datatable-table thead th:last-child {
+    text-align: right !important;
+    pointer-events: none !important;
+    cursor: default !important;
+    width: 100px !important;
+}
