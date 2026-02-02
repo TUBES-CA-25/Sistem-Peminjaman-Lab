@@ -5,6 +5,9 @@ class External extends Controller
     /** @var WhatsAppService Service untuk notifikasi WA */
     private $waService;
 
+    /** @var UserService Service untuk manajemen user */
+    private $userService;
+
     public function __construct()
     {
         // Proteksi dengan Error 401 & 403
@@ -24,6 +27,7 @@ class External extends Controller
 
         // Load Service
         $this->waService = $this->service('WhatsAppService');
+        $this->userService = $this->service('UserService');
     }
 
     public function index()
@@ -208,45 +212,7 @@ class External extends Controller
         }
     }
 
-    // --- HELPER UPLOAD FOTO ---
-    private function uploadFoto($file)
-    {
-        $namaFile = $file['name'];
-        $ukuranFile = $file['size'];
-        $error = $file['error'];
-        $tmpName = $file['tmp_name'];
 
-        if ($error === 4) {
-            return false;
-        }
-
-        $ekstensiValid = ['jpg', 'jpeg', 'png'];
-        $ekstensiFile = explode('.', $namaFile);
-        $ekstensiFile = strtolower(end($ekstensiFile));
-
-        if (!in_array($ekstensiFile, $ekstensiValid)) {
-            echo "<script>alert('Format file tidak valid! Gunakan JPG/JPEG/PNG');</script>";
-            return false;
-        }
-
-        if ($ukuranFile > 2097152) { // 2MB
-            echo "<script>alert('Ukuran file terlalu besar (Max 2MB).');</script>";
-            return false;
-        }
-
-        $namaFileBaru = 'profile_' . $_SESSION['user_id'] . '_' . time() . '.' . $ekstensiFile;
-        $targetDir = __DIR__ . '/../../public/storage/uploads/profile/';
-
-        if (!file_exists($targetDir)) {
-            mkdir($targetDir, 0755, true);
-        }
-
-        if (move_uploaded_file($tmpName, $targetDir . $namaFileBaru)) {
-            return $namaFileBaru;
-        } else {
-            return false;
-        }
-    }
 
 
     public function profile()
@@ -270,56 +236,19 @@ class External extends Controller
     public function prosesUpdateProfile()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $userId = $_SESSION['user_id'];
+            $input = $_POST;
+            $files = $_FILES;
 
-            // Handle Foto Upload
-            $userLama = $this->model('UserModel')->getUserById($_SESSION['user_id']);
-            $foto = $userLama['foto']; // Default pakai yang lama
+            $result = $this->userService->updateProfile($userId, $input, $files);
 
-            if (!empty($_POST['cropped_image'])) {
-                // Handle Cropped Image (Base64)
-                $data_uri = $_POST['cropped_image'];
-                $encoded_image = explode(",", $data_uri)[1];
-                $decoded_image = base64_decode($encoded_image);
-
-                $namaFileBaru = 'profile_' . $_SESSION['user_id'] . '_' . time() . '.jpg';
-                $targetDir = __DIR__ . '/../../public/storage/uploads/profile/';
-
-                if (!file_exists($targetDir)) {
-                    mkdir($targetDir, 0755, true);
+            if ($result['success']) {
+                if (isset($result['data']['nama'])) {
+                    $_SESSION['nama'] = $result['data']['nama'];
                 }
-
-                if (file_put_contents($targetDir . $namaFileBaru, $decoded_image)) {
-                    // Hapus foto lama jika ada
-                    if ($foto && file_exists($targetDir . $foto)) {
-                        unlink($targetDir . $foto);
-                    }
-                    $foto = $namaFileBaru;
-                }
-            } elseif ($_FILES['foto']['error'] !== 4) { // Jika ada file diupload langsung (fallback)
-                $fotoBaru = $this->uploadFoto($_FILES['foto']);
-                if ($fotoBaru) {
-                    // Hapus foto lama jika ada
-                    if ($foto && file_exists(__DIR__ . '/../../public/storage/uploads/profile/' . $foto)) {
-                        unlink(__DIR__ . '/../../public/storage/uploads/profile/' . $foto);
-                    }
-                    $foto = $fotoBaru;
-                }
-            }
-
-            $data = [
-                'id' => $_SESSION['user_id'],
-                'nama' => $_POST['nama'],
-                'email' => $_POST['email'],
-                'telepon' => $_POST['telepon'],
-                'password' => $_POST['password_baru'],
-                'foto' => $foto
-            ];
-
-            if ($this->model('UserModel')->updateUserProfile($data) > 0) {
-                $_SESSION['nama'] = $data['nama'];
-                Flasher::setFlash('Berhasil', 'Profil berhasil diperbarui.', 'success');
+                Flasher::setFlash('Berhasil', $result['message'], 'success');
             } else {
-                Flasher::setFlash('Info', 'Tidak ada perubahan data.', 'warning');
+                Flasher::setFlash('Gagal', $result['message'], 'danger');
             }
 
             header('Location: ' . BASE_URL . '/external/profile');

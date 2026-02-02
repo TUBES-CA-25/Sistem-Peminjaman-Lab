@@ -27,6 +27,9 @@ class Internal extends Controller
     /** @var WhatsAppService Service untuk notifikasi WA */
     private $waService;
 
+    /** @var UserService Service untuk manajemen user */
+    private $userService;
+
     /**
      * Constructor
      * 
@@ -52,6 +55,7 @@ class Internal extends Controller
         // 3. Load Services Dependency Injection
         $this->bookingService = $this->service('BookingService');
         $this->waService = $this->service('WhatsAppService');
+        $this->userService = $this->service('UserService');
     }
 
     /**
@@ -389,64 +393,13 @@ class Internal extends Controller
         $this->view('components/internal_footer');
     }
 
-    /**
-     * Helper: Upload Foto Profil
-     * 
-     * Menangani validasi dan upload file gambar ke server.
-     * 
-     * @param array $file Array $_FILES
-     * @return string|false Nama file baru jika sukses, false jika gagal
-     */
-    private function uploadFoto($file)
-    {
-        $namaFile = $file['name'];
-        $ukuranFile = $file['size'];
-        $error = $file['error'];
-        $tmpName = $file['tmp_name'];
 
-        // Cek apakah ada file yang diupload (Error 4 = No file uploaded)
-        if ($error === 4) {
-            return false;
-        }
-
-        // Validasi Ekstensi
-        $ekstensiValid = ['jpg', 'jpeg', 'png'];
-        $ekstensiFile = explode('.', $namaFile);
-        $ekstensiFile = strtolower(end($ekstensiFile));
-
-        if (!in_array($ekstensiFile, $ekstensiValid)) {
-            Flasher::setFlash('Gagal', 'Format file tidak valid! Gunakan JPG/JPEG/PNG', 'danger');
-            return false;
-        }
-
-        // Validasi Ukuran (Max 2MB)
-        if ($ukuranFile > 2 * 1024 * 1024) {
-            Flasher::setFlash('Gagal', 'Ukuran file terlalu besar (Max 2MB).', 'danger');
-            return false;
-        }
-
-        // Generate Nama File Unik
-        $namaFileBaru = 'profile_' . $_SESSION['user_id'] . '_' . time() . '.' . $ekstensiFile;
-        $targetDir = __DIR__ . '/../../public/storage/uploads/profile/';
-
-        // Buat folder jika belum ada
-        if (!file_exists($targetDir)) {
-            mkdir($targetDir, 0755, true);
-        }
-
-        // Pindahkan file
-        if (move_uploaded_file($tmpName, $targetDir . $namaFileBaru)) {
-            return $namaFileBaru;
-        } else {
-            return false;
-        }
-    }
 
     /**
      * Proses Update Profil
      * 
      * Menerima submisi form profil, menangani upload foto (base64/file),
-     * dan update database.
+     * dan update database via UserService.
      */
     public function prosesUpdateProfile()
     {
@@ -455,63 +408,19 @@ class Internal extends Controller
             exit;
         }
 
-        $userModel = $this->model('UserModel');
-        $userLama = $userModel->getUserById($_SESSION['user_id']);
-        $foto = $userLama['foto']; // Default gunakan foto lama
+        $userId = $_SESSION['user_id'];
+        $input = $_POST;
+        $files = $_FILES;
 
-        // A. Handle Foto Upload
-        if (!empty($_POST['cropped_image'])) {
-            // Case 1: Upload via Cropper (Base64)
-            $data_uri = $_POST['cropped_image'];
-            $encoded_image = explode(",", $data_uri)[1];
-            $decoded_image = base64_decode($encoded_image);
+        $result = $this->userService->updateProfile($userId, $input, $files);
 
-            $namaFileBaru = 'profile_' . $_SESSION['user_id'] . '_' . time() . '.jpg';
-            $targetDir = __DIR__ . '/../../public/storage/uploads/profile/';
-
-            if (!file_exists($targetDir)) {
-                mkdir($targetDir, 0755, true);
+        if ($result['success']) {
+            if (isset($result['data']['nama'])) {
+                $_SESSION['nama'] = $result['data']['nama']; // Update session nama
             }
-
-            if (file_put_contents($targetDir . $namaFileBaru, $decoded_image)) {
-                // Hapus foto lama untuk menghemat storage
-                if ($foto && file_exists($targetDir . $foto)) {
-                    unlink($targetDir . $foto);
-                }
-                $foto = $namaFileBaru;
-            }
-        } elseif (isset($_FILES['foto']) && $_FILES['foto']['error'] !== 4) {
-            // Case 2: Upload File Biasa (Fallback)
-            $fotoBaru = $this->uploadFoto($_FILES['foto']);
-            if ($fotoBaru) {
-                if ($foto && file_exists(__DIR__ . '/../../public/storage/uploads/profile/' . $foto)) {
-                    unlink(__DIR__ . '/../../public/storage/uploads/profile/' . $foto);
-                }
-                $foto = $fotoBaru;
-            }
-        }
-
-        // B. Update Data User
-        $data = [
-            'id' => $_SESSION['user_id'],
-            'nama' => $_POST['nama'],
-            'email' => $_POST['email'],
-            'telepon' => $_POST['telepon'],
-            'password' => $_POST['password_baru'],
-            'foto' => $foto
-        ];
-
-        if ($userModel->updateUserProfile($data) > 0) {
-            $_SESSION['nama'] = $data['nama']; // Update session nama biar langsung berubah di navbar
-            Flasher::setFlash('Berhasil', 'Profil berhasil diperbarui.', 'success');
+            Flasher::setFlash('Berhasil', $result['message'], 'success');
         } else {
-            // Jika tidak ada perubahan row, bisa jadi user cuma klik simpan tanpa ubah data, 
-            // atau foto diupload tapi nama/email sama. Kita cek apakah foto berubah.
-            if ($foto !== $userLama['foto']) {
-                Flasher::setFlash('Berhasil', 'Foto profil berhasil diperbarui.', 'success');
-            } else {
-                Flasher::setFlash('Info', 'Tidak ada perubahan data.', 'warning');
-            }
+            Flasher::setFlash('Gagal', $result['message'], 'danger');
         }
 
         header('Location: ' . BASE_URL . '/internal/profile');
