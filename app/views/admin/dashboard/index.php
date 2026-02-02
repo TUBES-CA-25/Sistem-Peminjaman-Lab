@@ -44,11 +44,12 @@ include __DIR__ . '/helpers.php';
         <div class="mb-4">
             <div class="p-date-picker">
                 <label for="dashboardDate"
-                    style="font-weight: 700; color: #334155; margin-right: 10px;">Tanggal:</label>
+                    style="font-weight: 700; margin-right: 10px;" class="text-dark">Tanggal:</label>
                 <input type="date" id="dashboardDate" value="<?= htmlspecialchars($data['selected_date']) ?>"
                     onchange="changeDashboardDate(this.value)"
-                    style="padding: 8px 14px; border: 1px solid #e2e8f0; border-radius: 8px; font-size: 14px;" />
-                <span style="margin-left: 1rem; color: #64748b; font-size: 14px;">
+                    class="form-control d-inline-block w-auto"
+                    style="padding: 8px 14px; border-radius: 8px; font-size: 14px;" />
+                <span style="margin-left: 1rem; font-size: 14px;" class="text-muted">
                     <i class="fas fa-calendar-day"></i>
                     <?= ucfirst($data['selected_day']) ?>,
                     <?= date('d F Y', strtotime($data['selected_date'])) ?>
@@ -111,10 +112,9 @@ include __DIR__ . '/helpers.php';
 
                             <?php elseif ($slot['type'] == 'kosong'):
                                 $k = $slot['data']; ?>
-                                <div class="p-slot"
-                                    style="background: #F8FAFC; border: 1px dashed #CBD5E1; color: #94A3B8; cursor: default;">
-                                    <span class="p-slot-label" style="display:block; margin-bottom:4px;">Kosong</span>
-                                    <span class="p-slot-sub" style="display:block; font-size:12px;">
+                                <div class="p-slot p-slot-empty">
+                                    <span class="p-slot-label">Kosong</span>
+                                    <span class="p-slot-sub">
                                         <?= $k['mulai'] ?>-
                                         <?= $k['selesai'] ?>
                                     </span>
