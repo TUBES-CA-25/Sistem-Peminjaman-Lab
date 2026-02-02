@@ -32,7 +32,7 @@ body {
 }
 
 .bg-gradient-primary-custom {
-    background: linear-gradient(135deg, #122E4F 0%, #1F45AC 100%);
+  background: linear-gradient(135deg, #122e4f 0%, #1f45ac 100%);
 }
 
 /* Navbar Styles */
@@ -77,12 +77,12 @@ body {
 }
 
 .admin-badge {
-    background: #e0e7ff;
-    color: #1F45AC;
-    padding: .25rem .75rem;
-    border-radius: 9999px;
-    font-size: .875rem;
-    font-weight: 500;
+  background: #e0e7ff;
+  color: #1f45ac;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 500;
 }
 
 .admin-badge-internal {
@@ -105,9 +105,9 @@ body {
 }
 
 .navbar-menu {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
 
 .btn-signout {
@@ -126,9 +126,9 @@ body {
 
 /* Layout Container */
 .admin-container {
-    display: flex;
-    margin-top: 70px;
-    min-height: calc(100vh - 70px);
+  display: flex;
+  margin-top: 70px;
+  min-height: calc(100vh - 70px);
 }
 
 /* Sidebar Styles */
@@ -155,11 +155,11 @@ body {
 }
 
 .sidebar-menu {
-    list-style: none;
+  list-style: none;
 }
 
 .sidebar-item {
-    margin: .25rem 0;
+  margin: 0.25rem 0;
 }
 
 .sidebar-link {
@@ -186,36 +186,36 @@ body {
 }
 
 .sidebar-icon {
-    width: 20px;
-    text-align: center;
-    font-size: 1.125rem;
+  width: 20px;
+  text-align: center;
+  font-size: 1.125rem;
 }
 
 /* Main Content Area */
 .main-content {
-    flex: 1;
-    margin-left: 280px;
-    padding: 2rem;
+  flex: 1;
+  margin-left: 280px;
+  padding: 2rem;
 }
 
 @media (max-width: 768px) {
-    .sidebar {
-        transform: translateX(-100%);
-        transition: transform .3s;
-    }
+  .sidebar {
+    transform: translateX(-100%);
+    transition: transform 0.3s;
+  }
 
-    .sidebar.active {
-        transform: translateX(0);
-    }
+  .sidebar.active {
+    transform: translateX(0);
+  }
 
-    .main-content {
-        margin-left: 0;
-    }
+  .main-content {
+    margin-left: 0;
+  }
 }
 
 /* Custom Components & Utilities */
 .bg-gradient-primary-custom {
-    background: linear-gradient(135deg, #122E4F 0%, #1F45AC 100%);
+  background: linear-gradient(135deg, #122e4f 0%, #1f45ac 100%);
 }
 
 .table-hover tbody tr:hover {
@@ -228,12 +228,14 @@ body {
 
 /* Card Transitions */
 .lab-card {
-    transition: transform 0.3s, box-shadow 0.3s;
+  transition:
+    transform 0.3s,
+    box-shadow 0.3s;
 }
 
 .lab-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
 }
 
 /* Upload Area */
@@ -260,51 +262,50 @@ body {
     border-color: var(--accent-blue);
 }
 
-
 /* ===================================== */
 /* PEMINJAMAN MODULE STYLES */
 /* ===================================== */
 
 /* Action Buttons */
 .p-add-btn {
-    background: #fff;
-    color: #1F45AC;
-    border: none;
-    border-radius: 10px;
-    padding: .75rem 1.1rem;
-    font-weight: 900;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    gap: .5rem;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, .12);
-    transition: transform 0.2s;
-    white-space: nowrap;
+  background: #fff;
+  color: #1f45ac;
+  border: none;
+  border-radius: 10px;
+  padding: 0.75rem 1.1rem;
+  font-weight: 900;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
+  transition: transform 0.2s;
+  white-space: nowrap;
 }
 
 .p-add-btn:hover {
-    transform: translateY(-1px);
+  transform: translateY(-1px);
 }
 
 .p-export-btn {
-    background: #0f172a;
-    color: #fff;
-    border: none;
-    border-radius: 10px;
-    padding: .75rem 1.1rem;
-    font-weight: 900;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    gap: .5rem;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, .12);
-    transition: all 0.2s;
-    white-space: nowrap;
+  background: #0f172a;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 0.75rem 1.1rem;
+  font-weight: 900;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
+  transition: all 0.2s;
+  white-space: nowrap;
 }
 
 .p-export-btn:hover {
-    background: #1f2937;
-    transform: translateY(-1px);
+  background: #1f2937;
+  transform: translateY(-1px);
 }
 
 /* Table Container */
@@ -319,12 +320,12 @@ body {
 
 /* Table Styling - CRITICAL FIX */
 .p-table {
-    width: 100%;
-    border-collapse: collapse;
-    table-layout: fixed;
-    /* IMPORTANT: Fixed layout untuk column width */
-    min-width: 1000px;
-    /* Minimum width untuk prevent squash */
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  /* IMPORTANT: Fixed layout untuk column width */
+  min-width: 1000px;
+  /* Minimum width untuk prevent squash */
 }
 
 .p-table thead {
@@ -362,39 +363,39 @@ body {
 /* Table Column Widths - CRITICAL */
 .p-table th:nth-child(1),
 .p-table td:nth-child(1) {
-    width: 15%;
+  width: 15%;
 }
 
 .p-table th:nth-child(2),
 .p-table td:nth-child(2) {
-    width: 12%;
+  width: 12%;
 }
 
 .p-table th:nth-child(3),
 .p-table td:nth-child(3) {
-    width: 15%;
+  width: 15%;
 }
 
 .p-table th:nth-child(4),
 .p-table td:nth-child(4) {
-    width: 18%;
+  width: 18%;
 }
 
 .p-table th:nth-child(5),
 .p-table td:nth-child(5) {
-    width: 15%;
+  width: 15%;
 }
 
 .p-table th:nth-child(6),
 .p-table td:nth-child(6) {
-    width: 10%;
-    text-align: left;
+  width: 10%;
+  text-align: left;
 }
 
 .p-table th:nth-child(7),
 .p-table td:nth-child(7) {
-    width: 15%;
-    text-align: center;
+  width: 15%;
+  text-align: center;
 }
 
 /* User Info in Table */
@@ -405,181 +406,181 @@ body {
 }
 
 .p-user-email {
-    font-size: 12px;
-    color: #94a3b8;
-    margin-top: 2px;
-    display: block;
-    word-break: break-all;
+  font-size: 12px;
+  color: #94a3b8;
+  margin-top: 2px;
+  display: block;
+  word-break: break-all;
 }
 
 .p-user-instansi {
-    font-size: 12px;
-    color: #64748b;
-    margin-top: 2px;
-    font-style: italic;
-    word-break: break-word;
+  font-size: 12px;
+  color: #64748b;
+  margin-top: 2px;
+  font-style: italic;
+  word-break: break-word;
 }
 
 .p-user-role {
-    font-size: 11px;
-    color: #fff;
-    background: #64748b;
-    padding: 2px 8px;
-    border-radius: 999px;
-    display: inline-block;
-    margin-top: 4px;
-    text-transform: uppercase;
-    white-space: nowrap;
+  font-size: 11px;
+  color: #fff;
+  background: #64748b;
+  padding: 2px 8px;
+  border-radius: 999px;
+  display: inline-block;
+  margin-top: 4px;
+  text-transform: uppercase;
+  white-space: nowrap;
 }
 
 .p-role-eksternal {
-    background: #2563eb;
+  background: #2563eb;
 }
 
 .p-role-internal {
-    background: #059669;
+  background: #059669;
 }
 
 .p-role-admin {
-    background: #b45309;
+  background: #b45309;
 }
 
 /* Date & Time Display */
 .p-dt {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
 .p-date {
-    font-weight: 800;
-    color: #0f172a;
-    white-space: nowrap;
+  font-weight: 800;
+  color: #0f172a;
+  white-space: nowrap;
 }
 
 .p-time {
-    font-size: 12px;
-    color: #94a3b8;
-    white-space: nowrap;
+  font-size: 12px;
+  color: #94a3b8;
+  white-space: nowrap;
 }
 
 /* Status Badges */
 .p-badge {
-    display: inline-block;
-    padding: 4px 12px;
-    border-radius: 999px;
-    font-size: 11px;
-    font-weight: 900;
-    white-space: nowrap;
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 900;
+  white-space: nowrap;
 }
 
 .p-status-aktif {
-    background: #dcfce7;
-    color: #059669;
+  background: #dcfce7;
+  color: #059669;
 }
 
 .p-status-nonaktif {
-    background: #fee2e2;
-    color: #dc2626;
+  background: #fee2e2;
+  color: #dc2626;
 }
 
 /* Tipe Badges */
 .p-badge-tipe {
-    display: inline-block;
-    padding: 4px 12px;
-    border-radius: 999px;
-    font-size: 11px;
-    font-weight: 900;
-    white-space: nowrap;
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 900;
+  white-space: nowrap;
 }
 
 .p-eksternal {
-    background: #dbeafe;
-    color: #2563eb;
+  background: #dbeafe;
+  color: #2563eb;
 }
 
 .p-internal {
-    background: #dcfce7;
-    color: #059669;
+  background: #dcfce7;
+  color: #059669;
 }
 
 .p-admin {
-    background: #fef3c7;
-    color: #b45309;
+  background: #fef3c7;
+  color: #b45309;
 }
 
 .p-status-tergeser {
-    background: #FCE7F3;
-    color: #DB2777;
+  background: #fce7f3;
+  color: #db2777;
 }
 
 /* Action Buttons in Table */
 .p-actions {
-    display: flex;
-    gap: 8px;
-    justify-content: flex-end;
-    flex-wrap: nowrap;
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  flex-wrap: nowrap;
 }
 
 .p-act {
-    width: 34px;
-    height: 34px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    transition: transform .12s;
-    flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.12s;
+  flex-shrink: 0;
 }
 
 .p-act:hover {
-    transform: scale(1.06);
+  transform: scale(1.06);
 }
 
 .p-edit {
-    background: #dbeafe;
-    color: #2563eb;
+  background: #dbeafe;
+  color: #2563eb;
 }
 
 .p-check {
-    background: #dcfce7;
-    color: #059669;
+  background: #dcfce7;
+  color: #059669;
 }
 
 .p-del {
-    background: #fee2e2;
-    color: #dc2626;
+  background: #fee2e2;
+  color: #dc2626;
 }
 
 /* Info Box */
 .p-info {
-    margin-top: 18px;
-    display: flex;
-    gap: 12px;
-    align-items: flex-start;
-    background: #dbeafe;
-    border-left: 4px solid #3b82f6;
-    padding: 14px 16px;
-    border-radius: 12px;
+  margin-top: 18px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  background: #dbeafe;
+  border-left: 4px solid #3b82f6;
+  padding: 14px 16px;
+  border-radius: 12px;
 }
 
 .p-info i {
-    color: #2563eb;
-    margin-top: 2px;
-    flex-shrink: 0;
+  color: #2563eb;
+  margin-top: 2px;
+  flex-shrink: 0;
 }
 
 .p-info-title {
-    font-weight: 900;
-    color: #1e40af;
-    margin-bottom: 2px;
+  font-weight: 900;
+  color: #1e40af;
+  margin-bottom: 2px;
 }
 
 .p-info-text {
-    color: #1e40af;
-    font-size: 13px;
+  color: #1e40af;
+  font-size: 13px;
 }
 
 [data-theme="dark"] .p-info {
@@ -606,7 +607,7 @@ body {
 }
 
 .p-modal.active {
-    display: flex;
+  display: flex;
 }
 
 .p-modal-card {
@@ -622,15 +623,15 @@ body {
 }
 
 @keyframes pSlide {
-    from {
-        transform: translateY(-12px);
-        opacity: .7;
-    }
+  from {
+    transform: translateY(-12px);
+    opacity: 0.7;
+  }
 
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 .p-modal-head {
@@ -642,33 +643,33 @@ body {
 }
 
 .p-x {
-    width: 40px;
-    height: 40px;
-    border: none;
-    border-radius: 10px;
-    background: transparent;
-    font-size: 28px;
-    line-height: 1;
-    color: #94a3b8;
-    cursor: pointer;
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 10px;
+  background: transparent;
+  font-size: 28px;
+  line-height: 1;
+  color: #94a3b8;
+  cursor: pointer;
 }
 
 .p-x:hover {
-    background: #f1f5f9;
-    color: #475569;
+  background: #f1f5f9;
+  color: #475569;
 }
 
 .p-modal-body {
-    padding: 22px;
+  padding: 22px;
 }
 
 /* Form Elements in Modal */
 .p-form-head {
-    display: flex;
-    gap: 12px;
-    align-items: flex-end;
-    flex-wrap: wrap;
-    margin-bottom: 18px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
 }
 
 .p-date-picker label {
@@ -696,26 +697,26 @@ body {
 }
 
 .p-type-btn {
-    padding: 10px 16px;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    background: #1e3a5f;
-    color: #fff;
-    font-weight: 900;
-    user-select: none;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  background: #1e3a5f;
+  color: #fff;
+  font-weight: 900;
+  user-select: none;
 }
 
 .p-type-btn:hover {
-    background: #2c5282;
+  background: #2c5282;
 }
 
 /* Labs Grid */
 .p-labs-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 18px;
-    margin-bottom: 18px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 18px;
+  margin-bottom: 18px;
 }
 
 .p-lab-card {
@@ -735,18 +736,18 @@ body {
 }
 
 .p-slot-list {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 /* Slot Card Styling */
 .p-slot {
-    padding: 12px 14px;
-    border-radius: 10px;
-    font-size: 13px;
-    line-height: 1.5;
-    border: 2px solid;
+  padding: 12px 14px;
+  border-radius: 10px;
+  font-size: 13px;
+  line-height: 1.5;
+  border: 2px solid;
 }
 
 /* Praktikum Tetap - Blue border */
@@ -803,12 +804,12 @@ body {
 }
 
 .p-slot.tergeser::before {
-    content: '⚠';
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    font-size: 16px;
-    color: #DB2777;
+  content: "⚠";
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  font-size: 16px;
+  color: #db2777;
 }
 
 /* Available slot - dashed border */
@@ -849,14 +850,14 @@ body {
 }
 
 .p-slot-label {
-    display: block;
-    font-weight: 900;
-    margin-bottom: 4px;
+  display: block;
+  font-weight: 900;
+  margin-bottom: 4px;
 }
 
 .p-slot-sub {
-    font-size: 12px;
-    opacity: 0.85;
+  font-size: 12px;
+  opacity: 0.85;
 }
 
 /* Legend Styling */
@@ -891,8 +892,8 @@ body {
 }
 
 .p-legend-item:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 /* Praktikum Tetap - Blue */
@@ -948,16 +949,16 @@ body {
 }
 
 .p-legend-color {
-    display: inline-block;
-    width: 28px;
-    height: 28px;
-    border-radius: 6px;
-    border: 2px solid currentColor;
+  display: inline-block;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  border: 2px solid currentColor;
 }
 
 /* Color boxes */
 .p-lg-praktikum {
-    background: #1B3555;
+  background: #1b3555;
 }
 
 [data-theme="dark"] .p-lg-praktikum {
@@ -965,7 +966,7 @@ body {
 }
 
 .p-lg-internal {
-    background: #0D9488;
+  background: #0d9488;
 }
 
 [data-theme="dark"] .p-lg-internal {
@@ -973,7 +974,7 @@ body {
 }
 
 .p-lg-eksternal {
-    background: #D97706;
+  background: #d97706;
 }
 
 [data-theme="dark"] .p-lg-eksternal {
@@ -981,7 +982,7 @@ body {
 }
 
 .p-lg-expired {
-    background: #DB2777;
+  background: #db2777;
 }
 
 [data-theme="dark"] .p-lg-expired {
@@ -990,29 +991,29 @@ body {
 
 /* External Modal Table Styling */
 #externalLabTimes input[type="time"] {
-    width: 100%;
-    padding: 6px 8px;
-    border: 1px solid #e2e8f0;
-    border-radius: 6px;
-    font-size: 14px;
-    box-sizing: border-box;
+  width: 100%;
+  padding: 6px 8px;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  font-size: 14px;
+  box-sizing: border-box;
 }
 
 #externalLabTimes td {
-    padding: 4px 12px;
-    vertical-align: middle;
+  padding: 4px 12px;
+  vertical-align: middle;
 }
 
 /* Base Style untuk tombol ikon */
 .btn-icon {
-    width: 32px;
-    height: 32px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 8px;
-    /* Sudut melengkung */
-    border: none;
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  /* Sudut melengkung */
+  border: none;
 }
 
 /* Force Hide Sorting Icons on Last Column (Aksi) */
@@ -1020,36 +1021,35 @@ body {
 .datatable-table thead th:last-child button::after,
 .datatable-table thead th:last-child .datatable-sorter::before,
 .datatable-table thead th:last-child .datatable-sorter::after {
-    display: none !important;
-    content: none !important;
+  display: none !important;
+  content: none !important;
 }
 
 /* Ensure Action Column Header is Left Aligned like others, but still no sort pointer */
 /* Ensure Action Column Header is aligned properly */
 .datatable-table thead th:last-child {
-    text-align: right !important;
-    pointer-events: none !important;
-    cursor: default !important;
-    width: 100px !important;
-    /* Prevent excessive width */
+  text-align: right !important;
+  pointer-events: none !important;
+  cursor: default !important;
+  width: 100px !important;
+  /* Prevent excessive width */
 }
 
-
 .btn-icon {
-    transition: all 0.2s ease-in-out;
-    cursor: pointer;
-    font-size: 0.85rem;
-    margin: 0 2px;
-    /* Jarak antar tombol */
-    text-decoration: none;
-    /* Hilangkan garis bawah jika tag <a> */
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+  font-size: 0.85rem;
+  margin: 0 2px;
+  /* Jarak antar tombol */
+  text-decoration: none;
+  /* Hilangkan garis bawah jika tag <a> */
 }
 
 /* Efek Hover umum */
 .btn-icon:hover {
-    transform: translateY(-2px);
-    /* Efek naik sedikit saat hover */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+  /* Efek naik sedikit saat hover */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 /* Styling untuk tombol view agar senada */
@@ -1082,36 +1082,36 @@ body {
 
 /* Styling untuk tombol delete sesuai gambar referensi */
 .btn-delete {
-    background-color: #dc3545 !important;
-    /* Solid Red */
-    color: #ffffff !important;
-    /* White icon */
-    border: 1.5px solid #dc3545 !important;
+  background-color: #dc3545 !important;
+  /* Solid Red */
+  color: #ffffff !important;
+  /* White icon */
+  border: 1.5px solid #dc3545 !important;
 }
 
 .btn-delete:hover {
-    background-color: #bb2d3b !important;
-    border-color: #bb2d3b !important;
-    transform: translateY(-2px);
+  background-color: #bb2d3b !important;
+  border-color: #bb2d3b !important;
+  transform: translateY(-2px);
 }
 
 /* Agar ikon di dalam tombol pas di tengah */
 .btn-icon i {
-    pointer-events: none;
-    /* Agar klik ikon tetap terhitung klik tombol */
+  pointer-events: none;
+  /* Agar klik ikon tetap terhitung klik tombol */
 }
 
 /* Fix Jarak Ikon Sorting pada DataTables */
 .datatable-sorter {
-    padding-right: 25px !important;
-    /* Memberi ruang untuk ikon */
-    position: relative;
+  padding-right: 25px !important;
+  /* Memberi ruang untuk ikon */
+  position: relative;
 }
 
 /* Mengatur posisi ikon agar presisi di kanan */
 .datatable-sorter::after,
 .datatable-sorter::before {
-    right: 5px !important;
+  right: 5px !important;
 }
 
 /* Menambah padding khusus untuk kolom No di header agar tidak sesak */

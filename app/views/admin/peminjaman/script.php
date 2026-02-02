@@ -70,4 +70,9 @@
 
 <!-- Load External Script -->
 <!-- Load External Script with Cache Buster -->
-<script src="<?= BASE_URL ?>/public/js/admin/peminjaman.js?v=<?= time() ?>"></script>
+<!-- Load Modular Scripts (Order Matters) -->
+<script src="<?= BASE_URL ?>/public/js/admin/peminjaman/utils.js?v=<?= time() ?>"></script>
+<script src="<?= BASE_URL ?>/public/js/admin/peminjaman/core.js?v=<?= time() ?>"></script>
+<script src="<?= BASE_URL ?>/public/js/admin/peminjaman/ui.js?v=<?= time() ?>"></script>
+<script src="<?= BASE_URL ?>/public/js/admin/peminjaman/actions.js?v=<?= time() ?>"></script>
+<script src="<?= BASE_URL ?>/public/js/admin/peminjaman/main.js?v=<?= time() ?>"></script>
