@@ -13,24 +13,9 @@
             </li>
         </ul>
 
-        <div class="sidebar-header" style="margin-top: 2rem;">DATA</div>
+        <div class="sidebar-header" style="margin-top: 2rem;">PEMINJAMAN</div>
 
         <ul class="sidebar-menu">
-            <li class="sidebar-item">
-                <a href="<?= BASE_URL ?>/ruangan"
-                    class="sidebar-link <?= ($active_page === 'ruangan') ? 'active' : ''; ?>">
-                    <i class="fas fa-door-open sidebar-icon"></i>
-                    <span>Data Ruangan</span>
-                </a>
-            </li>
-
-            <li class="sidebar-item">
-                <a href="<?= BASE_URL ?>/user" class="sidebar-link <?= ($active_page === 'users') ? 'active' : ''; ?>">
-                    <i class="fas fa-users sidebar-icon"></i>
-                    <span>Data Pengguna</span>
-                </a>
-            </li>
-
             <li class="sidebar-item">
                 <a href="<?= BASE_URL ?>/peminjaman"
                     class="sidebar-link <?= ($active_page === 'peminjaman') ? 'active' : ''; ?>">
@@ -48,9 +33,23 @@
             </li>
         </ul>
 
-        <div class="sidebar-header" style="margin-top: 2rem;">MENU LAINNYA</div>
+        <div class="sidebar-header" style="margin-top: 2rem;">MASTER DATA</div>
 
         <ul class="sidebar-menu">
+            <li class="sidebar-item">
+                <a href="<?= BASE_URL ?>/ruangan"
+                    class="sidebar-link <?= ($active_page === 'ruangan') ? 'active' : ''; ?>">
+                    <i class="fas fa-door-open sidebar-icon"></i>
+                    <span>Data Ruangan</span>
+                </a>
+            </li>
+
+            <li class="sidebar-item">
+                <a href="<?= BASE_URL ?>/user" class="sidebar-link <?= ($active_page === 'users') ? 'active' : ''; ?>">
+                    <i class="fas fa-users sidebar-icon"></i>
+                    <span>Data Pengguna</span>
+                </a>
+            </li>
 
             <li class="sidebar-item">
                 <a href="<?= BASE_URL ?>/jurusan"
