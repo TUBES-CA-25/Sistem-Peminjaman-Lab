@@ -1,19 +1,50 @@
 /* =========================================
-   GLOBAL STYLES
+   THEME VARIABLES & GLOBAL STYLES
    ========================================= */
+:root {
+    /* Light Mode (Default) */
+    --bg-body: #F8FAFC;
+    --bg-navbar: rgba(255, 255, 255, 0.9);
+    --bg-card: #FFFFFF;
+    --text-main: #0F172A;
+    --text-muted: #475569;
+    --border-color: #E2E8F0;
+    --navbar-brand: #0F172A;
+    --hero-bg: linear-gradient(135deg, #0d3b66 0%, #1F45AC 100%);
+}
+
+[data-theme="dark"] {
+    /* Dark Mode - Premium Midnight Palette */
+    --bg-body: #05070A;
+    --bg-navbar: rgba(5, 7, 10, 0.8);
+    --bg-card: #0F1219;
+    --text-main: #E2E8F0;
+    --text-muted: #94A3B8;
+    --border-color: #1E293B;
+    --navbar-brand: #F8FAFC;
+    --hero-bg: radial-gradient(circle at top right, #1E293B 0%, #0F1219 100%);
+    --accent-blue: #38BDF8;
+    --glow-color: rgba(56, 189, 248, 0.2);
+}
+
 body {
     font-family: 'Inter', sans-serif;
     padding-top: 80px;
-    background-color: #F8FAFC;
+    background-color: var(--bg-body);
+    color: var(--text-main);
+    transition: background-color 0.5s ease, color 0.5s ease;
+    -webkit-font-smoothing: antialiased;
 }
 
 /* =========================================
    HEADER / NAVBAR STYLES
    ========================================= */
 .navbar {
-    background-color: rgba(255, 255, 255, 0.9) !important;
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid #e2e8f0;
+    background-color: var(--bg-navbar) !important;
+    backdrop-filter: blur(12px) saturate(180%);
+    -webkit-backdrop-filter: blur(12px) saturate(180%);
+    border-bottom: 1px solid var(--border-color);
+    transition: all 0.4s ease;
 }
 
 .navbar-brand {
@@ -22,7 +53,7 @@ body {
     gap: 10px;
     font-family: 'Inter', sans-serif;
     font-weight: 700;
-    color: #0F172A !important;
+    color: var(--navbar-brand) !important;
 }
 
 .navbar-brand img {
@@ -33,11 +64,43 @@ body {
 
 .nav-link {
     font-weight: 500;
-    color: #475569 !important;
+    color: var(--text-muted) !important;
 }
 
 .nav-link:hover {
     color: #2563EB !important;
+}
+
+.no-caret::after {
+    display: none !important;
+}
+
+.theme-icon-active {
+    font-size: 1.2rem;
+    color: var(--text-main);
+    transition: transform 0.3s ease;
+}
+
+.no-caret:hover .theme-icon-active {
+    transform: rotate(15deg) scale(1.1);
+}
+
+[data-theme="dark"] .dropdown-menu {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+}
+
+[data-theme="dark"] .dropdown-item {
+    color: var(--text-main);
+}
+
+[data-theme="dark"] .dropdown-item:hover {
+    background-color: var(--bg-body);
+    color: #2563EB;
+}
+
+[data-theme="dark"] .dropdown-divider {
+    border-top: 1px solid var(--border-color);
 }
 
 /* =========================================
@@ -80,7 +143,7 @@ body {
 }
 
 .hero-title {
-    color: #1a1a1a;
+    color: var(--text-main);
 }
 
 .hero-subtitle {
