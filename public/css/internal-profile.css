@@ -7,10 +7,11 @@
 
 /* Profile Card Modern */
 .profile-card-modern {
-    background: #fff;
+    background: var(--bg-card);
     border-radius: 20px;
     overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--border-color);
 }
 
 /* Cover Gradient */
@@ -116,7 +117,7 @@
     box-shadow:
         0 10px 30px rgba(31, 69, 172, 0.3),
         0 4px 12px rgba(0, 0, 0, 0.15),
-        0 0 0 4px rgba(255, 255, 255, 0.9),
+        0 0 0 4px var(--bg-card),
         0 0 0 8px rgba(31, 69, 172, 0.1);
     transition: all 0.3s ease;
 }
@@ -125,7 +126,7 @@
     box-shadow:
         0 12px 35px rgba(31, 69, 172, 0.35),
         0 6px 16px rgba(0, 0, 0, 0.2),
-        0 0 0 4px rgba(255, 255, 255, 0.9),
+        0 0 0 4px var(--bg-card),
         0 0 0 8px rgba(31, 69, 172, 0.15);
     transform: translateY(-2px);
 }
@@ -157,35 +158,37 @@
 .profile-name {
     font-size: 28px;
     font-weight: 700;
-    color: #0f172a;
+    color: var(--text-main);
     margin: 0 0 8px 0;
     letter-spacing: -0.5px;
 }
 
 .profile-email {
     font-size: 15px;
-    color: #64748b;
+    color: var(--text-muted);
     margin: 0 0 6px 0;
     font-weight: 500;
 }
 
 .profile-member-since {
     font-size: 14px;
-    color: #94a3b8;
+    color: var(--text-muted);
     margin: 0;
+    opacity: 0.8;
 }
 
 /* Info Cards */
 .info-card {
-    background: #fff;
+    background: var(--bg-card);
     border-radius: 16px;
-    border: 1px solid #e2e8f0;
+    border: 1px solid var(--border-color);
     overflow: hidden;
     transition: all 0.3s ease;
     height: 100%;
     display: flex;
     flex-direction: column;
     position: relative;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
 }
 
 /* Accent line di sisi kiri */
@@ -212,9 +215,9 @@
 }
 
 .info-card-header {
-    background: #f8fafc;
+    background: var(--bg-body);
     padding: 20px 24px;
-    border-bottom: 1px solid #e2e8f0;
+    border-bottom: 1px solid var(--border-color);
     display: flex;
     align-items: center;
     gap: 14px;
@@ -238,11 +241,16 @@
     transform: scale(1.05);
 }
 
+[data-theme="dark"] .info-card-header i {
+    background: rgba(56, 189, 248, 0.1);
+    color: var(--accent-blue);
+}
+
 .info-card-header h5 {
     margin: 0;
     font-size: 17px;
     font-weight: 700;
-    color: #0f172a;
+    color: var(--text-main);
     letter-spacing: -0.3px;
 }
 
@@ -259,7 +267,7 @@
 .form-label-modern {
     font-size: 13px;
     font-weight: 600;
-    color: #475569;
+    color: var(--text-muted);
     margin-bottom: 8px;
     display: flex;
     align-items: center;
@@ -271,32 +279,41 @@
     font-size: 14px;
 }
 
+[data-theme="dark"] .form-label-modern {
+    color: var(--text-main);
+}
+
+[data-theme="dark"] .form-label-modern i {
+    color: var(--accent-blue);
+}
+
 .form-control-modern {
     width: 100%;
     padding: 12px 16px;
-    border: 2px solid #e2e8f0;
+    border: 1.5px solid var(--border-color);
     border-radius: 12px;
     font-size: 15px;
-    color: #1e293b;
-    background: #f8fafc;
+    color: var(--text-main);
+    background: var(--bg-body);
     transition: all 0.3s ease;
 }
 
 .form-control-modern:focus {
     outline: none;
     border-color: #1F45AC;
-    background: #fff;
+    background: var(--bg-card);
     box-shadow: 0 0 0 4px rgba(31, 69, 172, 0.1);
 }
 
 .form-control-modern:read-only {
-    background: #f8fafc;
-    color: #64748b;
+    background: var(--bg-body);
+    color: var(--text-muted);
     cursor: not-allowed;
+    opacity: 0.8;
 }
 
 .form-control-modern.editing {
-    background: #fff;
+    background: var(--bg-card);
     border-color: #1F45AC;
 }
 
@@ -361,15 +378,15 @@
 }
 
 .btn-cancel-modern {
-    background: #fff;
-    color: #64748b;
-    border: 2px solid #e2e8f0;
+    background: var(--bg-card);
+    color: var(--text-muted);
+    border: 2px solid var(--border-color);
 }
 
 .btn-cancel-modern:hover {
-    background: #f8fafc;
-    border-color: #cbd5e1;
-    color: #475569;
+    background: var(--bg-body);
+    border-color: var(--border-color);
+    color: var(--text-main);
 }
 
 /* Responsive */
@@ -459,7 +476,7 @@ img.avatar-large {
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    border: 3px solid #fff;
+    border: 3px solid var(--bg-card);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     transition: all 0.2s ease;
     z-index: 10;

@@ -18,11 +18,11 @@
 
                     <!-- Upload Area -->
                     <div class="mb-4">
-                        <label class="form-label fw-bold small text-dark">Foto Ruangan <span
+                        <label class="form-label fw-bold small">Foto Ruangan <span
                                 class="text-danger">*</span></label>
                         <div id="uploadArea"
                             class="upload-area text-center rounded-3 position-relative cursor-pointer overflow-hidden"
-                            style="min-height: 250px; background: #f8f9fa; display: flex; align-items: center; justify-content: center;"
+                            style="min-height: 250px; display: flex; align-items: center; justify-content: center;"
                             onclick="document.getElementById('labImageFile').click()">
 
                             <div id="imagePreview" style="display: none; width: 100%; height: 100%;">
@@ -35,7 +35,7 @@
 
                             <div id="uploadPlaceholder" class="p-5">
                                 <i class="fas fa-cloud-upload-alt display-4 text-secondary mb-3 opacity-25"></i>
-                                <p class="fw-medium text-dark mb-1">Klik untuk upload atau drag & drop</p>
+                                <p class="fw-medium mb-1">Klik untuk upload atau drag & drop</p>
                                 <p class="small text-muted mb-0">PNG, JPG, JPEG (Max. 5MB)</p>
                             </div>
 

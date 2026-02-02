@@ -64,7 +64,7 @@ class BookingService
                 'capacity' => $ruangan['kapasitas'],
                 'pic' => $ruangan['pic'],
                 'image' => $this->extractImageFilename($ruangan['gambar']),
-                'email_pic' => $ruangan['email_pic'] ?? null 
+                'email_pic' => $ruangan['email_pic'] ?? null
             ];
         }
         return $labs;
@@ -195,9 +195,10 @@ class BookingService
     {
         return $this->peminjamanModel->create($data);
     }
-    
+
     /**
      * Get Room Info
+     * @return array|mixed
      */
     public function getLabById($id)
     {
@@ -245,8 +246,10 @@ class BookingService
 
     private function extractImageFilename($gambar)
     {
-        if (empty($gambar)) return 'StartUp.jpg';
-        if (strpos($gambar, 'data:image') === 0) return 'StartUp.jpg';
+        if (empty($gambar))
+            return 'StartUp.jpg';
+        if (strpos($gambar, 'data:image') === 0)
+            return 'StartUp.jpg';
         if (strpos($gambar, '/public/') === 0 || strpos($gambar, 'public/') === 0 || strpos($gambar, 'storage/') === 0) {
             return $gambar;
         }

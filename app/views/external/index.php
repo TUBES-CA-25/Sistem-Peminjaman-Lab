@@ -1,16 +1,16 @@
 <?php include __DIR__ . '/../components/external_sidebar.php'; ?>
 
-<div class="container-fluid px-4">
-    <div class="hero-bg rounded-3" style="margin-top: 0px; margin-bottom: 20px;">
-        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
-
-            <div class="text-white">
-                <h2 class="fw-bold mb-1">Dashboard Peminjaman</h2>
-                <p class="opacity-75 mb-0">Pantau status pengajuan peminjaman ruangan Anda di sini.</p>
+<div class="container-fluid px-4 pt-4">
+    <div class="card border-0 shadow-sm mb-4 bg-gradient-primary-custom text-white overflow-hidden">
+        <div class="card-body p-4 d-flex align-items-center justify-content-between flex-wrap gap-3">
+            <div style="position: relative; z-index: 1;">
+                <h2 class="fw-bold mb-1 text-white">Dashboard Peminjaman</h2>
+                <p class="mb-0 opacity-75">Pantau status pengajuan peminjaman ruangan Anda di sini.</p>
             </div>
-            <button type="button" class="btn btn-light text-primary fw-bold px-4 py-2 shadow-sm"
+            <button type="button" class="btn btn-light shadow-sm" style="position: relative; z-index: 1;"
                 onclick="openAddModal()">
-                <i class="bi bi-plus-lg me-2"></i> Ajukan Baru
+                <i class="bi bi-plus-circle-fill"></i>
+                <span>Ajukan Baru</span>
             </button>
         </div>
     </div>
