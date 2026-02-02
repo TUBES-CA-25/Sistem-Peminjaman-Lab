@@ -1,7 +1,9 @@
-/* public/css/internal-booking.css */
-/* Main styling for internal booking and schedule pages */
+/* ============================================
+   INTERNAL BOOKING & SCHEDULE STYLES
+   Clean, organized, and optimized
+   ============================================ */
 
-/* Reset & Helper */
+/* HERO SECTION */
 .hero-section-internal {
   background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
   color: white;
@@ -10,12 +12,12 @@
   border-radius: 0 0 30px 30px;
 }
 
-/* Labs Grid */
+/* GRID LAYOUT */
 .p-labs-grid {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
   gap: 18px;
   margin-bottom: 18px;
+  grid-template-columns: repeat(5, 1fr);
 }
 
 @media (max-width: 1200px) {
@@ -23,25 +25,23 @@
     grid-template-columns: repeat(4, 1fr);
   }
 }
-
 @media (max-width: 992px) {
   .p-labs-grid {
     grid-template-columns: repeat(3, 1fr);
   }
 }
-
 @media (max-width: 768px) {
   .p-labs-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
-
 @media (max-width: 576px) {
   .p-labs-grid {
     grid-template-columns: 1fr;
   }
 }
 
+/* LAB CARDS */
 .p-lab-card {
   background: #f8fafc;
   border: 1px solid #e2e8f0;
@@ -65,20 +65,20 @@
   gap: 10px;
 }
 
-/* Booking Page - Lab Cards (different from schedule cards) */
+/* BOOKING PAGE CARDS */
 .labs-section {
   padding: 20px 0;
 }
 
 .lab-card {
   background: white;
+  border: 1px solid #e5e7eb;
   border-radius: 16px;
   overflow: hidden;
   box-shadow:
     0 4px 6px -1px rgba(0, 0, 0, 0.1),
     0 2px 4px -1px rgba(0, 0, 0, 0.06);
   transition: all 0.3s ease;
-  border: 1px solid #e5e7eb;
 }
 
 .lab-card:hover {
@@ -89,8 +89,8 @@
 .lab-image {
   width: 100%;
   height: 200px;
-  overflow: hidden;
   background: #f3f4f6;
+  overflow: hidden;
 }
 
 .lab-image img {
@@ -124,7 +124,7 @@
   width: 16px;
 }
 
-/* SLOT STYLING - Original Style */
+/* SLOT STYLING */
 .p-slot {
   padding: 12px 14px;
   border-radius: 10px;
@@ -138,19 +138,16 @@
   border-color: #1b3555;
   color: #1b3555;
 }
-
 .p-slot.internal {
   background: #ccfbf1;
   border-color: #0d9488;
   color: #0d9488;
 }
-
 .p-slot.eksternal {
   background: #fef3c7;
   border-color: #d97706;
   color: #d97706;
 }
-
 .p-slot.tergeser {
   background: #fce7f3;
   border-color: #db2777;
@@ -188,17 +185,13 @@
   font-weight: 900;
   margin-bottom: 4px;
 }
-
 .p-slot-sub {
   display: block;
   font-size: 12px;
   opacity: 0.85;
 }
 
-/*
-   LEGEND STYLING
- */
-
+/* LEGEND */
 .p-legend {
   display: flex;
   gap: 16px;
@@ -233,19 +226,16 @@
   border-color: #1b3555;
   color: #1b3555;
 }
-
 .p-legend-item.peminjaman-internal {
   background: #ccfbf1;
   border-color: #0d9488;
   color: #0d9488;
 }
-
 .p-legend-item.peminjaman-eksternal {
   background: #fef3c7;
   border-color: #d97706;
   color: #d97706;
 }
-
 .p-legend-item.jadwal-tergeser {
   background: #fce7f3;
   border-color: #db2777;
@@ -262,20 +252,17 @@
 .p-lg-praktikum {
   background: #1b3555;
 }
-
 .p-lg-internal {
   background: #0d9488;
 }
-
 .p-lg-eksternal {
   background: #d97706;
 }
-
 .p-lg-expired {
   background: #db2777;
 }
 
-/* Modal Custom Styles */
+/* MODAL */
 .p-modal {
   display: none;
   position: fixed;
@@ -336,7 +323,7 @@
   overflow-y: auto;
 }
 
-/* History Page Styling */
+/* TABLE */
 .p-history-container {
   padding: 24px 0;
 }
@@ -377,17 +364,16 @@
   flex-direction: column;
   gap: 4px;
 }
-
 .p-date {
   font-weight: 600;
   color: #1e293b;
 }
-
 .p-time {
   font-size: 13px;
   color: #64748b;
 }
 
+/* BADGES & STATUS */
 .p-badge {
   padding: 6px 12px;
   border-radius: 20px;
@@ -399,17 +385,16 @@
   background: #dcfce7;
   color: #166534;
 }
-
 .p-status-nonaktif {
   background: #fee2e2;
   color: #991b1b;
 }
-
 .p-status-tergeser {
   background: #fce7f3;
   color: #db2777;
 }
 
+/* ACTIONS */
 .p-actions {
   display: flex;
   gap: 8px;
@@ -432,7 +417,6 @@
   background: #f1f5f9;
   color: #0f172a;
 }
-
 .p-edit:hover {
   background: #e2e8f0;
   color: #3b82f6;
@@ -442,13 +426,12 @@
   background: #fef2f2;
   color: #ef4444;
 }
-
 .p-del:hover {
   background: #fee2e2;
   color: #b91c1c;
 }
 
-/* Datepicker Styling Custom */
+/* DATEPICKER */
 .p-date-picker {
   display: flex;
   align-items: center;
@@ -470,20 +453,45 @@
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
-/* Loading Spinner Animation */
+/* ANIMATIONS */
 @keyframes spin {
   from {
     transform: rotate(0deg);
   }
-
   to {
     transform: rotate(360deg);
   }
 }
 
-/* RESPONSIVE LAYOUT adjustments */
+/* SIDEBAR & OVERLAY */
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1040;
+  backdrop-filter: blur(2px);
+}
+
+.navbar-hamburger {
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  color: #1e3a8a;
+  cursor: pointer;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s;
+}
+
+.navbar-hamburger:active {
+  transform: scale(0.95);
+}
+
+/* RESPONSIVE */
 @media (max-width: 768px) {
-  /* Layout Padding Adjustments */
   .admin-container {
     padding: 0;
   }
@@ -504,8 +512,6 @@
     font-size: 1.5rem;
   }
 
-  /* Datepicker full width on mobile */
-  /* Keep datepicker horizontal on mobile as requested */
   .p-date-picker {
     width: 100%;
     gap: 12px;
@@ -516,24 +522,16 @@
     width: 100%;
   }
 
-  /* Modal Custom: Centered Card on Mobile (Premium Feel) */
   .p-modal {
     padding: 15px;
-    align-items: center;
-    /* Center vertically */
-    justify-content: center;
     background: rgba(0, 0, 0, 0.6);
-    /* Lebih gelap dikit */
   }
 
   .p-modal-card {
     max-height: 80vh;
-    /* Jangan terlalu penuh */
     width: 100%;
     max-width: 100%;
-    margin: 0;
     border-radius: 16px;
-    /* Rounded all corners */
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
   }
 
@@ -541,21 +539,17 @@
     padding: 15px;
   }
 
-  /* Bootstrap Modal Adjustments for Mobile */
   .modal-dialog {
     margin: 10px;
     max-width: 100%;
   }
-
   .modal-content {
     border-radius: 16px !important;
   }
 
-  /* Legend Full Width (Vertical Stack) */
   .p-legend {
     flex-direction: column;
     align-items: stretch;
-    /* Full width items */
     gap: 8px;
     padding: 10px 0 0 0;
   }
@@ -563,40 +557,9 @@
   .p-legend-item {
     width: 100%;
     justify-content: center;
-    /* Text centered inside the full bar */
     margin: 0;
   }
-}
 
-/* Navbar Toggle Button (added for clean code) */
-.navbar-hamburger {
-  background: transparent;
-  border: none;
-  font-size: 1.5rem;
-  color: #1e3a8a;
-  cursor: pointer;
-  padding: 5px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: color 0.2s;
-}
-
-.navbar-hamburger:active {
-  transform: scale(0.95);
-}
-
-/* SIDEBAR & OVERLAY STYLING (Moved from internal_sidebar.php) */
-.sidebar-overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.5);
-  z-index: 1040;
-  backdrop-filter: blur(2px);
-}
-
-@media (max-width: 768px) {
   .sidebar {
     display: flex;
     flex-direction: column;
@@ -609,7 +572,6 @@
     transform: translateX(-100%);
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: 4px 0 15px rgba(0, 0, 0, 0.1);
-    padding-top: 0;
     background: white;
     overflow-y: auto;
   }
@@ -617,7 +579,6 @@
   .sidebar.active {
     transform: translateX(0);
   }
-
   .sidebar-overlay.active {
     display: block;
   }
@@ -633,10 +594,6 @@
     font-size: 1.1rem;
   }
 
-  .desktop-only {
-    display: none;
-  }
-
   .close-btn {
     background: transparent;
     border: none;
@@ -644,6 +601,10 @@
     color: #64748b;
     cursor: pointer;
     padding: 5px;
+  }
+
+  .desktop-only {
+    display: none;
   }
 }
 
