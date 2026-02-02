@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
+ <link rel="icon" type="image/png" href="<?= BASE_URL ?>/public/storage/images/logo-iclabs.png">
     <style>
         :root {
             --primary: #3b82f6;
@@ -236,7 +236,8 @@
                     <i class="fas fa-envelope-open-text fa-3x text-info mb-3"></i>
                     <h2>Verifikasi Akun</h2>
                     <p class="text-white-50">Kami telah mengirimkan 6 digit kode OTP ke email
-                        <br><strong><?= $data['email']; ?></strong></p>
+                        <br><strong><?= $data['email']; ?></strong>
+                    </p>
                 </div>
 
                 <?php Flasher::flash(); ?>

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <title>Lupa Password | Peminjaman Lab</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <link rel="icon" type="image/png" href="<?= BASE_URL ?>/public/storage/images/logo-iclabs.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
@@ -231,7 +231,7 @@
 
                 <p class="small mt-4 text-white-50">
                     Ingat password Anda?
-                    <a href="<?= BASE_URL ?>/auth/login" class="text-white fw-bold">
+                    <a href="<?= BASE_URL ?>/auth" class="text-white fw-bold">
                         Masuk di sini
                     </a>
                 </p>
