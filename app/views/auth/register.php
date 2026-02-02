@@ -242,14 +242,15 @@
                             placeholder="Ulangi password" minlength="6" required>
                     </div>
 
-                    <button type="submit" class="btn btn-register w-100">
-                        Daftar
+                    <button type="submit" class="btn btn-register w-100" id="btnRegister">
+                        <span class="spinner-border spinner-border-sm d-none me-2" role="status" aria-hidden="true"></span>
+                        <span class="btn-text">Daftar</span>
                     </button>
                 </form>
 
                 <p class="small mt-4 text-white-50">
                     Sudah punya akun?
-                    <a href="<?= BASE_URL ?>/auth/login" class="text-white fw-bold">
+                    <a href="<?= BASE_URL ?>/auth" class="text-white fw-bold">
                         Masuk di sini
                     </a>
                 </p>
@@ -258,6 +259,17 @@
         </div>
     </div>
 
+    <script>
+        document.querySelector('form').addEventListener('submit', function() {
+            const btn = document.getElementById('btnRegister');
+            const spinner = btn.querySelector('.spinner-border');
+            const btnText = btn.querySelector('.btn-text');
+            
+            btn.disabled = true;
+            spinner.classList.remove('d-none');
+            btnText.textContent = 'Memproses...';
+        });
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 

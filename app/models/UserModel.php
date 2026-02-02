@@ -14,7 +14,7 @@ class UserModel
     // Ambil 1 user berdasarkan ID
     public function getUserById($id)
     {
-        $this->db->query("SELECT id, nama, email, password, telepon, role, status FROM " . $this->table . " WHERE id = :id");
+        $this->db->query("SELECT id, nama, email, password, telepon, role, status, foto, created_at FROM " . $this->table . " WHERE id = :id");
         $this->db->bind('id', $id);
         return $this->db->single();
     }
@@ -29,14 +29,16 @@ class UserModel
                         nama = :nama, 
                         email = :email, 
                         telepon = :telepon, 
-                        password = :password 
+                        password = :password,
+                        foto = :foto 
                       WHERE id = :id";
         } else {
             // Jika tidak ganti password
             $query = "UPDATE " . $this->table . " SET 
                         nama = :nama, 
                         email = :email, 
-                        telepon = :telepon 
+                        telepon = :telepon,
+                        foto = :foto
                       WHERE id = :id";
         }
 
@@ -44,6 +46,7 @@ class UserModel
         $this->db->bind('nama', $data['nama']);
         $this->db->bind('email', $data['email']);
         $this->db->bind('telepon', $data['telepon']);
+        $this->db->bind('foto', $data['foto']);
         $this->db->bind('id', $data['id']);
 
         if (!empty($data['password'])) {
@@ -143,7 +146,7 @@ class UserModel
     // LOGIN: Cari user berdasarkan email
     public function getUserByEmail($email)
     {
-        $this->db->query("SELECT id, nama, email, password, role FROM " . $this->table . " WHERE email = :email");
+        $this->db->query("SELECT id, nama, email, password, role, is_verified FROM " . $this->table . " WHERE email = :email");
         $this->db->bind('email', $email);
         return $this->db->single();
     }
@@ -152,9 +155,9 @@ class UserModel
     public function tambahUser($data)
     {
         $query = "INSERT INTO " . $this->table . " 
-                    (nama, email, password, role, telepon)
+                    (nama, email, password, role, telepon, verification_code, is_verified)
                   VALUES
-                    (:nama, :email, :password, :role, :telepon)";
+                    (:nama, :email, :password, :role, :telepon, :code, 0)";
 
         $this->db->query($query);
         $this->db->bind('nama', $data['nama']);
@@ -162,9 +165,35 @@ class UserModel
         $this->db->bind('password', $data['password']);
         $this->db->bind('role', 'external');
         $this->db->bind('telepon', $data['telepon']);
+        $this->db->bind('code', $data['verification_code']);
 
         $this->db->execute();
 
+        return $this->db->rowCount();
+    }
+
+    public function verifyUser($email, $code)
+    {
+        $this->db->query("SELECT id FROM " . $this->table . " WHERE email = :email AND verification_code = :code");
+        $this->db->bind('email', $email);
+        $this->db->bind('code', $code);
+        $user = $this->db->single();
+
+        if ($user) {
+            $this->db->query("UPDATE " . $this->table . " SET is_verified = 1, verification_code = NULL WHERE id = :id");
+            $this->db->bind('id', $user['id']);
+            $this->db->execute();
+            return true;
+        }
+        return false;
+    }
+
+    public function updateVerificationCode($email, $code)
+    {
+        $this->db->query("UPDATE " . $this->table . " SET verification_code = :code WHERE email = :email");
+        $this->db->bind('code', $code);
+        $this->db->bind('email', $email);
+        $this->db->execute();
         return $this->db->rowCount();
     }
 
