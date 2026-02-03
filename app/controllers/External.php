@@ -304,12 +304,25 @@ class External extends Controller
         $newEmail = $verificationService->verifyCode($userId, $code);
 
         if ($newEmail) {
+            // Ambil data user lama dari model untuk melengkapi input updateProfile
+            $user = $this->model('UserModel')->getUserById($userId);
+            
             // Setelah kode valid, panggil update profil dengan flag verified
             $input = $_POST;
             $input['email'] = $newEmail;
             $input['email_verified'] = true;
             
+            // Pastikan field wajib ada agar tidak error di UserService
+            if (!isset($input['nama'])) $input['nama'] = $user['nama'];
+            if (!isset($input['telepon'])) $input['telepon'] = $user['telepon'];
+            
             $result = $this->userService->updateProfile($userId, $input, []);
+            
+            // Hapus kode verifikasi HANYA JIKA update berhasil
+            if ($result['success']) {
+                $verificationService->clearVerificationCode($userId);
+            }
+            
             echo json_encode($result);
         } else {
             echo json_encode(['success' => false, 'message' => 'Kode verifikasi salah atau sudah kadaluarsa']);
