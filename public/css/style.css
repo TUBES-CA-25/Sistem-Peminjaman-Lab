@@ -299,3 +299,44 @@ body {
     box-shadow: 0 8px 25px rgba(56, 189, 248, 0.4);
     filter: brightness(1.15);
 }
+
+/* =========================================
+   SWEETALERT2 THEME OVERRIDES
+   ========================================= */
+[data-theme="dark"] .swal2-popup {
+    background-color: var(--bg-card) !important;
+    color: var(--text-main) !important;
+    border: 1px solid var(--border-color) !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5) !important;
+}
+
+[data-theme="dark"] .swal2-title,
+[data-theme="dark"] .swal2-html-container {
+    color: var(--text-main) !important;
+}
+
+[data-theme="dark"] .swal2-footer {
+    border-top: 1px solid var(--border-color) !important;
+    color: var(--text-muted) !important;
+}
+
+[data-theme="dark"] .swal2-confirm {
+    background-color: var(--accent-blue) !important;
+    color: #05070A !important;
+    font-weight: 700 !important;
+}
+
+[data-theme="dark"] .swal2-cancel,
+[data-theme="dark"] .swal2-deny {
+    background-color: rgba(255, 255, 255, 0.05) !important;
+    color: var(--text-main) !important;
+    border: 1px solid var(--border-color) !important;
+}
+
+[data-theme="dark"] .swal2-timer-progress-bar {
+    background: var(--accent-blue) !important;
+}
+
+[data-theme="dark"] .swal2-close:hover {
+    color: var(--accent-blue) !important;
+}
