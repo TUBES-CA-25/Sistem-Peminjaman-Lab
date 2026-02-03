@@ -216,9 +216,26 @@ h1, h2, h3, h4, h5, h6 {
     list-style-type: none !important;
 }
 
-/* Remove any potential checkbox or input styling */
-.modal input[type="checkbox"]:not(:checked) {
-    display: none !important;
+/* UI Enhancements for Form Inputs */
+input[type="date"]::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+    border-radius: 4px;
+    opacity: 0.6;
+    transition: all 0.2s ease;
+    padding: 2px;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator:hover {
+    opacity: 1;
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="dark"] input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1) brightness(0.9);
+}
+
+[data-theme="dark"] input[type="date"]::-webkit-calendar-picker-indicator:hover {
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
 /* ========================================== */
@@ -989,23 +1006,28 @@ nav.navbar.navbar-expand.fixed-top {
 
 .profile-cover-text {
     color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .profile-cover-title {
     font-size: 32px;
-    font-weight: 700;
-    margin: 0 0 4px 0;
+    font-weight: 800;
+    margin: 0;
     color: #fff;
     letter-spacing: -0.5px;
     text-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    line-height: 1.2;
 }
 
 .profile-cover-subtitle {
     font-size: 15px;
     margin: 0;
     color: rgba(255, 255, 255, 0.9);
-    font-weight: 400;
-    letter-spacing: 0.2px;
+    font-weight: 600;
+    letter-spacing: 0.1px;
+    text-align: left;
 }
 
 /* Avatar Section */
@@ -1034,11 +1056,11 @@ nav.navbar.navbar-expand.fixed-top {
     align-items: center;
     justify-content: center;
     box-shadow: 
-        0 10px 30px rgba(31, 69, 172, 0.3),
-        0 4px 12px rgba(0, 0, 0, 0.15),
-        0 0 0 4px rgba(255, 255, 255, 0.9),
+        0 15px 35px rgba(0, 0, 0, 0.3),
+        0 0 0 4px var(--bg-card),
         0 0 0 8px rgba(31, 69, 172, 0.1);
     transition: all 0.3s ease;
+    border: none;
 }
 
 .avatar-large:hover {
@@ -1076,24 +1098,30 @@ nav.navbar.navbar-expand.fixed-top {
 
 .profile-name {
     font-size: 28px;
-    font-weight: 700;
+    font-weight: 800;
     color: var(--text-main);
-    margin: 0 0 8px 0;
+    margin: 0 0 10px 0;
     letter-spacing: -0.5px;
 }
 
+.profile-email, .profile-member-since {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
 .profile-email {
-    font-size: 15px;
+    font-size: 16px;
     color: var(--text-muted);
-    margin: 0 0 6px 0;
+    margin: 0 0 8px 0;
     font-weight: 500;
 }
 
 .profile-member-since {
-    font-size: 14px;
+    font-size: 15px;
     color: var(--text-muted);
     margin: 0;
-    opacity: 0.8;
+    opacity: 0.7;
 }
 
 /* Info Cards */
@@ -1326,58 +1354,6 @@ nav.navbar.navbar-expand.fixed-top {
     color: #f1f5f9;
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-    .profile-avatar-section {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        padding: 0 20px 20px;
-    }
-    
-    .avatar-large {
-        width: 120px;
-        height: 120px;
-        font-size: 48px;
-    }
-    
-    .profile-name {
-        font-size: 24px;
-    }
-    
-    .profile-actions {
-        padding: 0 20px 30px;
-        flex-direction: column;
-    }
-    
-    .btn-modern {
-        width: 100%;
-    }
-    
-    /* Cover heading responsive */
-    .profile-cover-content {
-        top: 20px;
-        left: 20px;
-        gap: 12px;
-    }
-    
-    .profile-cover-icon {
-        width: 48px;
-        height: 48px;
-    }
-    
-    .profile-cover-icon i {
-        font-size: 22px;
-    }
-    
-    .profile-cover-title {
-        font-size: 24px;
-    }
-    
-    .profile-cover-subtitle {
-        font-size: 13px;
-    }
-}
 
 /* Photo Styling */
 .avatar-large {
@@ -1617,144 +1593,142 @@ nav.navbar.navbar-expand.fixed-top {
 }
 
 /* Responsive Adjustments */
-@media (max-width: 768px) {
-    .container-fluid {
-        padding-left: 15px !important;
-        padding-right: 15px !important;
+/* ========================================== */
+/* 7. RESPONSIVE OPTIMIZATIONS */
+/* ========================================== */
+
+@media (max-width: 991.98px) {
+    .sidebar {
+        display: none !important;
+        transform: translateX(-100%);
+        width: 280px;
+        position: fixed !important;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        z-index: 2000;
+        visibility: hidden;
+    }
+
+    .sidebar.active {
+        display: block !important;
+        transform: translateX(0);
+        visibility: visible;
     }
 
     .main-content {
+        margin-left: 0 !important;
+        width: 100% !important;
         padding: 10px 0 !important;
+        overflow-x: hidden;
     }
 
-    /* Fixed Top Navbar spacing */
+    .admin-container {
+        display: block !important;
+        margin-top: 60px !important;
+        width: 100% !important;
+        overflow-x: hidden;
+    }
+
     .navbar {
-        padding: 0.8rem 1rem !important;
+        height: 60px !important;
+        padding: 0 15px !important;
     }
 
-    /* Modern Hero Responsive */
+    .desktop-only { display: none !important; }
+    .mobile-only { display: block !important; }
+
+    /* Hero Card Reset */
     .bg-gradient-primary-custom {
-        border-radius: 20px !important;
-        margin: 10px 0 25px 0 !important;
-        border: none !important;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1) !important;
+        margin: 0 !important;
+        border-radius: 0 0 20px 20px !important;
+        width: 100% !important;
     }
 
     .card-body.p-4 {
-        padding: 2rem 1.5rem !important;
-        text-align: left !important;
+        padding: 1.5rem !important;
+        flex-direction: column !important;
+        text-align: center !important;
+        gap: 15px !important;
         display: flex !important;
-        justify-content: space-between !important;
         align-items: center !important;
     }
 
-    .card-body.p-4 div.flex-grow-1 {
-        margin-bottom: 0px;
-        width: auto;
-        text-align: left !important;
-    }
-
     h2.fw-bold {
-        font-size: 1.75rem !important;
+        font-size: 1.5rem !important;
         letter-spacing: -0.5px;
         margin-bottom: 8px !important;
-        text-align: left !important;
+        text-align: center !important;
         color: white !important;
     }
 
     p.opacity-75 {
-        font-size: 0.85rem;
+        font-size: 0.8rem !important;
         line-height: 1.4;
         max-width: 100%;
         margin: 0 !important;
         opacity: 0.9 !important;
-        text-align: left !important;
+        text-align: center !important;
         color: white !important;
     }
 
-    /* Action Button Mobile */
     .btn-light.shadow-sm {
-        border-radius: 12px !important;
-        padding: 10px 20px !important;
-        font-size: 0.9rem !important;
-        font-weight: 700 !important;
-        background: #FFFFFF !important;
-        color: #1F45AC !important;
-        border: none !important;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
-        display: flex !important;
-        align-items: center !important;
-        gap: 8px;
-        width: auto !important;
-        margin-top: 10px;
+        width: 100% !important;
+        justify-content: center !important;
+        margin-top: 5px;
     }
 
-    /* Modal Mobile Optimization */
-    .modal-dialog {
-        margin: 10px !important;
-        max-width: calc(100% - 20px) !important;
+    /* List view spacing */
+    .container-fluid {
+        padding-left: 12px !important;
+        padding-right: 12px !important;
     }
 
-    .modal-content {
-        border-radius: 24px !important;
+    .p-mobile-list {
+        padding: 15px 0 !important;
     }
 
-    .modal-body {
+    .p-mobile-card {
         padding: 20px !important;
+        border-radius: 20px !important;
     }
 
-    .form-control, .btn {
-        padding: 12px 16px !important;
-        font-size: 0.95rem !important;
-    }
-
-    /* Profile Page Mobile Optimization (Exact Internal Sync) */
+    /* Profile Page Specifics */
     .profile-avatar-section {
         flex-direction: column !important;
         align-items: center !important;
         text-align: center !important;
-        padding: 0 20px 20px !important;
-        margin-top: -80px !important;
+        margin-top: -60px !important;
+    }
+
+    .profile-email, .profile-member-since {
+        justify-content: center !important;
     }
 
     .avatar-large {
-        width: 120px !important;
-        height: 120px !important;
-        min-width: 120px !important;
-        min-height: 120px !important;
-        font-size: 48px !important;
-    }
-
-    .profile-name {
-        font-size: 24px !important;
+        width: 100px !important;
+        height: 100px !important;
+        min-width: 100px !important;
+        min-height: 100px !important;
     }
 
     .profile-actions {
-        padding: 0 20px 30px !important;
         flex-direction: column !important;
-        gap: 15px !important;
-    }
-
-    .btn-modern {
-        width: 100% !important;
-        padding: 14px 20px !important;
+        gap: 12px !important;
     }
 
     #actionButtons {
-        flex-direction: row !important; /* side by side as per image */
+        flex-direction: row !important;
         width: 100% !important;
-        gap: 12px !important;
+        gap: 10px !important;
     }
 
     #actionButtons .btn-modern {
         flex: 1 !important;
-        padding: 12px 15px !important;
-        font-size: 14px !important;
     }
 
-    /* Cover heading responsive */
     .profile-cover-content {
-        top: 20px !important;
+        top: 25px !important;
         left: 20px !important;
         right: auto !important;
         display: flex !important;
@@ -1763,33 +1737,15 @@ nav.navbar.navbar-expand.fixed-top {
         text-align: left !important;
         gap: 12px !important;
     }
-
-    .profile-cover-icon {
-        width: 48px !important;
-        height: 48px !important;
-    }
-
-    .profile-cover-icon i {
-        font-size: 22px !important;
-    }
-
-    .profile-cover-title {
-        font-size: 24px !important;
-        margin-bottom: 0 !important;
-    }
-
-    .profile-cover-subtitle {
-        font-size: 13px !important;
-    }
 }
 
-@media (max-width: 480px) {
+/* Extra small devices */
+@media (max-width: 375px) {
     h2.fw-bold {
-        font-size: 1.3rem !important;
+        font-size: 1.1rem !important;
     }
-
-    .status-pill {
-        font-size: 9px;
-        padding: 4px 8px;
+    
+    .p-mobile-title {
+        font-size: 1.2rem !important;
     }
 }

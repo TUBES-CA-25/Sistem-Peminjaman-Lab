@@ -142,11 +142,11 @@
                 <div class="modal-body p-4">
                     <!-- Alert Status: Success -->
                     <div id="view_success" class="detail-section" style="display: none;">
-                        <div class="alert alert-success d-flex gap-3 align-items-start">
-                            <i class="bi bi-check-circle-fill fs-4"></i>
+                        <div class="alert alert-success d-flex gap-3 align-items-start border-0 shadow-sm" style="background: rgba(16, 185, 129, 0.1); color: #10b981;">
+                            <i class="bi bi-patch-check-fill fs-4"></i>
                             <div>
-                                <strong>Selamat! Peminjaman ruangan Anda berhasil disetujui.</strong><br>
-                                Jadwal telah ditentukan. Mohon datang 30 menit lebih awal sebelum kegiatan berlangsung.
+                                <strong class="d-block mb-1">Pengajuan Diterima!</strong>
+                                Selamat, pengajuan peminjaman laboratorium Anda telah disetujui. Silakan gunakan ruangan sesuai dengan jadwal yang telah ditentukan.
                             </div>  
                         </div>
                     </div>
@@ -164,11 +164,11 @@
 
                     <!-- Alert Status: Interview -->
                     <div id="view_interview" class="detail-section" style="display: none;">
-                        <div class="alert alert-info d-flex gap-3 align-items-start">
-                            <i class="bi bi-people-fill fs-4"></i>
+                        <div class="alert alert-info d-flex gap-3 align-items-start border-0 shadow-sm" style="background: rgba(56, 189, 248, 0.1); color: #0ea5e9;">
+                            <i class="bi bi-person-workspace fs-4"></i>
                             <div>
-                                <strong>Selamat, berkas Anda telah lolos! Silakan melanjutkan ke tahap Interview.</strong><br>
-                                Mohon menemui Laboran di Ruang Laboratory Service Room, Lantai 2 Fikom UMI untuk verifikasi akhir.
+                                <strong class="d-block mb-1">Tahap Interview</strong>
+                                Berkas Anda telah diverifikasi oleh Laboran. Silakan melanjutkan ke tahap interview untuk verifikasi data akhir.
                             </div>
                         </div>
                     </div>
@@ -287,4 +287,4 @@
                 </div>
             </div>
         </div>
-    </div>`
+    </div>
