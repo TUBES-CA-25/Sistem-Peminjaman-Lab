@@ -22,8 +22,7 @@
                             <option value="">Pilih Jurusan</option>
                             <?php foreach ($data['jurusan_list'] as $j): ?>
                                 <option value="<?= $j['id'] ?>">
-                                    <?= $j['nama_jurusan'] ?> (
-                                    <?= $j['singkatan'] ?>)
+                                    <?= $j['nama_jurusan'] ?> (<?= $j['singkatan'] ?>)
                                 </option>
                             <?php endforeach; ?>
                         </select>
@@ -31,7 +30,7 @@
                     <div class="mb-3">
                         <label for="angkatan" class="form-label">Angkatan</label>
                         <input type="number" class="form-control" id="angkatan" name="angkatan"
-                            placeholder="Contoh: 2023" required>
+                            placeholder="Contoh: 2023" required min="1900" max="2999" step="1">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -64,15 +63,15 @@
                             <option value="">Pilih Jurusan</option>
                             <?php foreach ($data['jurusan_list'] as $j): ?>
                                 <option value="<?= $j['id'] ?>">
-                                    <?= $j['nama_jurusan'] ?> (
-                                    <?= $j['singkatan'] ?>)
+                                    <?= $j['nama_jurusan'] ?> (<?= $j['singkatan'] ?>)
                                 </option>
                             <?php endforeach; ?>
                         </select>
                     </div>
                     <div class="mb-3">
                         <label for="edit_angkatan" class="form-label">Angkatan</label>
-                        <input type="number" class="form-control" id="edit_angkatan" name="angkatan" required>
+                        <input type="number" class="form-control" id="edit_angkatan" name="angkatan" required min="1900"
+                            max="2999" step="1">
                     </div>
                 </div>
                 <div class="modal-footer">

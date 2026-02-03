@@ -4,13 +4,15 @@
 
 <script>
     // Handle Edit Parameter Population
-    document.querySelectorAll('.btn-edit').forEach(button => {
-        button.addEventListener('click', function () {
-            document.getElementById('edit_id').value = this.dataset.id;
-            document.getElementById('edit_nama_kelas').value = this.dataset.nama;
-            document.getElementById('edit_jurusan_id').value = this.dataset.jurusan;
-            document.getElementById('edit_angkatan').value = this.dataset.angkatan;
-        });
+    // Handle Edit Parameter Population using Event Delegation
+    document.addEventListener('click', function (e) {
+        const button = e.target.closest('.btn-edit');
+        if (button) {
+            document.getElementById('edit_id').value = button.dataset.id;
+            document.getElementById('edit_nama_kelas').value = button.dataset.nama;
+            document.getElementById('edit_jurusan_id').value = button.dataset.jurusan;
+            document.getElementById('edit_angkatan').value = button.dataset.angkatan;
+        }
     });
 
     window.hapusKelas = function (id) {
