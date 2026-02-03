@@ -14,15 +14,10 @@
             </button>
             <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0 mt-2" aria-labelledby="themeToggle">
                 <li>
-                    <<<<<<< HEAD <button class="dropdown-item d-flex align-items-center gap-2" type="button"
+                    <button class="dropdown-item d-flex align-items-center gap-2" type="button"
                         data-theme-value="light">
                         <i class="bi bi-sun-fill text-warning"></i> Light
-                        =======
-                        <button class="dropdown-item d-flex align-items-center gap-2" type="button"
-                            data-theme-value="light">
-                            <i class="bi bi-sun-fill"></i> Light
-                            >>>>>>> d9fee9a7619f22479d20ef2d9b49206f55029bb6
-                        </button>
+                    </button>
                 </li>
                 <li>
                     <button class="dropdown-item d-flex align-items-center gap-2" type="button" data-theme-value="dark">
