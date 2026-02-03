@@ -16,11 +16,7 @@
                 <li>
                     <button class="dropdown-item d-flex align-items-center gap-2" type="button"
                         data-theme-value="light">
-<<<<<<< HEAD
-                        <i class="bi bi-sun-fill"></i> Light
-=======
                         <i class="bi bi-sun-fill text-warning"></i> Light
->>>>>>> 12856d23fcda0ca2e7b6339a8e62c71c7f32ee02
                     </button>
                 </li>
                 <li>
