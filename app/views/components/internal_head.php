@@ -1,53 +1,8 @@
 <!DOCTYPE html>
 <html lang="id" data-theme="light">
+
 <head>
-    <script>
-        (function() {
-            const savedTheme = localStorage.getItem('theme') || 'auto';
-            const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-            const themeToApply = savedTheme === 'auto' ? systemTheme : savedTheme;
-            document.documentElement.setAttribute('data-theme', themeToApply);
-        })();
 
-        document.addEventListener('DOMContentLoaded', function() {
-            const themeButtons = document.querySelectorAll('[data-theme-value]');
-            const activeIcon = document.querySelector('.theme-icon-active');
-
-            const updateIcon = (theme) => {
-                if (!activeIcon) return;
-                activeIcon.className = 'theme-icon-active bi ' + 
-                    (theme === 'light' ? 'bi-sun-fill' : 
-                     theme === 'dark' ? 'bi-moon-stars-fill' : 'bi-circle-half');
-            };
-
-            const applyTheme = (theme) => {
-                const themeToApply = theme === 'auto' ? 
-                    (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : 
-                    theme;
-                
-                document.documentElement.setAttribute('data-theme', themeToApply);
-                localStorage.setItem('theme', theme);
-                updateIcon(theme);
-            };
-
-            themeButtons.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const theme = btn.getAttribute('data-theme-value');
-                    applyTheme(theme);
-                });
-            });
-
-            // Set initial icon
-            updateIcon(localStorage.getItem('theme') || 'auto');
-
-            // Listen for system changes if set to auto
-            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
-                if (localStorage.getItem('theme') === 'auto') {
-                    applyTheme('auto');
-                }
-            });
-        });
-    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="<?= BASE_URL ?>/public/storage/images/logo-iclabs.png">
@@ -59,7 +14,11 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
     <!-- Admin CSS (shared styling) -->
-    <link rel="stylesheet" href="<?= BASE_URL ?>/public/css/admin-style.css?v=<?= time() ?>">
+    <!-- Global Admin CSS (Shared) -->
+    <link rel="stylesheet" href="<?= BASE_URL ?>/public/css/admin/variables.css?v=<?= time() ?>">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/public/css/admin/layout.css?v=<?= time() ?>">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/public/css/admin/components.css?v=<?= time() ?>">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/public/css/admin/peminjaman.css?v=<?= time() ?>">
     <!-- Internal specific CSS -->
     <link rel="stylesheet" href="<?= BASE_URL ?>/public/css/internal-booking.css?v=<?= time() ?>">
     <!-- SweetAlert2 -->

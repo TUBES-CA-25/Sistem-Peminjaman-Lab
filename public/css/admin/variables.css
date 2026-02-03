@@ -1,5 +1,41 @@
 :root {
     /* Light Mode (Default) */
+<<<<<<< HEAD
+    --bg-body: #F8FAFC;
+    --bg-navbar: #FFFFFF;
+    --bg-card: #FFFFFF;
+    --bg-sidebar: #FFFFFF;
+    --text-main: #1E293B;
+    --text-muted: #64748B;
+    --border-color: #E2E8F0;
+    --navbar-brand: #122E4F;
+    --accent-blue: #1F45AC;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-body);
+    color: var(--text-main);
+}
+
+/* Global Selection Color */
+::selection {
+    background-color: var(--accent-blue);
+    color: #FFFFFF;
+}
+
+/* Global Transition for all themeable components */
+.card,
+.navbar,
+.sidebar,
+.main-content,
+input,
+select,
+button,
+.modal-content,
+.card-header {
+    transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+=======
     --bg-body: #f8fafc;
     --bg-navbar: #ffffff;
     --bg-card: #ffffff;
@@ -9,4 +45,5 @@
     --border-color: #e2e8f0;
     --navbar-brand: #122e4f;
     --accent-blue: #1f45ac;
+>>>>>>> 12856d23fcda0ca2e7b6339a8e62c71c7f32ee02
 }
