@@ -27,7 +27,8 @@
                     <div class="mb-3">
                         <label class="form-label fw-bold">Nomor HP <span class="text-danger" id="telReq"
                                 style="display:none;">*</span></label>
-                        <input type="text" name="telepon" id="telepon" class="form-control" placeholder="08xxxxxxxxxx">
+                        <input type="text" name="telepon" id="telepon" class="form-control" placeholder="08xxxxxxxxxx"
+                            oninput="this.value = this.value.replace(/[^0-9]/g, '')">
                     </div>
 
                     <div class="mb-3">

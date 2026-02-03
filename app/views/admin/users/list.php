@@ -63,6 +63,7 @@
                                     <i class="fas fa-edit"></i>
                                 </button>
 
+<<<<<<< HEAD
                                 <?php /* 
                <form action="<?= BASE_URL ?>/user" method="POST"
                    onsubmit="return confirm('Hapus pengguna ini?');">
@@ -74,6 +75,9 @@
                    </button>
                </form> 
                */ ?>
+=======
+
+>>>>>>> 12856d23fcda0ca2e7b6339a8e62c71c7f32ee02
                                 <button type="button" onclick="hapusUser(<?= $u['id'] ?>)" class="btn-icon btn-delete">
                                     <i class="fas fa-trash"></i>
                                 </button>

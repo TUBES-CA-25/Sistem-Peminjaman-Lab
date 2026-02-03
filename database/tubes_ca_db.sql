@@ -213,18 +213,23 @@ CREATE TABLE `ruangan` (
     `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB AUTO_INCREMENT = 8 DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
-/*!40101 SET character_set_client = @saved_cs_client */
-;
 
---
--- Table structure for table `users`
---
+/*Table structure for table `email_verifications`*/
+DROP TABLE IF EXISTS `email_verifications`;
+CREATE TABLE `email_verifications` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `new_email` varchar(100) NOT NULL,
+  `token` varchar(6) NOT NULL,
+  `expired_at` datetime NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `email_verifications_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+/*Table structure for table `users`*/
 DROP TABLE IF EXISTS `users`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */
-;
-/*!40101 SET character_set_client = utf8 */
-;
 CREATE TABLE `users` (
     `id` int(11) NOT NULL AUTO_INCREMENT,
     `nama` varchar(150) NOT NULL,
@@ -237,28 +242,12 @@ CREATE TABLE `users` (
     ) NOT NULL DEFAULT 'external',
     `status` varchar(50) DEFAULT 'Mahasiswa',
     `telepon` varchar(20) DEFAULT NULL,
+    `foto` varchar(255) DEFAULT NULL,
+    `verification_code` varchar(255) DEFAULT NULL,
+    `is_verified` tinyint(1) DEFAULT 0,
+    `reset_token` varchar(255) DEFAULT NULL,
+    `reset_token_expire` datetime DEFAULT NULL,
     `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
     PRIMARY KEY (`id`),
     UNIQUE KEY `email` (`email`)
 ) ENGINE = InnoDB AUTO_INCREMENT = 6 DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
-/*!40101 SET character_set_client = @saved_cs_client */
-;
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */
-;
-
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */
-;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */
-;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */
-;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */
-;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */
-;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */
-;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */
-;
-
--- Dump completed on 2026-01-29  9:42:10

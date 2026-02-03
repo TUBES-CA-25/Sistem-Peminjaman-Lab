@@ -28,12 +28,12 @@
 </div>
 
 <!-- INFO BOX -->
-<div class="p-info">
+<!-- <div class="p-info">
   <i class="fas fa-info-circle"></i>
   <div>
     <div class="p-info-title">Notifikasi Email Otomatis</div>
     <div class="p-info-text">Ketika peminjaman disetujui, sistem akan otomatis mengirimkan email notifikasi ke
       koordinator lab terkait.</div>
   </div>
-</div>
+</div> -->
 </div>

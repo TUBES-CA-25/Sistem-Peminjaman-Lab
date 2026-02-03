@@ -1,0 +1,99 @@
+/* Global Table Styles */
+.table-hover tbody tr:hover {
+    background-color: rgba(56, 189, 248, 0.03);
+}
+
+/* DataTables Sorter Fixes */
+.datatable-sorter {
+    padding-right: 25px !important;
+    position: relative;
+}
+
+.datatable-sorter::after,
+.datatable-sorter::before {
+    right: 5px !important;
+}
+
+th[data-sortable="true"] {
+    white-space: nowrap;
+    min-width: 60px;
+}
+
+/* Action Column Button Styles */
+.btn-icon {
+    width: 32px;
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    border: none;
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+    font-size: 0.85rem;
+    margin: 0 2px;
+    text-decoration: none;
+}
+
+.btn-icon:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn-icon i {
+    pointer-events: none;
+}
+
+.btn-view {
+    background-color: rgba(31, 69, 172, 0.08) !important;
+    color: var(--accent-blue) !important;
+    border: 1px solid rgba(31, 69, 172, 0.1) !important;
+}
+
+.btn-view:hover {
+    background-color: var(--accent-blue) !important;
+    border-color: var(--accent-blue) !important;
+    color: white !important;
+    box-shadow: 0 0 15px rgba(31, 69, 172, 0.4);
+}
+
+.btn-edit {
+    background-color: rgba(251, 191, 36, 0.1) !important;
+    color: #fbbf24 !important;
+    border: 1px solid rgba(251, 191, 36, 0.2) !important;
+}
+
+.btn-edit:hover {
+    background-color: #fbbf24 !important;
+    border-color: #fbbf24 !important;
+    color: #000 !important;
+    box-shadow: 0 0 15px rgba(251, 191, 36, 0.4);
+}
+
+.btn-delete {
+    background-color: #dc3545 !important;
+    color: #ffffff !important;
+    border: 1.5px solid #dc3545 !important;
+}
+
+.btn-delete:hover {
+    background-color: #bb2d3b !important;
+    border-color: #bb2d3b !important;
+    transform: translateY(-2px);
+}
+
+/* DataTables Action Column Specifics */
+.datatable-table thead th:last-child button::before,
+.datatable-table thead th:last-child button::after,
+.datatable-table thead th:last-child .datatable-sorter::before,
+.datatable-table thead th:last-child .datatable-sorter::after {
+    display: none !important;
+    content: none !important;
+}
+
+.datatable-table thead th:last-child {
+    text-align: right !important;
+    pointer-events: none !important;
+    cursor: default !important;
+    width: 100px !important;
+}

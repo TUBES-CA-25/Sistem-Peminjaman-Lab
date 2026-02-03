@@ -1,0 +1,24 @@
+/* =========================================
+   ADMIN DASHBOARD STYLES - MODULARIZED
+   ========================================= */
+
+/* 1. Base Variables & Reset */
+@import url('admin/variables.css');
+@import url('admin/reset.css');
+
+/* 2. Layout Structure */
+@import url('admin/layout.css');
+@import url('admin/navbar.css');
+@import url('admin/sidebar.css');
+
+/* 3. Components */
+@import url('admin/cards.css');
+@import url('admin/tables.css');
+@import url('admin/forms.css');
+@import url('admin/modals.css');
+
+/* 4. Modules */
+@import url('admin/modules/peminjaman.css');
+
+/* 5. Utilities */
+@import url('admin/utilities.css');

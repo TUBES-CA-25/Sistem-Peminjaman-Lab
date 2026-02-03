@@ -31,6 +31,23 @@ class UserService
             return ['success' => false, 'message' => 'User tidak ditemukan.'];
         }
 
+        // Cek jika email berubah
+        if ($input['email'] !== $userLama['email']) {
+            // Validasi: Email tidak boleh duplikat dengan user lain
+            if ($this->userModel->checkEmailExists($input['email'], $userId)) {
+                return ['success' => false, 'message' => 'Email sudah terdaftar oleh pengguna lain. Silakan gunakan email lain.'];
+            }
+
+            // Jika butuh verifikasi (kecuali jika flag email_verified ada)
+            if (!isset($input['email_verified'])) {
+                return [
+                    'success' => false,
+                    'requires_verification' => true,
+                    'new_email' => $input['email']
+                ];
+            }
+        }
+
         $foto = $userLama['foto'];
 
         // 1. Handle Foto Upload

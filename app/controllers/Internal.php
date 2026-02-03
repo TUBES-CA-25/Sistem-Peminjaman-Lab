@@ -414,16 +414,95 @@ class Internal extends Controller
 
         $result = $this->userService->updateProfile($userId, $input, $files);
 
+        // Update session & flash if success
         if ($result['success']) {
             if (isset($result['data']['nama'])) {
                 $_SESSION['nama'] = $result['data']['nama']; // Update session nama
             }
             Flasher::setFlash('Berhasil', $result['message'], 'success');
-        } else {
+        } else if (empty($result['requires_verification'])) {
             Flasher::setFlash('Gagal', $result['message'], 'danger');
         }
 
+        // Jika dipanggil via AJAX
+        if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest') {
+            header('Content-Type: application/json');
+            echo json_encode($result);
+            exit;
+        }
+
         header('Location: ' . BASE_URL . '/internal/profile');
+        exit;
+    }
+
+    public function requestEmailVerification()
+    {
+        header('Content-Type: application/json');
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            echo json_encode(['success' => false, 'message' => 'Invalid request']);
+            exit;
+        }
+
+        $newEmail = $_POST['email'] ?? '';
+        $userId = $_SESSION['user_id'];
+        $user = $this->model('UserModel')->getUserById($userId);
+
+        if (empty($newEmail)) {
+            echo json_encode(['success' => false, 'message' => 'Email baru wajib diisi']);
+            exit;
+        }
+
+        $verificationService = $this->service('EmailVerificationService');
+        if ($verificationService->sendVerificationCode($userId, $newEmail, $user['nama'])) {
+            echo json_encode(['success' => true, 'message' => 'Kode verifikasi telah dikirim ke ' . $newEmail]);
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Gagal mengirim email verifikasi']);
+        }
+        exit;
+    }
+
+    public function verifyEmailChange()
+    {
+        header('Content-Type: application/json');
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            echo json_encode(['success' => false, 'message' => 'Invalid request']);
+            exit;
+        }
+
+        $code = $_POST['otp'] ?? '';
+        $userId = $_SESSION['user_id'];
+
+        $verificationService = $this->service('EmailVerificationService');
+        $newEmail = $verificationService->verifyCode($userId, $code);
+
+        if ($newEmail) {
+            // Ambil data user lama dari model untuk melengkapi input updateProfile
+            $userModel = $this->model('UserModel');
+            $user = $userModel->getUserById($userId);
+
+            // Setelah kode valid, panggil update profil dengan flag verified
+            $input = $_POST;
+            $input['email'] = $newEmail;
+            $input['email_verified'] = true;
+            
+            // Pastikan field wajib ada agar tidak error di UserService
+            if (!isset($input['nama'])) $input['nama'] = $user['nama'];
+            if (!isset($input['telepon'])) $input['telepon'] = $user['telepon'];
+
+            $result = $this->userService->updateProfile($userId, $input, []);
+            
+            // Hapus kode verifikasi HANYA JIKA update berhasil
+            if ($result['success']) {
+                $verificationService->clearVerificationCode($userId);
+                Flasher::setFlash('Berhasil', 'Email Anda telah berhasil diperbarui.', 'success');
+            } else {
+                Flasher::setFlash('Gagal', $result['message'], 'danger');
+            }
+
+            echo json_encode($result);
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Kode verifikasi salah atau sudah kadaluarsa']);
+        }
         exit;
     }
 

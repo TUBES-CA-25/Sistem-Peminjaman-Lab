@@ -1,0 +1,194 @@
+/* Modal Styles */
+.p-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 1050;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 22px;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(4px);
+}
+
+.p-modal.active {
+    display: flex;
+}
+
+.p-modal-card {
+    width: 95%;
+    max-width: 1400px;
+    max-height: 90vh;
+    overflow: auto;
+    background: var(--bg-card);
+    border-radius: 12px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    animation: pSlide 0.18s ease-out;
+    border: 1px solid var(--border-color);
+}
+
+@keyframes pSlide {
+    from {
+        transform: translateY(-12px);
+        opacity: 0.7;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.p-modal-head {
+    padding: 18px 22px;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.p-x {
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 10px;
+    background: transparent;
+    font-size: 28px;
+    line-height: 1;
+    color: #94a3b8;
+    cursor: pointer;
+}
+
+.p-x:hover {
+    background: #f1f5f9;
+    color: #475569;
+}
+
+.p-modal-body {
+    padding: 22px;
+}
+
+.p-form-head {
+    display: flex;
+    gap: 12px;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    margin-bottom: 18px;
+}
+
+.p-date-picker label {
+    display: block;
+    font-size: 14px;
+    font-weight: 900;
+    color: var(--text-main);
+    margin-bottom: 8px;
+}
+
+.p-date-picker input {
+    padding: 10px 14px;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    font-size: 14px;
+    min-width: 180px;
+    outline: none;
+    background-color: var(--bg-body);
+    color: var(--text-main);
+}
+
+.p-date-picker input:focus {
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.12);
+}
+
+.p-type-btn {
+    padding: 10px 16px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    background: #1e3a5f;
+    color: #fff;
+    font-weight: 900;
+    user-select: none;
+}
+
+.p-type-btn:hover {
+    background: #2c5282;
+}
+
+/* SweetAlert2 Light Theme Overrides */
+.swal2-popup {
+    background-color: var(--bg-card) !important;
+    color: var(--text-main) !important;
+    border-radius: 20px !important;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5) !important;
+}
+
+.swal2-title {
+    color: var(--text-main) !important;
+    font-weight: 700 !important;
+}
+
+.swal2-html-container {
+    color: var(--text-muted) !important;
+}
+
+.swal2-icon.swal2-warning {
+    border-color: #fbbf24 !important;
+    color: #fbbf24 !important;
+}
+
+.swal2-actions button {
+    border-radius: 12px !important;
+    padding: 10px 24px !important;
+    font-weight: 600 !important;
+    transition: all 0.3s ease !important;
+}
+
+.swal2-confirm {
+    background-color: #ef4444 !important;
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3) !important;
+}
+
+.swal2-confirm:hover {
+    background-color: #dc2626 !important;
+    transform: translateY(-2px);
+}
+
+.swal2-cancel {
+    background-color: rgba(255, 255, 255, 0.05) !important;
+    color: var(--text-main) !important;
+    border: 1px solid var(--border-color) !important;
+}
+
+.swal2-cancel:hover {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.swal2-icon.swal2-success {
+    border-color: #10b981 !important;
+}
+
+.swal2-icon.swal2-success [class^="swal2-success-line"] {
+    background-color: #10b981 !important;
+}
+
+.swal2-icon.swal2-success .swal2-success-ring {
+    border: 0.25em solid rgba(16, 185, 129, 0.2) !important;
+}
+
+.swal2-icon.swal2-error {
+    border-color: #ef4444 !important;
+}
+
+.swal2-icon.swal2-error [class^="swal2-x-mark-line"] {
+    background-color: #ef4444 !important;
+}
+
+.swal2-footer {
+    border-top: 1px solid var(--border-color) !important;
+    color: var(--text-muted) !important;
+}
+
+.swal2-timer-progress-bar {
+    background: var(--accent-blue) !important;
+}
