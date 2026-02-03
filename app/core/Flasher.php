@@ -12,42 +12,44 @@ class Flasher {
         ];
     }
 
-    // ✅ Method untuk TAMPILKAN pesan - Dengan validasi
+    // ✅ Method untuk TAMPILKAN pesan - Dengan SweetAlert2
     public static function flash()
     {
-        // Cek apakah flash message ada dan valid
         if (isset($_SESSION['flash']) && is_array($_SESSION['flash'])) {
-            
-            // Ambil data dengan default value (untuk menghindari undefined key)
             $tipe = $_SESSION['flash']['tipe'] ?? 'Info';
             $pesan = $_SESSION['flash']['pesan'] ?? '';
             $aksi = $_SESSION['flash']['aksi'] ?? 'info';
             
-            // Skip jika pesan kosong
             if (empty($pesan)) {
                 unset($_SESSION['flash']);
                 return;
             }
 
-            // Tampilkan alert
-            echo '<div class="alert alert-' . htmlspecialchars($aksi) . ' alert-dismissible fade show" role="alert">
-                    <strong>' . htmlspecialchars($tipe) . '</strong> ' . htmlspecialchars($pesan) . '
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                  </div>';
-            
-            // Hapus session setelah ditampilkan
-            unset($_SESSION['flash']);
+            // Map Bootstrap classes to SweetAlert icons
+            $icon = $aksi;
+            if ($aksi === 'danger') $icon = 'error';
+            if ($aksi === 'warning') $icon = 'warning';
+            if ($aksi === 'info') $icon = 'info';
+            if ($aksi === 'success') $icon = 'success';
 
-            // Auto-hide alert setelah 5 detik
-            echo '<script>
-                setTimeout(function() {
-                    var alert = document.querySelector(".alert");
-                    if (alert) { 
-                        var bsAlert = new bootstrap.Alert(alert);
-                        bsAlert.close();
-                    }
-                }, 5000);
-            </script>';
+            echo "<script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    Swal.fire({
+                        title: '" . addslashes($tipe) . "',
+                        text: '" . addslashes($pesan) . "',
+                        icon: '" . $icon . "',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                        background: '#fff',
+                        customClass: {
+                            popup: 'rounded-4 shadow'
+                        }
+                    });
+                });
+            </script>";
+            
+            unset($_SESSION['flash']);
         }
     }
 }

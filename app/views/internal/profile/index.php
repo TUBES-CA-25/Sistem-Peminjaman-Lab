@@ -144,6 +144,9 @@
     </div>
 </div>
 
+<!-- Email Verification Modal -->
+<?php include __DIR__ . '/../../components/email_verification_modal.php'; ?>
+
 <!-- Modal Cropper -->
 <div class="modal fade" id="cropperModal" tabindex="-1" aria-labelledby="cropperModalLabel" aria-hidden="true" data-bs-backdrop="static">
     <div class="modal-dialog modal-lg">

@@ -786,9 +786,9 @@ body {
 }
 
 [data-theme="dark"] .p-slot.eksternal {
-  background: rgba(13, 202, 190, 0.1) !important;
-  border-color: #14b8a6 !important;
-  color: #14b8a6 !important;
+  background: rgba(251, 191, 36, 0.1) !important;
+  border-color: #fbbf24 !important;
+  color: #fbbf24 !important;
 }
 
 /* Jadwal Tergeser - Pink/Red */
@@ -797,6 +797,12 @@ body {
   border-color: #db2777;
   color: #db2777;
   position: relative;
+}
+
+[data-theme="dark"] .p-slot.tergeser {
+  background: rgba(244, 114, 182, 0.1) !important;
+  border-color: #f472b6 !important;
+  color: #f472b6 !important;
 }
 
 [data-theme="dark"] .p-slot.tergeser {
