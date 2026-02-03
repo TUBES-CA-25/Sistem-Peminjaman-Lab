@@ -32,9 +32,9 @@
                                 'telepon' => $item['telepon'],
                                 'kegiatan' => $item['nama_kegiatan'],
                                 'peserta' => $item['jumlah_peserta'],
-                                'mulai' => date('d M Y', strtotime($item['tgl_mulai'])), 
+                                'mulai' => date('d M Y', strtotime($item['tgl_mulai'])),
                                 'selesai' => date('d M Y', strtotime($item['tgl_selesai'])),
-                                'raw_mulai' => $item['tgl_mulai'], 
+                                'raw_mulai' => $item['tgl_mulai'],
                                 'raw_selesai' => $item['tgl_selesai'],
                                 'proposal' => $pathProposal,
                                 'status' => $item['status'],
@@ -53,10 +53,12 @@
                                 <td>
                                     <div class="small">
                                         <div class="mb-1 text-primary fw-bold">
-                                            <i class="bi bi-calendar-check me-2"></i><?= date('d M Y', strtotime($item['tgl_mulai'])); ?>
+                                            <i
+                                                class="bi bi-calendar-check me-2"></i><?= date('d M Y', strtotime($item['tgl_mulai'])); ?>
                                         </div>
                                         <div class="text-danger fw-bold">
-                                            <i class="bi bi-calendar-x me-2"></i><?= date('d M Y', strtotime($item['tgl_selesai'])); ?>
+                                            <i
+                                                class="bi bi-calendar-x me-2"></i><?= date('d M Y', strtotime($item['tgl_selesai'])); ?>
                                         </div>
                                     </div>
                                 </td>
@@ -74,9 +76,16 @@
                                     <?php
                                     $statusSlug = 'status-waiting';
                                     $iconStatus = 'bi-hourglass-split';
-                                    if ($item['status'] == 'Disetujui') { $statusSlug = 'status-approved'; $iconStatus = 'bi-check-circle-fill'; }
-                                    elseif ($item['status'] == 'Ditolak') { $statusSlug = 'status-rejected'; $iconStatus = 'bi-x-circle-fill'; }
-                                    elseif ($item['status'] == 'Menunggu Interview') { $statusSlug = 'status-interview'; $iconStatus = 'bi-mic-fill'; }
+                                    if ($item['status'] == 'Disetujui') {
+                                        $statusSlug = 'status-approved';
+                                        $iconStatus = 'bi-check-circle-fill';
+                                    } elseif ($item['status'] == 'Ditolak') {
+                                        $statusSlug = 'status-rejected';
+                                        $iconStatus = 'bi-x-circle-fill';
+                                    } elseif ($item['status'] == 'Menunggu Interview') {
+                                        $statusSlug = 'status-interview';
+                                        $iconStatus = 'bi-mic-fill';
+                                    }
                                     ?>
                                     <span class="status-pill <?= $statusSlug; ?>">
                                         <i class="bi <?= $iconStatus; ?>"></i> <?= $item['status']; ?>
@@ -84,13 +93,17 @@
                                 </td>
                                 <td class="text-end pe-4">
                                     <div class="btn-group gap-2 justify-content-end" role="group">
-                                        <button class="btn-action btn-view" data-item="<?= $safeJson; ?>" onclick="openDetail(this)" title="Lihat Detail">
+                                        <button class="btn-action btn-view" data-item="<?= $safeJson; ?>"
+                                            onclick="openDetail(this)" title="Lihat Detail">
                                             <i class="bi bi-eye"></i>
                                         </button>
-                                        <button class="btn-action btn-edit" data-item="<?= $safeJson; ?>" onclick="tryEdit(this)" title="Edit Data">
+                                        <button class="btn-action btn-edit" data-item="<?= $safeJson; ?>"
+                                            onclick="tryEdit(this)" title="Edit Data">
                                             <i class="bi bi-pencil-square"></i>
                                         </button>
-                                        <button class="btn-action btn-delete" onclick="tryDelete('<?= $item['id']; ?>', '<?= $item['status']; ?>')" title="Batalkan">
+                                        <button class="btn-action btn-delete"
+                                            onclick="tryDelete('<?= $item['id']; ?>', '<?= $item['status']; ?>')"
+                                            title="Batalkan">
                                             <i class="bi bi-trash"></i>
                                         </button>
                                     </div>
@@ -102,89 +115,98 @@
             </div>
         </div>
     </div>
-<<<<<<< HEAD
+    <<<<<<< HEAD <!-- MOBILE VIEW -->
+        <div class="d-md-none p-mobile-list">
+            <?php foreach ($data['riwayat'] as $item): ?>
+                <?php
+                $pathProposal = BASE_URL . '/public/storage/uploads/proposals/' . $item['file_proposal'];
+                $dataLengkap = [
+                    'id' => $item['id'],
+                    'nama' => $item['nama_lengkap'],
+                    'email' => $item['email'],
+                    'telepon' => $item['telepon'],
+                    'kegiatan' => $item['nama_kegiatan'],
+                    'peserta' => $item['jumlah_peserta'],
+                    'mulai' => date('d M Y', strtotime($item['tgl_mulai'])),
+                    'selesai' => date('d M Y', strtotime($item['tgl_selesai'])),
+                    'raw_mulai' => $item['tgl_mulai'],
+                    'raw_selesai' => $item['tgl_selesai'],
+                    'proposal' => $pathProposal,
+                    'status' => $item['status'],
+                    'alasan' => $item['alasan_penolakan'] ?? '-'
+                ];
+                $safeJson = htmlspecialchars(json_encode($dataLengkap), ENT_QUOTES, 'UTF-8');
+                $statusSlug = 'status-waiting';
+                $iconStatus = 'bi-hourglass-split';
+                if ($item['status'] == 'Disetujui') {
+                    $statusSlug = 'status-approved';
+                    $iconStatus = 'bi-check-circle-fill';
+                } elseif ($item['status'] == 'Ditolak') {
+                    $statusSlug = 'status-rejected';
+                    $iconStatus = 'bi-x-circle-fill';
+                } elseif ($item['status'] == 'Menunggu Interview') {
+                    $statusSlug = 'status-interview';
+                    $iconStatus = 'bi-mic-fill';
+                }
+                ?>
+                <div class="p-mobile-card shadow-sm">
+                    <div class="p-mobile-title"><?= $item['nama_kegiatan']; ?></div>
 
-    <!-- MOBILE VIEW -->
-    <div class="d-md-none p-mobile-list">
-        <?php foreach ($data['riwayat'] as $item): ?>
-            <?php
-            $pathProposal = BASE_URL . '/public/storage/uploads/proposals/' . $item['file_proposal'];
-            $dataLengkap = [
-                'id' => $item['id'],
-                'nama' => $item['nama_lengkap'],
-                'email' => $item['email'],
-                'telepon' => $item['telepon'],
-                'kegiatan' => $item['nama_kegiatan'],
-                'peserta' => $item['jumlah_peserta'],
-                'mulai' => date('d M Y', strtotime($item['tgl_mulai'])), 
-                'selesai' => date('d M Y', strtotime($item['tgl_selesai'])),
-                'raw_mulai' => $item['tgl_mulai'], 
-                'raw_selesai' => $item['tgl_selesai'],
-                'proposal' => $pathProposal,
-                'status' => $item['status'],
-                'alasan' => $item['alasan_penolakan'] ?? '-'
-            ];
-            $safeJson = htmlspecialchars(json_encode($dataLengkap), ENT_QUOTES, 'UTF-8');
-            $statusSlug = 'status-waiting';
-            $iconStatus = 'bi-hourglass-split';
-            if ($item['status'] == 'Disetujui') { $statusSlug = 'status-approved'; $iconStatus = 'bi-check-circle-fill'; }
-            elseif ($item['status'] == 'Ditolak') { $statusSlug = 'status-rejected'; $iconStatus = 'bi-x-circle-fill'; }
-            elseif ($item['status'] == 'Menunggu Interview') { $statusSlug = 'status-interview'; $iconStatus = 'bi-mic-fill'; }
-            ?>
-            <div class="p-mobile-card shadow-sm">
-                <div class="p-mobile-title"><?= $item['nama_kegiatan']; ?></div>
-                
-                <span class="status-pill <?= $statusSlug; ?> mb-3">
-                    <i class="bi <?= $iconStatus; ?> me-1"></i> <?= $item['status']; ?>
-                </span>
-                
-                <div class="p-mobile-info-stack">
-                    <div class="p-mobile-info-item">
-                        <span class="p-mobile-info-label">Peserta</span>
-                        <span class="p-mobile-info-value"><i class="bi bi-people"></i> <?= $item['jumlah_peserta']; ?></span>
+                    <span class="status-pill <?= $statusSlug; ?> mb-3">
+                        <i class="bi <?= $iconStatus; ?> me-1"></i> <?= $item['status']; ?>
+                    </span>
+
+                    <div class="p-mobile-info-stack">
+                        <div class="p-mobile-info-item">
+                            <span class="p-mobile-info-label">Peserta</span>
+                            <span class="p-mobile-info-value"><i class="bi bi-people"></i>
+                                <?= $item['jumlah_peserta']; ?></span>
+                        </div>
+
+                        <div class="p-mobile-info-item">
+                            <span class="p-mobile-info-label">Proposal</span>
+                            <span class="p-mobile-info-value">
+                                <?php if (!empty($item['file_proposal'])): ?>
+                                    <a href="<?= $pathProposal; ?>" target="_blank"
+                                        class="text-danger text-decoration-none d-inline-flex align-items-center gap-2">
+                                        <i class="fas fa-file-pdf"></i> PDF
+                                    </a>
+                                <?php else: ?>
+                                    <span class="text-muted"><i class="bi bi-file-earmark-x"></i> -</span>
+                                <?php endif; ?>
+                            </span>
+                        </div>
+
+                        <div class="p-mobile-info-item">
+                            <span class="p-mobile-info-label text-blue">Mulai</span>
+                            <span class="p-mobile-info-value"><i class="bi bi-calendar-check"></i>
+                                <?= date('d M Y', strtotime($item['tgl_mulai'])); ?></span>
+                        </div>
+
+                        <div class="p-mobile-info-item">
+                            <span class="p-mobile-info-label text-red">Selesai</span>
+                            <span class="p-mobile-info-value"><i class="bi bi-calendar-x"></i>
+                                <?= date('d M Y', strtotime($item['tgl_selesai'])); ?></span>
+                        </div>
                     </div>
-                    
-                    <div class="p-mobile-info-item">
-                        <span class="p-mobile-info-label">Proposal</span>
-                        <span class="p-mobile-info-value">
-                            <?php if (!empty($item['file_proposal'])): ?>
-                                <a href="<?= $pathProposal; ?>" target="_blank" class="text-danger text-decoration-none d-inline-flex align-items-center gap-2">
-                                    <i class="fas fa-file-pdf"></i> PDF
-                                </a>
-                            <?php else: ?>
-                                <span class="text-muted"><i class="bi bi-file-earmark-x"></i> -</span>
-                            <?php endif; ?>
-                        </span>
-                    </div>
-                    
-                    <div class="p-mobile-info-item">
-                        <span class="p-mobile-info-label text-blue">Mulai</span>
-                        <span class="p-mobile-info-value"><i class="bi bi-calendar-check"></i> <?= date('d M Y', strtotime($item['tgl_mulai'])); ?></span>
-                    </div>
-                    
-                    <div class="p-mobile-info-item">
-                        <span class="p-mobile-info-label text-red">Selesai</span>
-                        <span class="p-mobile-info-value"><i class="bi bi-calendar-x"></i> <?= date('d M Y', strtotime($item['tgl_selesai'])); ?></span>
+
+                    <div class="p-mobile-card-footer">
+                        <div class="p-mobile-actions">
+                            <button class="btn-mobile-outline btn-detail-outline" data-item="<?= $safeJson; ?>"
+                                onclick="openDetail(this)">
+                                <i class="bi bi-eye"></i> Detail
+                            </button>
+                            <button class="btn-mobile-outline btn-edit-outline" data-item="<?= $safeJson; ?>"
+                                onclick="tryEdit(this)">
+                                <i class="bi bi-pencil-square"></i> Edit
+                            </button>
+                            <button class="btn-mobile-outline btn-del-outline"
+                                onclick="tryDelete('<?= $item['id']; ?>', '<?= $item['status']; ?>')">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
-
-                <div class="p-mobile-card-footer">
-                    <div class="p-mobile-actions">
-                        <button class="btn-mobile-outline btn-detail-outline" data-item="<?= $safeJson; ?>" onclick="openDetail(this)">
-                            <i class="bi bi-eye"></i> Detail
-                        </button>
-                        <button class="btn-mobile-outline btn-edit-outline" data-item="<?= $safeJson; ?>" onclick="tryEdit(this)">
-                            <i class="bi bi-pencil-square"></i> Edit
-                        </button>
-                        <button class="btn-mobile-outline btn-del-outline" onclick="tryDelete('<?= $item['id']; ?>', '<?= $item['status']; ?>')">
-                            <i class="bi bi-trash"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        <?php endforeach; ?>
-    </div>
-<?php endif; ?>
-=======
-<?php endif; ?>
->>>>>>> d9fee9a7619f22479d20ef2d9b49206f55029bb6
+            <?php endforeach; ?>
+        </div>
+    <?php endif; ?>
