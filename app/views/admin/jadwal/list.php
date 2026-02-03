@@ -4,9 +4,9 @@
 
 <!-- TABLE SECTION -->
 <div class="card border-0 shadow-sm">
-  <div class="card-header border-bottom py-3 d-flex justify-content-between align-items-center">
+  <div class="card-header bg-white border-bottom py-3 d-flex justify-content-between align-items-center">
     <h5 class="mb-0 fw-bold">Daftar Jadwal Praktikum Tetap</h5>
-    <span class="badge bg-secondary-subtle rounded-pill px-3">Total: <?= count($data['schedules']) ?></span>
+    <span class="badge text-dark bg-secondary-subtle rounded-pill px-3">Total: <?= count($data['schedules']) ?></span>
   </div>
   <div class="table-responsive">
     <table class="table table-hover align-middle mb-0" id="jadwalTable">

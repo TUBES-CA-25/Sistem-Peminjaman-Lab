@@ -63,21 +63,17 @@
                                     <i class="fas fa-edit"></i>
                                 </button>
 
-<<<<<<< HEAD
                                 <?php /* 
-               <form action="<?= BASE_URL ?>/user" method="POST"
-                   onsubmit="return confirm('Hapus pengguna ini?');">
-                   <input type="hidden" name="action" value="delete">
-                   <input type="hidden" name="id" value="<?= $u['id'] ?>">
-                   <button type="submit"
-                       class="btn btn-sm btn-danger fw-bold d-flex align-items-center gap-1">
-                       <i class="fas fa-trash"></i> <span class="d-none d-lg-inline">Hapus</span>
-                   </button>
-               </form> 
-               */ ?>
-=======
-
->>>>>>> 12856d23fcda0ca2e7b6339a8e62c71c7f32ee02
+     <form action="<?= BASE_URL ?>/user" method="POST"
+         onsubmit="return confirm('Hapus pengguna ini?');">
+         <input type="hidden" name="action" value="delete">
+         <input type="hidden" name="id" value="<?= $u['id'] ?>">
+         <button type="submit"
+             class="btn btn-sm btn-danger fw-bold d-flex align-items-center gap-1">
+             <i class="fas fa-trash"></i> <span class="d-none d-lg-inline">Hapus</span>
+         </button>
+     </form> 
+     */ ?>
                                 <button type="button" onclick="hapusUser(<?= $u['id'] ?>)" class="btn-icon btn-delete">
                                     <i class="fas fa-trash"></i>
                                 </button>

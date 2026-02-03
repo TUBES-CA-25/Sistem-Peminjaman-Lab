@@ -1,6 +1,5 @@
 :root {
     /* Light Mode (Default) */
-<<<<<<< HEAD
     --bg-body: #F8FAFC;
     --bg-navbar: #FFFFFF;
     --bg-card: #FFFFFF;
@@ -35,15 +34,4 @@ button,
 .modal-content,
 .card-header {
     transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
-=======
-    --bg-body: #f8fafc;
-    --bg-navbar: #ffffff;
-    --bg-card: #ffffff;
-    --bg-sidebar: #ffffff;
-    --text-main: #1e293b;
-    --text-muted: #64748b;
-    --border-color: #e2e8f0;
-    --navbar-brand: #122e4f;
-    --accent-blue: #1f45ac;
->>>>>>> 12856d23fcda0ca2e7b6339a8e62c71c7f32ee02
 }
