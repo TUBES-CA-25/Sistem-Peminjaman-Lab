@@ -1,0 +1,13 @@
+/* Custom Components & Utilities */
+.bg-gradient-primary-custom {
+    background: linear-gradient(135deg, #122e4f 0%, #1f45ac 100%);
+}
+
+/* Info Row for Modals/Cards */
+.info-row {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05) !important;
+}
+
+.modal-body .info-row:last-of-type {
+    border-bottom: none !important;
+}
