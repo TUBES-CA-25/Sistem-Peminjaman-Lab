@@ -15,10 +15,7 @@
 
     <!-- Admin CSS (shared styling) -->
     <!-- Global Admin CSS (Shared) -->
-    <link rel="stylesheet" href="<?= BASE_URL ?>/public/css/admin/variables.css?v=<?= time() ?>">
-    <link rel="stylesheet" href="<?= BASE_URL ?>/public/css/admin/layout.css?v=<?= time() ?>">
-    <link rel="stylesheet" href="<?= BASE_URL ?>/public/css/admin/components.css?v=<?= time() ?>">
-    <link rel="stylesheet" href="<?= BASE_URL ?>/public/css/admin/peminjaman.css?v=<?= time() ?>">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/public/css/admin-style.css?v=<?= time() ?>">
     <!-- Internal specific CSS -->
     <link rel="stylesheet" href="<?= BASE_URL ?>/public/css/internal-booking.css?v=<?= time() ?>">
     <!-- SweetAlert2 -->

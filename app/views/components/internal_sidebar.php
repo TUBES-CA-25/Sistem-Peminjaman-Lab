@@ -42,11 +42,7 @@
             </li>
         </ul>
 
-<<<<<<< HEAD
         <div class="sidebar-header" style="margin-top: 2rem;">PROFIL</div>
-=======
-        <div class="sidebar-header" style="margin-top: 2rem;">Profil</div>
->>>>>>> 12856d23fcda0ca2e7b6339a8e62c71c7f32ee02
 
         <ul class="sidebar-menu">
             <li class="sidebar-item">
@@ -56,11 +52,11 @@
                     <span>Profil Saya</span>
                 </a>
             </li>
-            
+
             <!-- Logout (Mobile only) -->
-            <li class="sidebar-item d-md-none" style="margin-top: 2rem; border-top: 1px solid #e5e7eb; padding-top: 1rem;">
-                <a href="<?= BASE_URL ?>/auth/logout"
-                    class="sidebar-link" style="color: #ef4444;">
+            <li class="sidebar-item d-md-none"
+                style="margin-top: 2rem; border-top: 1px solid #e5e7eb; padding-top: 1rem;">
+                <a href="<?= BASE_URL ?>/auth/logout" class="sidebar-link" style="color: #ef4444;">
                     <i class="fas fa-sign-out-alt sidebar-icon" style="color: #ef4444;"></i>
                     <span>Logout</span>
                 </a>
