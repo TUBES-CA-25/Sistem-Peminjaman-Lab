@@ -250,6 +250,8 @@
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
     <script>
         document.querySelector('form').addEventListener('submit', function () {
             const btn = document.getElementById('btnLogin');
