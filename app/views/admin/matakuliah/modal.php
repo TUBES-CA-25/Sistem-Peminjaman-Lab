@@ -34,7 +34,7 @@
                         </div>
                         <div class="col-md-6 mb-3">
                             <label for="sks" class="form-label">SKS</label>
-                            <input type="number" class="form-control" id="sks" name="sks" required>
+                            <input type="number" class="form-control" id="sks" name="sks" required min="1">
                         </div>
                     </div>
                     <div class="mb-3">
@@ -94,7 +94,7 @@
                         </div>
                         <div class="col-md-6 mb-3">
                             <label for="edit_sks" class="form-label">SKS</label>
-                            <input type="number" class="form-control" id="edit_sks" name="sks" required>
+                            <input type="number" class="form-control" id="edit_sks" name="sks" required min="1">
                         </div>
                     </div>
                     <div class="mb-3">

@@ -102,6 +102,7 @@
             </div>
         </div>
     </div>
+<<<<<<< HEAD
 
     <!-- MOBILE VIEW -->
     <div class="d-md-none p-mobile-list">
@@ -184,3 +185,6 @@
         <?php endforeach; ?>
     </div>
 <?php endif; ?>
+=======
+<?php endif; ?>
+>>>>>>> d9fee9a7619f22479d20ef2d9b49206f55029bb6
