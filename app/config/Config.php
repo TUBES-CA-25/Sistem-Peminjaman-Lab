@@ -38,7 +38,6 @@ $envPath = __DIR__ . '/../../.env';
 loadEnv($envPath);
 
 // Database Configuration
-// Database Configuration
 define('DB_HOST', getenv('DB_HOST') ?: 'localhost');
 define('DB_PORT', getenv('DB_PORT') ?: '3306');
 define('DB_USER', getenv('DB_USER') ?: 'root');
@@ -49,7 +48,7 @@ define('DB_NAME', getenv('DB_NAME') ?: 'tubes_ca_db');
 define('BASE_URL', 'http://localhost/Sistem-Peminjaman-Lab');
 
 // Email Configuration Validation
-$requiredEnvVars = ['SMTP_HOST', 'SMTP_PORT', 'SMTP_USERNAME', 'SMTP_PASSWORD', 'SMTP_FROM_EMAIL', 'SMTP_FROM_NAME'];
+$requiredEnvVars = ['SMTP_HOST', 'SMTP_PORT', 'SMTP_USERNAME', 'SMTP_PASSWORD', 'SMTP_FROM_EMAIL', 'SMTP_FROM_NAME', 'FONNTE_TOKEN', 'WA_ADMIN'];
 $missingVars = [];
 
 foreach ($requiredEnvVars as $var) {
