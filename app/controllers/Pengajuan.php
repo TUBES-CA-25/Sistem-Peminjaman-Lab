@@ -28,11 +28,10 @@ class Pengajuan extends Controller
         $data['active_page'] = 'pengajuan';
 
         // Load View Admin
-        // Pastikan Anda sudah punya admin_sidebar, admin_navbar, dll
         $this->view('components/admin_head', $data);
         $this->view('components/admin_navbar', $data);
         $this->view('components/admin_sidebar', $data);
-        $this->view('admin/pengajuan/index', $data); // Ini memuat folder views/admin/pengajuan/
+        $this->view('admin/pengajuan/index', $data);
         $this->view('components/admin_footer');
     }
 
@@ -50,7 +49,6 @@ class Pengajuan extends Controller
 
             // --- [LANGKAH 1] AMBIL DATA USER DULU ---
             // Kita butuh Nomor HP & Nama user yang mengajukan untuk kirim WA
-            // Pastikan method getById ada di Model Anda
             $dataLama = $this->model('PengajuanModel')->getById($_POST['id']);
 
             // Cek apakah data ditemukan
@@ -73,7 +71,7 @@ class Pengajuan extends Controller
             if ($this->model('PengajuanModel')->updatePengajuanAdmin($data) > 0) {
 
                 // --- [LANGKAH 2] LOGIKA PESAN WA DINAMIS ---
-                $nomorUser = $dataLama['telepon']; // Pastikan kolom di DB bernama 'telepon'
+                $nomorUser = $dataLama['telepon'];
                 $namaUser = $dataLama['nama_lengkap'];
                 $kegiatan = $dataLama['nama_kegiatan'];
                 $statusBaru = $_POST['status'];
@@ -182,9 +180,6 @@ class Pengajuan extends Controller
         exit;
     }
 
-
-
-
     // FITUR EXPORT KE EXCEL (.XLS)
     public function export()
     {
@@ -201,7 +196,6 @@ class Pengajuan extends Controller
         header("Expires: 0");
 
         // 4. Mulai Output HTML Table
-        // Tambahkan styling CSS inline agar rapi di Excel
         ?>
         <!DOCTYPE html>
         <html>
@@ -261,9 +255,9 @@ class Pengajuan extends Controller
                         // Logic Warna Status Sederhana
                         $bgStatus = '';
                         if ($row['status'] == 'Disetujui')
-                            $bgStatus = '#d1e7dd'; // Hijau muda
+                            $bgStatus = '#d1e7dd';
                         elseif ($row['status'] == 'Ditolak')
-                            $bgStatus = '#f8d7da'; // Merah muda
+                            $bgStatus = '#f8d7da';
                         ?>
                         <tr>
                             <td class="text-center"><?= $no++; ?></td>

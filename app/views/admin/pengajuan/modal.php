@@ -141,7 +141,7 @@
                     <hr class="border-secondary-subtle mb-4">
 
                     <!-- Jadwal -->
-                    <div class="row mb-4">
+                    <div class="row mb-2">
                         <div class="col-md-6">
                             <label class="form-label fw-bold small text-uppercase">
                                 Tanggal Mulai
@@ -153,6 +153,11 @@
                                 Tanggal Selesai
                             </label>
                             <input type="date" class="form-control" name="tgl_selesai" id="edit_selesai" required>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <div class="form-text small text-muted">
+                            <i class="bi bi-info-circle me-1"></i> Tanggal hanya bisa diubah jika status <strong>Disetujui</strong>.
                         </div>
                     </div>
 
