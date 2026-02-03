@@ -80,10 +80,10 @@ class External extends Controller
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             
-            // Validasi Tanggal (Server-side)
-            $today = date('Y-m-d');
-            if ($_POST['tgl_mulai'] < $today) {
-                Flasher::setFlash('Gagal!', 'Tanggal mulai tidak boleh sudah lewat.', 'danger');
+            // Validasi Tanggal (Server-side) - Minimal H-1
+            $tomorrow = date('Y-m-d', strtotime('+1 day'));
+            if ($_POST['tgl_mulai'] < $tomorrow) {
+                Flasher::setFlash('Gagal!', 'Pengajuan minimal dilakukan H-1 (satu hari sebelum kegiatan).', 'danger');
                 header('Location: ' . BASE_URL . '/external');
                 exit;
             }
@@ -145,10 +145,10 @@ class External extends Controller
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             
-            // Validasi Tanggal (Server-side)
-            $today = date('Y-m-d');
-            if ($_POST['tgl_mulai'] < $today) {
-                Flasher::setFlash('Gagal!', 'Tanggal mulai tidak boleh sudah lewat.', 'danger');
+            // Validasi Tanggal (Server-side) - Minimal H-1
+            $tomorrow = date('Y-m-d', strtotime('+1 day'));
+            if ($_POST['tgl_mulai'] < $tomorrow) {
+                Flasher::setFlash('Gagal!', 'Pengajuan minimal dilakukan H-1 (satu hari sebelum kegiatan).', 'danger');
                 header('Location: ' . BASE_URL . '/external');
                 exit;
             }

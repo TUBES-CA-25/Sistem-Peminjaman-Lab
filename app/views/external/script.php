@@ -20,12 +20,16 @@
 
         // Target elemen input tanggal
         const dateInputs = ['add_mulai', 'add_selesai', 'edit_mulai', 'edit_selesai'];
-        const today = new Date().toISOString().split('T')[0];
+        
+        // H-1 Restriction: Minimal tanggal adalah besok
+        const tomorrowDate = new Date();
+        tomorrowDate.setDate(tomorrowDate.getDate() + 1);
+        const minDate = tomorrowDate.toISOString().split('T')[0];
 
         dateInputs.forEach(id => {
             const el = document.getElementById(id);
             if (el) {
-                el.setAttribute('min', today);
+                el.setAttribute('min', minDate);
                 
                 // Event listener untuk memastikan tgl_selesai >= tgl_mulai
                 el.addEventListener('change', function() {
@@ -53,9 +57,9 @@
                     const mulaiVal = document.getElementById(prefix + '_mulai').value;
                     const selesaiVal = document.getElementById(prefix + '_selesai').value;
 
-                    if (mulaiVal < today) {
+                    if (mulaiVal < minDate) {
                         e.preventDefault();
-                        alert('Tanggal mulai tidak boleh tanggal yang sudah lewat!');
+                        alert('Pengajuan minimal dilakukan H-1 (satu hari sebelum kegiatan)!');
                         return false;
                     }
                     if (selesaiVal < mulaiVal) {
