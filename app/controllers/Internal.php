@@ -162,6 +162,37 @@ class Internal extends Controller
             return;
         }
 
+        // Validasi Jam Operasional
+        $startCheck = substr($input['jam_mulai'], 0, 5);
+        $endCheck = substr($input['jam_selesai'], 0, 5);
+
+        if ($startCheck < self::JAM_BUKA_LAB || $endCheck > self::JAM_TUTUP_LAB) {
+            echo json_encode([
+                'success' => false,
+                'message' => 'Peminjaman hanya diperbolehkan pada jam operasional (' . self::JAM_BUKA_LAB . ' - ' . self::JAM_TUTUP_LAB . ').'
+            ]);
+            return;
+        }
+
+        // Cek Konflik dengan Jadwal Tetap (Praktikum)
+        $scheduleConflict = $this->bookingService->checkScheduleConflict(
+            $peminjaman['lab_id'],
+            $input['tanggal'],
+            $input['jam_mulai'],
+            $input['jam_selesai']
+        );
+
+        if ($scheduleConflict) {
+            echo json_encode(['success' => false, 'message' => $scheduleConflict]);
+            return;
+        }
+
+        // Cek Konflik dengan Peminjaman Lain (exclude current booking)
+        if ($this->bookingService->checkBookingConflict($peminjaman['lab_id'], $input['tanggal'], $input['jam_mulai'], $input['jam_selesai'], $input['id'])) {
+            echo json_encode(['success' => false, 'message' => 'Waktu yang dipilih sudah dibooking oleh user lain']);
+            return;
+        }
+
         $result = $this->bookingService->updateBooking($input['id'], [
             'lab_id' => $peminjaman['lab_id'],
             'tanggal' => $input['tanggal'],
