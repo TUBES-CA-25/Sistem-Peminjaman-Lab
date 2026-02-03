@@ -24,9 +24,34 @@ document.addEventListener("DOMContentLoaded", function() {
         email: document.getElementById('originalEmail') ? document.getElementById('originalEmail').value : ''
     };
 
-    // ----------------------------------------------------
-    // VISUAL STATE MANAGEMENT (Edit vs View Mode)
-    // ----------------------------------------------------
+    // Validasi Input Nama (Hanya Huruf & Karakter tertentu, wajib diawali huruf)
+    const inputNama = document.getElementById('inputNama');
+    if (inputNama) {
+        inputNama.addEventListener('input', function(e) {
+            // 1. Hapus karakter yang dilarang (izinkan huruf, spasi, ', ., -, dan koma)
+            let val = this.value.replace(/[^a-zA-Z\s'.,-]/g, '');
+            
+            // 2. Wajib diawali huruf (hapus karakter non-huruf di awal)
+            val = val.replace(/^[^a-zA-Z]+/, '');
+            
+            this.value = val;
+        });
+        // Beri tooltip validasi HTML5: Diawali huruf (A-Z/a-z) diikuti karakter yang diizinkan
+        inputNama.setAttribute('pattern', "[A-Za-z][A-Za-z\\s'\\.\\,\\-]*");
+        inputNama.setAttribute('title', "Nama harus diawali dengan huruf. Karakter selanjutnya boleh huruf, spasi, tanda petik satu ('), titik (.), tanda hubung (-), atau koma (,).");
+    }
+
+    // Validasi Input Telepon (Hanya Angka)
+    const inputTelepon = document.getElementById('inputTelepon');
+    if (inputTelepon) {
+        inputTelepon.addEventListener('input', function(e) {
+            // Hapus semua karakter selain angka dan batasi maksimal 13 digit
+            this.value = this.value.replace(/[^0-9]/g, '').slice(0, 13);
+        });
+        // Tambahkan tooltip validasi HTML5
+        inputTelepon.setAttribute('pattern', "[0-9]{8,13}");
+        inputTelepon.setAttribute('title', "Masukkan nomor telepon dalam angka (0-9), maksimal 13 digit.");
+    }
 
     // Masuk ke MODE EDIT
     if (btnEdit) {
@@ -182,7 +207,12 @@ document.addEventListener("DOMContentLoaded", function() {
                         if(cropperModal) cropperModal.hide(); // Tutup modal
                     } catch (e) {
                         console.error(e);
-                        alert('Gagal memproses gambar. Silakan coba lagi.');
+                        Swal.fire({
+                            title: 'Gagal',
+                            text: 'Gagal memproses gambar. Silakan coba lagi.',
+                            icon: 'error',
+                            confirmButtonColor: '#1e3a8a'
+                        });
                     } finally {
                         // Reset tombol
                         btn.disabled = false;
@@ -195,14 +225,27 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     // ----------------------------------------------------
-    // FORM SUBMIT HANDLER
+    // FORM SUBMIT HANDLER (AJAX)
     // ----------------------------------------------------
     const formProfile = document.getElementById('formProfile');
     const btnSubmit = document.getElementById('btnSubmitProfile');
+    const emailVerificationModal = new bootstrap.Modal(document.getElementById('modalVerifikasiEmail'));
     
+    function resetSubmitButton() {
+        const icon = btnSubmit.querySelector('.icon-default');
+        const spinner = btnSubmit.querySelector('.spinner-border');
+        const btnText = btnSubmit.querySelector('.btn-text');
+        
+        btnSubmit.disabled = false;
+        if (icon) icon.classList.remove('d-none');
+        if (spinner) spinner.classList.add('d-none');
+        if (btnText) btnText.textContent = 'Simpan Perubahan';
+    }
+
     if (formProfile && btnSubmit) {
-        formProfile.addEventListener('submit', function() {
-            // Tampilkan loading spinner pada tombol simpan
+        formProfile.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
             const icon = btnSubmit.querySelector('.icon-default');
             const spinner = btnSubmit.querySelector('.spinner-border');
             const btnText = btnSubmit.querySelector('.btn-text');
@@ -210,7 +253,144 @@ document.addEventListener("DOMContentLoaded", function() {
             btnSubmit.disabled = true;
             if (icon) icon.classList.add('d-none');
             if (spinner) spinner.classList.remove('d-none');
-            if (btnText) btnText.textContent = 'Menyimpan...';
+            if (btnText) btnText.textContent = 'Memproses...';
+
+            const formData = new FormData(formProfile);
+            
+            // Sertakan header X-Requested-With agar controller tahu ini AJAX
+            fetch(formProfile.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.requires_verification) {
+                    requestVerification(data.new_email);
+                } else if (data.success) {
+                    location.reload();
+                } else {
+                    Swal.fire({
+                        title: 'Gagal',
+                        text: data.message || 'Terjadi kesalahan sistem',
+                        icon: 'error',
+                        confirmButtonColor: '#1e3a8a'
+                    });
+                    resetSubmitButton();
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                Swal.fire({
+                    title: 'Kesalahan',
+                    text: 'Terjadi kesalahan koneksi ke server',
+                    icon: 'error',
+                    confirmButtonColor: '#1e3a8a'
+                });
+                resetSubmitButton();
+            });
+        });
+    }
+
+    function requestVerification(email) {
+        const formData = new FormData();
+        formData.append('email', email);
+
+        fetch('<?= BASE_URL; ?>/internal/requestEmailVerification', {
+            method: 'POST',
+            body: formData
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                emailVerificationModal.show();
+                resetSubmitButton();
+            } else {
+                Swal.fire({
+                    title: 'Gagal',
+                    text: data.message,
+                    icon: 'error',
+                    confirmButtonColor: '#1e3a8a'
+                });
+                resetSubmitButton();
+            }
+        });
+    }
+
+    // Handle OTP Confirmation
+    const formVerifikasi = document.getElementById('formVerifikasiEmail');
+    if (formVerifikasi) {
+        formVerifikasi.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const btn = document.getElementById('btnConfirmEmailChange');
+            const spinner = btn.querySelector('.spinner-border');
+            const btnText = btn.querySelector('.btn-text');
+            const otpCode = document.getElementById('fullOtpCode').value;
+
+            if (!otpCode || otpCode.length < 6) {
+                Swal.fire({
+                    title: 'Peringatan',
+                    text: 'Masukkan 6 digit kode verifikasi dengan lengkap',
+                    icon: 'warning',
+                    confirmButtonColor: '#1e3a8a'
+                });
+                return;
+            }
+
+            btn.disabled = true;
+            if (spinner) spinner.classList.remove('d-none');
+            
+            const formData = new FormData();
+            formData.append('otp', otpCode);
+
+            fetch('<?= BASE_URL; ?>/internal/verifyEmailChange', {
+                method: 'POST',
+                body: formData
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    location.reload();
+                } else {
+                    Swal.fire({
+                        title: 'Kode Salah',
+                        text: data.message,
+                        icon: 'error',
+                        confirmButtonColor: '#1e3a8a'
+                    });
+                    btn.disabled = false;
+                    if (spinner) spinner.classList.add('d-none');
+                }
+            })
+            .catch(err => {
+                Swal.fire({
+                    title: 'Gagal',
+                    text: 'Konfirmasi gagal, silakan coba lagi',
+                    icon: 'error',
+                    confirmButtonColor: '#1e3a8a'
+                });
+                btn.disabled = false;
+                if (spinner) spinner.classList.add('d-none');
+            });
+        });
+    }
+
+    // Handle Resend
+    const resendBtn = document.getElementById('btnResendEmailToken');
+    if (resendBtn) {
+        resendBtn.addEventListener('click', function() {
+            const email = document.getElementById('inputEmail').value;
+            requestVerification(email);
+            Swal.fire({
+                title: 'Terkirim!',
+                text: 'Kode baru sedang dikirim ke email Anda',
+                icon: 'info',
+                timer: 2000,
+                showConfirmButton: false
+            });
         });
     }
 });

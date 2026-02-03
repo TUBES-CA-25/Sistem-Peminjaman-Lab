@@ -146,4 +146,68 @@ class Mailer
         </body>
         </html>";
     }
+
+    public function sendEmailChangeCode($toEmail, $toName, $otp)
+    {
+        try {
+            $mail = new PHPMailer(true);
+
+            $mail->isSMTP();
+            $mail->Host = getenv('SMTP_HOST');
+            $mail->SMTPAuth = true;
+            $mail->Username = getenv('SMTP_USERNAME');
+            $mail->Password = getenv('SMTP_PASSWORD');
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+            $mail->Port = getenv('SMTP_PORT');
+
+            $mail->setFrom(getenv('SMTP_FROM_EMAIL'), getenv('SMTP_FROM_NAME'));
+            $mail->addAddress($toEmail, $toName);
+
+            $mail->isHTML(true);
+            $mail->Subject = 'Verifikasi Perubahan Email - ICLABS';
+            $mail->Body = $this->getEmailChangeTemplate($toName, $otp);
+            $mail->AltBody = "Halo $toName, kode verifikasi perubahan email Anda adalah: $otp";
+
+            $mail->send();
+            return true;
+        } catch (Exception $e) {
+            error_log("Email Change Mail Error: " . $mail->ErrorInfo);
+            return false;
+        }
+    }
+
+    private function getEmailChangeTemplate($nama, $otp)
+    {
+        return "
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset='UTF-8'>
+            <style>
+                body { font-family: 'Inter', sans-serif; background-color: #f8fafc; margin: 0; padding: 0; }
+                .container { max-width: 600px; margin: 40px auto; background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+                .header { background: linear-gradient(135deg, #1e3a8a, #d63384); color: white; padding: 40px 20px; text-align: center; }
+                .content { padding: 40px; text-align: center; color: #334155; }
+                .otp-box { background: #fdf2f8; padding: 20px; border-radius: 12px; font-size: 32px; font-weight: bold; letter-spacing: 12px; color: #be185d; margin: 30px 0; border: 2px dashed #f9a8d4; }
+                .footer { background: #f8fafc; padding: 20px; text-align: center; color: #64748b; font-size: 12px; border-top: 1px solid #e2e8f0; }
+            </style>
+        </head>
+        <body>
+            <div class='container'>
+                <div class='header'>
+                    <h1 style='margin:0;'>📧 Verifikasi Email Baru</h1>
+                </div>
+                <div class='content'>
+                    <p>Halo <strong>$nama</strong>,</p>
+                    <p>Kami menerima permintaan untuk mengubah alamat email akun Anda. Silakan masukkan kode verifikasi berikut untuk mengonfirmasi email baru ini:</p>
+                    <div class='otp-box'>$otp</div>
+                    <p style='font-size: 14px; color: #64748b;'>Kode ini berlaku selama 15 menit. Jika Anda tidak merasa melakukan perubahan ini, abaikan email ini dan segera amankan akun Anda.</p>
+                </div>
+                <div class='footer'>
+                    <p>&copy; 2026 Tim ICLABS. All Rights Reserved.</p>
+                </div>
+            </div>
+        </body>
+        </html>";
+    }
 }

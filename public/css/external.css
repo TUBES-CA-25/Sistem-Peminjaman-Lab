@@ -1093,15 +1093,8 @@ nav.navbar.navbar-expand.fixed-top {
 
 .profile-header-info {
     flex: 1;
+    padding-top: 85px;
     padding-bottom: 10px;
-}
-
-.profile-name {
-    font-size: 28px;
-    font-weight: 800;
-    color: var(--text-main);
-    margin: 0 0 10px 0;
-    letter-spacing: -0.5px;
 }
 
 .profile-email, .profile-member-since {
@@ -1456,6 +1449,8 @@ nav.navbar.navbar-expand.fixed-top {
   font-size: 1.4rem;
   letter-spacing: -0.5px;
   margin-bottom: 12px;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 .p-mobile-info-stack {
@@ -1489,6 +1484,8 @@ nav.navbar.navbar-expand.fixed-top {
     display: flex;
     align-items: center;
     gap: 8px;
+    word-break: break-word;
+    overflow-wrap: break-word;
 }
 
 .p-mobile-info-value i {
@@ -1503,6 +1500,7 @@ nav.navbar.navbar-expand.fixed-top {
 
 .p-mobile-actions {
     display: flex;
+    flex-wrap: wrap;
     gap: 10px;
     width: 100%;
 }
@@ -1699,6 +1697,10 @@ nav.navbar.navbar-expand.fixed-top {
         align-items: center !important;
         text-align: center !important;
         margin-top: -60px !important;
+    }
+
+    .profile-header-info {
+        padding-top: 65px !important;
     }
 
     .profile-email, .profile-member-since {
