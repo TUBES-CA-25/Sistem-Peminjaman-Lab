@@ -157,7 +157,7 @@
                     </div>
                     <div class="mb-4">
                         <div class="form-text small text-muted">
-                            <i class="bi bi-info-circle me-1"></i> Tanggal hanya bisa diubah jika status <strong>Disetujui</strong>.
+                            <i class="bi bi-info-circle me-1"></i> Tanggal hanya bisa diubah jika status <strong>Disetujui</strong> (Minimal H-1).
                         </div>
                     </div>
 

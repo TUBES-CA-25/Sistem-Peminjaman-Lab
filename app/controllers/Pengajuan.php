@@ -58,6 +58,21 @@ class Pengajuan extends Controller
                 exit;
             }
 
+            // Validasi Jadwal (Minimal H-1 jika disetujui)
+            if ($_POST['status'] == 'Disetujui') {
+                $tomorrow = date('Y-m-d', strtotime('+1 day'));
+                if ($_POST['tgl_mulai'] < $tomorrow) {
+                    Flasher::setFlash('Gagal!', 'Jadwal minimal dilakukan H-1 (satu hari sebelum kegiatan).', 'danger');
+                    header('Location: ' . BASE_URL . '/pengajuan');
+                    exit;
+                }
+                if ($_POST['tgl_selesai'] < $_POST['tgl_mulai']) {
+                    Flasher::setFlash('Gagal!', 'Tanggal selesai tidak boleh mendahului tanggal mulai.', 'danger');
+                    header('Location: ' . BASE_URL . '/pengajuan');
+                    exit;
+                }
+            }
+
             // Tangkap Data dari Form Admin
             $data = [
                 'id' => $_POST['id'],
