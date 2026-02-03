@@ -414,20 +414,21 @@ class Internal extends Controller
 
         $result = $this->userService->updateProfile($userId, $input, $files);
 
-        // Jika dipanggil via AJAX
-        if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest') {
-            header('Content-Type: application/json');
-            echo json_encode($result);
-            exit;
-        }
-
+        // Update session & flash if success
         if ($result['success']) {
             if (isset($result['data']['nama'])) {
                 $_SESSION['nama'] = $result['data']['nama']; // Update session nama
             }
             Flasher::setFlash('Berhasil', $result['message'], 'success');
-        } else {
+        } else if (empty($result['requires_verification'])) {
             Flasher::setFlash('Gagal', $result['message'], 'danger');
+        }
+
+        // Jika dipanggil via AJAX
+        if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest') {
+            header('Content-Type: application/json');
+            echo json_encode($result);
+            exit;
         }
 
         header('Location: ' . BASE_URL . '/internal/profile');
@@ -493,6 +494,9 @@ class Internal extends Controller
             // Hapus kode verifikasi HANYA JIKA update berhasil
             if ($result['success']) {
                 $verificationService->clearVerificationCode($userId);
+                Flasher::setFlash('Berhasil', 'Email Anda telah berhasil diperbarui.', 'success');
+            } else {
+                Flasher::setFlash('Gagal', $result['message'], 'danger');
             }
 
             echo json_encode($result);
