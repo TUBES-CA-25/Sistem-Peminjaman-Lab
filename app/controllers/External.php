@@ -79,6 +79,19 @@ class External extends Controller
     public function prosesPinjam()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            
+            // Validasi Tanggal (Server-side)
+            $today = date('Y-m-d');
+            if ($_POST['tgl_mulai'] < $today) {
+                Flasher::setFlash('Gagal!', 'Tanggal mulai tidak boleh sudah lewat.', 'danger');
+                header('Location: ' . BASE_URL . '/external');
+                exit;
+            }
+            if ($_POST['tgl_selesai'] < $_POST['tgl_mulai']) {
+                Flasher::setFlash('Gagal!', 'Tanggal selesai tidak boleh mendahului tanggal mulai.', 'danger');
+                header('Location: ' . BASE_URL . '/external');
+                exit;
+            }
 
             // 1. Handle File Upload
             $file_proposal = $this->uploadFile($_FILES['proposal']);
@@ -131,6 +144,19 @@ class External extends Controller
     public function updatePinjam()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            
+            // Validasi Tanggal (Server-side)
+            $today = date('Y-m-d');
+            if ($_POST['tgl_mulai'] < $today) {
+                Flasher::setFlash('Gagal!', 'Tanggal mulai tidak boleh sudah lewat.', 'danger');
+                header('Location: ' . BASE_URL . '/external');
+                exit;
+            }
+            if ($_POST['tgl_selesai'] < $_POST['tgl_mulai']) {
+                Flasher::setFlash('Gagal!', 'Tanggal selesai tidak boleh mendahului tanggal mulai.', 'danger');
+                header('Location: ' . BASE_URL . '/external');
+                exit;
+            }
             $data = [
                 'id' => $_POST['id'],
                 'nama_kegiatan' => $_POST['nama_kegiatan'],

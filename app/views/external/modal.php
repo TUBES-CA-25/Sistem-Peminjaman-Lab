@@ -55,11 +55,11 @@
                     <div class="row mb-3">
                         <div class="col-md-6">
                             <label class="form-label fw-bold small text-dark">Tanggal Mulai</label>
-                            <input type="date" class="form-control" name="tgl_mulai" required>
+                            <input type="date" class="form-control" name="tgl_mulai" id="add_mulai" required>
                         </div>
                         <div class="col-md-6">
                             <label class="form-label fw-bold small text-dark">Tanggal Selesai</label>
-                            <input type="date" class="form-control" name="tgl_selesai" required>
+                            <input type="date" class="form-control" name="tgl_selesai" id="add_selesai" required>
                         </div>
                     </div>
 

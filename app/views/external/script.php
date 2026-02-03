@@ -18,6 +18,55 @@
         const elRestriction = document.getElementById('modalRestriction');
         const elDelete = document.getElementById('modalDeleteConfirm');
 
+        // Target elemen input tanggal
+        const dateInputs = ['add_mulai', 'add_selesai', 'edit_mulai', 'edit_selesai'];
+        const today = new Date().toISOString().split('T')[0];
+
+        dateInputs.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) {
+                el.setAttribute('min', today);
+                
+                // Event listener untuk memastikan tgl_selesai >= tgl_mulai
+                el.addEventListener('change', function() {
+                    const prefix = id.split('_')[0]; // 'add' atau 'edit'
+                    const mulai = document.getElementById(prefix + '_mulai');
+                    const selesai = document.getElementById(prefix + '_selesai');
+                    
+                    if (mulai && selesai && mulai.value) {
+                        selesai.setAttribute('min', mulai.value);
+                        if (selesai.value && selesai.value < mulai.value) {
+                            selesai.value = mulai.value;
+                        }
+                    }
+                });
+            }
+        });
+
+        // Validasi saat submit form (Double check)
+        const forms = document.querySelectorAll('form');
+        forms.forEach(form => {
+            form.addEventListener('submit', function(e) {
+                const action = form.getAttribute('action');
+                if (action && (action.includes('prosesPinjam') || action.includes('updatePinjam'))) {
+                    const prefix = action.includes('prosesPinjam') ? 'add' : 'edit';
+                    const mulaiVal = document.getElementById(prefix + '_mulai').value;
+                    const selesaiVal = document.getElementById(prefix + '_selesai').value;
+
+                    if (mulaiVal < today) {
+                        e.preventDefault();
+                        alert('Tanggal mulai tidak boleh tanggal yang sudah lewat!');
+                        return false;
+                    }
+                    if (selesaiVal < mulaiVal) {
+                        e.preventDefault();
+                        alert('Tanggal selesai tidak boleh mendahului tanggal mulai!');
+                        return false;
+                    }
+                }
+            });
+        });
+
         // Cek agar tidak error jika elemen belum ter-render
         if (elTambah) {
             modalTambah = new bootstrap.Modal(elTambah);
