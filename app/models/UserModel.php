@@ -242,4 +242,24 @@ class UserModel
 
         return $this->db->rowCount();
     }
+
+    /**
+     * Cek apakah email sudah digunakan oleh user lain.
+     */
+    public function checkEmailExists($email, $excludeUserId = null)
+    {
+        $query = "SELECT COUNT(*) as count FROM " . $this->table . " WHERE email = :email";
+        if ($excludeUserId) {
+            $query .= " AND id != :exclude_id";
+        }
+        
+        $this->db->query($query);
+        $this->db->bind('email', $email);
+        if ($excludeUserId) {
+            $this->db->bind('exclude_id', $excludeUserId);
+        }
+        
+        $result = $this->db->single();
+        return ($result['count'] ?? 0) > 0;
+    }
 }

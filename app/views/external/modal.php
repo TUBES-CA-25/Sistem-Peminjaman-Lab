@@ -186,32 +186,32 @@
 
                     <div class="bg-light p-4 rounded-3 border">
                         <div class="row mb-2 border-bottom pb-2">
-                            <div class="col-4 fw-bold text-secondary">Nama Lengkap</div>
-                            <div class="col-8" id="det_nama"></div>
+                            <div class="col-12 col-sm-4 fw-bold text-secondary">Nama Lengkap</div>
+                            <div class="col-12 col-sm-8 text-break" id="det_nama"></div>
                         </div>
                         <div class="row mb-2 border-bottom pb-2">
-                            <div class="col-4 fw-bold text-secondary">Kegiatan</div>
-                            <div class="col-8" id="det_kegiatan"></div>
+                            <div class="col-12 col-sm-4 fw-bold text-secondary">Kegiatan</div>
+                            <div class="col-12 col-sm-8 text-break" id="det_kegiatan"></div>
                         </div>
                         <div class="row mb-2 border-bottom pb-2">
-                            <div class="col-4 fw-bold text-secondary">Email</div>
-                            <div class="col-8" id="det_email"></div>
+                            <div class="col-12 col-sm-4 fw-bold text-secondary">Email</div>
+                            <div class="col-12 col-sm-8 text-break" id="det_email"></div>
                         </div>
                         <div class="row mb-2 border-bottom pb-2">
-                            <div class="col-4 fw-bold text-secondary">No. Telepon</div>
-                            <div class="col-8" id="det_telepon"></div>
+                            <div class="col-12 col-sm-4 fw-bold text-secondary">No. Telepon</div>
+                            <div class="col-12 col-sm-8 text-break" id="det_telepon"></div>
                         </div>
                         <div class="row mb-2 border-bottom pb-2">
-                            <div class="col-4 fw-bold text-secondary">Jumlah Peserta</div>
-                            <div class="col-8" id="det_peserta"></div>
+                            <div class="col-12 col-sm-4 fw-bold text-secondary">Jumlah Peserta</div>
+                            <div class="col-12 col-sm-8 text-break" id="det_peserta"></div>
                         </div>
                         <div class="row mb-2 border-bottom pb-2">
-                            <div class="col-4 fw-bold text-secondary">Tanggal Mulai</div>
-                            <div class="col-8" id="det_mulai"></div>
+                            <div class="col-12 col-sm-4 fw-bold text-secondary">Tanggal Mulai</div>
+                            <div class="col-12 col-sm-8 text-break" id="det_mulai"></div>
                         </div>
                         <div class="row">
-                            <div class="col-4 fw-bold text-secondary">Tanggal Selesai</div>
-                            <div class="col-8" id="det_selesai"></div>
+                            <div class="col-12 col-sm-4 fw-bold text-secondary">Tanggal Selesai</div>
+                            <div class="col-12 col-sm-8 text-break" id="det_selesai"></div>
                         </div>
 
                         <div class="mt-4">
