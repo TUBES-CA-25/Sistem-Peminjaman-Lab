@@ -22,8 +22,7 @@
                             <option value="">Pilih Jurusan</option>
                             <?php foreach ($data['jurusan_list'] as $j): ?>
                                 <option value="<?= $j['id'] ?>">
-                                    <?= $j['nama_jurusan'] ?> (
-                                    <?= $j['singkatan'] ?>)
+                                    <?= $j['nama_jurusan'] ?> (<?= $j['singkatan'] ?>)
                                 </option>
                             <?php endforeach; ?>
                         </select>
@@ -64,8 +63,7 @@
                             <option value="">Pilih Jurusan</option>
                             <?php foreach ($data['jurusan_list'] as $j): ?>
                                 <option value="<?= $j['id'] ?>">
-                                    <?= $j['nama_jurusan'] ?> (
-                                    <?= $j['singkatan'] ?>)
+                                    <?= $j['nama_jurusan'] ?> (<?= $j['singkatan'] ?>)
                                 </option>
                             <?php endforeach; ?>
                         </select>
