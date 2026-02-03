@@ -51,22 +51,44 @@
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const otpInputs = document.querySelectorAll('.otp-input');
+    const formVerifikasi = document.getElementById('formVerifikasiEmail');
     const fullOtpInput = document.getElementById('fullOtpCode');
     
-    // Auto focus next input
+    // Auto focus and input handling
     otpInputs.forEach((input, index) => {
-        input.addEventListener('keyup', (e) => {
-            if (e.key >= 0 && e.key <= 9) {
-                if (index < otpInputs.length - 1) otpInputs[index + 1].focus();
-            } else if (e.key === 'Backspace') {
-                if (index > 0) otpInputs[index - 1].focus();
+        // Handle paste event
+        input.addEventListener('paste', (e) => {
+            const data = e.clipboardData.getData('text').slice(0, 6);
+            if (/^\d+$/.test(data)) {
+                data.split('').forEach((char, i) => {
+                    if (otpInputs[index + i]) otpInputs[index + i].value = char;
+                });
+                if (otpInputs[index + data.length - 1]) otpInputs[index + data.length - 1].focus();
             }
-            
-            // Collect full code
-            let code = '';
-            otpInputs.forEach(inp => code += inp.value);
-            fullOtpInput.value = code;
+            e.preventDefault();
         });
+
+        input.addEventListener('keydown', (e) => {
+            if (e.key === 'Backspace') {
+                if (input.value === '' && index > 0) {
+                    otpInputs[index - 1].focus();
+                }
+            }
+        });
+
+        input.addEventListener('input', (e) => {
+            const val = e.target.value;
+            if (val.length === 1) {
+                if (index < otpInputs.length - 1) otpInputs[index + 1].focus();
+            }
+        });
+    });
+
+    // Final collection on submit
+    formVerifikasi.addEventListener('submit', function() {
+        let code = '';
+        otpInputs.forEach(inp => code += inp.value);
+        fullOtpInput.value = code;
     });
 });
 </script>

@@ -41,7 +41,6 @@ class Flasher {
                         showConfirmButton: false,
                         timer: 3000,
                         timerProgressBar: true,
-                        background: '#fff',
                         customClass: {
                             popup: 'rounded-4 shadow'
                         }

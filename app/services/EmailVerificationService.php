@@ -48,23 +48,30 @@ class EmailVerificationService
      */
     public function verifyCode($userId, $code)
     {
+        $code = trim($code);
+        $currentTime = date('Y-m-d H:i:s');
         $this->db->query("SELECT * FROM email_verifications 
-                          WHERE user_id = :user_id AND token = :token AND expired_at > NOW() 
+                          WHERE user_id = :user_id AND token = :token AND expired_at > :current_time 
                           ORDER BY created_at DESC LIMIT 1");
         $this->db->bind('user_id', $userId);
-        $this->db->bind('token', $code);
+        $this->db->bind('token', $code, PDO::PARAM_STR);
+        $this->db->bind('current_time', $currentTime);
         
         $result = $this->db->single();
 
         if ($result) {
-            // Delete verification entry after successful verification
-            $this->db->query("DELETE FROM email_verifications WHERE id = :id");
-            $this->db->bind('id', $result['id']);
-            $this->db->execute();
-
             return $result['new_email'];
         }
-
         return false;
+    }
+
+    /**
+     * Clear verification entry after successful update.
+     */
+    public function clearVerificationCode($userId)
+    {
+        $this->db->query("DELETE FROM email_verifications WHERE user_id = :user_id");
+        $this->db->bind('user_id', $userId);
+        $this->db->execute();
     }
 }
