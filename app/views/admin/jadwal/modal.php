@@ -56,7 +56,8 @@
             style="width:100%; padding:10px; border-radius:10px; margin-top:4px;" />
         </div>
         <div style="flex:1;">
-          <label for="scheduleJamSelesai" style="font-weight:900; font-size:13px;" class="text-muted">Jam Selesai</label>
+          <label for="scheduleJamSelesai" style="font-weight:900; font-size:13px;" class="text-muted">Jam
+            Selesai</label>
           <input id="scheduleJamSelesai" name="jamSelesai" type="time" required step="60" class="form-control"
             style="width:100%; padding:10px; border-radius:10px; margin-top:4px;" />
         </div>
@@ -79,7 +80,7 @@
       <!-- Frekuensi -->
       <div style="margin-bottom:12px;">
         <label for="scheduleFrekuensi" style="font-weight:900; font-size:13px;" class="text-muted">Frekuensi</label>
-        <input id="scheduleFrekuensi" name="frekuensi" type="text" placeholder="Contoh: 1 Minggu Sekali" required class="form-control"
+        <input id="scheduleFrekuensi" name="frekuensi" type="text" required class="form-control"
           style="width:100%; padding:10px; border-radius:10px; margin-top:4px;" />
       </div>
 

@@ -1,0 +1,44 @@
+/* Modern Buttons for Forms */
+.btn-primary-modern {
+    background: var(--accent-blue);
+    color: #ffffff !important;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 24px;
+    font-weight: 700;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(31, 69, 172, 0.2);
+}
+
+.btn-primary-modern:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(31, 69, 172, 0.4);
+    filter: brightness(1.1);
+}
+
+.btn-cancel-modern {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-main);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 10px 24px;
+    font-weight: 700;
+    transition: all 0.3s ease;
+}
+
+.btn-cancel-modern:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* Upload Area */
+.upload-area {
+    background-color: #f8fafc;
+    border: 2px dashed var(--border-color);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.upload-area:hover,
+.upload-area.dragover {
+    border-color: var(--accent-blue);
+    background-color: rgba(31, 69, 172, 0.03);
+}

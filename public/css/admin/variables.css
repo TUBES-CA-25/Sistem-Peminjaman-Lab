@@ -1,0 +1,12 @@
+:root {
+    /* Light Mode (Default) */
+    --bg-body: #f8fafc;
+    --bg-navbar: #ffffff;
+    --bg-card: #ffffff;
+    --bg-sidebar: #ffffff;
+    --text-main: #1e293b;
+    --text-muted: #64748b;
+    --border-color: #e2e8f0;
+    --navbar-brand: #122e4f;
+    --accent-blue: #1f45ac;
+}
