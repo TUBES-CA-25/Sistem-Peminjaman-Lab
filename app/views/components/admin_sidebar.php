@@ -88,10 +88,6 @@
                     <span>Profil Saya</span>
                 </a>
             </li>
-<<<<<<< HEAD
-        </ul>
-=======
->>>>>>> 12856d23fcda0ca2e7b6339a8e62c71c7f32ee02
         </ul>
     </aside>
 

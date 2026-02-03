@@ -17,11 +17,7 @@
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" type="text/css">
 
     <!-- Global Admin CSS with Cache Busting -->
-    <!-- Global Admin CSS with Cache Busting -->
-    <link rel="stylesheet" href="<?= BASE_URL ?>/public/css/admin/variables.css?v=<?= time() ?>">
-    <link rel="stylesheet" href="<?= BASE_URL ?>/public/css/admin/layout.css?v=<?= time() ?>">
-    <link rel="stylesheet" href="<?= BASE_URL ?>/public/css/admin/components.css?v=<?= time() ?>">
-    <link rel="stylesheet" href="<?= BASE_URL ?>/public/css/admin/peminjaman.css?v=<?= time() ?>">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/public/css/admin-style.css?v=<?= time() ?>">
 
     <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
