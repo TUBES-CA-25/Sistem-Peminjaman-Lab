@@ -36,7 +36,7 @@ include __DIR__ . '/../booking/helpers.php';
                 $jadwalLab = getJadwalLab($data['jadwal_tetap'], $lab['id'], $data['selected_day']);
                 $peminjamanLab = getPeminjamanLab($data['peminjaman'], $lab['id'], $data['selected_date']);
                 $slotKosong = getSlotKosong($jadwalLab, $peminjamanLab);
-                ?>
+            ?>
                 <div class="p-lab-card">
                     <h3><?= htmlspecialchars($lab['short_name']) ?></h3>
                     <div class="p-slot-list">
