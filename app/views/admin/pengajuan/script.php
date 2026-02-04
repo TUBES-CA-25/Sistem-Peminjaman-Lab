@@ -8,6 +8,52 @@
 
         if (elDetail) modalDetail = new bootstrap.Modal(elDetail);
         if (elEdit) modalEdit = new bootstrap.Modal(elEdit);
+
+        // H-1 Restriction: Minimal tanggal adalah besok
+        const tomorrowDate = new Date();
+        tomorrowDate.setDate(tomorrowDate.getDate() + 1);
+        const minDate = tomorrowDate.toISOString().split('T')[0];
+
+        const tglMulai = document.getElementById('edit_mulai');
+        const tglSelesai = document.getElementById('edit_selesai');
+
+        if (tglMulai) tglMulai.setAttribute('min', minDate);
+        if (tglSelesai) tglSelesai.setAttribute('min', minDate);
+
+        // Event listener untuk sinkronisasi min date selesai dengan mulai
+        if (tglMulai && tglSelesai) {
+            tglMulai.addEventListener('change', function() {
+                if (tglMulai.value) {
+                    tglSelesai.setAttribute('min', tglMulai.value);
+                    if (tglSelesai.value && tglSelesai.value < tglMulai.value) {
+                        tglSelesai.value = tglMulai.value;
+                    }
+                }
+            });
+        }
+
+        // Validasi saat submit form (Double check)
+        const formEdit = elEdit ? elEdit.querySelector('form') : null;
+        if (formEdit) {
+            formEdit.addEventListener('submit', function(e) {
+                const status = document.getElementById('edit_status_select').value;
+                if (status === 'Disetujui') {
+                    const mulaiVal = tglMulai.value;
+                    const selesaiVal = tglSelesai.value;
+
+                    if (mulaiVal < minDate) {
+                        e.preventDefault();
+                        alert('Jadwal minimal dilakukan H-1 (satu hari sebelum kegiatan)!');
+                        return false;
+                    }
+                    if (selesaiVal < mulaiVal) {
+                        e.preventDefault();
+                        alert('Tanggal selesai tidak boleh mendahului tanggal mulai!');
+                        return false;
+                    }
+                }
+            });
+        }
     });
 
     // ================= VIEW DETAIL =================
@@ -62,27 +108,46 @@
         const statusEl = document.getElementById('edit_status_select');
         const box = document.getElementById('box_alasan_admin');
         const txt = document.getElementById('edit_alasan');
+        const tglMulai = document.getElementById('edit_mulai');
+        const tglSelesai = document.getElementById('edit_selesai');
 
-        if (statusEl && box && txt) {
+        if (statusEl) {
             const status = statusEl.value;
 
-            // Toggle alasan penolakan
-            if (status === 'Ditolak') {
-                box.style.display = 'block';
-                txt.setAttribute('required', 'required');
-            } else {
-                box.style.display = 'none';
-                txt.removeAttribute('required');
+            // 1. Toggle Alasan Penolakan
+            if (box && txt) {
+                if (status === 'Ditolak') {
+                    box.style.display = 'block';
+                    txt.setAttribute('required', 'required');
+                } else {
+                    box.style.display = 'none';
+                    txt.removeAttribute('required');
+                }
             }
 
-            // Dynamic border and background color based on status
-            // Toggle alasan penolakan
-            if (status === 'Ditolak') {
-                box.style.display = 'block';
-                txt.setAttribute('required', 'required');
-            } else {
-                box.style.display = 'none';
-                txt.removeAttribute('required');
+            // 2. Toggle Tanggal Editability (Hanya bisa diubah jika status Disetujui)
+            if (tglMulai && tglSelesai) {
+                if (status === 'Disetujui') {
+                    // Masuk mode edit
+                    tglMulai.readOnly = false;
+                    tglSelesai.readOnly = false;
+                    tglMulai.style.pointerEvents = 'auto';
+                    tglSelesai.style.pointerEvents = 'auto';
+                    tglMulai.style.backgroundColor = '#ffffff';
+                    tglSelesai.style.backgroundColor = '#ffffff';
+                    tglMulai.classList.remove('bg-light');
+                    tglSelesai.classList.remove('bg-light');
+                } else {
+                    // Lock input tapi tetap dikirim via POST
+                    tglMulai.readOnly = true;
+                    tglSelesai.readOnly = true;
+                    tglMulai.style.pointerEvents = 'none';
+                    tglSelesai.style.pointerEvents = 'none';
+                    tglMulai.style.backgroundColor = '#f8f9fa';
+                    tglSelesai.style.backgroundColor = '#f8f9fa';
+                    tglMulai.classList.add('bg-light');
+                    tglSelesai.classList.add('bg-light');
+                }
             }
         }
     }
