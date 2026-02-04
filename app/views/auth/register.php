@@ -226,7 +226,8 @@
 
                     <div class="mb-3">
                         <label class="small text-white-50">Nomor Telepon</label>
-                        <input type="text" name="telepon" class="form-control" placeholder="08xxxxxxxxxx" required>
+                        <input type="text" name="telepon" class="form-control" placeholder="08xxxxxxxxxx" 
+                            oninput="this.value = this.value.replace(/[^0-9]/g, '');" maxlength="13" required>
                     </div>
 
                     <div class="mb-3">
