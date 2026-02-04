@@ -32,3 +32,8 @@ debug.log
 # Upload Files (Optional - tergantung kebutuhan)
 # /public/uploads/*
 # !/public/uploads/.gitkeep
+
+# Dokumentasi & Presentasi (JANGAN DI-COMMIT!)
+DOKUMENTASI_FLOW_INTERNAL.md
+DOKUMENTASI_FLOW_INTERNAL_DENGAN_ANALOGI.md
+PRESENTASI_10_MENIT.md
