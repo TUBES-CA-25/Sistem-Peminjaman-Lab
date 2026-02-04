@@ -162,6 +162,15 @@ class Internal extends Controller
             return;
         }
 
+        // Validasi Backdate Protection (Jangan boleh edit ke waktu yang sudah lewat)
+        $currentDateTime = time();
+        $requestedStart = strtotime($input['tanggal'] . ' ' . $input['jam_mulai']);
+
+        if ($requestedStart < $currentDateTime) {
+            echo json_encode(['success' => false, 'message' => 'Tidak dapat mengedit peminjaman untuk waktu yang sudah berlalu.']);
+            return;
+        }
+
         // Validasi Jam Operasional
         $startCheck = substr($input['jam_mulai'], 0, 5);
         $endCheck = substr($input['jam_selesai'], 0, 5);
@@ -515,13 +524,13 @@ class Internal extends Controller
             $input = $_POST;
             $input['email'] = $newEmail;
             $input['email_verified'] = true;
-            
+
             // Pastikan field wajib ada agar tidak error di UserService
             if (!isset($input['nama'])) $input['nama'] = $user['nama'];
             if (!isset($input['telepon'])) $input['telepon'] = $user['telepon'];
 
             $result = $this->userService->updateProfile($userId, $input, []);
-            
+
             // Hapus kode verifikasi HANYA JIKA update berhasil
             if ($result['success']) {
                 $verificationService->clearVerificationCode($userId);

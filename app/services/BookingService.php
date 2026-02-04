@@ -183,9 +183,9 @@ class BookingService
     /**
      * Check if booking conflict exists (Wrapper for PeminjamanModel)
      */
-    public function checkBookingConflict($labId, $date, $startTime, $endTime)
+    public function checkBookingConflict($labId, $date, $startTime, $endTime, $excludeId = null)
     {
-        return $this->peminjamanModel->checkConflict($labId, $date, $startTime, $endTime);
+        return $this->peminjamanModel->checkConflict($labId, $date, $startTime, $endTime, $excludeId);
     }
 
     /**
