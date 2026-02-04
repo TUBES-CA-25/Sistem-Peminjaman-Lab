@@ -100,8 +100,16 @@ class Auth extends Controller
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $email = $_POST['email'];
+            $telepon = $_POST['telepon'];
             $password = $_POST['password'];
             $confirm_password = $_POST['confirm_password'];
+
+            // Validasi Nomor Telepon (Hanya angka dan maksimal 13 digit)
+            if (!ctype_digit($telepon) || strlen($telepon) > 13) {
+                Flasher::setFlash('Gagal', 'Nomor telepon harus berupa angka dan maksimal 13 digit.', 'danger');
+                header('Location: ' . BASE_URL . '/auth/register');
+                exit;
+            }
 
             if ($this->model('UserModel')->getUserByEmail($email)) {
                 Flasher::setFlash('Gagal', 'Email sudah terdaftar. Silakan login.', 'danger');
